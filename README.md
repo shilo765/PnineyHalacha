@@ -1,2 +1,2 @@
 # PnineyHalacha
-Pniney Halacha application for Android.
+Pniney Halacha application for Android operating system.
