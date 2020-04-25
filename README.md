@@ -1,2 +1,4 @@
-# PnineyHalacha
-Pniney Halacha application for Android operating system.
+שלום לכולם!
+מוזמנים להיצטרף לפיתוח אפליקציית פניני הלכה.
+כל הפרטים על איך מצטרפים לפיתוח בקובץ 
+Pniney Halacha Development Guide.docx
