@@ -7,3 +7,7 @@
 כל הפרטים על איך מצטרפים לפיתוח בקובץ 
 
 Pniney Halacha Development Guide.docx
+
+רשימה של באגים ופיתוחים נצרכים אפשר לראות ב-
+
+issues
