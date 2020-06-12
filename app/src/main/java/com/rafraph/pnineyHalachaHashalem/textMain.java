@@ -113,7 +113,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	static SharedPreferences mPrefs;
 	SharedPreferences.Editor shPrefEditor;
 	int scrollY = 0;
-	public int BlackBackground=0, SleepScreen=1, cbFullScreen=1, cbAssistButtons=1, SimchatMailPswd=0;
+	public int BlackBackground=0, SleepScreen=1, cbFullScreen=1, cbAssistButtons=1;
 	boolean bookmark = false;
 	Document doc = null;
 	static MenuInflater inflater;
@@ -132,7 +132,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public EditText result;
 	public Spinner spinner1, spinnerAutoScroll;
 	public EditText BookmarkName, TextToSearch, TextToDecode;
-	public Dialog bookmarkDialog, innerSearchDialog, acronymsDialog, autoScrollDialog, simchatDialog;
+	public Dialog bookmarkDialog, innerSearchDialog, acronymsDialog, autoScrollDialog;
 	String[][] chaptersNames = new String[BOOKS_NUMBER][31];
 	String innerSearchText, acronymsText;
 
@@ -159,7 +159,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
 		cbAssistButtons = mPrefs.getInt("cbAssistButtons", 1);
-		SimchatMailPswd = mPrefs.getInt("SimchatMailPswd", 0);
         MyLanguage = mPrefs.getInt("MyLanguage", 0);
 
 		if(cbAssistButtons==0)
@@ -706,8 +705,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			scrollY = 0;/*In order to jump to the beginning of the chapter*/
 			currentChapter = getClearUrl();
 			getTheArrayLocation(currentChapter);
-			if(checkIfChapterAllowed(book_chapter[1]+1) == false)/*check if this chapter need password*/
-				break;
 			book_chapter[1] += 1;
 			webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
 			title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
@@ -726,8 +723,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			scrollY = 0;/*In order to jump to the beginning of the chapter*/
 			currentChapter = getClearUrl();
 			getTheArrayLocation(currentChapter);
-			if(checkIfChapterAllowed(book_chapter[1]-1) == false)/*check if this chapter need password*/
-				break;
 			book_chapter[1] -= 1;
 			webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
 			if(book_chapter[1] == 0)
@@ -2649,103 +2644,5 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		});
 		autoScrollDialog.show();	
 
-	}
-
-	boolean checkIfChapterAllowed(int chapter)
-	{
-		SimchatMailPswd = mPrefs.getInt("SimchatMailPswd", 0);
-		if((book_chapter[0] == SIMCHAT || book_chapter[0] == HAR_SIMCHAT) && chapter == 2 && SimchatMailPswd != 1)
-		{
-			if(SimchatMailPswd == 1)
-				return true;
-			else
-			{
-				startSimchatDialog();
-				return false;
-			}
-		}
-		else
-			return true;
-	}
-
-	void startSimchatDialog()
-	{
-		final Context context = this;
-
-		simchatDialog = new Dialog(context);
-		simchatDialog.setContentView(R.layout.simchatdialog);
-		simchatDialog.setTitle("שמחת הבית וברכתו - פרק ב");
-
-		final CheckBox cbOver18 = (CheckBox) simchatDialog.findViewById(R.id.checkBoxOver18);
-		final Button buttonSend = (Button) simchatDialog.findViewById(R.id.buttonSend);
-		final TextView textView1 = (TextView) simchatDialog.findViewById(R.id.textView1);
-		final TextView textView2 = (TextView) simchatDialog.findViewById(R.id.textView2);
-		final Button buttonOk = (Button) simchatDialog.findViewById(R.id.buttonOk);
-		final int pswd = mPrefs.getInt("pswd", 61377);
-		final EditText textPswd = (EditText) simchatDialog.findViewById(R.id.editPswd);
-
-		cbOver18.setOnClickListener(new OnClickListener()
-		{
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v)
-			{
-				if(cbOver18.isChecked())
-					buttonSend.setEnabled(true);
-				else
-					buttonSend.setEnabled(false);
-			}
-		});
-
-		// if button is clicked
-		buttonSend.setOnClickListener(new OnClickListener()
-		{
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v)
-			{
-				String emailaddress[] = { "janer.solutions@gmail.com" };
-				String header;
-				String message;
-
-				header = "סיסמה לפרק ב בשמחת הבית וברכתו";
-				message = "הריני מאשר שאני מעל גיל 18. נא לשלוח לי סיסמה לפרק ב בספר שמחת הבית וברכתו.";
-
-				Intent emailIntent = new Intent (android.content.Intent.ACTION_SEND);
-				emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, emailaddress);
-				emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, header);
-				emailIntent.setType("plain/text");
-				emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
-				startActivity(emailIntent);
-
-				Calendar date = Calendar.getInstance();
-				int pswd = date.get(Calendar.DATE) * date.get(Calendar.YEAR) + 613;
-
-				textPswd.setText(Integer.toString(pswd));
-				shPrefEditor.putInt("pswd", pswd);
-				shPrefEditor.commit();
-				simchatDialog.dismiss();
-			}
-		});
-
-		buttonOk.setOnClickListener(new OnClickListener()
-		{
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v)
-			{
-				if(textPswd.getText().toString().equals(Integer.toString(pswd)))
-				{
-					shPrefEditor.putInt("SimchatMailPswd", 1);
-					shPrefEditor.commit();
-					Toast.makeText(getApplicationContext(), "פרק ב זמין כעת", Toast.LENGTH_SHORT).show();
-				}
-				else
-					Toast.makeText(getApplicationContext(), "הסיסמה שגויה", Toast.LENGTH_SHORT).show();
-				simchatDialog.dismiss();
-			}
-		});
-
-		simchatDialog.show();
 	}
 }

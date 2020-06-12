@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity
 	public static final String PREFS_NAME = "MyPrefsFile";
 	static SharedPreferences mPrefs;
 	SharedPreferences.Editor shPrefEditor;
-	public int BlackBackground=0, SleepScreen=1, SimchatMailPswd=0, MyLanguage = -1;
+	public int BlackBackground=0, SleepScreen=1, MyLanguage = -1;
 	public MenuInflater inflater;
 	public ActionBar ab;
 	public Menu abMenu=null;
@@ -128,7 +128,6 @@ public class MainActivity extends AppCompatActivity
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
-		SimchatMailPswd = mPrefs.getInt("SimchatMailPswd", 0);
 		StartInLastLocation = mPrefs.getInt("StartInLastLocation", 1);
 		MyLanguage = mPrefs.getInt("MyLanguage", -1);
         //storage = FirebaseStorage.getInstance();
@@ -157,33 +156,24 @@ public class MainActivity extends AppCompatActivity
 					int groupPosition, int childPosition, long id) 
 			{
 				// TODO Auto-generated method stub
-				SimchatMailPswd = mPrefs.getInt("SimchatMailPswd", 0);
-				
-				if((groupPosition == SIMCHAT || groupPosition == HAR_SIMCHAT) && childPosition == 2 && SimchatMailPswd != 1)
+
+				Toast.makeText(getApplicationContext(), listDataHeader.get(groupPosition) + " : "
+						+ listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition), Toast.LENGTH_SHORT).show();
+				try
 				{
-					if(SimchatMailPswd == 0)
-						startSimchatDialog();
+					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
+					Intent ourIntent = new Intent(MainActivity.this, ourClass);
+					int[] book_chapter = new int[2];
+					book_chapter[0] = groupPosition;
+					book_chapter[1] = childPosition;
+					ourIntent.putExtra("book_chapter", book_chapter);
+					startActivity(ourIntent);
 				}
-				
-				if(!((groupPosition == SIMCHAT || groupPosition == HAR_SIMCHAT) && childPosition == 2) || (SimchatMailPswd == 1))/*if this is no chapter 2, or the password already inserted*/
+				catch (ClassNotFoundException e)
 				{
-					Toast.makeText(getApplicationContext(), listDataHeader.get(groupPosition) + " : " 
-							+ listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition), Toast.LENGTH_SHORT).show();
-					try
-					{
-						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
-						Intent ourIntent = new Intent(MainActivity.this, ourClass);
-						int[] book_chapter = new int[2];
-						book_chapter[0] = groupPosition;
-						book_chapter[1] = childPosition;
-						ourIntent.putExtra("book_chapter", book_chapter);
-						startActivity(ourIntent);
-					}
-					catch (ClassNotFoundException e)
-					{
-						e.printStackTrace();
-					}
+					e.printStackTrace();
 				}
+
 				return false;
 			}
 		});
@@ -1239,87 +1229,6 @@ public class MainActivity extends AppCompatActivity
 			webviewHascmot.loadUrl("javascript:document.body.style.color=\"white\";");
 		webviewHascmot.loadUrl("file:///android_asset/hascamot.html");
 		dialog.show();
-	}
-
-	void startSimchatDialog()
-	{
-		final Context context = this;
-
-		simchatDialog = new Dialog(context);
-		simchatDialog.setContentView(R.layout.simchatdialog);
-		simchatDialog.setTitle("שמחת הבית וברכתו - פרק ב");
-
-		final CheckBox cbOver18 = (CheckBox) simchatDialog.findViewById(R.id.checkBoxOver18);
-		final Button buttonSend = (Button) simchatDialog.findViewById(R.id.buttonSend);
-		final TextView textView1 = (TextView) simchatDialog.findViewById(R.id.textView1);
-		final TextView textView2 = (TextView) simchatDialog.findViewById(R.id.textView2);
-		final Button buttonOk = (Button) simchatDialog.findViewById(R.id.buttonOk);
-		final int pswd = mPrefs.getInt("pswd", 61377);
-		final EditText textPswd = (EditText) simchatDialog.findViewById(R.id.editPswd);
-		
-		cbOver18.setOnClickListener(new OnClickListener()
-		{
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v) 
-			{
-				if(cbOver18.isChecked())
-					buttonSend.setEnabled(true);
-				else
-					buttonSend.setEnabled(false);
-			}
-		});
-		
-		// if button is clicked
-		buttonSend.setOnClickListener(new OnClickListener()
-		{
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v) 
-			{
-				String emailaddress[] = { "janer.solutions@gmail.com" };
-				String header;
-				String message;
-								
-				header = "סיסמה לפרק ב בשמחת הבית וברכתו";
-				message = "הריני מאשר שאני מעל גיל 18. נא לשלוח לי סיסמה לפרק ב בספר שמחת הבית וברכתו.";
-
-				Intent emailIntent = new Intent (android.content.Intent.ACTION_SEND);
-				emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, emailaddress);
-				emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, header);
-				emailIntent.setType("plain/text");
-				emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
-				startActivity(emailIntent);
-
-				Calendar date = Calendar.getInstance();
-				int pswd = date.get(Calendar.DATE) * date.get(Calendar.YEAR) + 613;
-
-				textPswd.setText(Integer.toString(pswd));
-				shPrefEditor.putInt("pswd", pswd);
-				shPrefEditor.commit();
-				simchatDialog.dismiss();
-				}
-		});
-
-		buttonOk.setOnClickListener(new OnClickListener()
-		{
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v)
-			{
-				if(textPswd.getText().toString().equals(Integer.toString(pswd)))
-				{
-					shPrefEditor.putInt("SimchatMailPswd", 1);
-					shPrefEditor.commit();
-					Toast.makeText(getApplicationContext(), "פרק ב זמין כעת", Toast.LENGTH_SHORT).show();
-				}
-				else
-					Toast.makeText(getApplicationContext(), "הסיסמה שגויה", Toast.LENGTH_SHORT).show();
-				simchatDialog.dismiss();
-			}
-		});
-
-		simchatDialog.show();
 	}
 
 	void languageDialog(Context context)
