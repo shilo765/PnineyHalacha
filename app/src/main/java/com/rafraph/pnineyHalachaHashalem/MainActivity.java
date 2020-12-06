@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 			
-			if(mPrefs.getString("Version", "").equals("2.8") == false)
+			if(mPrefs.getString("Version", "").equals("2.9") == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);
@@ -497,6 +497,7 @@ public class MainActivity extends AppCompatActivity
 		brachot.add("טו - ברכות הראייה");
 		brachot.add("טז - ברכת הגומל");
 		brachot.add("יז - ברכות ההודאה והשמחה");
+		brachot.add("יח - תפילת הדרך");
 
 		List<String> haam = new ArrayList<String>();
 		haam.add("תוכן מפורט, מבוא");
@@ -593,15 +594,17 @@ public class MainActivity extends AppCompatActivity
 		likutimA.add("תוכן מפורט, מבוא");
 		likutimA.add("א - הלכות תלמוד תורה");
 		likutimA.add("ב - החינוך לתורה");
-		likutimA.add("ג - הלכות ספר תורה");
-		likutimA.add("ד - הלכות קריאת התורה");
-		likutimA.add("ה - כבוד ספר תורה ושמות קדושים");
-		likutimA.add("ו - הלכות בית כנסת");
-		likutimA.add("ז - הלכות כיפה");
-		likutimA.add("ח - מהלכות ציצית");
-		likutimA.add("ט - תפילין");
-		likutimA.add("י - מהלכות מזוזה");
-		likutimA.add("יא - הלכות כהנים");
+		likutimA.add("ג - קיום התורה והחינוך");
+		likutimA.add("ד - הלכות ספר תורה");
+		likutimA.add("ה - מהלכות קריאת התורה");
+		likutimA.add("ו - כבוד ספר תורה ושמות קדושים");
+		likutimA.add("ז - הלכות בית כנסת");
+		likutimA.add("ח - כיפה");
+		likutimA.add("ט - מהלכות ציצית");
+		likutimA.add("י - מהלכות תפילין");
+		likutimA.add("יא - מהלכות מזוזה");
+		likutimA.add("יב - הלכות כהנים");
+		likutimA.add("יג - שעטנז");
 
 		List<String> likutimB = new ArrayList<String>();
 		likutimB.add("תוכן מפורט, מבוא");

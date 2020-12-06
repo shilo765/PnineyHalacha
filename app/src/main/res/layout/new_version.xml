@@ -31,8 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text='1. מהדורה חדשה ועדכנית לספר על פסח'
-        android:textSize="21dp"
+        android:text='1. ליקוטים א מהדורה חדשה - תוספות משמעותיות בהלכות תלמוד תורה ופרק חדש על הלכות שעטנז'
+        android:textSize="20dp"
         android:textColor="#5A9B85"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -41,18 +41,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text='2. תיקונים כלליים'
+        android:text='2. ברכות מהדורה חדשה - עם הבהרות בדיני מזונות, חידושים בברכת הגומל, ופרק חדש על תפילת הדרך'
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#5A9B85"
-        android:textSize="18sp" />
+        android:textSize="20dp" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text='3. הוספת שמע לספר כשרות ב'
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#5A9B85"
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="תודה רבה לאלישע הנשקה והלל ג'אן על עריכת הטקסט והתמונות לאפליקציה, לאדיר מולאים הבודק הראשי, לאבישלום ג'אן ודוד זר על עזרה בתכנות, ולפדות ליברמן על עיצוב השער"
+        android:layout_gravity="right"
+        android:text="תודה רבה למסייעים במלאכה: \n אלישע הנשקה והלל ג'אן - עריכת הטקסט \n אדיר מולאים - בודק ראשי \n הרב יונדב זר - הקראה \n אבישלום ג'אן ודוד זר - עזרה בתכנות \n פדות ליברמן - עיצוב השער"
         android:textSize="15dp"
         android:textColor="#730005"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -61,8 +70,8 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="תודה רבה למתרגמים:\nג'ניפר בוסירה - ספרדית\nיאיר ארונשטם - רוסית\nמיכאל זמור - צרפתית"
+        android:layout_gravity="right"
+        android:text="מתרגמים:\nג'ניפר בוסירה - ספרדית\nיאיר ארונשטם - רוסית\nמיכאל זמור - צרפתית"
         android:textSize="15dp"
         android:textColor="#0033cc"
         android:textAppearance="?android:attr/textAppearanceLarge" />

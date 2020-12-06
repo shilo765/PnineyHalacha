@@ -31,7 +31,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener, AudioManager.OnAudioFocusChangeListener {
 
     /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29*/
-    public int[] lastChapter = {17, 11, 17, 10, 19, 19, 11, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+    public int[] lastChapter = {18, 11, 17, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
 
     private MediaPlayer mediaPlayer;
     private String mediaUrl;
@@ -135,9 +135,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         try {
             serviceIntent = intent;
             book = intent.getExtras().getInt("book_id");
-            convert_book_id();
             chapter = intent.getExtras().getInt("chapter_id");
             section = intent.getExtras().getInt("audio_id");
+            convert_book_id();
             sections = new ArrayList<String>();
             sections = serviceIntent.getExtras().getStringArrayList("sections_"+chapter);
             mediaUrl = String.format("https://ph.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
@@ -681,9 +681,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             case KASHRUT_A:
                 book_audio_id = 17;
                 return;
-//            case KASHRUT_B:
-//                book_audio_id = 99;
-//                return;
+            case KASHRUT_B:
+                book_audio_id = 17;
+                return;
 //            case LIKUTIM_A:
 //                book_audio_id = 99;
 //                return;

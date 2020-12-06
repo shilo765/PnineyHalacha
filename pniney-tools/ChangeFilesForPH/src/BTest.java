@@ -7,10 +7,10 @@ public class BTest
 		int i=0, e=0;
 		try
 		{
-			for(int j=10;j<=11;j++)
+			for(int j=1;j<=13;j++)
 			{
 				i=0; e=0;
-				String fileName ="C:\\Users\\rjan\\Dropbox\\projects\\pnineyHalachaHashalem\\pniney-tools\\ChangeFilesForPH\\src\\pesach_"+j+".html";
+				String fileName ="C:\\Users\\rjan\\Dropbox\\projects\\PnineyHalacha.git\\trunk\\pniney-tools\\ChangeFilesForPH\\src\\likutim_a_"+j+".html";
 				File file = new File(fileName);
 				BufferedReader reader = new BufferedReader(new FileReader(file));
 				String line = "", oldtext = "", s1="<h1", s2="<h2", s3="name=\"_ftnref", s4="<a", s5="</a>";

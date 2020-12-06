@@ -54,7 +54,7 @@ public class SearchableActivity extends Activity
     private static final int BOOKS_NUMBER	= 23;
 
 	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22*/
-	public int[] lastChapter = {17, 11, 17, 10, 19, 19, 11, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10};
+	public int[] lastChapter = {18, 11, 17, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10};
 
 	String[][] chaptersFiles = new String[BOOKS_NUMBER][31];
 	String[][] chaptersNames = new String[BOOKS_NUMBER][31];
@@ -112,27 +112,20 @@ public class SearchableActivity extends Activity
 							Intent ourIntent = new Intent(SearchableActivity.this, ourClass);
 
 							searchPosition = listStrAnchor.get(position-1);
-							if (searchPosition.contains("simchat_2.html") == false || mPrefs.getInt("SimchatMailPswd", 0) == 1)
-							{
-								cameFromSearch = true;
+							cameFromSearch = true;
 
-								ourIntent.putExtra("cameFromSearch", cameFromSearch);
-								ourIntent.putExtra("searchPosition", searchPosition);
-								ourIntent.putExtra("query", query);
-								sectionsForToast = listBookLocation.get(position - 1);
-								if (sectionsForToast.indexOf("הערות:") != -1) {
-									sectionsForToast = sectionsForToast.substring(sectionsForToast.indexOf("הערות: ") + 7, sectionsForToast.indexOf(")"));
-								} else {
-									sectionsForToast = "";
-								}
-								ourIntent.putExtra("sectionsForToast", sectionsForToast);
+							ourIntent.putExtra("cameFromSearch", cameFromSearch);
+							ourIntent.putExtra("searchPosition", searchPosition);
+							ourIntent.putExtra("query", query);
+							sectionsForToast = listBookLocation.get(position - 1);
+							if (sectionsForToast.indexOf("הערות:") != -1) {
+								sectionsForToast = sectionsForToast.substring(sectionsForToast.indexOf("הערות: ") + 7, sectionsForToast.indexOf(")"));
+							} else {
+								sectionsForToast = "";
+							}
+							ourIntent.putExtra("sectionsForToast", sectionsForToast);
 
-								startActivity(ourIntent);
-							}
-							else
-							{
-								Toast.makeText(getApplicationContext(), "פרק ב דורש סיסמה, לחץ עליו דרך התוכן הראשי לצורך קבלת סיסמה", Toast.LENGTH_SHORT).show();
-							}
+							startActivity(ourIntent);
 						}
 						catch (ClassNotFoundException e)
 						{
@@ -187,7 +180,7 @@ public class SearchableActivity extends Activity
 		String prefixAnchor="<a name=" ;
 
 		for(i=0; i<BOOKS_NUMBER; i++)
-		{			
+		{
 			for(j=1; j<=lastChapter[i]; j++)//starts from 1 since I don't need to search in "tochen" files
 			{
 				try 
@@ -219,7 +212,7 @@ public class SearchableActivity extends Activity
 								strAnchor = strText.substring (index_anchor_start, index_anchor_end);
 								anchorId = Integer.parseInt(strAnchor);//convert the anchor ID from string to int
 								section = strAnchor;
-								if (sections.indexOf("הערות") == -1)//if this is the first find in note make lastanchorId = -1. otherwise don't do it to prevent mentioning of the same note 
+								if (sections.indexOf("הערות") == -1)//if this is the first find in note make lastanchorId = -1. otherwise don't do it to prevent mentioning of the same note
 								{
 									lastanchorId = -1;//to separate the anchor ID if the main text and the notes
 									if (sections.compareTo("") == 0)
@@ -398,6 +391,7 @@ public class SearchableActivity extends Activity
 		chaptersFiles[BRACHOT][15] = "brachot_15.html";
 		chaptersFiles[BRACHOT][16] = "brachot_16.html";
 		chaptersFiles[BRACHOT][17] = "brachot_17.html";
+        chaptersFiles[BRACHOT][18] = "brachot_18.html";
 		/*HAAMVEHAAREZ*/
 		chaptersFiles[HAAMVEHAAREZ][0] = "haamvehaarez_tochen.html";
 		chaptersFiles[HAAMVEHAAREZ][1] = "haamvehaarez_1.html";
@@ -497,6 +491,8 @@ public class SearchableActivity extends Activity
 		chaptersFiles[LIKUTIM_A][9] = "likutim_a_9.html";
 		chaptersFiles[LIKUTIM_A][10] = "likutim_a_10.html";
 		chaptersFiles[LIKUTIM_A][11] = "likutim_a_11.html";
+		chaptersFiles[LIKUTIM_A][12] = "likutim_a_12.html";
+		chaptersFiles[LIKUTIM_A][13] = "likutim_a_13.html";
 		/*LIKUTIM_B*/
 		chaptersFiles[LIKUTIM_B][0] = "likutim_b_tochen.html";
 		chaptersFiles[LIKUTIM_B][1] = "likutim_b_1.html";
@@ -804,6 +800,7 @@ public class SearchableActivity extends Activity
 		chaptersNames[BRACHOT][15] = "ברכות: טו - ברכות הראייה";
 		chaptersNames[BRACHOT][16] = "ברכות: טז - ברכת הגומל";
 		chaptersNames[BRACHOT][17] = "ברכות: יז - ברכות ההודאה והשמחה";
+		chaptersNames[BRACHOT][18] = "ברכות: יח - תפילת הדרך";
 		/*HAAMVEHAAREZ*/
 		chaptersNames[HAAMVEHAAREZ][1] = "העם והארץ: א - מעלת הארץ";
 		chaptersNames[HAAMVEHAAREZ][2] = "העם והארץ: ב - קודש וחול ביישוב הארץ";
@@ -888,15 +885,17 @@ public class SearchableActivity extends Activity
 		/*LIKUTIM_A*/
 		chaptersNames[LIKUTIM_A][1] = "ליקוטים א: א - הלכות תלמוד תורה";
 		chaptersNames[LIKUTIM_A][2] = "ליקוטים א: ב - החינוך לתורה";
-		chaptersNames[LIKUTIM_A][3] = "ליקוטים א: ג - הלכות ספר תורה";
-		chaptersNames[LIKUTIM_A][4] = "ליקוטים א: ד - הלכות קריאת התורה";
-		chaptersNames[LIKUTIM_A][5] = "ליקוטים א: ה - כבוד ספר תורה ושמות קדושים";
-		chaptersNames[LIKUTIM_A][6] = "ליקוטים א: ו - הלכות בית כנסת";
-		chaptersNames[LIKUTIM_A][7] = "ליקוטים א: ז - הלכות כיפה";
-		chaptersNames[LIKUTIM_A][8] = "ליקוטים א: ח - מהלכות ציצית";
-		chaptersNames[LIKUTIM_A][9] = "ליקוטים א: ט - תפילין";
-		chaptersNames[LIKUTIM_A][10] = "ליקוטים א: י - מהלכות מזוזה";
-		chaptersNames[LIKUTIM_A][11] = "ליקוטים א: יא - הלכות כהנים";
+		chaptersNames[LIKUTIM_A][3] = "ליקוטים א: ג - קיום התורה והחינוך";
+		chaptersNames[LIKUTIM_A][4] = "ליקוטים א: ד - הלכות ספר תורה";
+		chaptersNames[LIKUTIM_A][5] = "ליקוטים א: ה - מהלכות קריאת התורה";
+		chaptersNames[LIKUTIM_A][6] = "ליקוטים א: ו - כבוד ספר תורה ושמות קדושים";
+		chaptersNames[LIKUTIM_A][7] = "ליקוטים א: ז - הלכות בית כנסת";
+		chaptersNames[LIKUTIM_A][8] = "ליקוטים א: ח - כיפה";
+		chaptersNames[LIKUTIM_A][9] = "ליקוטים א: ט - מהלכות ציצית";
+		chaptersNames[LIKUTIM_A][10] = "ליקוטים א: י - מהלכות תפילין";
+		chaptersNames[LIKUTIM_A][11] = "ליקוטים א: יא - מהלכות מזוזה";
+		chaptersNames[LIKUTIM_A][12] = "ליקוטים א: יב - הלכות כהנים";
+		chaptersNames[LIKUTIM_A][13] = "ליקוטים א: יג - שעטנז";
 		/*LIKUTIM_B*/
 		chaptersNames[LIKUTIM_B][1] = "ליקוטים ב: א - בין אדם לחברו";
 		chaptersNames[LIKUTIM_B][2] = "ליקוטים ב: ב - הלכות אמירת אמת";

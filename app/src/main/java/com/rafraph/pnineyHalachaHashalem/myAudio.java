@@ -27,7 +27,7 @@ import android.content.BroadcastReceiver;
 public class myAudio extends Activity
 {
     /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29*/
-    public int[] lastChapter = {17, 11, 17, 10, 19, 19, 11, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+    public int[] lastChapter = {18, 11, 17, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
 
     private static final int BRACHOT      	= 0;
     private static final int HAAMVEHAAREZ 	= 1;
@@ -99,7 +99,10 @@ public class myAudio extends Activity
         sections = new ArrayList<String>();
         book = extras.getInt("book_id");
         chapter = extras.getInt("chapter_id");
+        if(book == KASHRUT_B)//KASHRUT_B is starting from chapter 20
+            chapter += 19;
         section = extras.getInt("audio_id");
+
         sections = extras.getStringArrayList("sections_"+chapter);
 
         book_name = get_book_name_by_id();
@@ -244,8 +247,8 @@ public class myAudio extends Activity
                 return "ימים נוראים";
             case KASHRUT_A:
                 return "כשרות א";
-//            case KASHRUT_B:
-//                return "כשרות ב";
+            case KASHRUT_B:
+                return "כשרות ב";
 //            case LIKUTIM_A:
 //                return "ליקוטים א";
 //            case LIKUTIM_B:
@@ -486,7 +489,11 @@ public class myAudio extends Activity
             playerIntent.putExtra("audio_id", section);
 
             for(int i=1; i<=lastChapter[book]; i++) {
-                String name = "sections_"+i;
+                String name;
+                if (book == KASHRUT_B)
+                    name = "sections_"+(i+19);
+                else
+                    name = "sections_"+i;
                 sections = extras.getStringArrayList(name);
                 // Creating a new local copy of the current list.
                 ArrayList<String> newList = new ArrayList<>(sections);

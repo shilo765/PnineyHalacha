@@ -90,7 +90,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int BOOKS_NUMBER	= 30;
 
 	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29*/
-	public int[] lastChapter = {17, 11, 17, 10, 19, 19, 11, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+	public int[] lastChapter = {18, 11, 17, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
 
     private static final int HEBREW	 = 0;
     private static final int ENGLISH = 1;
@@ -1006,7 +1006,11 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
         for(int i=1; i<=lastChapter[book_chapter[0]]; i++) {
             try {
-                InputStream is = getAssets().open(fileNameOnly+i+".html");
+                InputStream is;
+                if (book_chapter[0] == KASHRUT_B)
+                    is = getAssets().open(fileNameOnly+(i+19)+".html");
+                else
+                    is = getAssets().open(fileNameOnly+i+".html");
                 int size = is.available();
                 byte[] buffer = new byte[size];
                 is.read(buffer);
@@ -1018,10 +1022,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 				sections.clear();
 				for(j = 0; j < headers.size(); j++)
-				{
 					sections.add(headers.get(j).text());
-				}
-				String name = "sections_"+i;
+
+				String name;
+				if (book_chapter[0] == KASHRUT_B)
+					name = "sections_"+(i+19);
+				else
+					name = "sections_"+i;
+
 				// Creating a new local copy of the current list.
 				ArrayList<String> newList = new ArrayList<>(sections);
 
@@ -1057,6 +1065,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[BRACHOT][15] = "file:///android_asset/brachot_15.html";
 		chaptersFiles[BRACHOT][16] = "file:///android_asset/brachot_16.html";
 		chaptersFiles[BRACHOT][17] = "file:///android_asset/brachot_17.html";
+		chaptersFiles[BRACHOT][18] = "file:///android_asset/brachot_18.html";
 		/*HAAMVEHAAREZ*/
 		chaptersFiles[HAAMVEHAAREZ][0] = "file:///android_asset/haamvehaarez_tochen.html";
 		chaptersFiles[HAAMVEHAAREZ][1] = "file:///android_asset/haamvehaarez_1.html";
@@ -1156,6 +1165,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[LIKUTIM_A][9] = "file:///android_asset/likutim_a_9.html";
 		chaptersFiles[LIKUTIM_A][10] = "file:///android_asset/likutim_a_10.html";
 		chaptersFiles[LIKUTIM_A][11] = "file:///android_asset/likutim_a_11.html";
+        chaptersFiles[LIKUTIM_A][12] = "file:///android_asset/likutim_a_12.html";
+        chaptersFiles[LIKUTIM_A][13] = "file:///android_asset/likutim_a_13.html";
 		/*LIKUTIM_B*/
 		chaptersFiles[LIKUTIM_B][0] = "file:///android_asset/likutim_b_tochen.html";
 		chaptersFiles[LIKUTIM_B][1] = "file:///android_asset/likutim_b_1.html";
@@ -2134,6 +2145,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[BRACHOT][15] = "ברכות: טו - ברכות הראייה";
 		chaptersNames[BRACHOT][16] = "ברכות: טז - ברכת הגומל";
 		chaptersNames[BRACHOT][17] = "ברכות: יז - ברכות ההודאה והשמחה";
+		chaptersNames[BRACHOT][18] = "ברכות: יח - תפילת הדרך";
 		/*HAAMVEHAAREZ*/
 		chaptersNames[HAAMVEHAAREZ][1] = "העם והארץ: א - מעלת הארץ";
 		chaptersNames[HAAMVEHAAREZ][2] = "העם והארץ: ב - קודש וחול ביישוב הארץ";
@@ -2218,15 +2230,17 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		/*LIKUTIM_A*/
 		chaptersNames[LIKUTIM_A][1] = "ליקוטים א: א - הלכות תלמוד תורה";
 		chaptersNames[LIKUTIM_A][2] = "ליקוטים א: ב - החינוך לתורה";
-		chaptersNames[LIKUTIM_A][3] = "ליקוטים א: ג - הלכות ספר תורה";
-		chaptersNames[LIKUTIM_A][4] = "ליקוטים א: ד - הלכות קריאת התורה";
-		chaptersNames[LIKUTIM_A][5] = "ליקוטים א: ה - כבוד ספר תורה ושמות קדושים";
-		chaptersNames[LIKUTIM_A][6] = "ליקוטים א: ו - הלכות בית כנסת";
-		chaptersNames[LIKUTIM_A][7] = "ליקוטים א: ז - הלכות כיפה";
-		chaptersNames[LIKUTIM_A][8] = "ליקוטים א: ח - מהלכות ציצית";
-		chaptersNames[LIKUTIM_A][9] = "ליקוטים א: ט - תפילין";
-		chaptersNames[LIKUTIM_A][10] = "ליקוטים א: י - מהלכות מזוזה";
-		chaptersNames[LIKUTIM_A][11] = "ליקוטים א: יא - הלכות כהנים";
+        chaptersNames[LIKUTIM_A][3] = "ליקוטים א: ג - קיום התורה והחינוך";
+		chaptersNames[LIKUTIM_A][4] = "ליקוטים א: ד - הלכות ספר תורה";
+		chaptersNames[LIKUTIM_A][5] = "ליקוטים א: ה - מהלכות קריאת התורה";
+		chaptersNames[LIKUTIM_A][6] = "ליקוטים א: ו - כבוד ספר תורה ושמות קדושים";
+		chaptersNames[LIKUTIM_A][7] = "ליקוטים א: ז - הלכות בית כנסת";
+		chaptersNames[LIKUTIM_A][8] = "ליקוטים א: ח - כיפה";
+		chaptersNames[LIKUTIM_A][9] = "ליקוטים א: ט - מהלכות ציצית";
+		chaptersNames[LIKUTIM_A][10] = "ליקוטים א: י - מהלכות תפילין";
+		chaptersNames[LIKUTIM_A][11] = "ליקוטים א: יא - מהלכות מזוזה";
+		chaptersNames[LIKUTIM_A][12] = "ליקוטים א: יב - הלכות כהנים";
+        chaptersNames[LIKUTIM_A][13] = "ליקוטים א: יג - שעטנז";
 		/*LIKUTIM_B*/
 		chaptersNames[LIKUTIM_B][1] = "ליקוטים ב: א - בין אדם לחברו";
 		chaptersNames[LIKUTIM_B][2] = "ליקוטים ב: ב - הלכות אמירת אמת";
