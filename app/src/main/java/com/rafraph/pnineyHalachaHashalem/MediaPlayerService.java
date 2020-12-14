@@ -65,7 +65,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private int book_audio_id;
 
     private double timeElapsed = 0, finalTime = 0;
-    private int forwardTime = 5000, backwardTime = 5000;
+    private int forwardTime = 10000, backwardTime = 10000;
     private Handler durationHandler = new Handler();
     Intent serviceIntent;
     boolean wasPlaying = false;
@@ -379,15 +379,15 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         registerReceiver(BR_start, intentFilter);
         intentFilter = new IntentFilter(myAudio.Broadcast_PLAY_PAUSE);
         registerReceiver(BR_playPause, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_FORWARD_5);
-        registerReceiver(BR_forward_5_sec, intentFilter);
-        intentFilter = new IntentFilter(myAudio.Broadcast_BACKWARD_5);
-        registerReceiver(BR_backward_5_sec, intentFilter);
+        intentFilter = new IntentFilter(myAudio.Broadcast_FORWARD_10);
+        registerReceiver(BR_forward_10_sec, intentFilter);
+        intentFilter = new IntentFilter(myAudio.Broadcast_BACKWARD_10);
+        registerReceiver(BR_backward_10_sec, intentFilter);
         intentFilter = new IntentFilter(myAudio.Broadcast_OnTouch);
         registerReceiver(BR_on_Touch, intentFilter);
     }
 
-    private BroadcastReceiver BR_forward_5_sec = new BroadcastReceiver() {
+    private BroadcastReceiver BR_forward_10_sec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             //check if we can go forward at forwardTime seconds before song ends
@@ -399,7 +399,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
     };
 
-    private BroadcastReceiver BR_backward_5_sec = new BroadcastReceiver() {
+    private BroadcastReceiver BR_backward_10_sec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             //check if we can go forward at forwardTime seconds before song ends

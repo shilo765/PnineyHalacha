@@ -109,11 +109,11 @@
                     android:id="@+id/media_rew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginRight="30dp"
                     android:background="@null"
-                    android:onClick="rewind_5_sec"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/baseline_replay_5_white_48" />
+                    android:onClick="rewind_10_sec"
+                    android:src="@drawable/baseline_replay_10_white_48dp" />
 
                 <ImageButton
                     android:id="@+id/media_play_pause"
@@ -129,10 +129,10 @@
                     android:id="@+id/media_ff"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:layout_marginLeft="30dp"
-                    android:onClick="forward_5_sec"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="30dp"
+                    android:background="@null"
+                    android:onClick="forward_10_sec"
                     android:src="@drawable/baseline_forward_5_white_48" />
 
                 <ImageButton

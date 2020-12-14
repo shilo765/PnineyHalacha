@@ -82,8 +82,8 @@ public class myAudio extends Activity
     public static final String Broadcast_SKIP_NEXT = "com.rafraph.pnineyHalachaHashalem.SkipNext";
     public static final String Broadcast_SKIP_PREVIOUS = "com.rafraph.pnineyHalachaHashalem.SkipPrevious";
     public static final String Broadcast_SKIP_TO_SPECIFIC_SECTION = "com.rafraph.pnineyHalachaHashalem.SkipToSpecificSection";
-    public static final String Broadcast_FORWARD_5 = "com.rafraph.pnineyHalachaHashalem.Forward5";
-    public static final String Broadcast_BACKWARD_5 = "com.rafraph.pnineyHalachaHashalem.Backward5";
+    public static final String Broadcast_FORWARD_10 = "com.rafraph.pnineyHalachaHashalem.Forward10";
+    public static final String Broadcast_BACKWARD_10 = "com.rafraph.pnineyHalachaHashalem.Backward10";
     public static final String Broadcast_OnTouch = "com.rafraph.pnineyHalachaHashalem.OnTouch";
 
 
@@ -360,12 +360,12 @@ public class myAudio extends Activity
     }
 
     public void forward_5_sec(View view) {
-        Intent broadcastIntent = new Intent(Broadcast_FORWARD_5);
+        Intent broadcastIntent = new Intent(Broadcast_FORWARD_10);
         sendBroadcast(broadcastIntent);
     }
 
     public void rewind_5_sec(View view) {
-        Intent broadcastIntent = new Intent(Broadcast_BACKWARD_5);
+        Intent broadcastIntent = new Intent(Broadcast_BACKWARD_10);
         sendBroadcast(broadcastIntent);
     }
 
