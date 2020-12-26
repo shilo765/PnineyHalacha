@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text='1. ליקוטים א מהדורה חדשה - תוספות משמעותיות בהלכות תלמוד תורה ופרק חדש על הלכות שעטנז'
+        android:text='1. הוספת שמע לשמחת הבית וברכתו ותיקון השמע לכשרות ב וברכות'
         android:textSize="20dp"
         android:textColor="#5A9B85"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -41,17 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text='2. ברכות מהדורה חדשה - עם הבהרות בדיני מזונות, חידושים בברכת הגומל, ופרק חדש על תפילת הדרך'
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#5A9B85"
-        android:textSize="20dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text='3. הוספת שמע לספר כשרות ב'
+        android:text='2. שיפור כפתורי השמע'
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#5A9B85"
         android:textSize="20dp" />

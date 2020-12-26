@@ -708,9 +708,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             case SHABAT:
                 book_audio_id = 1;
                 return;
-//            case SIMCHAT:
-//                book_audio_id = 99;
-//                return;
+            case SIMCHAT:
+                book_audio_id = 14;
+                return;
             case TEFILA:
                 book_audio_id = 2;
                 return;

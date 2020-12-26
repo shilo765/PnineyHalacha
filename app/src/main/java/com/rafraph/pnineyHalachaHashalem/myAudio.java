@@ -50,7 +50,7 @@ public class myAudio extends Activity
 
     public TextView duration, bufferingPercent;
     private double timeElapsed = 0, finalTime = 0;
-    private int forwardTime = 5000, backwardTime = 5000;
+    private int forwardTime = 10000, backwardTime = 10000;
     private Handler durationHandler = new Handler();
     private SeekBar seekbar;
     private int mediaFileLengthInMilliseconds;
@@ -265,8 +265,8 @@ public class myAudio extends Activity
 //                return "שביעית";
             case SHABAT:
                 return "שבת";
-//            case SIMCHAT:
-//                return "שמחת הבית וברכתו";
+            case SIMCHAT:
+                return "שמחת הבית וברכתו";
             case TEFILA:
                 return "תפילה";
 //            case TEFILAT_NASHIM:
@@ -359,12 +359,12 @@ public class myAudio extends Activity
         sendBroadcast(broadcastIntent);
     }
 
-    public void forward_5_sec(View view) {
+    public void forward_10_sec(View view) {
         Intent broadcastIntent = new Intent(Broadcast_FORWARD_10);
         sendBroadcast(broadcastIntent);
     }
 
-    public void rewind_5_sec(View view) {
+    public void rewind_10_sec(View view) {
         Intent broadcastIntent = new Intent(Broadcast_BACKWARD_10);
         sendBroadcast(broadcastIntent);
     }

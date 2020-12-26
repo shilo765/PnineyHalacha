@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 			
-			if(mPrefs.getString("Version", "").equals("2.9") == false)
+			if(mPrefs.getString("Version", "").equals("3.0") == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);
