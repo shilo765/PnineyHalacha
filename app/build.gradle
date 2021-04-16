@@ -34,5 +34,3 @@ dependencies {
     implementation 'com.android.support:support-media-compat:28'
 }
 
-
-apply plugin: 'com.google.gms.google-services'

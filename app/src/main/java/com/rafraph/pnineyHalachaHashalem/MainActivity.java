@@ -45,8 +45,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 ////
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+//import com.google.android.gms.tasks.OnFailureListener;
+//import com.google.android.gms.tasks.OnSuccessListener;
 //import com.google.firebase.storage.FileDownloadTask;
 //import com.google.firebase.storage.StorageReference;
 //import com.google.firebase.storage.FirebaseStorage;
@@ -59,35 +59,36 @@ public class MainActivity extends AppCompatActivity
 	private static final int BRACHOT      	= 0;
 	private static final int HAAMVEHAAREZ 	= 1;
 	private static final int ZMANIM    		= 2;
-	private static final int YAMIM    		= 3;
-	private static final int KASHRUT_A 		= 4;
-    private static final int KASHRUT_B 		= 5;
-	private static final int LIKUTIM_A 		= 6;
-	private static final int LIKUTIM_B 		= 7;
-	private static final int MOADIM    		= 8;
-    private static final int MISHPACHA   	= 9;
-	private static final int SUCOT			= 10;
-	private static final int PESACH			= 11;
-	private static final int SHVIIT			= 12;
-	private static final int SHABAT			= 13;
-	private static final int SIMCHAT		= 14;
-	private static final int TEFILA			= 15;
-	private static final int TEFILAT_NASHIM	= 16;
-	private static final int HAR_BRACHOT    = 17;
-	private static final int HAR_YAMIM      = 18;
-	private static final int HAR_MOADIM     = 19;
-	private static final int HAR_SUCOT      = 20;
-	private static final int HAR_SHABAT     = 21;
-	private static final int HAR_SIMCHAT    = 22;
-	private static final int BOOKS_HEB_NUMBER	= 23;
-	private static final int E_TEFILA       = 23;
-	private static final int E_PESACH       = 24;
-	private static final int E_ZMANIM       = 25;
-	private static final int E_WOMEN_PRAYER = 26;
-	private static final int E_SHABAT       = 27;
-	private static final int F_TEFILA       = 28;
-	private static final int S_SHABAT        = 29;
-	private static final int BOOKS_NUMBER	= 30;
+	private static final int TAHARAT   		= 3;
+	private static final int YAMIM    		= 4;
+	private static final int KASHRUT_A 		= 5;
+    private static final int KASHRUT_B 		= 6;
+	private static final int LIKUTIM_A 		= 7;
+	private static final int LIKUTIM_B 		= 8;
+	private static final int MOADIM    		= 9;
+    private static final int MISHPACHA   	= 10;
+	private static final int SUCOT			= 11;
+	private static final int PESACH			= 12;
+	private static final int SHVIIT			= 13;
+	private static final int SHABAT			= 14;
+	private static final int SIMCHAT		= 15;
+	private static final int TEFILA			= 16;
+	private static final int TEFILAT_NASHIM	= 17;
+	private static final int HAR_BRACHOT    = 18;
+	private static final int HAR_YAMIM      = 19;
+	private static final int HAR_MOADIM     = 20;
+	private static final int HAR_SUCOT      = 21;
+	private static final int HAR_SHABAT     = 22;
+	private static final int HAR_SIMCHAT    = 23;
+	private static final int BOOKS_HEB_NUMBER	= 24;
+	private static final int E_TEFILA       = 24;
+	private static final int E_PESACH       = 25;
+	private static final int E_ZMANIM       = 26;
+	private static final int E_WOMEN_PRAYER = 27;
+	private static final int E_SHABAT       = 28;
+	private static final int F_TEFILA       = 29;
+	private static final int S_SHABAT       = 30;
+	private static final int BOOKS_NUMBER	= 31;
 
 
 	private static final int HEBREW	 = 0;
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 			
-			if(mPrefs.getString("Version", "").equals("3.0") == false)
+			if(mPrefs.getString("Version", "").equals("3.1") == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);
@@ -448,6 +449,7 @@ public class MainActivity extends AppCompatActivity
 		listDataHeader.add("ברכות");
 		listDataHeader.add("העם והארץ");
 		listDataHeader.add("זמנים");
+		listDataHeader.add("טהרת המשפחה");
 		listDataHeader.add("ימים נוראים");
 		listDataHeader.add("כשרות א - הצומח והחי");
 		listDataHeader.add("כשרות ב - המזון והמטבח");
@@ -532,6 +534,19 @@ public class MainActivity extends AppCompatActivity
 		zmanim.add("טו - פורים ומקרא מגילה");
 		zmanim.add("טז - מצוות השמחה והחסד");
 		zmanim.add("יז - דיני פרזים ומוקפים");
+
+		List<String> taharat = new ArrayList<String>();
+		taharat.add("תוכן מפורט, מבוא");
+		taharat.add("א - טהרת המשפחה");
+		taharat.add("ב - דם וכתם");
+		taharat.add("ג - איסורי הרחקה");
+		taharat.add("ד - שבעה נקיים");
+		taharat.add("ה - טבילת טהרה");
+		taharat.add("ו - פרישה ווסתות");
+		taharat.add("ז - שאלת חכם ובדיקה רפואית");
+		taharat.add("ח - כלה");
+		taharat.add("ט - יולדת");
+		taharat.add("י - מקוואות");
 
 		List<String> yamim = new ArrayList<String>();
 		yamim.add("תוכן מפורט, מבוא");
@@ -1096,6 +1111,7 @@ public class MainActivity extends AppCompatActivity
 		listDataChild.put(listDataHeader.get(BRACHOT), brachot); // Header, Child data
 		listDataChild.put(listDataHeader.get(HAAMVEHAAREZ), haam);
 		listDataChild.put(listDataHeader.get(ZMANIM), zmanim);
+		listDataChild.put(listDataHeader.get(TAHARAT), taharat);
 		listDataChild.put(listDataHeader.get(YAMIM), yamim);
 		listDataChild.put(listDataHeader.get(KASHRUT_A), kashrut_a);
         listDataChild.put(listDataHeader.get(KASHRUT_B), kashrut_b);

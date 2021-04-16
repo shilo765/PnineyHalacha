@@ -31,30 +31,31 @@ public class SearchableActivity extends Activity
     private static final int BRACHOT      	= 0;
     private static final int HAAMVEHAAREZ 	= 1;
     private static final int ZMANIM    		= 2;
-    private static final int YAMIM    		= 3;
-    private static final int KASHRUT_A 		= 4;
-    private static final int KASHRUT_B 		= 5;
-    private static final int LIKUTIM_A 		= 6;
-    private static final int LIKUTIM_B 		= 7;
-    private static final int MOADIM    		= 8;
-    private static final int MISHPACHA   	= 9;
-    private static final int SUCOT			= 10;
-    private static final int PESACH			= 11;
-    private static final int SHVIIT			= 12;
-    private static final int SHABAT			= 13;
-    private static final int SIMCHAT		= 14;
-    private static final int TEFILA			= 15;
-    private static final int TEFILAT_NASHIM	= 16;
-    private static final int HAR_BRACHOT    = 17;
-    private static final int HAR_YAMIM      = 18;
-    private static final int HAR_MOADIM     = 19;
-    private static final int HAR_SUCOT      = 20;
-    private static final int HAR_SHABAT     = 21;
-    private static final int HAR_SIMCHAT    = 22;
-    private static final int BOOKS_NUMBER	= 23;
+	private static final int TAHARAT   		= 3;
+	private static final int YAMIM    		= 4;
+	private static final int KASHRUT_A 		= 5;
+	private static final int KASHRUT_B 		= 6;
+	private static final int LIKUTIM_A 		= 7;
+	private static final int LIKUTIM_B 		= 8;
+	private static final int MOADIM    		= 9;
+	private static final int MISHPACHA   	= 10;
+	private static final int SUCOT			= 11;
+	private static final int PESACH			= 12;
+	private static final int SHVIIT			= 13;
+	private static final int SHABAT			= 14;
+	private static final int SIMCHAT		= 15;
+	private static final int TEFILA			= 16;
+	private static final int TEFILAT_NASHIM	= 17;
+	private static final int HAR_BRACHOT    = 18;
+	private static final int HAR_YAMIM      = 19;
+	private static final int HAR_MOADIM     = 20;
+	private static final int HAR_SUCOT      = 21;
+	private static final int HAR_SHABAT     = 22;
+	private static final int HAR_SIMCHAT    = 23;
+	private static final int BOOKS_NUMBER	= 24;
 
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22*/
-	public int[] lastChapter = {18, 11, 17, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10};
+	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23*/
+	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10};
 
 	String[][] chaptersFiles = new String[BOOKS_NUMBER][31];
 	String[][] chaptersNames = new String[BOOKS_NUMBER][31];
@@ -81,7 +82,7 @@ public class SearchableActivity extends Activity
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) 
 		{
 			query = intent.getStringExtra(SearchManager.QUERY);
-			//query = "ו";
+			//query = "ו";// for test of the search
 			for (i=0; i<query.length(); i++)
 			{
 				validQuery = hebCharacter.contains(query.substring(i, i+1));
@@ -200,7 +201,7 @@ public class SearchableActivity extends Activity
 					noteIndex = strText.indexOf("<div style=\"display:none;\">", 0);
 					while(index != (-1))
 					{
-						//System.out.println("i="+i+" j="+j+" chapterCounter="+chapterCounter);/*for checking crash with searching*/
+						//System.out.println("book="+i+" chapter="+j+" chapterCounter="+chapterCounter);/*for test - if need to check crash with searching*/
 						index = strText.indexOf(query, index+1);
 						if(index != (-1))
 						{
@@ -424,6 +425,18 @@ public class SearchableActivity extends Activity
 		chaptersFiles[ZMANIM][15] = "zmanim_15.html";
 		chaptersFiles[ZMANIM][16] = "zmanim_16.html";
 		chaptersFiles[ZMANIM][17] = "zmanim_17.html";
+		/*TAHARAT*/
+		chaptersFiles[TAHARAT][0] = "taharat_tochen.html";
+		chaptersFiles[TAHARAT][1] = "taharat_1.html";
+		chaptersFiles[TAHARAT][2] = "taharat_2.html";
+		chaptersFiles[TAHARAT][3] = "taharat_3.html";
+		chaptersFiles[TAHARAT][4] = "taharat_4.html";
+		chaptersFiles[TAHARAT][5] = "taharat_5.html";
+		chaptersFiles[TAHARAT][6] = "taharat_6.html";
+		chaptersFiles[TAHARAT][7] = "taharat_7.html";
+		chaptersFiles[TAHARAT][8] = "taharat_8.html";
+		chaptersFiles[TAHARAT][9] = "taharat_9.html";
+		chaptersFiles[TAHARAT][10] = "taharat_10.html";
 		/*YAMIM*/
 		chaptersFiles[YAMIM][0] = "yamim_tochen.html";
 		chaptersFiles[YAMIM][1] = "yamim_1.html";
@@ -831,6 +844,17 @@ public class SearchableActivity extends Activity
 		chaptersNames[ZMANIM][15] = "זמנים: טו - פורים ומקרא מגילה";
 		chaptersNames[ZMANIM][16] = "זמנים: טז - מצוות השמחה והחסד";
 		chaptersNames[ZMANIM][17] = "זמנים: יז - דיני פרזים ומוקפים";
+		/*TAHARAT*/
+		chaptersNames[TAHARAT][1] = "טהרת המשפחה: א - טהרת המשפחה";
+		chaptersNames[TAHARAT][2] = "טהרת המשפחה: ב - דם וכתם";
+		chaptersNames[TAHARAT][3] = "טהרת המשפחה: ג - איסורי הרחקה";
+		chaptersNames[TAHARAT][4] = "טהרת המשפחה: ד - שבעה נקיים";
+		chaptersNames[TAHARAT][5] = "טהרת המשפחה: ה - טבילת טהרה";
+		chaptersNames[TAHARAT][6] = "טהרת המשפחה: ו - פרישה ווסתות";
+		chaptersNames[TAHARAT][7] = "טהרת המשפחה: ז - שאלת חכם ובדיקה רפואית";
+		chaptersNames[TAHARAT][8] = "טהרת המשפחה: ח - כלה";
+		chaptersNames[TAHARAT][9] = "טהרת המשפחה: ט - יולדת";
+		chaptersNames[TAHARAT][10] = "טהרת המשפחה: י - מקוואות";
 		/*YAMIM*/
 		chaptersNames[YAMIM][1] = "ימים נוראים: א - הדין השכר והעונש";
 		chaptersNames[YAMIM][2] = "ימים נוראים: ב - סליחות ותפילות";
@@ -1085,14 +1109,14 @@ public class SearchableActivity extends Activity
 		chaptersNames[HAR_MOADIM][11] = "הר' מועדים: יא - מלאכת חול המועד";
 		chaptersNames[HAR_MOADIM][12] = "הר' מועדים: יב - היתרי עבודה במועד";
 		/*HAR_SUCOT*/
-		chaptersNames[HAR_SUCOT][1]  = "א -חג הסוכות";
-		chaptersNames[HAR_SUCOT][2]  = "ב - הלכות סוכה";
-		chaptersNames[HAR_SUCOT][3]  = "ג - ישיבה בסוכה";
-		chaptersNames[HAR_SUCOT][4]  = "ד - ארבעת המינים";
-		chaptersNames[HAR_SUCOT][5]  = "ה - נטילת לולב";
-		chaptersNames[HAR_SUCOT][6]  = "ו - הושענא רבה";
-		chaptersNames[HAR_SUCOT][7]  = "ז - שמיני עצרת";
-		chaptersNames[HAR_SUCOT][8]  = "ח - הקהל";
+		chaptersNames[HAR_SUCOT][1]  = "הר' סוכות: א -חג הסוכות";
+		chaptersNames[HAR_SUCOT][2]  = "הר' סוכות: ב - הלכות סוכה";
+		chaptersNames[HAR_SUCOT][3]  = "הר' סוכות: ג - ישיבה בסוכה";
+		chaptersNames[HAR_SUCOT][4]  = "הר' סוכות: ד - ארבעת המינים";
+		chaptersNames[HAR_SUCOT][5]  = "הר' סוכות: ה - נטילת לולב";
+		chaptersNames[HAR_SUCOT][6]  = "הר' סוכות: ו - הושענא רבה";
+		chaptersNames[HAR_SUCOT][7]  = "הר' סוכות: ז - שמיני עצרת";
+		chaptersNames[HAR_SUCOT][8]  = "הר' סוכות: ח - הקהל";
 		/*HAR_SHABAT*/
 		chaptersNames[HAR_SHABAT][1]  = "הר' שבת: א - פתיחה";
 		chaptersNames[HAR_SHABAT][2]  = "הר' שבת: ב - הכנות לשבת";

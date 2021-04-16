@@ -31,17 +31,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text='1. הוספת שמע לשמחת הבית וברכתו ותיקון השמע לכשרות ב וברכות'
+        android:text='בשעה טובה - נוסף הספר החדש "טהרת המשפחה"'
         android:textSize="20dp"
         android:textColor="#5A9B85"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text='             '
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#5A9B85"
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text='2. שיפור כפתורי השמע'
+        android:text='מי שמעוניין להצטרף לפיתוח האפליקציה, ולשפר את חויית הלימוד של 20,000 לומדים מוזמן לפנות אליי דרך כפתור ה"משוב"'
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#5A9B85"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text='             '
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#5A9B85"
         android:textSize="20dp" />

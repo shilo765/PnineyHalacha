@@ -75,20 +75,21 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private static final int BRACHOT      	= 0;
     private static final int HAAMVEHAAREZ 	= 1;
     private static final int ZMANIM    		= 2;
-    private static final int YAMIM    		= 3;
-    private static final int KASHRUT_A 		= 4;
-    private static final int KASHRUT_B 		= 5;
-    private static final int LIKUTIM_A 		= 6;
-    private static final int LIKUTIM_B 		= 7;
-    private static final int MOADIM    		= 8;
-    private static final int MISHPACHA   	= 9;
-    private static final int SUCOT			= 10;
-    private static final int PESACH			= 11;
-    private static final int SHVIIT			= 12;
-    private static final int SHABAT			= 13;
-    private static final int SIMCHAT		= 14;
-    private static final int TEFILA			= 15;
-    private static final int TEFILAT_NASHIM	= 16;
+    private static final int TAHARAT   		= 3;
+    private static final int YAMIM    		= 4;
+    private static final int KASHRUT_A 		= 5;
+    private static final int KASHRUT_B 		= 6;
+    private static final int LIKUTIM_A 		= 7;
+    private static final int LIKUTIM_B 		= 8;
+    private static final int MOADIM    		= 9;
+    private static final int MISHPACHA   	= 10;
+    private static final int SUCOT			= 11;
+    private static final int PESACH			= 12;
+    private static final int SHVIIT			= 13;
+    private static final int SHABAT			= 14;
+    private static final int SIMCHAT		= 15;
+    private static final int TEFILA			= 16;
+    private static final int TEFILAT_NASHIM	= 17;
 
     @Override
     public IBinder onBind(Intent intent) {

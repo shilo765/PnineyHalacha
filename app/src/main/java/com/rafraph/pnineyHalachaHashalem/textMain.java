@@ -59,38 +59,39 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int BRACHOT      	= 0;
 	private static final int HAAMVEHAAREZ 	= 1;
 	private static final int ZMANIM    		= 2;
-	private static final int YAMIM    		= 3;
-	private static final int KASHRUT_A 		= 4;
-	private static final int KASHRUT_B 		= 5;
-	private static final int LIKUTIM_A 		= 6;
-	private static final int LIKUTIM_B 		= 7;
-	private static final int MOADIM    		= 8;
-	private static final int MISHPACHA   	= 9;
-	private static final int SUCOT			= 10;
-	private static final int PESACH			= 11;
-	private static final int SHVIIT			= 12;
-	private static final int SHABAT			= 13;
-	private static final int SIMCHAT		= 14;
-	private static final int TEFILA			= 15;
-	private static final int TEFILAT_NASHIM	= 16;
-	private static final int HAR_BRACHOT    = 17;
-	private static final int HAR_YAMIM      = 18;
-	private static final int HAR_MOADIM     = 19;
-	private static final int HAR_SUCOT      = 20;
-	private static final int HAR_SHABAT     = 21;
-	private static final int HAR_SIMCHAT    = 22;
-	private static final int BOOKS_HEB_NUMBER	= 23;
-	private static final int E_TEFILA       = 23;
-	private static final int E_PESACH       = 24;
-	private static final int E_ZMANIM       = 25;
-	private static final int E_WOMEN_PRAYER = 26;
-	private static final int E_SHABAT       = 27;
-	private static final int F_TEFILA       = 28;
-	private static final int S_SHABAT       = 29;
-	private static final int BOOKS_NUMBER	= 30;
+	private static final int TAHARAT   		= 3;
+	private static final int YAMIM    		= 4;
+	private static final int KASHRUT_A 		= 5;
+	private static final int KASHRUT_B 		= 6;
+	private static final int LIKUTIM_A 		= 7;
+	private static final int LIKUTIM_B 		= 8;
+	private static final int MOADIM    		= 9;
+	private static final int MISHPACHA   	= 10;
+	private static final int SUCOT			= 11;
+	private static final int PESACH			= 12;
+	private static final int SHVIIT			= 13;
+	private static final int SHABAT			= 14;
+	private static final int SIMCHAT		= 15;
+	private static final int TEFILA			= 16;
+	private static final int TEFILAT_NASHIM	= 17;
+	private static final int HAR_BRACHOT    = 18;
+	private static final int HAR_YAMIM      = 19;
+	private static final int HAR_MOADIM     = 20;
+	private static final int HAR_SUCOT      = 21;
+	private static final int HAR_SHABAT     = 22;
+	private static final int HAR_SIMCHAT    = 23;
+	private static final int BOOKS_HEB_NUMBER	= 24;
+	private static final int E_TEFILA       = 24;
+	private static final int E_PESACH       = 25;
+	private static final int E_ZMANIM       = 26;
+	private static final int E_WOMEN_PRAYER = 27;
+	private static final int E_SHABAT       = 28;
+	private static final int F_TEFILA       = 29;
+	private static final int S_SHABAT       = 30;
+	private static final int BOOKS_NUMBER	= 31;
 
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29*/
-	public int[] lastChapter = {18, 11, 17, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30*/
+	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
 
     private static final int HEBREW	 = 0;
     private static final int ENGLISH = 1;
@@ -1098,6 +1099,18 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[ZMANIM][15] = "file:///android_asset/zmanim_15.html";
 		chaptersFiles[ZMANIM][16] = "file:///android_asset/zmanim_16.html";
 		chaptersFiles[ZMANIM][17] = "file:///android_asset/zmanim_17.html";
+		/*TAHARAT*/
+		chaptersFiles[TAHARAT][0] = "file:///android_asset/taharat_tochen.html";
+		chaptersFiles[TAHARAT][1] = "file:///android_asset/taharat_1.html";
+		chaptersFiles[TAHARAT][2] = "file:///android_asset/taharat_2.html";
+		chaptersFiles[TAHARAT][3] = "file:///android_asset/taharat_3.html";
+		chaptersFiles[TAHARAT][4] = "file:///android_asset/taharat_4.html";
+		chaptersFiles[TAHARAT][5] = "file:///android_asset/taharat_5.html";
+		chaptersFiles[TAHARAT][6] = "file:///android_asset/taharat_6.html";
+		chaptersFiles[TAHARAT][7] = "file:///android_asset/taharat_7.html";
+		chaptersFiles[TAHARAT][8] = "file:///android_asset/taharat_8.html";
+		chaptersFiles[TAHARAT][9] = "file:///android_asset/taharat_9.html";
+		chaptersFiles[TAHARAT][10] = "file:///android_asset/taharat_10.html";
 		/*YAMIM*/
 		chaptersFiles[YAMIM][0] = "file:///android_asset/yamim_tochen.html";
 		chaptersFiles[YAMIM][1] = "file:///android_asset/yamim_1.html";
@@ -2066,6 +2079,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			return "העם והא'";
 		case ZMANIM:
 			return "זמנים";
+		case TAHARAT:
+			return "טהרת המש'";
 		case YAMIM:
 			return "ימים נוראים";
 		case KASHRUT_A:
@@ -2176,6 +2191,17 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[ZMANIM][15] = "זמנים: טו - פורים ומקרא מגילה";
 		chaptersNames[ZMANIM][16] = "זמנים: טז - מצוות השמחה והחסד";
 		chaptersNames[ZMANIM][17] = "זמנים: יז - דיני פרזים ומוקפים";
+		/*TAHARAT*/
+		chaptersNames[TAHARAT][1] = "טהרת המשפחה: א - טהרת המשפחה";
+		chaptersNames[TAHARAT][2] = "טהרת המשפחה: ב - דם וכתם";
+		chaptersNames[TAHARAT][3] = "טהרת המשפחה: ג - איסורי הרחקה";
+		chaptersNames[TAHARAT][4] = "טהרת המשפחה: ד - שבעה נקיים";
+		chaptersNames[TAHARAT][5] = "טהרת המשפחה: ה - טבילת טהרה";
+		chaptersNames[TAHARAT][6] = "טהרת המשפחה: ו - פרישה ווסתות";
+		chaptersNames[TAHARAT][7] = "טהרת המשפחה: ז - שאלת חכם ובדיקה רפואית";
+		chaptersNames[TAHARAT][8] = "טהרת המשפחה: ח - כלה";
+		chaptersNames[TAHARAT][9] = "טהרת המשפחה: ט - יולדת";
+		chaptersNames[TAHARAT][10] = "טהרת המשפחה: י - מקוואות";
 		/*YAMIM*/
 		chaptersNames[YAMIM][1] = "ימים נוראים: א - הדין השכר והעונש";
 		chaptersNames[YAMIM][2] = "ימים נוראים: ב - סליחות ותפילות";
