@@ -141,7 +141,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             convert_book_id();
             sections = new ArrayList<String>();
             sections = serviceIntent.getExtras().getStringArrayList("sections_"+chapter);
-            //mediaUrl = String.format("https://ph.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
             mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
         } catch (NullPointerException e) {
             stopSelf();
@@ -671,11 +670,14 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             case BRACHOT:
                 book_audio_id = 10;
                 return;
-//            case HAAMVEHAAREZ:
-//                book_audio_id = 99;
-//                return;
+            case HAAMVEHAAREZ:
+                book_audio_id = 6;
+                return;
             case ZMANIM:
                 book_audio_id = 5;
+                return;
+            case TAHARAT:
+                book_audio_id = 18;
                 return;
             case YAMIM:
                 book_audio_id = 15;
@@ -704,9 +706,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             case PESACH:
                 book_audio_id = 4;
                 return;
-//            case SHVIIT:
-//                book_audio_id = 99;
-//                return;
+            case SHVIIT:
+                book_audio_id = 16;
+                return;
             case SHABAT:
                 book_audio_id = 1;
                 return;

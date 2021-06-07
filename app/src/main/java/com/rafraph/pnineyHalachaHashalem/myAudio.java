@@ -240,8 +240,8 @@ public class myAudio extends Activity
         {
             case BRACHOT:
                 return "ברכות";
-//            case HAAMVEHAAREZ:
-//                return "העם והארץ";
+            case HAAMVEHAAREZ:
+                return "העם והארץ";
             case ZMANIM:
                 return "זמנים";
             case TAHARAT:
@@ -264,8 +264,8 @@ public class myAudio extends Activity
                 return "סוכות";
             case PESACH:
                 return "פסח";
-//            case SHVIIT:
-//                return "שביעית";
+            case SHVIIT:
+                return "שביעית";
             case SHABAT:
                 return "שבת";
             case SIMCHAT:
