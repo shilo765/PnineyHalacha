@@ -5,7 +5,9 @@
 ” to "
 “ to "
 
-3. edit the BTest.java to the right files names
+3. edit the BTest.java (line 13) to the right files names
+ and also change the j in line 10 to the numbers of the chapters for example 1 to 15
+ if needed, change the path in line 13 to the correct path in your pc
 
 4. open command line and run the following 2 commands:
 javac BTest.java

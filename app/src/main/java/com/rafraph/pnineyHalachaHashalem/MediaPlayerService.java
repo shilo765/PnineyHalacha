@@ -141,7 +141,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             convert_book_id();
             sections = new ArrayList<String>();
             sections = serviceIntent.getExtras().getStringArrayList("sections_"+chapter);
-            mediaUrl = String.format("https://ph.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+            //mediaUrl = String.format("https://ph.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
         } catch (NullPointerException e) {
             stopSelf();
         }
@@ -501,7 +502,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
         else
             section++;
-        mediaUrl = String.format("https://ph.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+        mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
 
         Intent intent = new Intent("chapterUpdate");
         intent.putExtra("chapter", chapter);
@@ -534,7 +535,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
         else
             section--;
-        mediaUrl = String.format("https://ph.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+        mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
 
         Intent intent = new Intent("chapterUpdate");
         intent.putExtra("chapter", chapter);
@@ -554,7 +555,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         stopMedia();
         mediaPlayer.reset();
 
-        mediaUrl = String.format("https://ph.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+        mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
 
        /* Intent intent = new Intent("chapterUpdate");
         intent.putExtra("chapter", chapter);
