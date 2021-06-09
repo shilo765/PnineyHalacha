@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text='בשעה טובה - נוסף הספר החדש "טהרת המשפחה"'
+        android:text='1. נוסף שמע לספרים: העם והארץ, שביעית ויובל וטהרת המשפחה'
         android:textSize="20dp"
         android:textColor="#5A9B85"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text='מי שמעוניין להצטרף לפיתוח האפליקציה, ולשפר את חויית הלימוד של 20,000 לומדים מוזמן לפנות אליי דרך כפתור ה"משוב"'
+        android:text='2. תיקונים כלליים'
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#5A9B85"
         android:textSize="20dp" />

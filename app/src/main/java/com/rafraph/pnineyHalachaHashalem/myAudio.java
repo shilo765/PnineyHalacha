@@ -265,7 +265,7 @@ public class myAudio extends Activity
             case PESACH:
                 return "פסח";
             case SHVIIT:
-                return "שביעית";
+                return "שביעית ויובל";
             case SHABAT:
                 return "שבת";
             case SIMCHAT:
