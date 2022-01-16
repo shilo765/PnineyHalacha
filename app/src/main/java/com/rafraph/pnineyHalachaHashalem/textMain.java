@@ -518,9 +518,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		}, 400);/*how much time to delay*/
 	}
-	private Context getContext() {
-		return null;
-	}
 
 	public void ParseTheDoc()
 	{
