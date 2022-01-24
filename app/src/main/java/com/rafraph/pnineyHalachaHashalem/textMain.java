@@ -166,21 +166,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		final Context context = this;
-		Uri uri = Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/brachot_1.html");
-		DownloadManager.Request request = new DownloadManager.Request(uri);
-		request.setDescription("Selected Video is being downloaded");
-		request.setTitle("Downloading Video");
-		//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-//Set the local destination for the downloaded file to a path within the application's external files directory
-		request.setDestinationInExternalFilesDir(context,getFilesDir().getAbsolutePath(), "brachot_1.html"); //To Store file in External Public Directory use "setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)"
-		DownloadManager manager = (DownloadManager)
-				context.getSystemService(Context.DOWNLOAD_SERVICE);
-		manager.enqueue(request);
-		manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-		Uri uri2 = Uri.parse("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf");
-		DownloadManager.Request request2 = new DownloadManager.Request(uri2);
-		request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-		long reference = manager.enqueue(request2);
 		loadActivity();
 
 	}//onCreate
@@ -518,6 +503,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		}, 400);/*how much time to delay*/
 	}
+	private Context getContext() {
+		return null;
+	}
 
 	public void ParseTheDoc()
 	{
@@ -771,8 +759,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 							ourIntent.putExtra("chapter_id", book_chapter[1]);
 							ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
 							ourIntent.putExtra("hearAndRead", true);
-
-							ourIntent.putExtra("scroolY", webview.getScrollY());
+							ourIntent.putExtra("Mylanguage", MyLanguage);
+							ourIntent.putExtra("scroolY", 0);
 							ourIntent.putExtra("fontSize", fontSize);
 							findAllHeaders(ourIntent);
 							startActivity(ourIntent);
@@ -798,6 +786,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 							ourIntent.putExtra("chapter_id", book_chapter[1]);
 							ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
 							ourIntent.putExtra("hearAndRead", false);
+							ourIntent.putExtra("Mylanguage", MyLanguage);
 
 							ourIntent.putExtra("scroolY", webview.getScrollY());
 							ourIntent.putExtra("fontSize", fontSize);
