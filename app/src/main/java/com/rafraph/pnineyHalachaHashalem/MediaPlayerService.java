@@ -75,7 +75,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     Intent serviceIntent;
     boolean wasPlaying = false;
 
-    public static final String Broadcast_SERVICE_SKIP_NEXT = "com.rafraph.pnineyHalachaHashalem.ServiceSkipNext";
+    public static final String Broadcast_SERVICE_SKIP_NEXT = "com.rafraph.ph_beta.ServiceSkipNext";
     public   static float speed=1f;
     private static final int BRACHOT      	= 0;
     private static final int HAAMVEHAAREZ 	= 1;

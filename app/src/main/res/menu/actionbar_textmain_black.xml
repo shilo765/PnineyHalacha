@@ -11,7 +11,7 @@
           android:title="@string/checklist_icon"
           app:showAsAction="always"/>
     <item android:id="@+id/action_config"
-          android:icon="@drawable/ic_action_config_black"
+          android:icon="@drawable/ic_action_config"
           android:title="@string/action_config"
           app:showAsAction="always"/>
     

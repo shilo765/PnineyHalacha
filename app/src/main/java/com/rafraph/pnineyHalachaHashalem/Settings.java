@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 
 public class Settings extends Activity 
 {

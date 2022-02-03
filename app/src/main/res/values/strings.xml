@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">פניני הלכה</string>
+    <string name="app_name">פניני הלכה </string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_search">Search</string>
@@ -25,7 +25,7 @@
     <string name="Chapters">Chapters</string>
     <string name="title_activity_bookmarks">BookmarksActivity</string>
     <string name="title_activity_bookmark">BookmarkActivity</string>
-    <string name="version"><b><u>גירסה 3.2</u></b></string>
+    <string name="version"><b><u>גירסא 4</u></b></string>
     <string-array name="speed_array">
         <item>1</item>
         <item>2</item>

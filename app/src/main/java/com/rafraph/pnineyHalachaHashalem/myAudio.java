@@ -14,13 +14,9 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.os.IBinder;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
 import android.text.format.Time;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -44,13 +40,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+
 import android.os.Handler;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -65,57 +60,55 @@ import org.jsoup.select.Elements;
 
 
 public class myAudio extends Activity implements AdapterView.OnItemSelectedListener {
-    private static  int API ;
+    private static int API;
 
     /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30*/
     public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
     String[][] chaptersNames = new String[BOOKS_NUMBER][31];
-    private static final int BRACHOT      	= 0;
-    private static final int HAAMVEHAAREZ 	= 1;
-    private static final int ZMANIM    		= 2;
-    private static final int TAHARAT   		= 3;
-    private static final int YAMIM    		= 4;
-    private static final int KASHRUT_A 		= 5;
-    private static final int KASHRUT_B 		= 6;
-    private static final int LIKUTIM_A 		= 7;
-    private static final int LIKUTIM_B 		= 8;
-    private static final int MOADIM    		= 9;
-    private static final int MISHPACHA   	= 10;
-    private static final int SUCOT			= 11;
-    private static final int PESACH			= 12;
-    private static final int SHVIIT			= 13;
-    private static final int SHABAT			= 14;
-    private static final int SIMCHAT		= 15;
-    private static final int TEFILA			= 16;
-    private static final int TEFILAT_NASHIM	= 17;
-    private static final int HAR_BRACHOT    = 18;
-    private static final int HAR_YAMIM      = 19;
-    private static final int HAR_MOADIM     = 20;
-    private static final int HAR_SUCOT      = 21;
-    private static final int HAR_SHABAT     = 22;
-    private static final int HAR_SIMCHAT    = 23;
-    private static final int BOOKS_HEB_NUMBER	= 24;
-    private static final int E_TEFILA       = 24;
-    private static final int E_PESACH       = 25;
-    private static final int E_ZMANIM       = 26;
+    private static final int BRACHOT = 0;
+    private static final int HAAMVEHAAREZ = 1;
+    private static final int ZMANIM = 2;
+    private static final int TAHARAT = 3;
+    private static final int YAMIM = 4;
+    private static final int KASHRUT_A = 5;
+    private static final int KASHRUT_B = 6;
+    private static final int LIKUTIM_A = 7;
+    private static final int LIKUTIM_B = 8;
+    private static final int MOADIM = 9;
+    private static final int MISHPACHA = 10;
+    private static final int SUCOT = 11;
+    private static final int PESACH = 12;
+    private static final int SHVIIT = 13;
+    private static final int SHABAT = 14;
+    private static final int SIMCHAT = 15;
+    private static final int TEFILA = 16;
+    private static final int TEFILAT_NASHIM = 17;
+    private static final int HAR_BRACHOT = 18;
+    private static final int HAR_YAMIM = 19;
+    private static final int HAR_MOADIM = 20;
+    private static final int HAR_SUCOT = 21;
+    private static final int HAR_SHABAT = 22;
+    private static final int HAR_SIMCHAT = 23;
+    private static final int BOOKS_HEB_NUMBER = 24;
+    private static final int E_TEFILA = 24;
+    private static final int E_PESACH = 25;
+    private static final int E_ZMANIM = 26;
     private static final int E_WOMEN_PRAYER = 27;
-    private static final int E_SHABAT       = 28;
-    private static final int F_TEFILA       = 29;
-    private static final int S_SHABAT       = 30;
-    private static final int BOOKS_NUMBER	= 31;
-    private static final int HEBREW	 = 0;
+    private static final int E_SHABAT = 28;
+    private static final int F_TEFILA = 29;
+    private static final int S_SHABAT = 30;
+    private static final int BOOKS_NUMBER = 31;
+    private static final int HEBREW = 0;
     private static final int ENGLISH = 1;
     private static final int RUSSIAN = 2;
     private static final int SPANISH = 3;
     private static final int FRENCH = 4;
+    public boolean firstChap = true;
     float speed;
     String fileName, fileNameOnly, lastFileName = null;
-    public TextView duration,duration2, bufferingPercent;
+    public TextView duration, duration2;
     private double timeElapsed = 0, finalTime = 0;
-    private int forwardTime = 10000, backwardTime = 10000;
-    private Handler durationHandler = new Handler();
     private SeekBar seekbar;
-    private int mediaFileLengthInMilliseconds;
     private char playing = 0;//0-not playing 1-playing
     ImageButton buttonPlayPause;
     ImageButton buttonPrevious;
@@ -124,13 +117,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private int chapter;
     private int section;
     ArrayList<String> sections;
-    private String url;
     View view;
     Elements headers;
     Document doc = null;
     private Spinner spinner;
-    private final Handler handler = new Handler();
-    static public ActionBar textActionBar;
     private String header;
     public ListView listview;
     public String book_name;
@@ -154,36 +144,29 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public static final String Broadcast_Speed = "com.rafraph.pnineyHalachaHashalem.Speed";
     public static WebView webview;
     public static WebSettings webSettings;
-    public  static Context context;
+    public static Context context;
     public Boolean hearAndRead;
     public static final String PREFS_NAME = "MyPrefsFile";
     static SharedPreferences mPrefs;
     SharedPreferences.Editor shPrefEditor;
-    public int BlackBackground=0, SleepScreen=1, cbFullScreen=1, cbAssistButtons=1;
-    public float[] sppedArray={2f,1.5f,1f,0.75f};
-    static MenuInflater inflater;
-    public Toast actionToast=null;
-    public Time lastTouce=new Time();
-    public String innerSearchText;
-    public Dialog  innerSearchDialog,bookmarkDialog,acronymsDialog,autoScrollDialog;
+    public int BlackBackground = 0;
+    public float[] sppedArray = {2f, 1.5f, 1f, 0.75f};
+    public String innerSearchText, webLink;
+    public Dialog innerSearchDialog, bookmarkDialog, acronymsDialog, autoScrollDialog;
     public int MyLanguage;
-    public EditText TextToSearch, BookmarkName,TextToDecode;
-    private LinearLayout lnrOptions, lnrFindOptions;
+    public EditText TextToSearch, BookmarkName, TextToDecode;
     public Spinner spinnerAddMark, spinnerAutoScroll;
     public String strBookmark, Bookmarks;
-    public boolean isTouch=false;
-    public int fontSize=18;
+    public int fontSize = 18;
     public LayoutInflater inf;
     public View infView;
     public RelativeLayout rl;
-    public String  acronymsText;
-    private TimerTask timerTask;
-    public Date time=new Date();
+    public String acronymsText;
+    public Date time = new Date();
+    public float lastScrool = 0;
 
 
-
-    void ParseTheDoc()
-    {
+    void ParseTheDoc() {
         String prefix;
         InputStream is;
         int size;
@@ -191,13 +174,11 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         String input;
 
         fileName = getClearUrl();
-        if ((fileName.equals(lastFileName) == false))
-        {
+        if ((fileName.equals(lastFileName) == false)) {
             lastFileName = fileName;
             prefix = "file:///android_asset/";
             fileNameOnly = fileName.substring(prefix.length());
-            try
-            {
+            try {
                 is = getAssets().open(fileNameOnly);
                 size = is.available();
                 buffer = new byte[size];
@@ -211,88 +192,83 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             }
         }
     }
-    private String getClearUrl()
-    {
+
+    private String getClearUrl() {
         String ClearUrl;
         ClearUrl = webview.getUrl();
-        ClearUrl = ClearUrl.substring(0, ClearUrl.indexOf(".html")+5);
+        ClearUrl = ClearUrl.substring(0, ClearUrl.indexOf(".html") + 5);
         return ClearUrl;
     }
-    public void  setNoteId(String id)
-    {
-        note_id=id;
+
+    public void setNoteId(String id) {
+        note_id = id;
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         // TODO Auto-generated method stub
-            if (ev.getY()>350 &&ev.getY()<1800) {
+        if (hearAndRead)
+            if (ev.getY() > 350 && ev.getY() < 1800 && lastScrool != webview.getScrollY()) {
                 infView.setVisibility(View.INVISIBLE);
                 webview.setY(0);
-                //infView.setVisibility(View.VISIBLE);
+                lastScrool = webview.getScrollY();
+
             }
-                //rl.removeView(infView);
-                //isTouch=true;
-            //createActionBar();
-            //infView.setVisibility(View.GONE);
-
-            return super.dispatchTouchEvent(ev);
-
-
+        return super.dispatchTouchEvent(ev);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        int count=0;
         super.onCreate(savedInstanceState);
+        extras = getIntent().getExtras();
+        MyLanguage = extras.getInt("MyLanguage");
+        hearAndRead = extras.getBoolean("hearAndRead");
         //PRAPRE TO READ AND LISTEN VIEW
-        setContentView(R.layout.text_main_audio);
+        if (hearAndRead)
+            setContentView(R.layout.text_main_audio);
+        else
+            setContentView(R.layout.activity_audio);
         mPrefs = getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();
-        inf=getLayoutInflater();
-        infView=inf.inflate(R.layout.tochen_actionbar_lay, null);
-        rl=(RelativeLayout)findViewById(R.id.content);
-        infView.setVisibility(View.VISIBLE);
-        rl.addView(infView);
-
+        if (hearAndRead) {
+            inf = getLayoutInflater();
+            infView = inf.inflate(R.layout.tochen_actionbar_lay, null);
+            rl = (RelativeLayout) findViewById(R.id.content);
+            infView.setVisibility(View.VISIBLE);
+            rl.addView(infView);
+        }
         context = this;
-        extras = getIntent().getExtras();
-        MyLanguage=extras.getInt("MyLanguage");
-        hearAndRead=extras.getBoolean("hearAndRead");
+
         //to swich to read and hear mode change here and 269+- to if(true)
         if (hearAndRead) {
 
-            webview=(WebView)  findViewById(R.id.webView1);
-            webSettings=webview.getSettings();
+            webview = (WebView) findViewById(R.id.webView1);
+            webSettings = webview.getSettings();
             webSettings.setMinimumFontSize(20);
             webSettings.setDefaultTextEncodingName("utf-8");
             webSettings.setJavaScriptEnabled(true);
             webSettings.setSupportZoom(true);
             API = android.os.Build.VERSION.SDK_INT;
-            if(API < 19)
+            if (API < 19)
                 webSettings.setBuiltInZoomControls(true);
-
-            //resources = getResources();
             webview.requestFocusFromTouch();
             webview.getSettings().setAllowFileAccess(true);
-
-            webview.loadUrl(getIntent().getStringExtra("webLink"));
-            //webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left\"); y[0].style.display = 'none';} myFunction(); ");
-            //webview.setBackgroundColor(Color.BLACK);
-
+            webLink = getIntent().getStringExtra("webLink");
+            webview.loadUrl(webLink);
+            webview.setY(80);
             BlackBackground = mPrefs.getInt("BlackBackground", 0);
-            if(BlackBackground==1) {            webview.setWebViewClient(new WebViewClient() {
-                public void onPageFinished(WebView view, String url) {
-                    view.loadUrl(
-                            "javascript:document.body.style.setProperty(\"color\", \"white\");"
-                    );
-                }
-            });
+            if (BlackBackground == 1) {
+                webview.setWebViewClient(new WebViewClient() {
+                    public void onPageFinished(WebView view, String url) {
+                        view.loadUrl(
+                                "javascript:document.body.style.setProperty(\"color\", \"white\");"
+                        );
+                    }
+                });
                 webview.setBackgroundColor(Color.BLACK);//black
                 infView.setBackgroundColor(Color.BLACK);
             }
 
-
-            //webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"black\";} myFunction(); ");
             final Runnable runnableNote = new Runnable() {
                 public void run() {
                     String note, content = null;
@@ -301,35 +277,36 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     WebView webviewNote;
                     WebSettings webSettingsNote;
                     dialog.setContentView(R.layout.note);
-                    intNoteId = Integer.parseInt(note_id)-1000;
+                    intNoteId = Integer.parseInt(note_id) - 1000;
                     note_id = Integer.toString(intNoteId);
-                    dialog.setTitle("        הערה "+note_id);
+                    dialog.setTitle("        הערה " + note_id);
                     webviewNote = (WebView) dialog.findViewById(R.id.webViewNote1);
                     webSettingsNote = webviewNote.getSettings();
                     webSettingsNote.setDefaultTextEncodingName("utf-8");
                     webviewNote.requestFocusFromTouch();
-                    if(API < 19)
+                    if (API < 19)
                         webSettingsNote.setBuiltInZoomControls(true);
 
-                    content =  "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"+
-                            "<html><head>"+
-                            "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />"+
+                    content = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
+                            "<html><head>" +
+                            "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />" +
                             "<head>";
-                    content += "<body>";//White background
+                    if (mPrefs.getInt("BlackBackground", 0) == 0)
+                        content += "<body>";//White background
+                    else
+                        content += "<body style=\"background-color:black;color:white\">";//Black background
+
                     ParseTheDoc();
-                    headers = doc.select("div#ftn"+1);
+                    headers = doc.select("div#ftn" + 1);
                     note = headers.get(0).text();
-                    //note = note.substring(6);//in order to remove the prefix of the note. something like [1]
                     content += "<p dir=\"RTL\">" + note + "</p> </body></html>";
                     webviewNote.loadData(content, "text/html; charset=utf-8", "UTF-8");
                     webSettingsNote.setDefaultFontSize(18);
                     dialog.show();
 
-                    dialog.setOnCancelListener(new DialogInterface.OnCancelListener()
-                    {
+                    dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
-                        public void onCancel(DialogInterface dialog)
-                        {
+                        public void onCancel(DialogInterface dialog) {
                             //do whatever you want the back key to do
                             dialog.dismiss();
 
@@ -337,46 +314,30 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     });
                 }
             };
-            final Runnable runnableAudio = new Runnable()
-            {
-                public void run()
-                {
+            final Runnable runnableAudio = new Runnable() {
+                public void run() {
                     sendSectionIdAndPlay(Integer.parseInt(audio_id));
                 }
             };
-            webview.addJavascriptInterface(new Object()
-            {
+            webview.addJavascriptInterface(new Object() {
                 @JavascriptInterface
-                public <var> void performClick(String id)
-                {
+                public <var> void performClick(String id) {
                     setNoteId(id);
                     runOnUiThread(runnableNote);
-
-
                 }
             }, "ok");
-            webview.addJavascriptInterface(new Object()
-            {
+            webview.addJavascriptInterface(new Object() {
                 @JavascriptInterface
-                public void performClick(String id)
-                {
-
+                public void performClick(String id) {
                     setAudioId(id);
                     runOnUiThread(runnableAudio);
-
-                    playing=0;
+                    playing = 0;
                     playPause(view);
-
-
                 }
             }, "audio");
-
             createActionBar();
-
-
         }
-        else
-            setContentView(R.layout.activity_audio);
+
         firstCall = true;
         registerAllBroadcast();
         initializeViews();
@@ -385,30 +346,20 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         sections = new ArrayList<String>();
         book = extras.getInt("book_id");
         chapter = extras.getInt("chapter_id");
-        if(hearAndRead) {
+        if (hearAndRead) {
             int scroolYto = extras.getInt("scroolY");
-            webview.scrollTo(0,scroolYto-90);
+            webview.scrollTo(0, scroolYto - 90);
             fontSize = extras.getInt("fontSize");
             webSettings.setMinimumFontSize(fontSize);
-;
-            //l1.setAlpha(0);
 
         }
 
-        if(book == KASHRUT_B)//KASHRUT_B is starting from chapter 20
+        if (book == KASHRUT_B)//KASHRUT_B is starting from chapter 20
             chapter += 19;
         section = extras.getInt("audio_id");
-
-        sections = extras.getStringArrayList("sections_"+chapter);
-
+        sections = extras.getStringArrayList("sections_" + chapter);
         book_name = get_book_name_by_id();
-        playerInfo.setText(book_name + " " +   convert_character_to_id(chapter)+", "+convert_character_to_id(section));
-
-
-
-
-
-
+        playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section));
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
 
         for (int i = 0; i < sections.size(); i++) {
@@ -417,9 +368,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             aList.add(hm);
         }
 
-        String[] from = { "listview_title"};
+        String[] from = {"listview_title"};
         int[] to = {R.id.listview_item_title};
-
         SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
         listview = (ListView) findViewById(R.id.list_view);
         listview.setAdapter(simpleAdapter);
@@ -429,17 +379,15 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 listview.setSelected(true);
                 listview.setSelection(position);
                 if (clickOnItemFromList == true)
-                    sendSectionIdAndPlay(position+1);
+                    sendSectionIdAndPlay(position + 1);
                 playPause(view);
                 clickOnItemFromList = true;//change it back to true. In cases that it is not came directly from click om list item, it will be changed to false in this cases
             }
         });
-        buttonNext = (ImageButton)findViewById(R.id.media_next);
-        buttonPrevious = (ImageButton)findViewById(R.id.media_prev);
-
-
+        buttonNext = (ImageButton) findViewById(R.id.media_next);
+        buttonPrevious = (ImageButton) findViewById(R.id.media_prev);
         initializeSeekBar();
-        while(playing == 1){
+        while (playing == 1) {
             try {
                 wait(1000);
                 Intent broadcastIntent = new Intent(Broadcast_FORWARD_10);
@@ -449,66 +397,70 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 e.printStackTrace();
             }
         }
-        spinner=findViewById(R.id.myspinner);
+        spinner = findViewById(R.id.myspinner);
         spinner.setSelected(true);
-        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this,R.array.speed_audio_array, android.R.layout.simple_list_item_1 );
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.speed_audio_array, android.R.layout.simple_list_item_1);
         adapter.setDropDownViewResource((android.R.layout.simple_list_item_1));
         spinner.setAdapter(adapter);
         spinner.setSelection(2);
-
-        spinner.setOnItemSelectedListener( this);
+        spinner.setOnItemSelectedListener(this);
         Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
         sendBroadcast(broadcastIntent);
         broadcastIntent = new Intent(Broadcast_Speed);
-        int choice=spinner.getSelectedItemPosition();
-        speed=sppedArray[choice];
-        broadcastIntent.putExtra("speed",speed);
-        if (playing==0)
-            broadcastIntent.putExtra("play",0);
+        int choice = spinner.getSelectedItemPosition();
+        speed = sppedArray[choice];
+        broadcastIntent.putExtra("speed", speed);
+        if (playing == 0)
+            broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
-        refresh(1000);
+        refresh(2000);
     }
 
-    private void refresh(int millisec){
-        final Handler handler=new Handler();
-        final Runnable runnable=new Runnable() {
+    private void refresh(int millisec) {
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 content();
             }
         };
-        handler.postDelayed(runnable,millisec);
+        handler.postDelayed(runnable, millisec);
     }
-    public void content()
-    {
 
-        infView.setVisibility(View.VISIBLE);
-        webview.setY(80);
-        if(mPrefs.getInt("BlackBackground", 0)==1) {
-            webview.loadUrl(
-                    "javascript:document.body.style.setProperty(\"color\", \"white\");"
-            );
-            webview.setBackgroundColor(Color.BLACK);
-            infView.setBackgroundColor(Color.BLACK);
-        }
-        else{
-            webview.loadUrl(
-                    "javascript:document.body.style.setProperty(\"color\", \"black\");"
-            );
-            webview.setBackgroundColor(Color.WHITE);
-            infView.setBackgroundColor(Color.WHITE);
-        }
+    public void content() {
+        if (hearAndRead) {
+            webview.loadUrl(webLink.substring(0, webLink.lastIndexOf('_')) + "_" + (chapter) + ".html");
+            infView.setVisibility(View.VISIBLE);
+            if (webview.getScrollY() == 0)
+                webview.setY(80);
+            if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                webview.loadUrl(
+                        "javascript:document.body.style.setProperty(\"color\", \"white\");"
+                );
+                webview.setBackgroundColor(Color.BLACK);
 
-        refresh(1000);
+                infView.setBackgroundColor(Color.BLACK);
+            } else {
+                webview.loadUrl(
+                        "javascript:document.body.style.setProperty(\"color\", \"black\");"
+                );
+                webview.setBackgroundColor(Color.WHITE);
+                infView.setBackgroundColor(Color.WHITE);
+            }
+
+            refresh(2000);
+        }
     }
-    public  void createActionBar(){
+
+    public void createActionBar() {
         infView.setVisibility(View.VISIBLE);
-        ImageButton searchBtn=infView.findViewById(R.id.searchBtn);
-        final ImageButton searchBtnDown=infView.findViewById(R.id.ibFindNext);
-        final ImageButton searchBtnUp=infView.findViewById(R.id.ibFindPrevious);
-        final ImageButton addBookMark=infView.findViewById(R.id.action_add_bookmark);
-        final ImageButton config=infView.findViewById(R.id.action_config);
-        final ImageButton scrollBtn=infView.findViewById(R.id.action_auto_scrool);
+        ImageButton searchBtn = infView.findViewById(R.id.searchBtn);
+        final ImageButton searchBtnDown = infView.findViewById(R.id.ibFindNext);
+        final ImageButton searchBtnUp = infView.findViewById(R.id.ibFindPrevious);
+        final ImageButton addBookMark = infView.findViewById(R.id.action_add_bookmark);
+
+        final ImageButton config = infView.findViewById(R.id.action_config);
+        final ImageButton scrollBtn = infView.findViewById(R.id.action_auto_scrool);
         searchBtnDown.setVisibility(View.GONE);
         searchBtnUp.setVisibility(View.GONE);
         config.setOnClickListener(new View.OnClickListener() {
@@ -542,13 +494,13 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         addBookMark.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 bookmarkDialog = new Dialog(context);
-                if(MyLanguage == ENGLISH)
+                if (MyLanguage == ENGLISH)
                     bookmarkDialog.setContentView(R.layout.add_bookmark_english);
-                else if(MyLanguage == RUSSIAN)
+                else if (MyLanguage == RUSSIAN)
                     bookmarkDialog.setContentView(R.layout.add_bookmark_russian);
-                else if(MyLanguage == SPANISH)
+                else if (MyLanguage == SPANISH)
                     bookmarkDialog.setContentView(R.layout.add_bookmark_spanish);
-                else if(MyLanguage == FRENCH)
+                else if (MyLanguage == FRENCH)
                     bookmarkDialog.setContentView(R.layout.add_bookmark_french);
                 else
                     bookmarkDialog.setContentView(R.layout.add_bookmark);
@@ -559,11 +511,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 BookmarkName = (EditText) bookmarkDialog.findViewById(R.id.editTextBookmarkName);
 
                 // if button is clicked, close the custom dialog
-                dialogButton.setOnClickListener(new View.OnClickListener()
-                {
+                dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v)
-                    {
+                    public void onClick(View v) {
                         int index = 0, index_end = 0;
                         String bookmarkText = BookmarkName.getText().toString();
                         bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
@@ -571,41 +521,37 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         strBookmark = bookmarkText + "," + book + "," + chapter + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
 
                         Bookmarks = mPrefs.getString("Bookmarks", "");
-                        if((index = Bookmarks.indexOf(bookmarkText))!=-1)/*if there is already bookmark with the same name override it*/
-                        {
+                        if ((index = Bookmarks.indexOf(bookmarkText)) != -1)/*if there is already bookmark with the same name override it*/ {
                             index_end = index;
-                            for(int i=0; i<5; i++)
-                            {
-                                if(Bookmarks.indexOf(",", index_end+1) != -1)
+                            for (int i = 0; i < 5; i++) {
+                                if (Bookmarks.indexOf(",", index_end + 1) != -1)
                                     index_end = Bookmarks.indexOf(",", index_end + 1);
                                 else/*in case that this is the last bookmark*/
                                     index_end = Bookmarks.length();
                             }
                             Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
-                            if(MyLanguage == ENGLISH)
-                                Toast.makeText(getApplicationContext(),	"Existing bookmark updated", Toast.LENGTH_SHORT).show();
-                            else if(MyLanguage == RUSSIAN)
-                                Toast.makeText(getApplicationContext(),	"Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
-                            else if(MyLanguage == SPANISH)
-                                Toast.makeText(getApplicationContext(),	"Marcador existente actualizado", Toast.LENGTH_SHORT).show();
-                            else if(MyLanguage == FRENCH)
-                                Toast.makeText(getApplicationContext(),	"Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
+                            if (MyLanguage == ENGLISH)
+                                Toast.makeText(getApplicationContext(), "Existing bookmark updated", Toast.LENGTH_SHORT).show();
+                            else if (MyLanguage == RUSSIAN)
+                                Toast.makeText(getApplicationContext(), "Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
+                            else if (MyLanguage == SPANISH)
+                                Toast.makeText(getApplicationContext(), "Marcador existente actualizado", Toast.LENGTH_SHORT).show();
+                            else if (MyLanguage == FRENCH)
+                                Toast.makeText(getApplicationContext(), "Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
                             else
-                                Toast.makeText(getApplicationContext(),	"הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
+                                Toast.makeText(getApplicationContext(), "הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
+                        } else {
                             Bookmarks += "," + strBookmark;
-                            if(MyLanguage == ENGLISH)
-                                Toast.makeText(getApplicationContext(),	"New bookmark created", Toast.LENGTH_SHORT).show();
-                            else if(MyLanguage == RUSSIAN)
-                                Toast.makeText(getApplicationContext(),	"Создана новая закладка", Toast.LENGTH_SHORT).show();
-                            else if(MyLanguage == SPANISH)
-                                Toast.makeText(getApplicationContext(),	"Nuevo marcador creado", Toast.LENGTH_SHORT).show();
-                            else if(MyLanguage == FRENCH)
-                                Toast.makeText(getApplicationContext(),	"Nouveau signet créé", Toast.LENGTH_SHORT).show();
+                            if (MyLanguage == ENGLISH)
+                                Toast.makeText(getApplicationContext(), "New bookmark created", Toast.LENGTH_SHORT).show();
+                            else if (MyLanguage == RUSSIAN)
+                                Toast.makeText(getApplicationContext(), "Создана новая закладка", Toast.LENGTH_SHORT).show();
+                            else if (MyLanguage == SPANISH)
+                                Toast.makeText(getApplicationContext(), "Nuevo marcador creado", Toast.LENGTH_SHORT).show();
+                            else if (MyLanguage == FRENCH)
+                                Toast.makeText(getApplicationContext(), "Nouveau signet créé", Toast.LENGTH_SHORT).show();
                             else
-                                Toast.makeText(getApplicationContext(),	"סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
                         }
                         shPrefEditor.putString("Bookmarks", Bookmarks);
                         shPrefEditor.commit();
@@ -618,104 +564,81 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
                 addItemsOnSpinner();
 
-                spinnerAddMark.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-                {
-                    boolean first=true;
-                    public void onItemSelected(AdapterView<?> parent, View view, int pos,long id)
-                    {
-                        if (first==false)
+                spinnerAddMark.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    boolean first = true;
+
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                        if (first == false)
                             BookmarkName.setText(parent.getItemAtPosition(pos).toString());
                         first = false;
                     }
 
-                    public void onNothingSelected(AdapterView<?> arg0)
-                    {
+                    public void onNothingSelected(AdapterView<?> arg0) {
                         // do nothing
                     }
                 });
-
                 bookmarkDialog.show();
-
             }
-            //LinearLayout ln=(LinearLayout)findViewById(R.id.try233);
-            //ln.addView(infView);
-            //  Toast actionToast=new Toast(getApplicationContext());
-            //actionToast.setView(infView);
-            //actionToast.setDuration(Toast.LENGTH_LONG);
-            //actionToast.setGravity(Gravity.TOP|Gravity.RIGHT,0,0);
-            //actionToast.show();
-
         });
     }
-    int scrollSpeed=1;
-    private Handler mHandler=new Handler();
-    public Runnable mScrollDown = new Runnable()
-    {
-        public void run()
-        {
-            if(scrollSpeed == 0) // in case of note opened
+
+    int scrollSpeed = 1;
+    private Handler mHandler = new Handler();
+    public Runnable mScrollDown = new Runnable() {
+        public void run() {
+            if (scrollSpeed == 0) // in case of note opened
             {
                 mHandler.postDelayed(this, 200);
-            }
-            else if(scrollSpeed == -1) // in case that "stop" pressed
+            } else if (scrollSpeed == -1) // in case that "stop" pressed
             {
                 webview.scrollBy(0, 0);
-            }
-            else
-            {
+            } else {
                 webview.scrollBy(0, 1);
-                mHandler.postDelayed(this, 200/scrollSpeed);
+                mHandler.postDelayed(this, 200 / scrollSpeed);
             }
         }
     };
-    private void showPopupAutoScroolSettings(View v)
-    {
+
+    private void showPopupAutoScroolSettings(View v) {
         PopupMenu popupMenu = new PopupMenu(myAudio.this, v);
 
         String configHeaders[] = new String[7];
-        if(MyLanguage == ENGLISH) {
+        if (MyLanguage == ENGLISH) {
             configHeaders[0] = "Play";
             configHeaders[1] = "Stop";
             configHeaders[2] = "Set speed";
-        }
-        else if(MyLanguage == RUSSIAN) {
+        } else if (MyLanguage == RUSSIAN) {
             configHeaders[0] = "Играть";
             configHeaders[1] = "Cтоп";
             configHeaders[2] = "Yстановить скорость";
 
-        }
-        else if(MyLanguage == SPANISH) {
+        } else if (MyLanguage == SPANISH) {
             configHeaders[0] = "Desplazamiento automatico";
             configHeaders[1] = "Parar";
             configHeaders[2] = "Seleccionar velocidad";
 
-        }
-        else if(MyLanguage == FRENCH) {
+        } else if (MyLanguage == FRENCH) {
             configHeaders[0] = "Demarrer";
             configHeaders[1] = "Stop";
             configHeaders[2] = "Selectionner la vitesse";
 
-        }
-        else {/*this is the default*/
+        } else {/*this is the default*/
             configHeaders[0] = "הפעל";
             configHeaders[1] = "עצור";
             configHeaders[2] = "קבע מהירות";
         }
 
-        popupMenu.getMenu().add(0,0,0,configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
-        popupMenu.getMenu().add(0,1,1,configHeaders[1]);
-        popupMenu.getMenu().add(0,2,2,configHeaders[2]);
+        popupMenu.getMenu().add(0, 0, 0, configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
+        popupMenu.getMenu().add(0, 1, 1, configHeaders[1]);
+        popupMenu.getMenu().add(0, 2, 2, configHeaders[2]);
 
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
-        {
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item)
-            {
+            public boolean onMenuItemClick(MenuItem item) {
                 WebSettings webSettings = webview.getSettings();
                 fontSize = webSettings.getDefaultFontSize();
-                switch (item.getItemId())
-                {
+                switch (item.getItemId()) {
                     case 0:
                         scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
                         runOnUiThread(mScrollDown);
@@ -735,24 +658,20 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
         popupMenu.show();
     }
-    void autoScrollSpeedDialog()
-    {
+
+    void autoScrollSpeedDialog() {
         final Context context = this;
 
         // custom dialog
         autoScrollDialog = new Dialog(context);
         autoScrollDialog.setContentView(R.layout.auto_scroll);
         autoScrollDialog.setTitle("מהירות גלילה אוטומטית");
-
         Button dialogButton = (Button) autoScrollDialog.findViewById(R.id.dialogButtonOK);
-
         // if button is clicked
-        dialogButton.setOnClickListener(new View.OnClickListener()
-        {
+        dialogButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NewApi")
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 autoScrollDialog.dismiss();
             }
         });
@@ -776,12 +695,11 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     }
 
-    private void showPopupMenuSettings(View v)
-    {
+    private void showPopupMenuSettings(View v) {
         PopupMenu popupMenu = new PopupMenu(myAudio.this, v);
 
         String configHeaders[] = new String[7];
-        if(MyLanguage == ENGLISH) {
+        if (MyLanguage == ENGLISH) {
             configHeaders[0] = "Settings";
             configHeaders[1] = "About";
             configHeaders[2] = "Feedback";
@@ -789,8 +707,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             configHeaders[4] = "Acronyms";
             configHeaders[5] = "Zoom in";
             configHeaders[6] = "Zoom out";
-        }
-        else if(MyLanguage == RUSSIAN) {
+        } else if (MyLanguage == RUSSIAN) {
             configHeaders[0] = "Настройки";
             configHeaders[1] = "Около";
             configHeaders[2] = "Обратная связь";
@@ -798,8 +715,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             configHeaders[4] = "Абревиатуры";
             configHeaders[5] = "Увеличить шрифт";
             configHeaders[6] = "Уменьшить шрифт";
-        }
-        else if(MyLanguage == SPANISH) {
+        } else if (MyLanguage == SPANISH) {
             configHeaders[0] = "Ajustes";
             configHeaders[1] = "Acerca de";
             configHeaders[2] = "Comentarios";
@@ -807,8 +723,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             configHeaders[4] = "Acronimos";
             configHeaders[5] = "Aumentar enfoque";
             configHeaders[6] = "Disminuir enfoque";
-        }
-        else if(MyLanguage == FRENCH) {
+        } else if (MyLanguage == FRENCH) {
             configHeaders[0] = "Definitions";
             configHeaders[1] = "A Propos de…";
             configHeaders[2] = "Commentaires";
@@ -816,8 +731,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             configHeaders[4] = "Acronymes";
             configHeaders[5] = "Zoom avant";
             configHeaders[6] = "Zoom arrière";
-        }
-        else {/*this is the default*/
+        } else {/*this is the default*/
             configHeaders[0] = "הגדרות";
             configHeaders[1] = "אודות";
             configHeaders[2] = "משוב";
@@ -827,72 +741,56 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             configHeaders[6] = "הקטן טקסט";
         }
 
-        popupMenu.getMenu().add(0,0,0,configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
-        popupMenu.getMenu().add(0,1,1,configHeaders[1]);
-        popupMenu.getMenu().add(0,2,2,configHeaders[2]);
-        popupMenu.getMenu().add(0,3,3,configHeaders[3]);
-        popupMenu.getMenu().add(0,4,4,configHeaders[4]);
-        if(API >= 19)
-        {
-            popupMenu.getMenu().add(0,5,5,configHeaders[5]);
-            popupMenu.getMenu().add(0,6,6,configHeaders[6]);
+        popupMenu.getMenu().add(0, 0, 0, configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
+        popupMenu.getMenu().add(0, 1, 1, configHeaders[1]);
+        popupMenu.getMenu().add(0, 2, 2, configHeaders[2]);
+        popupMenu.getMenu().add(0, 3, 3, configHeaders[3]);
+        popupMenu.getMenu().add(0, 4, 4, configHeaders[4]);
+        if (API >= 19) {
+            popupMenu.getMenu().add(0, 5, 5, configHeaders[5]);
+            popupMenu.getMenu().add(0, 6, 6, configHeaders[6]);
         }
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
-        {
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item)
-            {
+            public boolean onMenuItemClick(MenuItem item) {
                 WebSettings webSettings = webview.getSettings();
                 fontSize = webSettings.getDefaultFontSize();
-                switch (item.getItemId())
-                {
+                switch (item.getItemId()) {
                     case 0:/*settings*/
-                        try
-                        {
+                        try {
                             Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Settings");
                             Intent ourIntent = new Intent(myAudio.this, ourClass);
                             startActivity(ourIntent);
-                        }
-                        catch (ClassNotFoundException e)
-                        {
+                        } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         }
                         break;
                     case 1:/*about*/
-                        try
-                        {
+                        try {
                             Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
                             Intent ourIntent = new Intent(myAudio.this, ourClass);
                             startActivity(ourIntent);
-                        }
-                        catch (ClassNotFoundException e)
-                        {
+                        } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         }
 
                         break;
                     case 2:/*Feedback*/
-                        try
-                        {
+                        try {
                             Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
                             Intent ourIntent = new Intent(myAudio.this, ourClass);
                             startActivity(ourIntent);
-                        }
-                        catch (ClassNotFoundException e)
-                        {
+                        } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         }
                         break;
                     case 3:/*Explanation for Search*/
-                        try
-                        {
+                        try {
                             Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
                             Intent ourIntent = new Intent(myAudio.this, ourClass);
                             startActivity(ourIntent);
-                        }
-                        catch (ClassNotFoundException e)
-                        {
+                        } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         }
                         break;
@@ -900,86 +798,84 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         acronymsDecode();
                         break;
                     case 5:/*increase text*/
-                        if(fontSize <= 47) {
+                        if (fontSize <= 47) {
                             fontSize += 3;
                             webSettings.setDefaultFontSize(fontSize);
                             shPrefEditor.putInt("fontSize", fontSize);
                             shPrefEditor.commit();
-                            switch (MyLanguage){
+                            switch (MyLanguage) {
                                 case ENGLISH:
-                                    Toast.makeText(getApplicationContext(),	"Font size - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Font size - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 case RUSSIAN:
-                                    Toast.makeText(getApplicationContext(),	"Размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Размер шрифта - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 case SPANISH:
-                                    Toast.makeText(getApplicationContext(),	"Tamaño de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Tamaño de fuente - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 case FRENCH:
-                                    Toast.makeText(getApplicationContext(),	"Taille de police - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Taille de police - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 default:
-                                    Toast.makeText(getApplicationContext(),	"גודל גופן - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "גודל גופן - " + fontSize, Toast.LENGTH_SHORT).show();
                             }
-                        }
-                        else{
-                            switch (MyLanguage){
+                        } else {
+                            switch (MyLanguage) {
                                 case ENGLISH:
-                                    Toast.makeText(getApplicationContext(),	"Maximum font size - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Maximum font size - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 case RUSSIAN:
-                                    Toast.makeText(getApplicationContext(),	"Максимальный размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Максимальный размер шрифта - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 case SPANISH:
-                                    Toast.makeText(getApplicationContext(),	"Tamaño máximo de la fuente - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Tamaño máximo de la fuente - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 case FRENCH:
-                                    Toast.makeText(getApplicationContext(),	"Taille maximale de la police - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Taille maximale de la police - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 default:
-                                    Toast.makeText(getApplicationContext(),	"גודל גופן מקסימלי", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "גודל גופן מקסימלי", Toast.LENGTH_SHORT).show();
                             }
                         }
                         break;
                     case 6:/*decrease text*/
-                        if(fontSize >= 10 ) {
+                        if (fontSize >= 10) {
                             fontSize -= 3;
                             webSettings.setDefaultFontSize(fontSize);
                             shPrefEditor.putInt("fontSize", fontSize);
                             shPrefEditor.commit();
-                            switch (MyLanguage){
+                            switch (MyLanguage) {
                                 case ENGLISH:
-                                    Toast.makeText(getApplicationContext(),	"Font size - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Font size - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 case RUSSIAN:
-                                    Toast.makeText(getApplicationContext(),	"Размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Размер шрифта - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 case SPANISH:
-                                    Toast.makeText(getApplicationContext(),	"Tamaño de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Tamaño de fuente - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 case FRENCH:
-                                    Toast.makeText(getApplicationContext(),	"Taille de police - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Taille de police - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 default:
-                                    Toast.makeText(getApplicationContext(),	"גודל גופן - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "גודל גופן - " + fontSize, Toast.LENGTH_SHORT).show();
                             }
-                        }
-                        else{
-                            switch (MyLanguage){
+                        } else {
+                            switch (MyLanguage) {
                                 case ENGLISH:
-                                    Toast.makeText(getApplicationContext(),	"Minimum font size - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Minimum font size - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 case RUSSIAN:
-                                    Toast.makeText(getApplicationContext(),	"Минимальный размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Минимальный размер шрифта - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 case SPANISH:
-                                    Toast.makeText(getApplicationContext(),	"Tamaño mínimo de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Tamaño mínimo de fuente - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 case FRENCH:
-                                    Toast.makeText(getApplicationContext(),	"Taille de police minimale - "+fontSize, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Taille de police minimale - " + fontSize, Toast.LENGTH_SHORT).show();
                                     break;
                                 default:
-                                    Toast.makeText(getApplicationContext(),	"גודל גופן מינימלי", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "גודל גופן מינימלי", Toast.LENGTH_SHORT).show();
                             }
                         }
                         break;
@@ -993,23 +889,18 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         popupMenu.show();
     }//showPopupMenuSettings
 
-    void acronymsDecode()
-    {
+    void acronymsDecode() {
         final Context context = this;
-
         // custom dialog
         acronymsDialog = new Dialog(context);
         acronymsDialog.setContentView(R.layout.acronyms);
         acronymsDialog.setTitle("פענוח ראשי תיבות");
-
         Button dialogButtonExit = (Button) acronymsDialog.findViewById(R.id.dialogButtonExit);
         Button dialogButtonDecode = (Button) acronymsDialog.findViewById(R.id.dialogButtonDecode);
         final TextView decodedText = (TextView) acronymsDialog.findViewById(R.id.textViewDecodedText);
         //final byte[] buffer;
         //final int size;
-
-        TextToDecode = (EditText) acronymsDialog.findViewById(R.id.editTextAcronyms );
-
+        TextToDecode = (EditText) acronymsDialog.findViewById(R.id.editTextAcronyms);
         // if button is clicked
         dialogButtonExit.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NewApi")
@@ -1059,21 +950,19 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         acronymsDialog.show();
     }
 
-    public void addItemsOnSpinner()
-    {
+    public void addItemsOnSpinner() {
         List<String> list = new ArrayList<String>();
-        int i, index = 0, index_end=0;
+        int i, index = 0, index_end = 0;
 
         Bookmarks = mPrefs.getString("Bookmarks", "");
         list.add("");/*this is for the first item that need to be hidden in order to have the ability to choose the first item*/
 
-        while((index = Bookmarks.indexOf("," , index)) != -1)
-        {
+        while ((index = Bookmarks.indexOf(",", index)) != -1) {
             index++;
-            index_end = Bookmarks.indexOf("," , index);
+            index_end = Bookmarks.indexOf(",", index);
             list.add(Bookmarks.substring(index, index_end));
-            for(i=0;i<4;i++)/*skip all other fields*/
-                index = Bookmarks.indexOf("," , index) + 1;
+            for (i = 0; i < 4; i++)/*skip all other fields*/
+                index = Bookmarks.indexOf(",", index) + 1;
         }
 
         int hidingItemIndex = 0;
@@ -1083,8 +972,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
         spinnerAddMark.setAdapter(dataAdapter);
     }
-    void innerSearch()
-    {
+
+    void innerSearch() {
         final Context context = this;
 
         // custom dialog
@@ -1093,40 +982,34 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         innerSearchDialog.setTitle("חיפוש בפרק הנוכחי");
 
         Button dialogButton = (Button) innerSearchDialog.findViewById(R.id.dialogButtonOK);
-        TextToSearch = (EditText) innerSearchDialog.findViewById(R.id.editTextTextToSearch );
+        TextToSearch = (EditText) innerSearchDialog.findViewById(R.id.editTextTextToSearch);
 
         // if button is clicked
-        dialogButton.setOnClickListener(new View.OnClickListener()
-        {
+        dialogButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NewApi")
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 innerSearchText = TextToSearch.getText().toString();
 
                 innerSearchDialog.dismiss();
                 //lnrFindOptions.setVisibility(View.VISIBLE);
-                if(API < 16)
-                {
-                    int a=webview.findAll(/*"כל"*/innerSearchText);
+                if (API < 16) {
+                    int a = webview.findAll(/*"כל"*/innerSearchText);
                     /*to highlight the searched text*/
-                    try
-                    {
+                    try {
                         Method m = WebView.class.getMethod("setFindIsUp", Boolean.TYPE);
                         m.invoke(webview, true);
+                    } catch (Throwable ignored) {
                     }
-                    catch (Throwable ignored){}
-                }
-                else
-                {
+                } else {
                     webview.findAllAsync(/*"כל"*/innerSearchText);
                 }
             }
         });
         innerSearchDialog.show();
     }
-    private void fillChaptersNames()
-    {
+
+    private void fillChaptersNames() {
         /*BRACHOT*/
         chaptersNames[BRACHOT][1] = "ברכות: א - פתיחה";
         chaptersNames[BRACHOT][2] = "ברכות: ב - נטילת ידיים לסעודה";
@@ -1208,16 +1091,16 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         chaptersNames[KASHRUT_A][7] = "כשרות א: ז - תרומות ומעשרות";
         chaptersNames[KASHRUT_A][8] = "כשרות א: ח - החייב והפטור";
         chaptersNames[KASHRUT_A][9] = "כשרות א: ט - כללי המצווה";
-        chaptersNames[KASHRUT_A][10] ="כשרות א: י - סדר ההפרשה למעשה";
-        chaptersNames[KASHRUT_A][11] ="כשרות א: יא - חלה";
-        chaptersNames[KASHRUT_A][12] ="כשרות א: יב - מצוות התלויות בארץ";
-        chaptersNames[KASHRUT_A][13] ="כשרות א: יג - עצי פרי ובל תשחית";
-        chaptersNames[KASHRUT_A][14] ="כשרות א: יד - אכילת בשר";
-        chaptersNames[KASHRUT_A][15] ="כשרות א: טו - צער בעלי חיים";
-        chaptersNames[KASHRUT_A][16] ="כשרות א: טז - שילוח הקן";
-        chaptersNames[KASHRUT_A][17] ="כשרות א: יז - כשרות בעלי חיים";
-        chaptersNames[KASHRUT_A][18] ="כשרות א: יח - הלכות שחיטה";
-        chaptersNames[KASHRUT_A][19] ="כשרות א: יט - מתנות כהונה מהחי";
+        chaptersNames[KASHRUT_A][10] = "כשרות א: י - סדר ההפרשה למעשה";
+        chaptersNames[KASHRUT_A][11] = "כשרות א: יא - חלה";
+        chaptersNames[KASHRUT_A][12] = "כשרות א: יב - מצוות התלויות בארץ";
+        chaptersNames[KASHRUT_A][13] = "כשרות א: יג - עצי פרי ובל תשחית";
+        chaptersNames[KASHRUT_A][14] = "כשרות א: יד - אכילת בשר";
+        chaptersNames[KASHRUT_A][15] = "כשרות א: טו - צער בעלי חיים";
+        chaptersNames[KASHRUT_A][16] = "כשרות א: טז - שילוח הקן";
+        chaptersNames[KASHRUT_A][17] = "כשרות א: יז - כשרות בעלי חיים";
+        chaptersNames[KASHRUT_A][18] = "כשרות א: יח - הלכות שחיטה";
+        chaptersNames[KASHRUT_A][19] = "כשרות א: יט - מתנות כהונה מהחי";
         /*KASHRUT_B*/
         chaptersNames[KASHRUT_B][1] = "כשרות ב: כ - טריפות";
         chaptersNames[KASHRUT_B][2] = "כשרות ב: כא - חֵלֶב וגיד הנשה וניקור";
@@ -1228,16 +1111,16 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         chaptersNames[KASHRUT_B][7] = "כשרות ב: כו - דיני ההפסקה";
         chaptersNames[KASHRUT_B][8] = "כשרות ב: כז - הגזירות על מאכלי גויים";
         chaptersNames[KASHRUT_B][9] = "כשרות ב: כח - פת ובישולי גויים";
-        chaptersNames[KASHRUT_B][10] ="כשרות ב: כט - יין ומשקאות גויים";
-        chaptersNames[KASHRUT_B][11] ="כשרות ב: ל - חלב ומוצריו";
-        chaptersNames[KASHRUT_B][12] ="כשרות ב: לא - טבילת כלים";
-        chaptersNames[KASHRUT_B][13] ="כשרות ב: לב - כללי הכשרת כלים";
-        chaptersNames[KASHRUT_B][14] ="כשרות ב: לג - הכשרת כלים ומטבח";
-        chaptersNames[KASHRUT_B][15] ="כשרות ב: לד - דיני תערובות";
-        chaptersNames[KASHRUT_B][16] ="כשרות ב: לה - סוגי בליעות";
-        chaptersNames[KASHRUT_B][17] ="כשרות ב: לו - סכנות";
-        chaptersNames[KASHRUT_B][18] ="כשרות ב: לז - תעשיית המזון";
-        chaptersNames[KASHRUT_B][19] ="כשרות ב: לח - נאמנות והשגחה";
+        chaptersNames[KASHRUT_B][10] = "כשרות ב: כט - יין ומשקאות גויים";
+        chaptersNames[KASHRUT_B][11] = "כשרות ב: ל - חלב ומוצריו";
+        chaptersNames[KASHRUT_B][12] = "כשרות ב: לא - טבילת כלים";
+        chaptersNames[KASHRUT_B][13] = "כשרות ב: לב - כללי הכשרת כלים";
+        chaptersNames[KASHRUT_B][14] = "כשרות ב: לג - הכשרת כלים ומטבח";
+        chaptersNames[KASHRUT_B][15] = "כשרות ב: לד - דיני תערובות";
+        chaptersNames[KASHRUT_B][16] = "כשרות ב: לה - סוגי בליעות";
+        chaptersNames[KASHRUT_B][17] = "כשרות ב: לו - סכנות";
+        chaptersNames[KASHRUT_B][18] = "כשרות ב: לז - תעשיית המזון";
+        chaptersNames[KASHRUT_B][19] = "כשרות ב: לח - נאמנות והשגחה";
         /*LIKUTIM_A*/
         chaptersNames[LIKUTIM_A][1] = "ליקוטים א: א - הלכות תלמוד תורה";
         chaptersNames[LIKUTIM_A][2] = "ליקוטים א: ב - החינוך לתורה";
@@ -1279,7 +1162,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         chaptersNames[MISHPACHA][7] = "משפחה: ז - מהלכות צניעות";
         chaptersNames[MISHPACHA][8] = "משפחה: ח - ברית מילה";
         chaptersNames[MISHPACHA][9] = "משפחה: ט - פדיון הבן";
-        chaptersNames[MISHPACHA][10] ="משפחה: י - אבלות";
+        chaptersNames[MISHPACHA][10] = "משפחה: י - אבלות";
         /*MOADIM*/
         chaptersNames[MOADIM][1] = "מועדים: א - פתיחה";
         chaptersNames[MOADIM][2] = "מועדים: ב - דיני עשה ביום טוב";
@@ -1383,7 +1266,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         chaptersNames[TEFILA][6] = "תפילה: ו - הנוסחים ומנהגי העדות";
         chaptersNames[TEFILA][7] = "תפילה: ז - השכמת הבוקר";
         chaptersNames[TEFILA][8] = "תפילה: ח - נטילת ידיים שחרית";
-        chaptersNames[TEFILA][9]  = "תפילה: ט - ברכות השחר";
+        chaptersNames[TEFILA][9] = "תפילה: ט - ברכות השחר";
         chaptersNames[TEFILA][10] = "תפילה: י - ברכת התורה";
         chaptersNames[TEFILA][11] = "תפילה: יא - זמן ק\"ש ותפילת שחרית";
         chaptersNames[TEFILA][12] = "תפילה: יב - לקראת תפילת שחרית";
@@ -1410,7 +1293,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         chaptersNames[TEFILAT_NASHIM][6] = "תפילת נשים: ו - ברכות השחר";
         chaptersNames[TEFILAT_NASHIM][7] = "תפילת נשים: ז - ברכות התורה";
         chaptersNames[TEFILAT_NASHIM][8] = "תפילת נשים: ח - תפילת שחרית והדינים שלפניה";
-        chaptersNames[TEFILAT_NASHIM][9]  = "תפילת נשים: ט - הכנת הגוף";
+        chaptersNames[TEFILAT_NASHIM][9] = "תפילת נשים: ט - הכנת הגוף";
         chaptersNames[TEFILAT_NASHIM][10] = "תפילת נשים: י - הכנת הנפש והלבוש";
         chaptersNames[TEFILAT_NASHIM][11] = "תפילת נשים: יא - מקום התפילה";
         chaptersNames[TEFILAT_NASHIM][12] = "תפילת נשים: יב - תפילת עמידה";
@@ -1427,37 +1310,37 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         chaptersNames[TEFILAT_NASHIM][23] = "תפילת נשים: כג - מהלכות חגים ומועדים";
         chaptersNames[TEFILAT_NASHIM][24] = "תפילת נשים: כד - נוסחי התפלה ומנהגי העדות";
         /*HAR_MOADIM*/
-        chaptersNames[HAR_MOADIM][1]  = "הר' מועדים: א - פתיחה";
-        chaptersNames[HAR_MOADIM][2]  = "הר' מועדים: ב - דיני עשה ביום טוב";
-        chaptersNames[HAR_MOADIM][3]  = "הר' מועדים: ג - כללי המלאכות";
-        chaptersNames[HAR_MOADIM][4]  = "הר' מועדים: ד - מלאכות המאכלים";
-        chaptersNames[HAR_MOADIM][5]  = "הר' מועדים: ה - הבערה כיבוי וחשמל";
-        chaptersNames[HAR_MOADIM][6]  = "הר' מועדים: ו - הוצאה ומוקצה";
-        chaptersNames[HAR_MOADIM][7]  = "הר' מועדים: ז - מדיני יום טוב";
-        chaptersNames[HAR_MOADIM][8]  = "הר' מועדים: ח - עירוב תבשילין";
-        chaptersNames[HAR_MOADIM][9]  = "הר' מועדים: ט - יום טוב שני של גלויות";
+        chaptersNames[HAR_MOADIM][1] = "הר' מועדים: א - פתיחה";
+        chaptersNames[HAR_MOADIM][2] = "הר' מועדים: ב - דיני עשה ביום טוב";
+        chaptersNames[HAR_MOADIM][3] = "הר' מועדים: ג - כללי המלאכות";
+        chaptersNames[HAR_MOADIM][4] = "הר' מועדים: ד - מלאכות המאכלים";
+        chaptersNames[HAR_MOADIM][5] = "הר' מועדים: ה - הבערה כיבוי וחשמל";
+        chaptersNames[HAR_MOADIM][6] = "הר' מועדים: ו - הוצאה ומוקצה";
+        chaptersNames[HAR_MOADIM][7] = "הר' מועדים: ז - מדיני יום טוב";
+        chaptersNames[HAR_MOADIM][8] = "הר' מועדים: ח - עירוב תבשילין";
+        chaptersNames[HAR_MOADIM][9] = "הר' מועדים: ט - יום טוב שני של גלויות";
         chaptersNames[HAR_MOADIM][10] = "הר' מועדים: י - מצוות חול המועד";
         chaptersNames[HAR_MOADIM][11] = "הר' מועדים: יא - מלאכת חול המועד";
         chaptersNames[HAR_MOADIM][12] = "הר' מועדים: יב - היתרי עבודה במועד";
         /*HAR_SUCOT*/
-        chaptersNames[HAR_SUCOT][1]  = "א -חג הסוכות";
-        chaptersNames[HAR_SUCOT][2]  = "ב - הלכות סוכה";
-        chaptersNames[HAR_SUCOT][3]  = "ג - ישיבה בסוכה";
-        chaptersNames[HAR_SUCOT][4]  = "ד - ארבעת המינים";
-        chaptersNames[HAR_SUCOT][5]  = "ה - נטילת לולב";
-        chaptersNames[HAR_SUCOT][6]  = "ו - הושענא רבה";
-        chaptersNames[HAR_SUCOT][7]  = "ז - שמיני עצרת";
-        chaptersNames[HAR_SUCOT][8]  = "ח - הקהל";
+        chaptersNames[HAR_SUCOT][1] = "א -חג הסוכות";
+        chaptersNames[HAR_SUCOT][2] = "ב - הלכות סוכה";
+        chaptersNames[HAR_SUCOT][3] = "ג - ישיבה בסוכה";
+        chaptersNames[HAR_SUCOT][4] = "ד - ארבעת המינים";
+        chaptersNames[HAR_SUCOT][5] = "ה - נטילת לולב";
+        chaptersNames[HAR_SUCOT][6] = "ו - הושענא רבה";
+        chaptersNames[HAR_SUCOT][7] = "ז - שמיני עצרת";
+        chaptersNames[HAR_SUCOT][8] = "ח - הקהל";
         /*HAR_SHABAT*/
-        chaptersNames[HAR_SHABAT][1]  = "הר' שבת: א - פתיחה";
-        chaptersNames[HAR_SHABAT][2]  = "הר' שבת: ב - הכנות לשבת";
-        chaptersNames[HAR_SHABAT][3]  = "הר' שבת: ג - זמני השבת";
-        chaptersNames[HAR_SHABAT][4]  = "הר' שבת: ד - הדלקת נרות שבת";
-        chaptersNames[HAR_SHABAT][5]  = "הר' שבת: ה - תורה ותפילה בשבת";
-        chaptersNames[HAR_SHABAT][6]  = "הר' שבת: ו - הלכות קידוש";
-        chaptersNames[HAR_SHABAT][7]  = "הר' שבת: ז - סעודות השבת ומלווה מלכה";
-        chaptersNames[HAR_SHABAT][8]  = "הר' שבת: ח - הבדלה ומוצאי שבת";
-        chaptersNames[HAR_SHABAT][9]  = "הר' שבת: ט - כללי המלאכות";
+        chaptersNames[HAR_SHABAT][1] = "הר' שבת: א - פתיחה";
+        chaptersNames[HAR_SHABAT][2] = "הר' שבת: ב - הכנות לשבת";
+        chaptersNames[HAR_SHABAT][3] = "הר' שבת: ג - זמני השבת";
+        chaptersNames[HAR_SHABAT][4] = "הר' שבת: ד - הדלקת נרות שבת";
+        chaptersNames[HAR_SHABAT][5] = "הר' שבת: ה - תורה ותפילה בשבת";
+        chaptersNames[HAR_SHABAT][6] = "הר' שבת: ו - הלכות קידוש";
+        chaptersNames[HAR_SHABAT][7] = "הר' שבת: ז - סעודות השבת ומלווה מלכה";
+        chaptersNames[HAR_SHABAT][8] = "הר' שבת: ח - הבדלה ומוצאי שבת";
+        chaptersNames[HAR_SHABAT][9] = "הר' שבת: ט - כללי המלאכות";
         chaptersNames[HAR_SHABAT][10] = "הר' שבת: י - בישול";
         chaptersNames[HAR_SHABAT][11] = "הר' שבת: יא - בורר";
         chaptersNames[HAR_SHABAT][12] = "הר' שבת: יב - הכנת מאכלים";
@@ -1480,26 +1363,26 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         chaptersNames[HAR_SHABAT][29] = "הר' שבת: כט - עירובין";
         chaptersNames[HAR_SHABAT][30] = "הר' שבת: ל - תחומי שבת";
         /*HAR_SIMCHAT*/
-        chaptersNames[HAR_SIMCHAT][1]  = "הר' שמחת: א - מצוות עונה";
-        chaptersNames[HAR_SIMCHAT][2]  = "הר' שמחת: ב - הלכות עונה";
-        chaptersNames[HAR_SIMCHAT][3]  = "הר' שמחת: ג - קדושה וכוונה";
-        chaptersNames[HAR_SIMCHAT][4]  = "הר' שמחת: ד - שמירת הברית";
-        chaptersNames[HAR_SIMCHAT][5]  = "הר' שמחת: ה - פרו ורבו";
-        chaptersNames[HAR_SIMCHAT][6]  = "הר' שמחת: ו - קשיים ועקרות";
-        chaptersNames[HAR_SIMCHAT][7]  = "הר' שמחת: ז - סריס והשחתה";
-        chaptersNames[HAR_SIMCHAT][8]  = "הר' שמחת: ח - נחמת חשוכי ילדים";
-        chaptersNames[HAR_SIMCHAT][9]  = "הר' שמחת: ט - הפסקת הריון";
+        chaptersNames[HAR_SIMCHAT][1] = "הר' שמחת: א - מצוות עונה";
+        chaptersNames[HAR_SIMCHAT][2] = "הר' שמחת: ב - הלכות עונה";
+        chaptersNames[HAR_SIMCHAT][3] = "הר' שמחת: ג - קדושה וכוונה";
+        chaptersNames[HAR_SIMCHAT][4] = "הר' שמחת: ד - שמירת הברית";
+        chaptersNames[HAR_SIMCHAT][5] = "הר' שמחת: ה - פרו ורבו";
+        chaptersNames[HAR_SIMCHAT][6] = "הר' שמחת: ו - קשיים ועקרות";
+        chaptersNames[HAR_SIMCHAT][7] = "הר' שמחת: ז - סריס והשחתה";
+        chaptersNames[HAR_SIMCHAT][8] = "הר' שמחת: ח - נחמת חשוכי ילדים";
+        chaptersNames[HAR_SIMCHAT][9] = "הר' שמחת: ט - הפסקת הריון";
         chaptersNames[HAR_SIMCHAT][10] = "הר' שמחת: י - האיש והאשה";
         /*HAR_BRACHOT*/
-        chaptersNames[HAR_BRACHOT][1]  = "הר' ברכות: א - פתיחה";
-        chaptersNames[HAR_BRACHOT][2]  = "הר' ברכות: ב - נטילת ידיים לסעודה";
-        chaptersNames[HAR_BRACHOT][3]  = "הר' ברכות: ג - ברכת המוציא";
-        chaptersNames[HAR_BRACHOT][4]  = "הר' ברכות: ד - ברכת המזון";
-        chaptersNames[HAR_BRACHOT][5]  = "הר' ברכות: ה - זימון";
-        chaptersNames[HAR_BRACHOT][6]  = "הר' ברכות: ו - חמשת מיני דגן";
-        chaptersNames[HAR_BRACHOT][7]  = "הר' ברכות: ז - ברכת היין";
-        chaptersNames[HAR_BRACHOT][8]  = "הר' ברכות: ח - ברכת הפירות ושהכל";
-        chaptersNames[HAR_BRACHOT][9]  = "הר' ברכות: ט - כללי ברכה ראשונה";
+        chaptersNames[HAR_BRACHOT][1] = "הר' ברכות: א - פתיחה";
+        chaptersNames[HAR_BRACHOT][2] = "הר' ברכות: ב - נטילת ידיים לסעודה";
+        chaptersNames[HAR_BRACHOT][3] = "הר' ברכות: ג - ברכת המוציא";
+        chaptersNames[HAR_BRACHOT][4] = "הר' ברכות: ד - ברכת המזון";
+        chaptersNames[HAR_BRACHOT][5] = "הר' ברכות: ה - זימון";
+        chaptersNames[HAR_BRACHOT][6] = "הר' ברכות: ו - חמשת מיני דגן";
+        chaptersNames[HAR_BRACHOT][7] = "הר' ברכות: ז - ברכת היין";
+        chaptersNames[HAR_BRACHOT][8] = "הר' ברכות: ח - ברכת הפירות ושהכל";
+        chaptersNames[HAR_BRACHOT][9] = "הר' ברכות: ט - כללי ברכה ראשונה";
         chaptersNames[HAR_BRACHOT][10] = "הר' ברכות: י - ברכה אחרונה";
         chaptersNames[HAR_BRACHOT][11] = "הר' ברכות: יא - עיקר וטפל";
         chaptersNames[HAR_BRACHOT][12] = "הר' ברכות: יב - כללי ברכות";
@@ -1520,17 +1403,17 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         chaptersNames[HAR_YAMIM][9] = "הר' ימים נוראים: ט - שאר עינויים";
         chaptersNames[HAR_YAMIM][10] = "הר' ימים נוראים: י - עבודת יום הכיפורים";
     }
-    public void  setAudioId(String id)
-    {
-        audio_id=id;
+
+    public void setAudioId(String id) {
+        audio_id = id;
     }
-    private void sendSectionIdAndPlay(int selectedSection)
-    {
+
+    private void sendSectionIdAndPlay(int selectedSection) {
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_TO_SPECIFIC_SECTION);
         broadcastIntent.putExtra("audio_id", selectedSection);
-        playerInfo.setText(book_name + " " +   convert_character_to_id(chapter)+", "+convert_character_to_id(selectedSection));
-        section=selectedSection;
+        playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(selectedSection));
+        section = selectedSection;
         sendBroadcast(broadcastIntent);
     }
 
@@ -1565,7 +1448,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     private void registerAllBroadcast() {
         //register after getting audio focus
-        playerService.speed=speed;//prapre to set speed
+        playerService.speed = speed;//prapre to set speed
         IntentFilter intentFilter = new IntentFilter(MediaPlayerService.Broadcast_SERVICE_SKIP_NEXT);
         registerReceiver(BRskipNext, intentFilter);
         LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -1587,7 +1470,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         public void onReceive(Context context, Intent intent) {
             timeElapsed = intent.getDoubleExtra("timeElapsed", 0.0);
             finalTime = intent.getDoubleExtra("finalTime", 0.0);
-            seekbar.setMax((int)finalTime);
+            seekbar.setMax((int) finalTime);
             //set seekbar progress
             seekbar.setProgress((int) timeElapsed);
             //set time remaing
@@ -1595,7 +1478,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
 
             duration.setText(String.format("%02d : %02d", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
-            duration2.setText(String.format("%02d : %02d", TimeUnit.MILLISECONDS.toMinutes((long) timeElapsed), TimeUnit.MILLISECONDS.toSeconds((long)timeElapsed) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeElapsed))));
+            duration2.setText(String.format("%02d : %02d", TimeUnit.MILLISECONDS.toMinutes((long) timeElapsed), TimeUnit.MILLISECONDS.toSeconds((long) timeElapsed) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeElapsed))));
         }
     };
 
@@ -1605,17 +1488,16 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             int oldChapter;
             oldChapter = chapter;
             chapter = intent.getIntExtra("chapter", 0);
-            if(chapter != oldChapter) {
+            if (chapter != oldChapter) {
                 restartPage();
             }
             section = intent.getIntExtra("section", 0);
             clickOnItemFromList = false;
-            listview.performItemClick(listview.getAdapter().getView(section-1, null, null), section-1, section-1);
+            listview.performItemClick(listview.getAdapter().getView(section - 1, null, null), section - 1, section - 1);
         }
     };
 
-    protected void onStart ()
-    {
+    protected void onStart() {
         super.onStart();
         if (firstCall == true) {
             clickOnItemFromList = false;
@@ -1625,10 +1507,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         playAudioService();
     }
 
-    private String get_book_name_by_id()
-    {
-        switch (book)
-        {
+    private String get_book_name_by_id() {
+        switch (book) {
             case BRACHOT:
                 return "ברכות";
             case HAAMVEHAAREZ:
@@ -1670,9 +1550,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     }
 
 
-
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(BRskipNext);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(timeElapsedUpdates);
@@ -1685,8 +1563,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         }
     }
 
-    public void initializeViews(){
-        buttonPlayPause = (ImageButton)findViewById(R.id.media_play_pause);
+    public void initializeViews() {
+        buttonPlayPause = (ImageButton) findViewById(R.id.media_play_pause);
         duration = (TextView) findViewById(R.id.audioDuration);
         duration2 = (TextView) findViewById(R.id.audioDuration2);
         //bufferingPercent = (TextView) findViewById(R.id.fileBuffering);
@@ -1698,21 +1576,19 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public void playPause(View view) {
 
         Intent broadcastIntent;
-        if(playing == 0)//if pause change button icon to play
+        if (playing == 0)//if pause change button icon to play
         {
             playing = 1;
             buttonPlayPause.setImageResource(R.drawable.baseline_pause_circle_outline_white_48);
             broadcastIntent = new Intent(Broadcast_PLAY_PAUSE);
             sendBroadcast(broadcastIntent);
-        }
-        else if (playing == 1)//if play change button icon to pause
+        } else if (playing == 1)//if play change button icon to pause
         {
             playing = 0;
             buttonPlayPause.setImageResource(R.drawable.baseline_play_circle_outline_white_48);
             broadcastIntent = new Intent(Broadcast_PLAY_PAUSE);
             sendBroadcast(broadcastIntent);
-        }
-        else if (playing == 2)//if skip next change button icon to pause
+        } else if (playing == 2)//if skip next change button icon to pause
         {
             buttonPlayPause.setImageResource(R.drawable.baseline_pause_circle_outline_white_48);
             playing = 1;
@@ -1720,26 +1596,27 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     }
 
     public void skip_to_next(View view) {
+
+
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
         sendBroadcast(broadcastIntent);
         broadcastIntent = new Intent(Broadcast_Speed);
-        int choice=spinner.getSelectedItemPosition();
-        speed=sppedArray[choice];
-        broadcastIntent.putExtra("speed",speed);
-        if (playing==0)
-            broadcastIntent.putExtra("play",0);
+        int choice = spinner.getSelectedItemPosition();
+        speed = sppedArray[choice];
+        broadcastIntent.putExtra("speed", speed);
+        if (playing == 0)
+            broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
-        playerInfo.setText(book_name + " " +   convert_character_to_id(chapter)+", "+convert_character_to_id(section+1));
+        playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section + 1));
 
     }
 
-    public void restartPage()
-    {
-        header = book_name + " " +   convert_character_to_id(chapter)+", א";
+    public void restartPage() {
+        header = book_name + " " + convert_character_to_id(chapter) + ", א";
         playerInfo.setText(header);
         // TODO: fill the list of sections of the new chapter
-        sections = extras.getStringArrayList("sections_"+chapter);
+        sections = extras.getStringArrayList("sections_" + chapter);
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
         for (int i = 0; i < sections.size(); i++) {
             HashMap<String, String> hm = new HashMap<String, String>();
@@ -1747,8 +1624,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             aList.add(hm);
         }
 
-        String[] from = { "listview_title"};
-        int[] to = { R.id.listview_item_title};
+        String[] from = {"listview_title"};
+        int[] to = {R.id.listview_item_title};
 
         SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
         listview.setAdapter(simpleAdapter);
@@ -1760,22 +1637,23 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         Intent broadcastIntent = new Intent(Broadcast_SKIP_PREVIOUS);
         sendBroadcast(broadcastIntent);
         broadcastIntent = new Intent(Broadcast_Speed);
-        int choice=spinner.getSelectedItemPosition();
-        speed=sppedArray[choice];
-        broadcastIntent.putExtra("speed",speed);
-        broadcastIntent.putExtra("play",0);
+        int choice = spinner.getSelectedItemPosition();
+        speed = sppedArray[choice];
+        broadcastIntent.putExtra("speed", speed);
+        broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
-        playerInfo.setText(book_name + " " +   convert_character_to_id(chapter)+", "+convert_character_to_id(section-1));
+        playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section - 1));
         //check if the user return from brachot it give him back to brachot א,א
-        if(section+1486<'א')
-            playerInfo.setText(book_name + " " +   convert_character_to_id(chapter)+", א");
+        if (section + 1486 < 'א')
+            playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", א");
+
+
     }
 
     public void forward_10_sec(View view) {
         Intent broadcastIntent = new Intent(Broadcast_FORWARD_10);
         sendBroadcast(broadcastIntent);
     }
-
 
 
     public void rewind_10_sec(View view) {
@@ -1789,10 +1667,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         bufferingPercent.setText(String.format("טוען %d", percent));
     }*/
 
-    public String convert_character_to_id(int Id)
-    {
-        switch (Id)
-        {
+    public String convert_character_to_id(int Id) {
+        switch (Id) {
             case 1:
                 return "א";
 
@@ -1903,12 +1779,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             playerIntent.putExtra("chapter_id", chapter);
             playerIntent.putExtra("audio_id", section);
 
-            for(int i=1; i<=lastChapter[book]; i++) {
+            for (int i = 1; i <= lastChapter[book]; i++) {
                 String name;
                 if (book == KASHRUT_B)
-                    name = "sections_"+(i+19);
+                    name = "sections_" + (i + 19);
                 else
-                    name = "sections_"+i;
+                    name = "sections_" + i;
                 sections = extras.getStringArrayList(name);
                 // Creating a new local copy of the current list.
                 ArrayList<String> newList = new ArrayList<>(sections);
@@ -1937,21 +1813,21 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String choice =adapterView.getItemAtPosition(i).toString();
-        float sp=1f;
+        String choice = adapterView.getItemAtPosition(i).toString();
+        float sp = 1f;
         if (choice.equals("x2"))
-            sp=2f;
+            sp = 2f;
         if (choice.equals("x1.5"))
-            sp=1.5f;
+            sp = 1.5f;
         if (choice.equals("x0.75"))
-            sp=0.75f;
+            sp = 0.75f;
         if (choice.equals("x1"))
-            sp=1f;
+            sp = 1f;
         Intent broadcastIntent = new Intent(Broadcast_Speed);
-        speed=sp;
-        broadcastIntent.putExtra("speed",sp);
-        if (playing==0)
-            broadcastIntent.putExtra("play",0);
+        speed = sp;
+        broadcastIntent.putExtra("speed", sp);
+        if (playing == 0)
+            broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
         //if (playing==0)
         //  playPause(view);

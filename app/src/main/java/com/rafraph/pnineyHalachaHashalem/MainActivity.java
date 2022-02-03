@@ -6,21 +6,16 @@ package com.rafraph.pnineyHalachaHashalem;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Calendar;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -1236,11 +1231,10 @@ public class MainActivity extends AppCompatActivity
 		webSettingsHascamot.setDefaultFontSize(fontSize);
 		int backgroundColor = mPrefs.getInt("BlackBackground", 0);
 		webviewHascmot.setBackgroundColor(backgroundColor);
-		if(backgroundColor == 0)
-			webviewHascmot.loadUrl("javascript:document.body.style.color=\"black\";");
+		if(backgroundColor==1)
+			webviewHascmot.loadUrl("file:///android_asset/hascamot_white.html");
 		else
-			webviewHascmot.loadUrl("javascript:document.body.style.color=\"white\";");
-		webviewHascmot.loadUrl("file:///android_asset/hascamot.html");
+			webviewHascmot.loadUrl("file:///android_asset/hascamot.html");
 		dialog.show();
 	}
 

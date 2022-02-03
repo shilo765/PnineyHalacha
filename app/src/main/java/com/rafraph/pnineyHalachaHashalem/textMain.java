@@ -11,7 +11,6 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,7 +21,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,7 +45,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -596,6 +593,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		{
 			textActionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 			inflater.inflate(R.menu.actionbar_textmain_black, menu);
+
 			webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left\"); y[0].style.display = 'none';} myFunction(); ");
 			webview.setBackgroundColor(0xFFFFFF);//black
 			llMainLayout.setBackgroundColor(Color.BLACK);
@@ -743,9 +741,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				dialogModes = new Dialog(context);
 				dialogModes.setTitle("בחר מצב משתמש");
 				dialogModes.setContentView(R.layout.activity_switch_modes);
-				Button bt1 = (Button) dialogModes.findViewById(R.id.button);
-				Button bt2 = (Button) dialogModes.findViewById(R.id.button2);
-				bt1.setOnClickListener(new View.OnClickListener()
+				Button hearandreadBtn = (Button) dialogModes.findViewById(R.id.hearAndReadBtn);
+				Button hearBtn = (Button) dialogModes.findViewById(R.id.hearBtn);
+				hearandreadBtn.setOnClickListener(new View.OnClickListener()
 				{
 					@Override
 					public void onClick(View v)
@@ -772,7 +770,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 					}
 				});
-				bt2.setOnClickListener(new View.OnClickListener()
+				hearBtn.setOnClickListener(new View.OnClickListener()
 				{
 					@Override
 					public void onClick(View v)
@@ -788,8 +786,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 							ourIntent.putExtra("hearAndRead", false);
 							ourIntent.putExtra("Mylanguage", MyLanguage);
 
-							ourIntent.putExtra("scroolY", webview.getScrollY());
-							ourIntent.putExtra("fontSize", fontSize);
+							ourIntent.putExtra("scroolY",0);
+							ourIntent.putExtra("fontSize", 18);
 							findAllHeaders(ourIntent);
 							startActivity(ourIntent);
 							dialogModes.dismiss();

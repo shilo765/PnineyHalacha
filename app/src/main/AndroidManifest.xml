@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rafraph.pnineyHalachaHashalem"
     android:installLocation="auto"
-    android:versionCode="32"
-    android:versionName="3.2">
+    android:versionCode="40"
+    android:versionName="4.2">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,10 +19,10 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".switch_modes"
+            android:name="com.rafraph.pnineyHalachaHashalem.switch_modes"
             android:exported="true" />
         <activity
-            android:name=".Splash"
+            android:name="com.rafraph.pnineyHalachaHashalem.Splash"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
@@ -32,11 +32,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.rafraph.pnineyHalachaHashalem.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light">
             <intent-filter>
-                <action android:name="com.rafraph.pnineyHalachaHashalem.MAINACTIVITY" />
+                <action android:name="com.rafraph.ph_beta.MAINACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -46,7 +46,7 @@
                 android:value=".SearchableActivity" />
         </activity>
         <activity
-            android:name=".textMain"
+            android:name="com.rafraph.pnineyHalachaHashalem.textMain"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:hardwareAccelerated="false"
             android:label="@string/app_name"
@@ -58,23 +58,23 @@
                 android:value=".SearchableActivity" />
         </activity>
         <activity
-            android:name=".About"
+            android:name="com.rafraph.pnineyHalachaHashalem.About"
             android:label="@string/title_activity_about"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".Feedback"
+            android:name="com.rafraph.pnineyHalachaHashalem.Feedback"
             android:label="@string/title_activity_feedback"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".SearchHelp"
+            android:name="com.rafraph.pnineyHalachaHashalem.SearchHelp"
             android:label="@string/title_activity_search_help"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".Settings"
+            android:name="com.rafraph.pnineyHalachaHashalem.Settings"
             android:label="@string/title_activity_settings"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".SearchableActivity"
+            android:name="com.rafraph.pnineyHalachaHashalem.SearchableActivity"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -85,15 +85,15 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".BookmarkActivity"
+            android:name="com.rafraph.pnineyHalachaHashalem.BookmarkActivity"
             android:label="@string/title_activity_bookmark"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".myAudio"
+            android:name="com.rafraph.pnineyHalachaHashalem.myAudio"
             android:label="myAudio"
             android:theme="@android:style/Theme.NoTitleBar" />
 
-        <service android:name=".MediaPlayerService" />
+        <service android:name="com.rafraph.pnineyHalachaHashalem.MediaPlayerService" />
     </application>
 
 </manifest>
