@@ -35,7 +35,6 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -118,6 +117,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private int section;
     ArrayList<String> sections;
     View view;
+    public int refreshCount=0;
     Elements headers;
     Document doc = null;
     private Spinner spinner;
@@ -163,8 +163,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public RelativeLayout rl;
     public String acronymsText;
     public Date time = new Date();
-    public float lastScrool = 0;
-
+    public int lastScrool = 0;
+    public int lastChap=1;
 
     void ParseTheDoc() {
         String prefix;
@@ -211,7 +211,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             if (ev.getY() > 350 && ev.getY() < 1800 && lastScrool != webview.getScrollY()) {
                 infView.setVisibility(View.INVISIBLE);
                 webview.setY(0);
-                lastScrool = webview.getScrollY();
+                //lastScrool = webview.getScrollY();
 
             }
         return super.dispatchTouchEvent(ev);
@@ -347,8 +347,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         book = extras.getInt("book_id");
         chapter = extras.getInt("chapter_id");
         if (hearAndRead) {
-            int scroolYto = extras.getInt("scroolY");
-            webview.scrollTo(0, scroolYto - 90);
+            
+            webview.scrollTo(0, lastScrool );
             fontSize = extras.getInt("fontSize");
             webSettings.setMinimumFontSize(fontSize);
 
@@ -429,10 +429,28 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     public void content() {
         if (hearAndRead) {
-            webview.loadUrl(webLink.substring(0, webLink.lastIndexOf('_')) + "_" + (chapter) + ".html");
-            infView.setVisibility(View.VISIBLE);
-            if (webview.getScrollY() == 0)
+
+              if(lastChap!=chapter){
+                lastScrool=webview.getScrollY();
+                webview.loadUrl(webLink.substring(0, webLink.lastIndexOf('_')) + "_" + (chapter) + ".html");
+                webview.setWebViewClient(new WebViewClient(){
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        webview.setY(80);
+                        super.onPageFinished(view, url);
+                    }
+                });
+                lastChap=chapter;
+              }
+            if (webview.getScrollY()==0)
                 webview.setY(80);
+
+
+
+            infView.setVisibility(View.VISIBLE);
+           
+           
             if (mPrefs.getInt("BlackBackground", 0) == 1) {
                 webview.loadUrl(
                         "javascript:document.body.style.setProperty(\"color\", \"white\");"
@@ -447,7 +465,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 webview.setBackgroundColor(Color.WHITE);
                 infView.setBackgroundColor(Color.WHITE);
             }
-
+           refreshCount++;
             refresh(2000);
         }
     }
