@@ -166,7 +166,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public int lastScrool = 0;
     public int lastChap=1;
 
-    void ParseTheDoc() {
+    void ParseTheDoc()
+    {
         String prefix;
         InputStream is;
         int size;
@@ -387,7 +388,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         buttonNext = (ImageButton) findViewById(R.id.media_next);
         buttonPrevious = (ImageButton) findViewById(R.id.media_prev);
         initializeSeekBar();
-        while (playing == 1) {
+        while (playing == 1)
+        {
             try {
                 wait(1000);
                 Intent broadcastIntent = new Intent(Broadcast_FORWARD_10);
@@ -427,7 +429,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         handler.postDelayed(runnable, millisec);
     }
 
-    public void content() {
+    public void content()
+    {
         if (hearAndRead) {
 
               if(lastChap!=chapter){
@@ -470,7 +473,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         }
     }
 
-    public void createActionBar() {
+    public void createActionBar()
+    {
         infView.setVisibility(View.VISIBLE);
         ImageButton searchBtn = infView.findViewById(R.id.searchBtn);
         final ImageButton searchBtnDown = infView.findViewById(R.id.ibFindNext);
@@ -484,8 +488,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         config.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showPopupMenuSettings(findViewById(R.id.action_config));
-            }
-        });
+    }
+});
         scrollBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showPopupAutoScroolSettings(findViewById(R.id.action_auto_scrool));
@@ -509,8 +513,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 webview.findNext(false);
             }
         });
-        addBookMark.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        addBookMark.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
                 bookmarkDialog = new Dialog(context);
                 if (MyLanguage == ENGLISH)
                     bookmarkDialog.setContentView(R.layout.add_bookmark_english);
@@ -529,9 +535,11 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 BookmarkName = (EditText) bookmarkDialog.findViewById(R.id.editTextBookmarkName);
 
                 // if button is clicked, close the custom dialog
-                dialogButton.setOnClickListener(new View.OnClickListener() {
+                dialogButton.setOnClickListener(new View.OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v)
+                    {
                         int index = 0, index_end = 0;
                         String bookmarkText = BookmarkName.getText().toString();
                         bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
@@ -558,7 +566,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                                 Toast.makeText(getApplicationContext(), "Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
                             else
                                 Toast.makeText(getApplicationContext(), "הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
-                        } else {
+                        }
+                        else
+                            {
                             Bookmarks += "," + strBookmark;
                             if (MyLanguage == ENGLISH)
                                 Toast.makeText(getApplicationContext(), "New bookmark created", Toast.LENGTH_SHORT).show();
@@ -570,7 +580,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                                 Toast.makeText(getApplicationContext(), "Nouveau signet créé", Toast.LENGTH_SHORT).show();
                             else
                                 Toast.makeText(getApplicationContext(), "סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
-                        }
+                            }
                         shPrefEditor.putString("Bookmarks", Bookmarks);
                         shPrefEditor.commit();
                         bookmarkDialog.dismiss();
@@ -582,10 +592,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
                 addItemsOnSpinner();
 
-                spinnerAddMark.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                spinnerAddMark.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+                {
                     boolean first = true;
 
-                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+                    {
                         if (first == false)
                             BookmarkName.setText(parent.getItemAtPosition(pos).toString());
                         first = false;
@@ -602,7 +614,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     int scrollSpeed = 1;
     private Handler mHandler = new Handler();
-    public Runnable mScrollDown = new Runnable() {
+    public Runnable mScrollDown = new Runnable()
+    {
         public void run() {
             if (scrollSpeed == 0) // in case of note opened
             {
@@ -617,7 +630,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         }
     };
 
-    private void showPopupAutoScroolSettings(View v) {
+    private void showPopupAutoScroolSettings(View v)
+    {
         PopupMenu popupMenu = new PopupMenu(myAudio.this, v);
 
         String configHeaders[] = new String[7];
@@ -696,10 +710,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         spinnerAutoScroll = (Spinner) autoScrollDialog.findViewById(R.id.spinner_auto_scroll);
         scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
         spinnerAutoScroll.setSelection((scrollSpeed / 2) - 1);
-        spinnerAutoScroll.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerAutoScroll.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
             boolean first = true;
 
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+            {
                 scrollSpeed = (pos + 1) * 2;
                 shPrefEditor.putInt("scrollSpeed", scrollSpeed);
                 shPrefEditor.commit();
@@ -713,7 +729,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     }
 
-    private void showPopupMenuSettings(View v) {
+    private void showPopupMenuSettings(View v)
+    {
         PopupMenu popupMenu = new PopupMenu(myAudio.this, v);
 
         String configHeaders[] = new String[7];
@@ -771,7 +788,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public boolean onMenuItemClick(MenuItem item)
+            {
                 WebSettings webSettings = webview.getSettings();
                 fontSize = webSettings.getDefaultFontSize();
                 switch (item.getItemId()) {
@@ -857,7 +875,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         }
                         break;
                     case 6:/*decrease text*/
-                        if (fontSize >= 10) {
+                        if (fontSize >= 10)
+                        {
                             fontSize -= 3;
                             webSettings.setDefaultFontSize(fontSize);
                             shPrefEditor.putInt("fontSize", fontSize);
@@ -878,7 +897,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                                 default:
                                     Toast.makeText(getApplicationContext(), "גודל גופן - " + fontSize, Toast.LENGTH_SHORT).show();
                             }
-                        } else {
+                        }
+                        else {
                             switch (MyLanguage) {
                                 case ENGLISH:
                                     Toast.makeText(getApplicationContext(), "Minimum font size - " + fontSize, Toast.LENGTH_SHORT).show();
@@ -907,7 +927,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         popupMenu.show();
     }//showPopupMenuSettings
 
-    void acronymsDecode() {
+    void acronymsDecode()
+    {
         final Context context = this;
         // custom dialog
         acronymsDialog = new Dialog(context);
@@ -968,7 +989,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         acronymsDialog.show();
     }
 
-    public void addItemsOnSpinner() {
+    public void addItemsOnSpinner()
+    {
         List<String> list = new ArrayList<String>();
         int i, index = 0, index_end = 0;
 
@@ -991,7 +1013,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         spinnerAddMark.setAdapter(dataAdapter);
     }
 
-    void innerSearch() {
+    void innerSearch()
+    {
         final Context context = this;
 
         // custom dialog
@@ -1027,7 +1050,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         innerSearchDialog.show();
     }
 
-    private void fillChaptersNames() {
+    private void fillChaptersNames()
+    {
         /*BRACHOT*/
         chaptersNames[BRACHOT][1] = "ברכות: א - פתיחה";
         chaptersNames[BRACHOT][2] = "ברכות: ב - נטילת ידיים לסעודה";
@@ -1426,7 +1450,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         audio_id = id;
     }
 
-    private void sendSectionIdAndPlay(int selectedSection) {
+    private void sendSectionIdAndPlay(int selectedSection)
+    {
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_TO_SPECIFIC_SECTION);
         broadcastIntent.putExtra("audio_id", selectedSection);
@@ -1435,7 +1460,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         sendBroadcast(broadcastIntent);
     }
 
-    private void initializeSeekBar() {
+    private void initializeSeekBar()
+    {
         seekbar.setOnSeekBarChangeListener(
                 new SeekBar.OnSeekBarChangeListener() {
                     int userSelectedPosition = 0;
@@ -1464,7 +1490,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     }
 
 
-    private void registerAllBroadcast() {
+    private void registerAllBroadcast()
+    {
         //register after getting audio focus
         playerService.speed = speed;//prapre to set speed
         IntentFilter intentFilter = new IntentFilter(MediaPlayerService.Broadcast_SERVICE_SKIP_NEXT);
@@ -1476,16 +1503,20 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     }
 
 
-    private BroadcastReceiver BRskipNext = new BroadcastReceiver() {
+    private BroadcastReceiver BRskipNext = new BroadcastReceiver()
+    {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, Intent intent)
+        {
             skip_to_next(view);
         }
     };
 
-    private BroadcastReceiver timeElapsedUpdates = new BroadcastReceiver() {
+    private BroadcastReceiver timeElapsedUpdates = new BroadcastReceiver()
+    {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, Intent intent)
+        {
             timeElapsed = intent.getDoubleExtra("timeElapsed", 0.0);
             finalTime = intent.getDoubleExtra("finalTime", 0.0);
             seekbar.setMax((int) finalTime);
@@ -1500,9 +1531,11 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         }
     };
 
-    private BroadcastReceiver chapterUpdate = new BroadcastReceiver() {
+    private BroadcastReceiver chapterUpdate = new BroadcastReceiver()
+    {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, Intent intent)
+        {
             int oldChapter;
             oldChapter = chapter;
             chapter = intent.getIntExtra("chapter", 0);
@@ -1515,9 +1548,11 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         }
     };
 
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
-        if (firstCall == true) {
+        if (firstCall == true)
+        {
             clickOnItemFromList = false;
             listview.performItemClick(listview.getAdapter().getView(section - 1, null, null), section - 1, section - 1);
         }
@@ -1525,7 +1560,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         playAudioService();
     }
 
-    private String get_book_name_by_id() {
+    private String get_book_name_by_id()
+    {
         switch (book) {
             case BRACHOT:
                 return "ברכות";
@@ -1568,20 +1604,23 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     }
 
 
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(BRskipNext);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(timeElapsedUpdates);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(chapterUpdate);
 
-        if (serviceBound) {
+        if (serviceBound)
+        {
             unbindService(serviceConnection);
             //service is active
             stopService(playerIntent);
         }
     }
 
-    public void initializeViews() {
+    public void initializeViews()
+    {
         buttonPlayPause = (ImageButton) findViewById(R.id.media_play_pause);
         duration = (TextView) findViewById(R.id.audioDuration);
         duration2 = (TextView) findViewById(R.id.audioDuration2);
@@ -1591,7 +1630,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     }
 
     //playing = 0-pause, 1-play, 2-skip
-    public void playPause(View view) {
+    public void playPause(View view)
+    {
 
         Intent broadcastIntent;
         if (playing == 0)//if pause change button icon to play
@@ -1613,9 +1653,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         }
     }
 
-    public void skip_to_next(View view) {
-
-
+    public void skip_to_next(View view)
+    {
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
         sendBroadcast(broadcastIntent);
@@ -1630,7 +1669,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     }
 
-    public void restartPage() {
+    public void restartPage()
+    {
         header = book_name + " " + convert_character_to_id(chapter) + ", א";
         playerInfo.setText(header);
         // TODO: fill the list of sections of the new chapter
@@ -1649,7 +1689,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         listview.setAdapter(simpleAdapter);
     }
 
-    public void skip_to_previous(View view) {
+    public void skip_to_previous(View view)
+    {
         playing = 2;
         buttonPlayPause.setImageResource(R.drawable.baseline_pause_circle_outline_white_48);
         Intent broadcastIntent = new Intent(Broadcast_SKIP_PREVIOUS);
@@ -1668,13 +1709,15 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     }
 
-    public void forward_10_sec(View view) {
+    public void forward_10_sec(View view)
+    {
         Intent broadcastIntent = new Intent(Broadcast_FORWARD_10);
         sendBroadcast(broadcastIntent);
     }
 
 
-    public void rewind_10_sec(View view) {
+    public void rewind_10_sec(View view)
+    {
         Intent broadcastIntent = new Intent(Broadcast_BACKWARD_10);
         sendBroadcast(broadcastIntent);
     }
@@ -1685,7 +1728,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         bufferingPercent.setText(String.format("טוען %d", percent));
     }*/
 
-    public String convert_character_to_id(int Id) {
+    public String convert_character_to_id(int Id)
+    {
         switch (Id) {
             case 1:
                 return "א";
@@ -1774,9 +1818,11 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     }
 
     //Binding this Client to the AudioPlayer Service
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+    private ServiceConnection serviceConnection = new ServiceConnection()
+    {
         @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
+        public void onServiceConnected(ComponentName name, IBinder service)
+        {
             // We've bound to LocalService, cast the IBinder and get LocalService instance
             MediaPlayerService.LocalBinder binder = (MediaPlayerService.LocalBinder) service;
             playerService = binder.getService();
@@ -1784,12 +1830,14 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         }
 
         @Override
-        public void onServiceDisconnected(ComponentName name) {
+        public void onServiceDisconnected(ComponentName name)
+        {
             serviceBound = false;
         }
     };
 
-    private void playAudioService() {
+    private void playAudioService()
+    {
         //Check is service is active
         if (!serviceBound) {
             playerIntent = new Intent(this, MediaPlayerService.class);
@@ -1797,7 +1845,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             playerIntent.putExtra("chapter_id", chapter);
             playerIntent.putExtra("audio_id", section);
 
-            for (int i = 1; i <= lastChapter[book]; i++) {
+            for (int i = 1; i <= lastChapter[book]; i++)
+            {
                 String name;
                 if (book == KASHRUT_B)
                     name = "sections_" + (i + 19);
@@ -1818,19 +1867,22 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
         savedInstanceState.putBoolean("ServiceState", serviceBound);
         super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onRestoreInstanceState(Bundle savedInstanceState)
+    {
         super.onRestoreInstanceState(savedInstanceState);
         serviceBound = savedInstanceState.getBoolean("ServiceState");
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+    {
         String choice = adapterView.getItemAtPosition(i).toString();
         float sp = 1f;
         if (choice.equals("x2"))
@@ -1847,12 +1899,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         if (playing == 0)
             broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
-        //if (playing==0)
-        //  playPause(view);
+
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
 }

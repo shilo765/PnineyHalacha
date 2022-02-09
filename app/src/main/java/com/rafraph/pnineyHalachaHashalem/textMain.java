@@ -741,9 +741,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				dialogModes = new Dialog(context);
 				dialogModes.setTitle("בחר מצב משתמש");
 				dialogModes.setContentView(R.layout.activity_switch_modes);
-				Button hearandreadBtn = (Button) dialogModes.findViewById(R.id.hearAndReadBtn);
+				Button hearAndReadBtn = (Button) dialogModes.findViewById(R.id.hearAndReadBtn);
 				Button hearBtn = (Button) dialogModes.findViewById(R.id.hearBtn);
-				hearandreadBtn.setOnClickListener(new View.OnClickListener()
+				hearAndReadBtn.setOnClickListener(new View.OnClickListener()
 				{
 					@Override
 					public void onClick(View v)
