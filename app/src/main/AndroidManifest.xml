@@ -3,7 +3,7 @@
     package="com.rafraph.pnineyHalachaHashalem"
     android:installLocation="auto"
     android:versionCode="40"
-    android:versionName="4.2">
+    android:versionName="4">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
