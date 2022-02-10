@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="#FFFFFFFF">
+
+    <ImageButton
+        android:id="@+id/action_add_bookmark"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="155dp"
+        android:layout_marginRight="155dp"
+        android:background="#00FFFFFF"
+        android:icon="@drawable/ic_action_add_bookmark"
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        android:src="@drawable/ic_action_add_bookmark"
+
+        android:text="Button" />
+
+    <ImageButton
+        android:id="@+id/action_auto_scrool"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="79dp"
+        android:layout_marginRight="79dp"
+        android:background="#00FFFFFF"
+        android:icon="@drawable/ic_action_scrool"
+        android:src="@drawable/ic_action_scrool"
+        android:text="Button" />
+
+    <ImageButton
+        android:id="@+id/action_config"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginRight="19dp"
+        android:background="#00FFFFFF"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:src="@drawable/ic_action_config"
+        android:text="Button" />
+
+    <ImageButton
+        android:id="@+id/searchBtn"
+
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="219dp"
+        android:layout_marginRight="219dp"
+        android:background="#02FFFFFF"
+        android:src="@drawable/ic_action_search"
+        android:text="Button" />
+
+    <ImageButton
+        android:id="@+id/ibFindPrevious"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="289dp"
+        android:layout_marginRight="289dp"
+        android:contentDescription="@string/PreviousPage"
+        android:src="@drawable/ic_action_up" />
+
+    <ImageButton
+        android:id="@+id/ibFindNext"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="339dp"
+        android:layout_marginRight="339dp"
+        android:src="@drawable/ic_action_down" />
+
+
+</RelativeLayout>
