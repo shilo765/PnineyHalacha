@@ -407,7 +407,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.speed_audio_array, android.R.layout.simple_list_item_1);
         adapter.setDropDownViewResource((android.R.layout.simple_list_item_1));
         spinner.setAdapter(adapter);
-        spinner.setSelection(2);
+        spinner.setSelection(4);
         spinner.setOnItemSelectedListener(this);
         Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
         sendBroadcast(broadcastIntent);
@@ -480,6 +480,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     public void createActionBar()
     {
+        scrollSpeed=-1;
         infView.setVisibility(View.VISIBLE);
         ImageButton searchBtn = infView.findViewById(R.id.searchBtn);
         final ImageButton searchBtnDown = infView.findViewById(R.id.ibFindNext);
@@ -617,7 +618,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         });
     }
 
-    int scrollSpeed = 1;
+    public int scrollSpeed = -1;
     private Handler mHandler = new Handler();
     public Runnable mScrollDown = new Runnable()
     {
@@ -637,7 +638,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     private void showPopupAutoScroolSettings(View v)
     {
-        PopupMenu popupMenu = new PopupMenu(myAudio.this, v);
+        final PopupMenu popupMenu = new PopupMenu(myAudio.this, v);
 
         String configHeaders[] = new String[7];
         if (MyLanguage == ENGLISH) {
@@ -670,6 +671,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         popupMenu.getMenu().add(0, 2, 2, configHeaders[2]);
 
 
+
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -694,6 +696,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         });
 
         popupMenu.show();
+    }
+
+    @Override
+    protected void onStop() {
+        scrollSpeed=-1;
+        super.onStop();
     }
 
     void autoScrollSpeedDialog() {
