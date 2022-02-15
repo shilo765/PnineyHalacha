@@ -738,65 +738,24 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 
 				final Context context = this;
-				dialogModes = new Dialog(context);
-				dialogModes.setTitle("בחר מצב משתמש");
-				dialogModes.setContentView(R.layout.activity_switch_modes);
-				Button hearAndReadBtn = (Button) dialogModes.findViewById(R.id.hearAndReadBtn);
-				Button hearBtn = (Button) dialogModes.findViewById(R.id.hearBtn);
-				hearAndReadBtn.setOnClickListener(new View.OnClickListener()
-				{
-					@Override
-					public void onClick(View v)
-					{
-						try {
-							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
-							Intent ourIntent = new Intent(textMain.this,ourClass);
-							ourIntent.putExtra("audio_id", Integer.parseInt("1"));
-							ourIntent.putExtra("book_id", book_chapter[0]);
-							ourIntent.putExtra("chapter_id", book_chapter[1]);
-							ourIntent.putExtra("chapter_id", book_chapter[1]);
-							ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
-							ourIntent.putExtra("hearAndRead", true);
-							ourIntent.putExtra("Mylanguage", MyLanguage);
-							ourIntent.putExtra("scroolY", 0);
-							ourIntent.putExtra("fontSize", fontSize);
-							findAllHeaders(ourIntent);
-							startActivity(ourIntent);
-							dialogModes.dismiss();
-						} catch (ClassNotFoundException e) {
-							e.printStackTrace();
-						}
-
-
-					}
-				});
-				hearBtn.setOnClickListener(new View.OnClickListener()
-				{
-					@Override
-					public void onClick(View v)
-					{
-						try {
-							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
-							Intent ourIntent = new Intent(textMain.this,ourClass);
-							ourIntent.putExtra("audio_id", Integer.parseInt("1"));
-							ourIntent.putExtra("book_id", book_chapter[0]);
-							ourIntent.putExtra("chapter_id", book_chapter[1]);
-							ourIntent.putExtra("chapter_id", book_chapter[1]);
-							ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
-							ourIntent.putExtra("hearAndRead", false);
-							ourIntent.putExtra("Mylanguage", MyLanguage);
-
-							ourIntent.putExtra("scroolY",0);
-							ourIntent.putExtra("fontSize", 18);
-							findAllHeaders(ourIntent);
-							startActivity(ourIntent);
-							dialogModes.dismiss();
-						} catch (ClassNotFoundException e) {
-							e.printStackTrace();
-						}
-					}
-				});
-				dialogModes.show();
+				Class ourClass = null;
+				try {
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				Intent ourIntent = new Intent(textMain.this,ourClass);
+				ourIntent.putExtra("audio_id", Integer.parseInt("1"));
+				ourIntent.putExtra("book_id", book_chapter[0]);
+				ourIntent.putExtra("chapter_id", book_chapter[1]);
+				ourIntent.putExtra("chapter_id", book_chapter[1]);
+				ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
+				ourIntent.putExtra("hearAndRead", true);
+				ourIntent.putExtra("Mylanguage", MyLanguage);
+				ourIntent.putExtra("scroolY", webview.getScrollY());
+				ourIntent.putExtra("fontSize", fontSize);
+				findAllHeaders(ourIntent);
+				startActivity(ourIntent);
 
 
 				break;

@@ -165,6 +165,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public Date time = new Date();
     public int lastScrool = 0;
     public int lastChap=1;
+    public int scrollPos=0;
 
     void ParseTheDoc()
     {
@@ -255,7 +256,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             webview.requestFocusFromTouch();
             webview.getSettings().setAllowFileAccess(true);
             webLink = getIntent().getStringExtra("webLink");
+
             webview.loadUrl(webLink);
+
             webview.setY(80);
             BlackBackground = mPrefs.getInt("BlackBackground", 0);
             if (BlackBackground == 1) {
@@ -348,8 +351,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         book = extras.getInt("book_id");
         chapter = extras.getInt("chapter_id");
         if (hearAndRead) {
-            
-            webview.scrollTo(0, lastScrool );
+            scrollPos=getIntent().getIntExtra("scroolY",0);
+            webview.scrollTo(0,scrollPos);
             fontSize = extras.getInt("fontSize");
             webSettings.setMinimumFontSize(fontSize);
 
@@ -441,6 +444,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     @Override
                     public void onPageFinished(WebView view, String url) {
                         webview.setY(80);
+                        webview.scrollTo(0,scrollPos);
+                        scrollPos=0;
                         super.onPageFinished(view, url);
                     }
                 });
