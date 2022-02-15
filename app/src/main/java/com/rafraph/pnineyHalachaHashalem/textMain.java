@@ -4,8 +4,10 @@ package com.rafraph.pnineyHalachaHashalem;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -102,8 +104,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30*/
 	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA};
 	public Dialog dialogModes;
-
 	private static final int HEBREW	 = 0;
 	private static final int ENGLISH = 1;
 	private static final int RUSSIAN = 2;
@@ -294,6 +296,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			public void run()
 			{
 				// your code here
+
 				try
 				{
 					if ((isConnected())) {
@@ -301,8 +304,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						Intent ourIntent = new Intent(textMain.this, ourClass);
 
 						ourIntent.putExtra("audio_id", Integer.parseInt(audio_id));
-			ourIntent.putExtra("book_id", book_chapter[0]);
-									ourIntent.putExtra("chapter_id", book_chapter[1]);
+						ourIntent.putExtra("book_id", book_chapter[0]);
+						ourIntent.putExtra("chapter_id", book_chapter[1]);
 						ourIntent.putExtra("chapter_id", book_chapter[1]);
 						ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
 						//ourIntent.putExtra("webLink", localFile.getPath());
@@ -724,6 +727,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	{
 		String currentChapter;
 		// TODO Auto-generated method stub
+
 		switch(view.getId())
 		{
 			case R.id.ibChapters:
@@ -732,30 +736,34 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				break;
 
 			case R.id.switchModes:
-
-
-
-
-
-				final Context context = this;
-				Class ourClass = null;
-				try {
-					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
+				boolean enterForIf=false;
+				for (int i: haveAudio)
+				if(i==book_chapter[0]){
+					enterForIf=true;
+					final Context context = this;
+					Class ourClass = null;
+					try {
+						ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
+					}
+					catch (ClassNotFoundException e)
+					{
+						e.printStackTrace();
+					}
+					Intent ourIntent = new Intent(textMain.this,ourClass);
+					ourIntent.putExtra("audio_id", Integer.parseInt("1"));
+					ourIntent.putExtra("book_id", book_chapter[0]);
+					ourIntent.putExtra("chapter_id", book_chapter[1]);
+					ourIntent.putExtra("chapter_id", book_chapter[1]);
+					ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
+					ourIntent.putExtra("hearAndRead", true);
+					ourIntent.putExtra("Mylanguage", MyLanguage);
+					ourIntent.putExtra("scroolY", webview.getScrollY());
+					ourIntent.putExtra("fontSize", fontSize);
+					findAllHeaders(ourIntent);
+					startActivity(ourIntent);
 				}
-				Intent ourIntent = new Intent(textMain.this,ourClass);
-				ourIntent.putExtra("audio_id", Integer.parseInt("1"));
-				ourIntent.putExtra("book_id", book_chapter[0]);
-				ourIntent.putExtra("chapter_id", book_chapter[1]);
-				ourIntent.putExtra("chapter_id", book_chapter[1]);
-				ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
-				ourIntent.putExtra("hearAndRead", true);
-				ourIntent.putExtra("Mylanguage", MyLanguage);
-				ourIntent.putExtra("scroolY", webview.getScrollY());
-				ourIntent.putExtra("fontSize", fontSize);
-				findAllHeaders(ourIntent);
-				startActivity(ourIntent);
+				if(!enterForIf)
+					Toast.makeText(getApplicationContext(),	"לספר זה אין שמע", Toast.LENGTH_SHORT).show();
 
 
 				break;
@@ -2127,7 +2135,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				return "תת";
 		}
 	}
-
 	public String convertBookIdToName(int bookId)
 	{
 		switch (bookId)
