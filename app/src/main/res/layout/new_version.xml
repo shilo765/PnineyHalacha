@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="נוספה אפשרות למצב משולב-קריאה ושמיעה בו זמנית"
+                android:text="שמחים להשיק את השיפורים החדשים באפליקציה לנוחיותכם:"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#5A9B85"
                 android:textSize="20dp" />
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="2. נוספה אפשרות לשינוי מהירות הנגן"
+                android:text="1. הוספנו מצב קריאה והאזנה משולב לשיפור חווית הלימוד"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#5A9B85"
                 android:textSize="20dp" />
@@ -69,7 +69,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="3. שינוי עיצוב"
+                android:text="2. לחצן קביעת מהירות השמעה בנגן"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text='             '
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="יש לכם הצעות ורעיונות? כתבו לנו באזור ה'משוב' בתפריט הראשי. לימוד פורה, צוות הפיתוח אפליקציית פניני הלכה&quot;"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#5A9B85"
                 android:textSize="20dp" />
