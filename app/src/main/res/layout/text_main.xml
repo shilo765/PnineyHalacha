@@ -29,20 +29,20 @@
             android:src="@drawable/ic_action_up" />
 
         <ImageButton
-            android:id="@+id/ibPrevious"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/Previous"
-            android:src="@drawable/ic_action_next_item" />
-
-        <ImageButton
             android:id="@+id/ibNext"
             android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/Next"
-            android:src="@drawable/ic_action_previous_item" />
+            android:src="@drawable/ic_action_next_item"/>
+        <ImageButton
+            android:id="@+id/ibPrevious"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/Previous"
+            android:src="@drawable/ic_action_previous_item"
+            />
 
         <ImageButton
             android:id="@+id/switchModes"

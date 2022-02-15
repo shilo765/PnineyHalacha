@@ -40,7 +40,9 @@
     </string-array>
     <string-array name="speed_audio_array">
         <item>"x2</item>
+        <item>"x1.75</item>
         <item>"x1.5"</item>
+        <item>"x1.25"</item>
         <item>"x1"</item>
         <item>"x0.75"</item>
     </string-array>

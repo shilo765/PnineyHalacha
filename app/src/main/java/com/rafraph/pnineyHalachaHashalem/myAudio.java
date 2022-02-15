@@ -150,7 +150,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     static SharedPreferences mPrefs;
     SharedPreferences.Editor shPrefEditor;
     public int BlackBackground = 0;
-    public float[] sppedArray = {2f, 1.5f, 1f, 0.75f};
+    public float[] sppedArray = {2f,1.75f, 1.5f,1.25f, 1f, 0.75f};
     public String innerSearchText, webLink;
     public Dialog innerSearchDialog, bookmarkDialog, acronymsDialog, autoScrollDialog;
     public int MyLanguage;
@@ -1883,19 +1883,11 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
     {
-        String choice = adapterView.getItemAtPosition(i).toString();
-        float sp = 1f;
-        if (choice.equals("x2"))
-            sp = 2f;
-        if (choice.equals("x1.5"))
-            sp = 1.5f;
-        if (choice.equals("x0.75"))
-            sp = 0.75f;
-        if (choice.equals("x1"))
-            sp = 1f;
+        int choice = spinner.getSelectedItemPosition();
+
         Intent broadcastIntent = new Intent(Broadcast_Speed);
-        speed = sp;
-        broadcastIntent.putExtra("speed", sp);
+
+        broadcastIntent.putExtra("speed", sppedArray[choice]);
         if (playing == 0)
             broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
