@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="יש לכם הצעות ורעיונות? כתבו לנו באזור ה'משוב' בתפריט הראשי. לימוד פורה, צוות הפיתוח אפליקציית פניני הלכה&quot;"
+                android:text="יש לכם הצעות ורעיונות? כתבו לנו באזור ה'משוב' בתפריט הראשי. לימוד פורה, צוות הפיתוח אפליקציית פניני הלכה"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#5A9B85"
                 android:textSize="20dp" />

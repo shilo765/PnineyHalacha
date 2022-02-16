@@ -100,10 +100,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int E_SHABAT       = 28;
 	private static final int F_TEFILA       = 29;
 	private static final int S_SHABAT       = 30;
-	private static final int BOOKS_NUMBER	= 31;
+	private static final int R_HAAM       = 31;
+	private static final int R_SHABBAT       = 32;
+	private static final int R_YAMMIM       = 33;
+	private static final int R_SUCOT       = 34;
+	private static final int BOOKS_NUMBER	= 35;
 
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30*/
-	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34*/
+	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 10, 30, 10, 8};
 	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA};
 	public Dialog dialogModes;
 	private static final int HEBREW	 = 0;
@@ -1683,37 +1687,108 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[F_TEFILA][26] = "file:///android_asset/F_tefila_26.html";
 
 		/*S_SHABAT*/
-		chaptersFiles[S_SHABAT][0] = "file:///android_asset/s_shabat_tochen.html";
-		chaptersFiles[S_SHABAT][1] = "file:///android_asset/s_shabat_1.html";
-		chaptersFiles[S_SHABAT][2] = "file:///android_asset/s_shabat_2.html";
-		chaptersFiles[S_SHABAT][3] = "file:///android_asset/s_shabat_3.html";
-		chaptersFiles[S_SHABAT][4] = "file:///android_asset/s_shabat_4.html";
-		chaptersFiles[S_SHABAT][5] = "file:///android_asset/s_shabat_5.html";
-		chaptersFiles[S_SHABAT][6] = "file:///android_asset/s_shabat_6.html";
-		chaptersFiles[S_SHABAT][7] = "file:///android_asset/s_shabat_7.html";
-		chaptersFiles[S_SHABAT][8] = "file:///android_asset/s_shabat_8.html";
-		chaptersFiles[S_SHABAT][9] = "file:///android_asset/s_shabat_9.html";
-		chaptersFiles[S_SHABAT][10] = "file:///android_asset/s_shabat_10.html";
-		chaptersFiles[S_SHABAT][11] = "file:///android_asset/s_shabat_11.html";
-		chaptersFiles[S_SHABAT][12] = "file:///android_asset/s_shabat_12.html";
-		chaptersFiles[S_SHABAT][13] = "file:///android_asset/s_shabat_13.html";
-		chaptersFiles[S_SHABAT][14] = "file:///android_asset/s_shabat_14.html";
-		chaptersFiles[S_SHABAT][15] = "file:///android_asset/s_shabat_15.html";
-		chaptersFiles[S_SHABAT][16] = "file:///android_asset/s_shabat_16.html";
-		chaptersFiles[S_SHABAT][17] = "file:///android_asset/s_shabat_17.html";
-		chaptersFiles[S_SHABAT][18] = "file:///android_asset/s_shabat_18.html";
-		chaptersFiles[S_SHABAT][19] = "file:///android_asset/s_shabat_19.html";
-		chaptersFiles[S_SHABAT][20] = "file:///android_asset/s_shabat_20.html";
-		chaptersFiles[S_SHABAT][21] = "file:///android_asset/s_shabat_21.html";
-		chaptersFiles[S_SHABAT][22] = "file:///android_asset/s_shabat_22.html";
-		chaptersFiles[S_SHABAT][23] = "file:///android_asset/s_shabat_23.html";
-		chaptersFiles[S_SHABAT][24] = "file:///android_asset/s_shabat_24.html";
-		chaptersFiles[S_SHABAT][25] = "file:///android_asset/s_shabat_25.html";
-		chaptersFiles[S_SHABAT][26] = "file:///android_asset/s_shabat_26.html";
-		chaptersFiles[S_SHABAT][27] = "file:///android_asset/s_shabat_27.html";
-		chaptersFiles[S_SHABAT][28] = "file:///android_asset/s_shabat_28.html";
-		chaptersFiles[S_SHABAT][29] = "file:///android_asset/s_shabat_29.html";
-		chaptersFiles[S_SHABAT][30] = "file:///android_asset/s_shabat_30.html";
+		chaptersFiles[S_SHABAT][0] = "file:///android_asset/s_shabbat_tochen.html";
+		chaptersFiles[S_SHABAT][1] = "file:///android_asset/s_shabbat_1.html";
+		chaptersFiles[S_SHABAT][2] = "file:///android_asset/s_shabbat_2.html";
+		chaptersFiles[S_SHABAT][3] = "file:///android_asset/s_shabbat_3.html";
+		chaptersFiles[S_SHABAT][4] = "file:///android_asset/s_shabbat_4.html";
+		chaptersFiles[S_SHABAT][5] = "file:///android_asset/s_shabbat_5.html";
+		chaptersFiles[S_SHABAT][6] = "file:///android_asset/s_shabbat_6.html";
+		chaptersFiles[S_SHABAT][7] = "file:///android_asset/s_shabbat_7.html";
+		chaptersFiles[S_SHABAT][8] = "file:///android_asset/s_shabbat_8.html";
+		chaptersFiles[S_SHABAT][9] = "file:///android_asset/s_shabbat_9.html";
+		chaptersFiles[S_SHABAT][10] = "file:///android_asset/s_shabbat_10.html";
+		chaptersFiles[S_SHABAT][11] = "file:///android_asset/s_shabbat_11.html";
+		chaptersFiles[S_SHABAT][12] = "file:///android_asset/s_shabbat_12.html";
+		chaptersFiles[S_SHABAT][13] = "file:///android_asset/s_shabbat_13.html";
+		chaptersFiles[S_SHABAT][14] = "file:///android_asset/s_shabbat_14.html";
+		chaptersFiles[S_SHABAT][15] = "file:///android_asset/s_shabbat_15.html";
+		chaptersFiles[S_SHABAT][16] = "file:///android_asset/s_shabbat_16.html";
+		chaptersFiles[S_SHABAT][17] = "file:///android_asset/s_shabbat_17.html";
+		chaptersFiles[S_SHABAT][18] = "file:///android_asset/s_shabbat_18.html";
+		chaptersFiles[S_SHABAT][19] = "file:///android_asset/s_shabbat_19.html";
+		chaptersFiles[S_SHABAT][20] = "file:///android_asset/s_shabbat_20.html";
+		chaptersFiles[S_SHABAT][21] = "file:///android_asset/s_shabbat_21.html";
+		chaptersFiles[S_SHABAT][22] = "file:///android_asset/s_shabbat_22.html";
+		chaptersFiles[S_SHABAT][23] = "file:///android_asset/s_shabbat_23.html";
+		chaptersFiles[S_SHABAT][24] = "file:///android_asset/s_shabbat_24.html";
+		chaptersFiles[S_SHABAT][25] = "file:///android_asset/s_shabbat_25.html";
+		chaptersFiles[S_SHABAT][26] = "file:///android_asset/s_shabbat_26.html";
+		chaptersFiles[S_SHABAT][27] = "file:///android_asset/s_shabbat_27.html";
+		chaptersFiles[S_SHABAT][28] = "file:///android_asset/s_shabbat_28.html";
+		chaptersFiles[S_SHABAT][29] = "file:///android_asset/s_shabbat_29.html";
+		chaptersFiles[S_SHABAT][30] = "file:///android_asset/s_shabbat_30.html";
+
+		/*r_HAAM*/
+		//chaptersFiles[R_HAAM][0] = "file:///android_asset/R_haamvehaarez_tochen.html";
+		chaptersFiles[R_HAAM][0] = "file:///android_asset/R_haamvehaarez_1.html";
+		chaptersFiles[R_HAAM][1] = "file:///android_asset/R_haamvehaarez_2.html";
+		chaptersFiles[R_HAAM][2] = "file:///android_asset/R_haamvehaarez_3.html";
+		chaptersFiles[R_HAAM][3] = "file:///android_asset/R_haamvehaarez_4.html";
+		chaptersFiles[R_HAAM][4] = "file:///android_asset/R_haamvehaarez_5.html";
+		chaptersFiles[R_HAAM][5] = "file:///android_asset/R_haamvehaarez_6.html";
+		chaptersFiles[R_HAAM][6] = "file:///android_asset/R_haamvehaarez_7.html";
+		chaptersFiles[R_HAAM][7] = "file:///android_asset/R_haamvehaarez_8.html";
+		chaptersFiles[R_HAAM][8] = "file:///android_asset/R_haamvehaarez_9.html";
+		chaptersFiles[R_HAAM][9] = "file:///android_asset/R_haamvehaarez_10.html";
+
+		/*R_SHABAT*/
+		//chaptersFiles[R_SHABBAT][0] = "file:///android_asset/R_shabbat_tochen.html";
+		chaptersFiles[R_SHABBAT][0] = "file:///android_asset/R_shabbat_1.html";
+		chaptersFiles[R_SHABBAT][1] = "file:///android_asset/R_shabbat_2.html";
+		chaptersFiles[R_SHABBAT][2] = "file:///android_asset/R_shabbat_3.html";
+		chaptersFiles[R_SHABBAT][3] = "file:///android_asset/R_shabbat_4.html";
+		chaptersFiles[R_SHABBAT][4] = "file:///android_asset/R_shabbat_5.html";
+		chaptersFiles[R_SHABBAT][5] = "file:///android_asset/R_shabbat_6.html";
+		chaptersFiles[R_SHABBAT][6] = "file:///android_asset/R_shabbat_7.html";
+		chaptersFiles[R_SHABBAT][7] = "file:///android_asset/R_shabbat_8.html";
+		chaptersFiles[R_SHABBAT][8] = "file:///android_asset/R_shabbat_9.html";
+		chaptersFiles[R_SHABBAT][9] = "file:///android_asset/R_shabbat_10.html";
+		chaptersFiles[R_SHABBAT][10] = "file:///android_asset/R_shabbat_11.html";
+		chaptersFiles[R_SHABBAT][11] = "file:///android_asset/R_shabbat_12.html";
+		chaptersFiles[R_SHABBAT][12] = "file:///android_asset/R_shabbat_13.html";
+		chaptersFiles[R_SHABBAT][13] = "file:///android_asset/R_shabbat_14.html";
+		chaptersFiles[R_SHABBAT][14] = "file:///android_asset/R_shabbat_15.html";
+		chaptersFiles[R_SHABBAT][15] = "file:///android_asset/R_shabbat_16.html";
+		chaptersFiles[R_SHABBAT][16] = "file:///android_asset/R_shabbat_17.html";
+		chaptersFiles[R_SHABBAT][17] = "file:///android_asset/R_shabbat_18.html";
+		chaptersFiles[R_SHABBAT][18] = "file:///android_asset/R_shabbat_19.html";
+		chaptersFiles[R_SHABBAT][19] = "file:///android_asset/R_shabbat_20.html";
+		chaptersFiles[R_SHABBAT][20] = "file:///android_asset/R_shabbat_21.html";
+		chaptersFiles[R_SHABBAT][21] = "file:///android_asset/R_shabbat_22.html";
+		chaptersFiles[R_SHABBAT][22] = "file:///android_asset/R_shabbat_23.html";
+		chaptersFiles[R_SHABBAT][23] = "file:///android_asset/R_shabbat_24.html";
+		chaptersFiles[R_SHABBAT][24] = "file:///android_asset/R_shabbat_25.html";
+		chaptersFiles[R_SHABBAT][25] = "file:///android_asset/R_shabbat_26.html";
+		chaptersFiles[R_SHABBAT][26] = "file:///android_asset/R_shabbat_27.html";
+		chaptersFiles[R_SHABBAT][27] = "file:///android_asset/R_shabbat_28.html";
+		chaptersFiles[R_SHABBAT][28] = "file:///android_asset/R_shabbat_29.html";
+		chaptersFiles[R_SHABBAT][29] = "file:///android_asset/R_shabbat_30.html";
+
+		/*r_YAMIM*/
+		chaptersFiles[R_YAMMIM][0] = "file:///android_asset/R_YAMMIM_tochen.html";
+		chaptersFiles[R_YAMMIM][1] = "file:///android_asset/R_YAMMIM_1.html";
+		chaptersFiles[R_YAMMIM][2] = "file:///android_asset/R_YAMMIM_2.html";
+		chaptersFiles[R_YAMMIM][3] = "file:///android_asset/R_YAMMIM_3.html";
+		chaptersFiles[R_YAMMIM][4] = "file:///android_asset/R_YAMMIM_4.html";
+		chaptersFiles[R_YAMMIM][5] = "file:///android_asset/R_YAMMIM_5.html";
+		chaptersFiles[R_YAMMIM][6] = "file:///android_asset/R_YAMMIM_6.html";
+		chaptersFiles[R_YAMMIM][7] = "file:///android_asset/R_YAMMIM_7.html";
+		chaptersFiles[R_YAMMIM][8] = "file:///android_asset/R_YAMMIM_8.html";
+		chaptersFiles[R_YAMMIM][9] = "file:///android_asset/R_YAMMIM_9.html";
+		chaptersFiles[R_YAMMIM][10] = "file:///android_asset/R_YAMMIM_10.html";
+
+		/*r_SUCOT*/
+		chaptersFiles[R_SUCOT][0] = "file:///android_asset/R_sucot_tochen.html";
+		chaptersFiles[R_SUCOT][1] = "file:///android_asset/R_sucot_1.html";
+		chaptersFiles[R_SUCOT][2] = "file:///android_asset/R_sucot_2.html";
+		chaptersFiles[R_SUCOT][3] = "file:///android_asset/R_sucot_3.html";
+		chaptersFiles[R_SUCOT][4] = "file:///android_asset/R_sucot_4.html";
+		chaptersFiles[R_SUCOT][5] = "file:///android_asset/R_sucot_5.html";
+		chaptersFiles[R_SUCOT][6] = "file:///android_asset/R_sucot_6.html";
+		chaptersFiles[R_SUCOT][7] = "file:///android_asset/R_sucot_7.html";
+		chaptersFiles[R_SUCOT][8] = "file:///android_asset/R_sucot_8.html";
+
 	}
 
 
@@ -2201,6 +2276,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				return "La prière d’Israël";
 			case S_SHABAT:
 				return "Shabbat (Español)";
+			case R_HAAM:
+				return "haam vehaarez(russian)";
+			case R_SHABBAT:
+				return "shabbat(russian)";
+			case R_YAMMIM:
+				return "yamim noriim(russian)";
+			case R_SUCOT:
+				return "sucot(russian)";
 			default:
 				return "לא ידוע";
 		}
@@ -2600,6 +2683,70 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[HAR_YAMIM][8] = "הר' ימים נוראים: ח - דיני התענית";
 		chaptersNames[HAR_YAMIM][9] = "הר' ימים נוראים: ט - שאר עינויים";
 		chaptersNames[HAR_YAMIM][10] = "הר' ימים נוראים: י - עבודת יום הכיפורים";
+
+		chaptersNames[R_HAAM][1]="Глава 1. Величие Земли Израиля";
+		chaptersNames[R_HAAM][2]="Глава 2. Святое и будничное в заселении Земли Израиля";
+		chaptersNames[R_HAAM][3]="Глава 3. Заповедь заселения Земли Израиля";
+		chaptersNames[R_HAAM][4]="Глава 4. Законы, связанные с воинской службой и ведением войны";
+		chaptersNames[R_HAAM][5]="Глава 5. Сохранение Земли Израиля";
+		chaptersNames[R_HAAM][6]="Глава 6. Некоторые законы, связанные с еврейским государством";
+		chaptersNames[R_HAAM][7]="Глава 7. Взаимная ответственность евреев друг за друга";
+		chaptersNames[R_HAAM][8]="Глава 8. Еврейский труд";
+		chaptersNames[R_HAAM][9]="Глава 9. Память о Храме";
+		chaptersNames[R_HAAM][10]="Глава 10. Законы, связанные с переходом в иудаизм и приобщением к еврейскому народу";
+
+
+		chaptersNames[R_SHABBAT][1]="Глава 1. Введение ";
+		chaptersNames[R_SHABBAT][2]="Глава 2. Приготовления к субботе";
+		chaptersNames[R_SHABBAT][3]="Глава 3. Время наступления субботы";
+		chaptersNames[R_SHABBAT][4]="Глава 4. Зажигание субботних свечей";
+		chaptersNames[R_SHABBAT][5]="Глава 5. Изучение Торы и молитва в субботу";
+		chaptersNames[R_SHABBAT][6]="Глава 6. Законы кидуша";
+		chaptersNames[R_SHABBAT][7]="Глава 7. Субботние трапезы и «проводы субботы» (мелаве малка)";
+		chaptersNames[R_SHABBAT][8]="Глава 8. Ѓавдала и исход субботы";
+		chaptersNames[R_SHABBAT][9]="Глава 9. Работы, запрещенные в субботу (мелахот): общие поло-жения";
+		chaptersNames[R_SHABBAT][10]="Глава 10. Приготовление пищи в субботу";
+		chaptersNames[R_SHABBAT][11]="Глава 11. Запрет отбора в субботу (борер)";
+		chaptersNames[R_SHABBAT][12]="Глава 12. Приготовление различных блюд в субботу";
+		chaptersNames[R_SHABBAT][13]="Глава 13. Работы (мелахот), связанные с одеждой";
+		chaptersNames[R_SHABBAT][14]="Глава 14. Уход за телом";
+		chaptersNames[R_SHABBAT][15]="Глава 15. Запреты строительства (боне) и разрушения постро енного (сотер) применительно к дому и предметам домашнего обихода";
+		chaptersNames[R_SHABBAT][16]="Глава 16. Зажигание и тушение огня";
+		chaptersNames[R_SHABBAT][17]="Глава 17. Электричество и электроприборы";
+		chaptersNames[R_SHABBAT][18]="Глава 18. Запреты письма (котев), стирания написанного (мохек) и окрашивания (цовеа)";
+		chaptersNames[R_SHABBAT][19]="Глава 19. Работы (мелахот), связанные с растениями";
+		chaptersNames[R_SHABBAT][20]="Глава 20. Работы (мелахот), связанные с животными";
+		chaptersNames[R_SHABBAT][21]="Глава 21. Законы перенесения предметов из одного владения в другое";
+		chaptersNames[R_SHABBAT][22]="Глава 22. Субботняя атмосфера";
+		chaptersNames[R_SHABBAT][23]="Глава 23. Запрет мукце";
+		chaptersNames[R_SHABBAT][24]="Глава 24. Законы, связанные с детьми";
+		chaptersNames[R_SHABBAT][25]="Глава 25. Работы (мелахот), выполняемые неевреем";
+		chaptersNames[R_SHABBAT][26]="Глава 26. Работа (мелаха), выполненная в субботу, и запрет «пред слепым не клади преткновения»";
+		chaptersNames[R_SHABBAT][27]="Глава 27. Спасение жизни (пикуах нефеш); законы в отношении больного";
+		chaptersNames[R_SHABBAT][28]="Глава 28. Законы в отношении человека, больного неопасной бо- лезнью";
+		chaptersNames[R_SHABBAT][29]="Глава 29. Законы эрува";
+		chaptersNames[R_SHABBAT][30]="Глава 30. Субботний предел";
+
+
+		chaptersNames[R_YAMMIM][1]="Глава 1  Высший суд, награда и наказание  ";
+		chaptersNames[R_YAMMIM][2]="Глава 2  Слихот (молитвы, призывающие к раскаянию) ";
+		chaptersNames[R_YAMMIM][3]="Глава 3  Рош ѓа-Шана   ";
+		chaptersNames[R_YAMMIM][4]="Глава 4  Заповедь трубления в шофар";
+		chaptersNames[R_YAMMIM][5]="Глава 5  Десять дней покаяния";
+		chaptersNames[R_YAMMIM][6]="Глава 6  Йом Кипур";
+		chaptersNames[R_YAMMIM][7]="Глава 7  Законы Йом Кипура  ";
+		chaptersNames[R_YAMMIM][8]="Глава 8  Законы поста в Йом Кипур";
+		chaptersNames[R_YAMMIM][9]="Глава 9  Остальные запреты Йом Кипура";
+		chaptersNames[R_YAMMIM][10]="Глава 10  Храмовое служение в Йом Кипур";
+
+		chaptersNames[R_SUCOT][1]="Глава 1  Праздник Суккот";
+		chaptersNames[R_SUCOT][2]="Глава 2  Законы сукки";
+		chaptersNames[R_SUCOT][3]="Глава 3  Заповедь жить в сукке    ";
+		chaptersNames[R_SUCOT][4]="Глава 4  Четыре вида растений (арбаат ѓа-миним)";
+		chaptersNames[R_SUCOT][5]="Глава 5  Заповедь лулава (нетилат лулав";
+		chaptersNames[R_SUCOT][6]="Глава 6  Ѓошана раба – седьмой день праздника Суккот";
+		chaptersNames[R_SUCOT][7]="Глава 7  Шмини Ацерет";
+		chaptersNames[R_SUCOT][8]="Глава 8  Ѓакѓель";
 	}
 
 	void innerSearch()

@@ -77,7 +77,11 @@ public class MainActivity extends AppCompatActivity
 	private static final int E_SHABAT       = 28;
 	private static final int F_TEFILA       = 29;
 	private static final int S_SHABAT       = 30;
-	private static final int BOOKS_NUMBER	= 31;
+	private static final int R_HAAM       = 31;
+	private static final int R_SHABBAT       = 32;
+	private static final int R_YAMMIM       = 33;
+	private static final int R_SUCOT       = 34;
+	private static final int BOOKS_NUMBER	= 35;
 
 
 	private static final int HEBREW	 = 0;
@@ -466,6 +470,10 @@ public class MainActivity extends AppCompatActivity
 		listDataHeader.add("Laws of Shabbat");
 		listDataHeader.add("La prière d’Israël");
 		listDataHeader.add("Shabbat (Español)");
+		listDataHeader.add("Yammim Noraiim(russian)");
+		listDataHeader.add("shabaat(russian)");
+		listDataHeader.add("haam vehaarez(russian)");
+		listDataHeader.add("sucot(russian)");
 
 
 		// Adding child data
@@ -1097,6 +1105,75 @@ public class MainActivity extends AppCompatActivity
 		S_shabat.add("29 - Eruvín");
 		S_shabat.add("30 - Las \"áreas (\"tjumim\") del Shabat\"");
 
+		List<String> r_haam = new ArrayList<String>();
+		r_haam.add("Глава 1. Величие Земли Израиля");
+		r_haam.add("Глава 2. Святое и будничное в заселении Земли Израиля");
+		r_haam.add("Глава 3. Заповедь заселения Земли Израиля");
+		r_haam.add("Глава 4. Законы, связанные с воинской службой и ведением войны");
+		r_haam.add("Глава 5. Сохранение Земли Израиля");
+		r_haam.add("Глава 6. Некоторые законы, связанные с еврейским государством");
+		r_haam.add("Глава 7. Взаимная ответственность евреев друг за друга");
+		r_haam.add("Глава 8. Еврейский труд");
+		r_haam.add("Глава 9. Память о Храме");
+		r_haam.add("Глава 10. Законы, связанные с переходом в иудаизм и приобщением к еврейскому народу");
+
+		List<String> r_shabat = new ArrayList<String>();
+		r_shabat.add("Глава 1. Введение ");
+		r_shabat.add("Глава 2. Приготовления к субботе");
+		r_shabat.add("Глава 3. Время наступления субботы");
+		r_shabat.add("Глава 4. Зажигание субботних свечей");
+		r_shabat.add("Глава 5. Изучение Торы и молитва в субботу");
+		r_shabat.add("Глава 6. Законы кидуша");
+		r_shabat.add("Глава 7. Субботние трапезы и «проводы субботы» (мелаве малка)");
+		r_shabat.add("Глава 8. Ѓавдала и исход субботы");
+		r_shabat.add("Глава 9. Работы, запрещенные в субботу (мелахот): общие поло-жения");
+		r_shabat.add("Глава 10. Приготовление пищи в субботу");
+		r_shabat.add("Глава 11. Запрет отбора в субботу (борер)");
+		r_shabat.add("Глава 12. Приготовление различных блюд в субботу");
+		r_shabat.add("Глава 13. Работы (мелахот), связанные с одеждой");
+		r_shabat.add("Глава 14. Уход за телом");
+		r_shabat.add("Глава 15. Запреты строительства (боне) и разрушения постро енного (сотер) применительно к дому и предметам домашнего обихода");
+		r_shabat.add("Глава 16. Зажигание и тушение огня");
+		r_shabat.add("Глава 17. Электричество и электроприборы");
+		r_shabat.add("Глава 18. Запреты письма (котев), стирания написанного (мохек) и окрашивания (цовеа)");
+		r_shabat.add("Глава 19. Работы (мелахот), связанные с растениями");
+		r_shabat.add("Глава 20. Работы (мелахот), связанные с животными");
+		r_shabat.add("Глава 21. Законы перенесения предметов из одного владения в другое");
+		r_shabat.add("Глава 22. Субботняя атмосфера");
+		r_shabat.add("Глава 23. Запрет мукце");
+		r_shabat.add("Глава 24. Законы, связанные с детьми");
+		r_shabat.add("Глава 25. Работы (мелахот), выполняемые неевреем");
+		r_shabat.add("Глава 26. Работа (мелаха), выполненная в субботу, и запрет «пред слепым не клади преткновения»");
+		r_shabat.add("Глава 27. Спасение жизни (пикуах нефеш); законы в отношении больного");
+		r_shabat.add("Глава 28. Законы в отношении человека, больного неопасной бо- лезнью");
+		r_shabat.add("Глава 29. Законы эрува");
+		r_shabat.add("Глава 30. Субботний предел");
+
+		List<String> r_yammim = new ArrayList<String>();
+		r_yammim.add("Содержание");
+		r_yammim.add("Глава 1  Высший суд, награда и наказание  ");
+		r_yammim.add("Глава 2  Слихот (молитвы, призывающие к раскаянию) ");
+		r_yammim.add("Глава 3  Рош ѓа-Шана   ");
+		r_yammim.add("Глава 4  Заповедь трубления в шофар");
+		r_yammim.add("Глава 5  Десять дней покаяния");
+		r_yammim.add("Глава 6  Йом Кипур");
+		r_yammim.add("Глава 7  Законы Йом Кипура  ");
+		r_yammim.add("Глава 8  Законы поста в Йом Кипур");
+		r_yammim.add("Глава 9  Остальные запреты Йом Кипура");
+		r_yammim.add("Глава 10  Храмовое служение в Йом Кипур");
+
+		List<String> r_sucot = new ArrayList<String>();
+		r_sucot.add("Содержание");
+		r_sucot.add("Глава 1  Праздник Суккот");
+		r_sucot.add("Глава 2  Законы сукки");
+		r_sucot.add("Глава 3  Заповедь жить в сукке    ");
+		r_sucot.add("Глава 4  Четыре вида растений (арбаат ѓа-миним)");
+		r_sucot.add("Глава 5  Заповедь лулава (нетилат лулав");
+		r_sucot.add("Глава 6  Ѓошана раба – седьмой день праздника Суккот");
+		r_sucot.add("Глава 7  Шмини Ацерет");
+		r_sucot.add("Глава 8  Ѓакѓель");
+
+
 		listDataChild.put(listDataHeader.get(BRACHOT), brachot); // Header, Child data
 		listDataChild.put(listDataHeader.get(HAAMVEHAAREZ), haam);
 		listDataChild.put(listDataHeader.get(ZMANIM), zmanim);
@@ -1128,6 +1205,10 @@ public class MainActivity extends AppCompatActivity
 		listDataChild.put(listDataHeader.get(E_SHABAT), E_Shabat);
 		listDataChild.put(listDataHeader.get(F_TEFILA), F_tefila);
 		listDataChild.put(listDataHeader.get(S_SHABAT), S_shabat);
+		listDataChild.put(listDataHeader.get(R_SHABBAT), r_shabat);
+		listDataChild.put(listDataHeader.get(R_YAMMIM), r_yammim);
+		listDataChild.put(listDataHeader.get(R_HAAM), r_haam);
+		listDataChild.put(listDataHeader.get(R_SUCOT), r_sucot);
 
 	}//prepareListData
 
