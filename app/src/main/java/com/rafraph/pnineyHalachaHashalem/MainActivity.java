@@ -81,7 +81,10 @@ public class MainActivity extends AppCompatActivity
 	private static final int R_SHABBAT       = 32;
 	private static final int R_YAMMIM       = 33;
 	private static final int R_SUCOT       = 34;
-	private static final int BOOKS_NUMBER	= 35;
+	private static final int R_SIMCHAT       = 35;
+	private static final int R_MISHPHACHA       = 36;
+	private static final int R_PESACH       = 37;
+	private static final int BOOKS_NUMBER	= 38;
 
 
 	private static final int HEBREW	 = 0;
@@ -474,6 +477,9 @@ public class MainActivity extends AppCompatActivity
 		listDataHeader.add("shabaat(russian)");
 		listDataHeader.add("haam vehaarez(russian)");
 		listDataHeader.add("sucot(russian)");
+		listDataHeader.add("simchat habait(russian)");
+		listDataHeader.add("mishpacha(russian)");
+		listDataHeader.add("pesach(russian)");
 
 
 		// Adding child data
@@ -1106,6 +1112,7 @@ public class MainActivity extends AppCompatActivity
 		S_shabat.add("30 - Las \"áreas (\"tjumim\") del Shabat\"");
 
 		List<String> r_haam = new ArrayList<String>();
+		r_haam.add("Содержание");
 		r_haam.add("Глава 1. Величие Земли Израиля");
 		r_haam.add("Глава 2. Святое и будничное в заселении Земли Израиля");
 		r_haam.add("Глава 3. Заповедь заселения Земли Израиля");
@@ -1118,6 +1125,7 @@ public class MainActivity extends AppCompatActivity
 		r_haam.add("Глава 10. Законы, связанные с переходом в иудаизм и приобщением к еврейскому народу");
 
 		List<String> r_shabat = new ArrayList<String>();
+		r_shabat.add("Содержание");
 		r_shabat.add("Глава 1. Введение ");
 		r_shabat.add("Глава 2. Приготовления к субботе");
 		r_shabat.add("Глава 3. Время наступления субботы");
@@ -1173,6 +1181,53 @@ public class MainActivity extends AppCompatActivity
 		r_sucot.add("Глава 7  Шмини Ацерет");
 		r_sucot.add("Глава 8  Ѓакѓель");
 
+		List<String> r_simchat = new ArrayList<String>();
+		r_simchat.add("Содержание");
+		r_simchat.add("Глава 1. Заповедь супружеской близости (мицват она)");
+		r_simchat.add("Глава 2. Законы исполнения заповеди супружеской близости");
+		r_simchat.add("Глава 3. Святость и душевный настрой (кавана) при исполнении заповеди супружеской близости");
+		r_simchat.add("Глава 4. Соблюдение Священного завета");
+		r_simchat.add("Глава 5. Заповедь «плодитесь и размножайтесь» ");
+		r_simchat.add("Глава 6. Различные трудности и бесплодие");
+		r_simchat.add("Глава 7. Проблемы мужского бесплодия: увечье,кастрация и стерилизация");
+		r_simchat.add("Глава 8. Слова поддержки и утешения бездетным парам");
+		r_simchat.add("Глава 9. Прерывание беременности ");
+		r_simchat.add("Глава 10. Мужчина и женщина");
+
+		List<String> r_mispacha = new ArrayList<String>();
+		r_mispacha.add("Содержание");
+		r_mispacha.add("Глава 1. Заповедь почтения к родителям ");
+		r_mispacha.add("Глава 2. Заповедь вступления в брак");
+		r_mispacha.add("Глава 3. Сватовство");
+		r_mispacha.add("Глава 4. Кидушин и ктуба");
+		r_mispacha.add("Глава 5. Свадебные законы и обычаи");
+		r_mispacha.add("Глава 6. Запрещенные интимные связи");
+		r_mispacha.add("Глава 7. Законы скромности");
+		r_mispacha.add("Глава 8. Заповедь обрезания (Брит мила)");
+		r_mispacha.add("Глава 9. Выкуп первенцев");
+		r_mispacha.add("Глава 10. Законы траура");
+
+
+		List<String> r_pesach = new ArrayList<String>();
+		r_pesach.add("Содержание");
+		r_pesach.add("Глава 1. Смысл праздника Песах");
+		r_pesach.add("Глава 2. Правила, связанные с запретом на квасное (хамец)");
+		r_pesach.add("Глава 3. Заповедь устранения квасного (биур хамец)");
+		r_pesach.add("Глава 4. Проверка владений еврея на наличие квасного (бдикат хамец)");
+		r_pesach.add("Глава 5. Аннулирование квасного (битуль хамец) и его уничтожение");
+		r_pesach.add("Глава 6. Продажа квасного");
+		r_pesach.add("Глава 7. Смесь квасного с пищей, кошерной на Песах (тааровет хамец)");
+		r_pesach.add("Глава 8. Некоторые законы кашрута на Песах.");
+		r_pesach.add("Глава 9. Обычай запрета китнийот в Песах");
+		r_pesach.add("Глава 10. Общие правила кошерования посуды к Песаху");
+		r_pesach.add("Глава 11. Кошерование кухни к Песаху");
+		r_pesach.add("Глава 12. Законы, связанные с мацой");
+		r_pesach.add("Глава 13. Законы и обычаи кануна Песаха");
+		r_pesach.add("Глава 14. Если канун Песаха выпадает на субботу");
+		r_pesach.add("Глава 15. Пасхальная Агада");
+		r_pesach.add("Глава 16. Пасхальный Седер");
+
+
 
 		listDataChild.put(listDataHeader.get(BRACHOT), brachot); // Header, Child data
 		listDataChild.put(listDataHeader.get(HAAMVEHAAREZ), haam);
@@ -1209,6 +1264,9 @@ public class MainActivity extends AppCompatActivity
 		listDataChild.put(listDataHeader.get(R_YAMMIM), r_yammim);
 		listDataChild.put(listDataHeader.get(R_HAAM), r_haam);
 		listDataChild.put(listDataHeader.get(R_SUCOT), r_sucot);
+		listDataChild.put(listDataHeader.get(R_SIMCHAT), r_simchat);
+		listDataChild.put(listDataHeader.get(R_MISHPHACHA), r_mispacha);
+		listDataChild.put(listDataHeader.get(R_PESACH), r_pesach);
 
 	}//prepareListData
 

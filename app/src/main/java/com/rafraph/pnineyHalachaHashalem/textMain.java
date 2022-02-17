@@ -92,7 +92,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int HAR_SUCOT      = 21;
 	private static final int HAR_SHABAT     = 22;
 	private static final int HAR_SIMCHAT    = 23;
-	private static final int BOOKS_HEB_NUMBER	= 24;
+	private static final int BOOKS_HEB_NUMBER= 24;
 	private static final int E_TEFILA       = 24;
 	private static final int E_PESACH       = 25;
 	private static final int E_ZMANIM       = 26;
@@ -100,14 +100,17 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int E_SHABAT       = 28;
 	private static final int F_TEFILA       = 29;
 	private static final int S_SHABAT       = 30;
-	private static final int R_HAAM       = 31;
-	private static final int R_SHABBAT       = 32;
+	private static final int R_HAAM         = 31;
+	private static final int R_SHABBAT      = 32;
 	private static final int R_YAMMIM       = 33;
-	private static final int R_SUCOT       = 34;
-	private static final int BOOKS_NUMBER	= 35;
+	private static final int R_SUCOT        = 34;
+	private static final int R_SIMCHAT      = 35;
+	private static final int R_MISHPHACHA   = 36;
+	private static final int R_PESACH       = 37;
+	private static final int BOOKS_NUMBER	= 38;
 
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34*/
-	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 10, 30, 10, 8};
+	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33 34  35  36  37*/
+	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 10, 30, 10, 8, 10, 10, 16};
 	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA};
 	public Dialog dialogModes;
 	private static final int HEBREW	 = 0;
@@ -434,6 +437,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		});
 
+		//webview.loadUrl("https://yhb.org.il/ly2/");
+		//webview.loadUrl(getClearUrl());
 
 	}
 
@@ -820,6 +825,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 			case R.id.ibFindNext:
 				webview.findNext(true);
+
 				break;
 
 			case R.id.ibFindPrevious:
@@ -1720,50 +1726,50 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[S_SHABAT][30] = "file:///android_asset/s_shabbat_30.html";
 
 		/*r_HAAM*/
-		//chaptersFiles[R_HAAM][0] = "file:///android_asset/R_haamvehaarez_tochen.html";
-		chaptersFiles[R_HAAM][0] = "file:///android_asset/R_haamvehaarez_1.html";
-		chaptersFiles[R_HAAM][1] = "file:///android_asset/R_haamvehaarez_2.html";
-		chaptersFiles[R_HAAM][2] = "file:///android_asset/R_haamvehaarez_3.html";
-		chaptersFiles[R_HAAM][3] = "file:///android_asset/R_haamvehaarez_4.html";
-		chaptersFiles[R_HAAM][4] = "file:///android_asset/R_haamvehaarez_5.html";
-		chaptersFiles[R_HAAM][5] = "file:///android_asset/R_haamvehaarez_6.html";
-		chaptersFiles[R_HAAM][6] = "file:///android_asset/R_haamvehaarez_7.html";
-		chaptersFiles[R_HAAM][7] = "file:///android_asset/R_haamvehaarez_8.html";
-		chaptersFiles[R_HAAM][8] = "file:///android_asset/R_haamvehaarez_9.html";
-		chaptersFiles[R_HAAM][9] = "file:///android_asset/R_haamvehaarez_10.html";
+		chaptersFiles[R_HAAM][0] = "file:///android_asset/R_haamvehaarez_tochen.html";
+		chaptersFiles[R_HAAM][1] = "file:///android_asset/R_haamvehaarez_1.html";
+		chaptersFiles[R_HAAM][2] = "file:///android_asset/R_haamvehaarez_2.html";
+		chaptersFiles[R_HAAM][3] = "file:///android_asset/R_haamvehaarez_3.html";
+		chaptersFiles[R_HAAM][4] = "file:///android_asset/R_haamvehaarez_4.html";
+		chaptersFiles[R_HAAM][5] = "file:///android_asset/R_haamvehaarez_5.html";
+		chaptersFiles[R_HAAM][6] = "file:///android_asset/R_haamvehaarez_6.html";
+		chaptersFiles[R_HAAM][7] = "file:///android_asset/R_haamvehaarez_7.html";
+		chaptersFiles[R_HAAM][8] = "file:///android_asset/R_haamvehaarez_8.html";
+		chaptersFiles[R_HAAM][9] = "file:///android_asset/R_haamvehaarez_9.html";
+		chaptersFiles[R_HAAM][10] = "file:///android_asset/R_haamvehaarez_10.html";
 
 		/*R_SHABAT*/
-		//chaptersFiles[R_SHABBAT][0] = "file:///android_asset/R_shabbat_tochen.html";
-		chaptersFiles[R_SHABBAT][0] = "file:///android_asset/R_shabbat_1.html";
-		chaptersFiles[R_SHABBAT][1] = "file:///android_asset/R_shabbat_2.html";
-		chaptersFiles[R_SHABBAT][2] = "file:///android_asset/R_shabbat_3.html";
-		chaptersFiles[R_SHABBAT][3] = "file:///android_asset/R_shabbat_4.html";
-		chaptersFiles[R_SHABBAT][4] = "file:///android_asset/R_shabbat_5.html";
-		chaptersFiles[R_SHABBAT][5] = "file:///android_asset/R_shabbat_6.html";
-		chaptersFiles[R_SHABBAT][6] = "file:///android_asset/R_shabbat_7.html";
-		chaptersFiles[R_SHABBAT][7] = "file:///android_asset/R_shabbat_8.html";
-		chaptersFiles[R_SHABBAT][8] = "file:///android_asset/R_shabbat_9.html";
-		chaptersFiles[R_SHABBAT][9] = "file:///android_asset/R_shabbat_10.html";
-		chaptersFiles[R_SHABBAT][10] = "file:///android_asset/R_shabbat_11.html";
-		chaptersFiles[R_SHABBAT][11] = "file:///android_asset/R_shabbat_12.html";
-		chaptersFiles[R_SHABBAT][12] = "file:///android_asset/R_shabbat_13.html";
-		chaptersFiles[R_SHABBAT][13] = "file:///android_asset/R_shabbat_14.html";
-		chaptersFiles[R_SHABBAT][14] = "file:///android_asset/R_shabbat_15.html";
-		chaptersFiles[R_SHABBAT][15] = "file:///android_asset/R_shabbat_16.html";
-		chaptersFiles[R_SHABBAT][16] = "file:///android_asset/R_shabbat_17.html";
-		chaptersFiles[R_SHABBAT][17] = "file:///android_asset/R_shabbat_18.html";
-		chaptersFiles[R_SHABBAT][18] = "file:///android_asset/R_shabbat_19.html";
-		chaptersFiles[R_SHABBAT][19] = "file:///android_asset/R_shabbat_20.html";
-		chaptersFiles[R_SHABBAT][20] = "file:///android_asset/R_shabbat_21.html";
-		chaptersFiles[R_SHABBAT][21] = "file:///android_asset/R_shabbat_22.html";
-		chaptersFiles[R_SHABBAT][22] = "file:///android_asset/R_shabbat_23.html";
-		chaptersFiles[R_SHABBAT][23] = "file:///android_asset/R_shabbat_24.html";
-		chaptersFiles[R_SHABBAT][24] = "file:///android_asset/R_shabbat_25.html";
-		chaptersFiles[R_SHABBAT][25] = "file:///android_asset/R_shabbat_26.html";
-		chaptersFiles[R_SHABBAT][26] = "file:///android_asset/R_shabbat_27.html";
-		chaptersFiles[R_SHABBAT][27] = "file:///android_asset/R_shabbat_28.html";
-		chaptersFiles[R_SHABBAT][28] = "file:///android_asset/R_shabbat_29.html";
-		chaptersFiles[R_SHABBAT][29] = "file:///android_asset/R_shabbat_30.html";
+		chaptersFiles[R_SHABBAT][0] = "file:///android_asset/R_shabbat_tochen.html";
+		chaptersFiles[R_SHABBAT][1] = "file:///android_asset/R_shabbat_1.html";
+		chaptersFiles[R_SHABBAT][2] = "file:///android_asset/R_shabbat_2.html";
+		chaptersFiles[R_SHABBAT][3] = "file:///android_asset/R_shabbat_3.html";
+		chaptersFiles[R_SHABBAT][4] = "file:///android_asset/R_shabbat_4.html";
+		chaptersFiles[R_SHABBAT][5] = "file:///android_asset/R_shabbat_5.html";
+		chaptersFiles[R_SHABBAT][6] = "file:///android_asset/R_shabbat_6.html";
+		chaptersFiles[R_SHABBAT][7] = "file:///android_asset/R_shabbat_7.html";
+		chaptersFiles[R_SHABBAT][8] = "file:///android_asset/R_shabbat_8.html";
+		chaptersFiles[R_SHABBAT][9] = "file:///android_asset/R_shabbat_9.html";
+		chaptersFiles[R_SHABBAT][10] = "file:///android_asset/R_shabbat_10.html";
+		chaptersFiles[R_SHABBAT][11] = "file:///android_asset/R_shabbat_11.html";
+		chaptersFiles[R_SHABBAT][12] = "file:///android_asset/R_shabbat_12.html";
+		chaptersFiles[R_SHABBAT][13] = "file:///android_asset/R_shabbat_13.html";
+		chaptersFiles[R_SHABBAT][14] = "file:///android_asset/R_shabbat_14.html";
+		chaptersFiles[R_SHABBAT][15] = "file:///android_asset/R_shabbat_15.html";
+		chaptersFiles[R_SHABBAT][16] = "file:///android_asset/R_shabbat_16.html";
+		chaptersFiles[R_SHABBAT][17] = "file:///android_asset/R_shabbat_17.html";
+		chaptersFiles[R_SHABBAT][18] = "file:///android_asset/R_shabbat_18.html";
+		chaptersFiles[R_SHABBAT][19] = "file:///android_asset/R_shabbat_19.html";
+		chaptersFiles[R_SHABBAT][20] = "file:///android_asset/R_shabbat_20.html";
+		chaptersFiles[R_SHABBAT][21] = "file:///android_asset/R_shabbat_21.html";
+		chaptersFiles[R_SHABBAT][22] = "file:///android_asset/R_shabbat_22.html";
+		chaptersFiles[R_SHABBAT][23] = "file:///android_asset/R_shabbat_23.html";
+		chaptersFiles[R_SHABBAT][24] = "file:///android_asset/R_shabbat_24.html";
+		chaptersFiles[R_SHABBAT][25] = "file:///android_asset/R_shabbat_25.html";
+		chaptersFiles[R_SHABBAT][26] = "file:///android_asset/R_shabbat_26.html";
+		chaptersFiles[R_SHABBAT][27] = "file:///android_asset/R_shabbat_27.html";
+		chaptersFiles[R_SHABBAT][28] = "file:///android_asset/R_shabbat_28.html";
+		chaptersFiles[R_SHABBAT][29] = "file:///android_asset/R_shabbat_29.html";
+		chaptersFiles[R_SHABBAT][30] = "file:///android_asset/R_shabbat_30.html";
 
 		/*r_YAMIM*/
 		chaptersFiles[R_YAMMIM][0] = "file:///android_asset/R_YAMMIM_tochen.html";
@@ -1789,6 +1795,51 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[R_SUCOT][7] = "file:///android_asset/R_sucot_7.html";
 		chaptersFiles[R_SUCOT][8] = "file:///android_asset/R_sucot_8.html";
 
+		/*r_SIMCHAT*/
+		chaptersFiles[R_SIMCHAT][0] = "file:///android_asset/R_simchat_tochen.html";
+		chaptersFiles[R_SIMCHAT][1] = "file:///android_asset/R_simchat_1.html";
+		chaptersFiles[R_SIMCHAT][2] = "file:///android_asset/R_simchat_2.html";
+		chaptersFiles[R_SIMCHAT][3] = "file:///android_asset/R_simchat_3.html";
+		chaptersFiles[R_SIMCHAT][4] = "file:///android_asset/R_simchat_4.html";
+		chaptersFiles[R_SIMCHAT][5] = "file:///android_asset/R_simchat_5.html";
+		chaptersFiles[R_SIMCHAT][6] = "file:///android_asset/R_simchat_6.html";
+		chaptersFiles[R_SIMCHAT][7] = "file:///android_asset/R_simchat_7.html";
+		chaptersFiles[R_SIMCHAT][8] = "file:///android_asset/R_simchat_8.html";
+		chaptersFiles[R_SIMCHAT][9] = "file:///android_asset/R_simchat_9.html";
+		chaptersFiles[R_SIMCHAT][10] ="file:///android_asset/R_simchat_10.html";
+
+		/*r_MISHPACHA*/
+		chaptersFiles[R_MISHPHACHA][0] = "file:///android_asset/r_misphacha_tochen.html";
+		chaptersFiles[R_MISHPHACHA][1] = "file:///android_asset/r_misphacha_1.html";
+		chaptersFiles[R_MISHPHACHA][2] = "file:///android_asset/r_misphacha_2.html";
+		chaptersFiles[R_MISHPHACHA][3] = "file:///android_asset/r_misphacha_3.html";
+		chaptersFiles[R_MISHPHACHA][4] = "file:///android_asset/r_misphacha_4.html";
+		chaptersFiles[R_MISHPHACHA][5] = "file:///android_asset/r_misphacha_5.html";
+		chaptersFiles[R_MISHPHACHA][6] = "file:///android_asset/r_misphacha_6.html";
+		chaptersFiles[R_MISHPHACHA][7] = "file:///android_asset/r_misphacha_7.html";
+		chaptersFiles[R_MISHPHACHA][8] = "file:///android_asset/r_misphacha_8.html";
+		chaptersFiles[R_MISHPHACHA][9] = "file:///android_asset/r_misphacha_9.html";
+		chaptersFiles[R_MISHPHACHA][10] ="file:///android_asset/r_misphacha_10.html";
+
+		/*R_pesach*/
+		chaptersFiles[R_PESACH][0] = "file:///android_asset/r_pesach_tochen.html";
+		chaptersFiles[R_PESACH][1] = "file:///android_asset/r_pesach_1.html";
+		chaptersFiles[R_PESACH][2] = "file:///android_asset/r_pesach_2.html";
+		chaptersFiles[R_PESACH][3] = "file:///android_asset/r_pesach_3.html";
+		chaptersFiles[R_PESACH][4] = "file:///android_asset/r_pesach.html";
+		chaptersFiles[R_PESACH][5] = "file:///android_asset/r_pesach_5.html";
+		chaptersFiles[R_PESACH][6] = "file:///android_asset/r_pesach_6.html";
+		chaptersFiles[R_PESACH][7] = "file:///android_asset/r_pesach_7.html";
+		chaptersFiles[R_PESACH][8] = "file:///android_asset/r_pesach_8.html";
+		chaptersFiles[R_PESACH][9] = "file:///android_asset/r_pesach_9.html";
+		chaptersFiles[R_PESACH][10] = "file:///android_asset/r_pesach_10.html";
+		chaptersFiles[R_PESACH][11] = "file:///android_asset/r_pesach_11.html";
+		chaptersFiles[R_PESACH][12] = "file:///android_asset/r_pesach_12.html";
+		chaptersFiles[R_PESACH][13] = "file:///android_asset/r_pesach_13.html";
+		chaptersFiles[R_PESACH][14] = "file:///android_asset/r_pesach_14.html";
+		chaptersFiles[R_PESACH][15] = "file:///android_asset/r_pesach_15.html";
+		chaptersFiles[R_PESACH][16] = "file:///android_asset/r_pesach_16.html";
+		chaptersFiles[R_PESACH][17] = "file:///android_asset/r_pesach_17.html";
 	}
 
 
@@ -2284,6 +2335,12 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				return "yamim noriim(russian)";
 			case R_SUCOT:
 				return "sucot(russian)";
+			case R_SIMCHAT:
+				return "simchat habiit(russian)";
+			case R_MISHPHACHA:
+				return "mishpacha(russian)";
+			case R_PESACH:
+				return "pesach(russian)";
 			default:
 				return "לא ידוע";
 		}
@@ -2747,6 +2804,46 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[R_SUCOT][6]="Глава 6  Ѓошана раба – седьмой день праздника Суккот";
 		chaptersNames[R_SUCOT][7]="Глава 7  Шмини Ацерет";
 		chaptersNames[R_SUCOT][8]="Глава 8  Ѓакѓель";
+
+		chaptersNames[R_SIMCHAT][1]="Глава 1. Заповедь супружеской близости (мицват она)";
+		chaptersNames[R_SIMCHAT][1]="Глава 2. Законы исполнения заповеди супружеской близости";
+		chaptersNames[R_SIMCHAT][1]="Глава 3. Святость и душевный настрой (кавана) при исполнении заповеди супружеской близости";
+		chaptersNames[R_SIMCHAT][1]="Глава 4. Соблюдение Священного завета";
+		chaptersNames[R_SIMCHAT][1]="Глава 5. Заповедь «плодитесь и размножайтесь» ";
+		chaptersNames[R_SIMCHAT][1]="Глава 6. Различные трудности и бесплодие";
+		chaptersNames[R_SIMCHAT][1]="Глава 7. Проблемы мужского бесплодия: увечье,кастрация и стерилизация";
+		chaptersNames[R_SIMCHAT][1]="Глава 8. Слова поддержки и утешения бездетным парам";
+		chaptersNames[R_SIMCHAT][1]="Глава 9. Прерывание беременности ";
+		chaptersNames[R_SIMCHAT][1]="Глава 10. Мужчина и женщина";
+
+		chaptersNames[R_MISHPHACHA][1]="Глава 1. Заповедь почтения к родителям ";
+		chaptersNames[R_MISHPHACHA][2]="Глава 2. Заповедь вступления в брак";
+		chaptersNames[R_MISHPHACHA][3]="Глава 3. Сватовство";
+		chaptersNames[R_MISHPHACHA][4]="Глава 4. Кидушин и ктуба";
+		chaptersNames[R_MISHPHACHA][5]="Глава 5. Свадебные законы и обычаи";
+		chaptersNames[R_MISHPHACHA][6]="Глава 6. Запрещенные интимные связи";
+		chaptersNames[R_MISHPHACHA][7]="Глава 7. Законы скромности";
+		chaptersNames[R_MISHPHACHA][8]="Глава 8. Заповедь обрезания (Брит мила)";
+		chaptersNames[R_MISHPHACHA][9]="Глава 9. Выкуп первенцев";
+		chaptersNames[R_MISHPHACHA][10]="Глава 10. Законы траура";
+
+		chaptersNames[R_PESACH][1]="Глава 1. Смысл праздника Песах";
+		chaptersNames[R_PESACH][2]="Глава 2. Правила, связанные с запретом на квасное (хамец)";
+		chaptersNames[R_PESACH][3]="Глава 3. Заповедь устранения квасного (биур хамец)";
+		chaptersNames[R_PESACH][4]="Глава 4. Проверка владений еврея на наличие квасного (бдикат хамец)";
+		chaptersNames[R_PESACH][5]="Глава 5. Аннулирование квасного (битуль хамец) и его уничтожение";
+		chaptersNames[R_PESACH][6]="Глава 6. Продажа квасного";
+		chaptersNames[R_PESACH][7]="Глава 7. Смесь квасного с пищей, кошерной на Песах (тааровет хамец)";
+		chaptersNames[R_PESACH][8]="Глава 8. Некоторые законы кашрута на Песах.";
+		chaptersNames[R_PESACH][9]="Глава 9. Обычай запрета китнийот в Песах";
+		chaptersNames[R_PESACH][10]="Глава 10. Общие правила кошерования посуды к Песаху";
+		chaptersNames[R_PESACH][11]="Глава 11. Кошерование кухни к Песаху";
+		chaptersNames[R_PESACH][12]="Глава 12. Законы, связанные с мацой";
+		chaptersNames[R_PESACH][13]="Глава 13. Законы и обычаи кануна Песаха";
+		chaptersNames[R_PESACH][14]="Глава 14. Если канун Песаха выпадает на субботу";
+		chaptersNames[R_PESACH][15]="Глава 15. Пасхальная Агада";
+		chaptersNames[R_PESACH][16]="Глава 16. Пасхальный Седер";
+
 	}
 
 	void innerSearch()
