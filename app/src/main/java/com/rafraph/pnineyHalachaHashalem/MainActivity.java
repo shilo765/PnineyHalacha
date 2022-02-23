@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 	private static final int HAR_SUCOT      = 21;
 	private static final int HAR_SHABAT     = 22;
 	private static final int HAR_SIMCHAT    = 23;
-	private static final int BOOKS_HEB_NUMBER	= 24;
+	private static final int BOOKS_HEB_NUMBER=24;
 	private static final int E_TEFILA       = 24;
 	private static final int E_PESACH       = 25;
 	private static final int E_ZMANIM       = 26;
@@ -77,14 +77,18 @@ public class MainActivity extends AppCompatActivity
 	private static final int E_SHABAT       = 28;
 	private static final int F_TEFILA       = 29;
 	private static final int S_SHABAT       = 30;
-	private static final int R_HAAM       = 31;
-	private static final int R_SHABBAT       = 32;
+	private static final int R_HAAM         = 31;
+	private static final int R_SHABBAT      = 32;
 	private static final int R_YAMMIM       = 33;
-	private static final int R_SUCOT       = 34;
-	private static final int R_SIMCHAT       = 35;
-	private static final int R_MISHPHACHA       = 36;
+	private static final int R_SUCOT        = 34;
+	private static final int R_SIMCHAT      = 35;
+	private static final int R_MISHPHACHA   = 36;
 	private static final int R_PESACH       = 37;
-	private static final int BOOKS_NUMBER	= 38;
+	private static final int R_MOADIM       = 38;
+	private static final int R_TEFILAT_NASHIM=39;
+	private static final int R_TFILA         =40;
+	private static final int R_ZMANIM        =41;
+	private static final int BOOKS_NUMBER	= 42;
 
 
 	private static final int HEBREW	 = 0;
@@ -158,13 +162,23 @@ public class MainActivity extends AppCompatActivity
 						+ listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition), Toast.LENGTH_SHORT).show();
 				try
 				{
-					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
-					Intent ourIntent = new Intent(MainActivity.this, ourClass);
-					int[] book_chapter = new int[2];
-					book_chapter[0] = groupPosition;
-					book_chapter[1] = childPosition;
-					ourIntent.putExtra("book_chapter", book_chapter);
-					startActivity(ourIntent);
+					//this if is for the pnina hayomit.(not ready)
+					//if(groupPosition==38)
+					//{
+				//		Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
+				//		Intent ourIntent = new Intent(MainActivity.this, ourClass);
+				//		startActivity(ourIntent);
+				//	}
+				//	else
+				//		{
+						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
+						Intent ourIntent = new Intent(MainActivity.this, ourClass);
+						int[] book_chapter = new int[2];
+						book_chapter[0] = groupPosition;
+						book_chapter[1] = childPosition;
+						ourIntent.putExtra("book_chapter", book_chapter);
+						startActivity(ourIntent);
+				//	}
 				}
 				catch (ClassNotFoundException e)
 				{
@@ -480,6 +494,10 @@ public class MainActivity extends AppCompatActivity
 		listDataHeader.add("simchat habait(russian)");
 		listDataHeader.add("mishpacha(russian)");
 		listDataHeader.add("pesach(russian)");
+		listDataHeader.add("moadim(russian)");
+		listDataHeader.add("tfilat_nashim(russian)");
+		listDataHeader.add("tfila(russian)");
+		listDataHeader.add("zmanim(russian)");
 
 
 		// Adding child data
@@ -1217,7 +1235,7 @@ public class MainActivity extends AppCompatActivity
 		r_pesach.add("Глава 5. Аннулирование квасного (битуль хамец) и его уничтожение");
 		r_pesach.add("Глава 6. Продажа квасного");
 		r_pesach.add("Глава 7. Смесь квасного с пищей, кошерной на Песах (тааровет хамец)");
-		r_pesach.add("Глава 8. Некоторые законы кашрута на Песах.");
+		r_pesach.add("Глава 8. Некоторые законы кашрута на Песах");
 		r_pesach.add("Глава 9. Обычай запрета китнийот в Песах");
 		r_pesach.add("Глава 10. Общие правила кошерования посуды к Песаху");
 		r_pesach.add("Глава 11. Кошерование кухни к Песаху");
@@ -1227,6 +1245,97 @@ public class MainActivity extends AppCompatActivity
 		r_pesach.add("Глава 15. Пасхальная Агада");
 		r_pesach.add("Глава 16. Пасхальный Седер");
 
+		List<String> r_moadim = new ArrayList<String>();
+		r_moadim.add("Содержание");
+		r_moadim.add("Глава 1. Вступление");
+		r_moadim.add("Глава 2. Заповеди-предписания (мицвот асэ),действующие в йом тов");
+		r_moadim.add("Глава 3. Запрет выполнения созидательной работы (мелаха) в йом тов");
+		r_moadim.add("Глава 4. Виды созидательной работы (мелаха),связанной с приготовлением пищи");
+		r_moadim.add("Глава 5. Зажигание и тушение огня; использование электричества в йом тов");
+		r_moadim.add("Глава 6. Перенесение предметов из одного владения в другое; закон мукце");
+		r_moadim.add("ГГлава 7. Некоторые законы йом това");
+		r_moadim.add("Глава 8. Эрув тавшилин");
+		r_moadim.add("Глава 9. Второй йом тов за пределами Земли Израиля");
+		r_moadim.add("Глава 10. Заповеди холь ѓа-моэда");
+		r_moadim.add("Глава 11. Созидательная работа (мелаха) в холь ѓа-моэд");
+		r_moadim.add("Глава 12. Какая работа разрешена в холь ѓа-моэд");
+		r_moadim.add("Глава 13 Шавуот");
+
+		List<String> r_tfilat_nashim = new ArrayList<String>();
+		r_tfilat_nashim.add("Содержание");
+		r_tfilat_nashim.add("Глава 1  Основы законов молитвы ");
+		r_tfilat_nashim.add("Глава 2  Заповедь молитвы для женщин");
+		r_tfilat_nashim.add("Глава 3  Смысл заповедей, обязательных для женщин");
+		r_tfilat_nashim.add("Глава 4  Утреннее пробуждение");
+		r_tfilat_nashim.add("Глава 5  Утреннее омовение рук");
+		r_tfilat_nashim.add("Глава 6  Утренние благословения (Биркот ѓа-шахар) ");
+		r_tfilat_nashim.add("Глава 7  Благословения Торы (Биркот ѓа-Тора) ");
+		r_tfilat_nashim.add("Глава 8  Утренняя молитвенная служба (шахарит) и законы, связанные с подготовкой к ней");
+		r_tfilat_nashim.add("Глава 9  Телесная подготовка к молитве ");
+		r_tfilat_nashim.add("Глава 10  Подготовка души к молитве; одежда, подобающая молитве  ");
+		r_tfilat_nashim.add("Глава 11  Место молитвы ");
+		r_tfilat_nashim.add("Глава 12  Молитва амида ");
+		r_tfilat_nashim.add("Глава 13  Ошибки при чтении молитвы амида ");
+		r_tfilat_nashim.add("Глава 14  Почтительное отношение к молитве ");
+		r_tfilat_nashim.add("Глава 15  Отрывки о жертвоприношениях (Корбанот) и «Хвалебные гимны» (Псукей де-зимра) ");
+		r_tfilat_nashim.add("Глава 16  Шма Исраэль и сопутствующие благословения ");
+		r_tfilat_nashim.add("Глава 17  Молитвы, читаемые после амиды");
+		r_tfilat_nashim.add("Глава 18  Послеполуденная и вечерняя молитвы (минха и арвит) ");
+		r_tfilat_nashim.add("Глава 19  Чтение Шма Исраэль перед отходом ко сну ");
+		r_tfilat_nashim.add("Глава 20  Отдельные законы молитвы в миньяне ");
+		r_tfilat_nashim.add("Глава 21  Отдельные законы, связанные с синагогой ");
+		r_tfilat_nashim.add("Глава 22  Молитва и кидуш в субботу");
+		r_tfilat_nashim.add("Глава 23  Отдельные законы праздников и памятных дней");
+		r_tfilat_nashim.add("Глава 24  Молитвенные каноны и обычаи разных общин ");
+
+		List<String> r_tfila = new ArrayList<String>();
+		r_tfila.add("Содержание");
+		r_tfila.add("Глава 1 Основы законов молитвы ");
+		r_tfila.add("Глава 2 Миньян");
+		r_tfila.add("Глава 3 Место молитвы");
+		r_tfila.add("Глава 4 Кантор и кадиш скорбящих");
+		r_tfila.add("Глава 5 Подготовка к молитве");
+		r_tfila.add("Глава 6 Молитвенные каноны и обычаи разных общин ");
+		r_tfila.add("Глава 7 Утреннее пробуждение");
+		r_tfila.add("Глава 8 Утреннее омовение рук");
+		r_tfila.add("Глава 9 Утренние благословения (Биркот ѓа-шахар)");
+		r_tfila.add("Глава 10 Благословения Торы (Биркот ѓа-Тора)");
+		r_tfila.add("Глава 11 Время чтения Шма Исраэль и утренней молитвы ( шахарит)");
+		r_tfila.add("Глава 12 Подготовка к утренней молитве");
+		r_tfila.add("Глава 13 Порядок жертвоприношений (Корбанот)");
+		r_tfila.add("Глава 14 Хвалебные гимны (Псукей де-зимра)");
+		r_tfila.add("Глава 15 Шма Исраэль ");
+		r_tfila.add("Глава 16 Благословения, сопровождающие чтение Шма Исраэль");
+		r_tfila.add("Глава 17 Молитва амида");
+		r_tfila.add("Глава 18 Ошибки при чтении молитвы амида");
+		r_tfila.add("Глава 19 Повторение кантором молитвы амида");
+		r_tfila.add("Глава 20 Благословение народа коѓенами (Биркат коѓаним)");
+		r_tfila.add("Глава 21 Таханун и Нефилат апаим");
+		r_tfila.add("Глава 22 Некоторые законы чтения Торы");
+		r_tfila.add("Глава 23 Окончание утренней молитвы и законы кадиша");
+		r_tfila.add("Глава 24 Минха - послеполуденная молитва ");
+		r_tfila.add("Глава 25 Арвит - вечерняя молитва ");
+		r_tfila.add("Глава 26 Чтение Шма Исраэль перед отходом ко сну");
+
+		List<String> r_zmanim = new ArrayList<String>();
+		r_zmanim.add("Содержание");
+		r_zmanim.add("Глава 1. Новомесячье (рош ходеш)");
+		r_zmanim.add("Глава 2. Законы отсчета омера (сфират ѓа-омер)");
+		r_zmanim.add("Глава 3. Траурные обычаи в период отсчета омера");
+		r_zmanim.add("Глава 4. День независимости Израиля, День освобождения Иерусалима и дни памяти");
+		r_zmanim.add("Глава 5. Лаг ба-омер");
+		r_zmanim.add("Глава 6. Четыре поста в память о разрушении Храма");
+		r_zmanim.add("Глава 7. Законы малых постов");
+		r_zmanim.add("Глава 8. Обычаи трех траурных недель бейн ѓа-мецарим");
+		r_zmanim.add("Глава 9. Канун поста 9 ава");
+		r_zmanim.add("Глава 10. Законы поста 9 ава");
+		r_zmanim.add("Глава 11. Дни Хануки");
+		r_zmanim.add("Глава 12. Зажигание ханукальных свечей");
+		r_zmanim.add("Глава 13. Законы места и времени");
+		r_zmanim.add("Глава 14. Месяц адар");
+		r_zmanim.add("Глава 15. Пурим и чтение Свитка Эстер");
+		r_zmanim.add("Глава 16. Заповеди радости и милосердия");
+		r_zmanim.add("Глава 17. Законы городов, обнесенных и не обнесенных стеной");
 
 
 		listDataChild.put(listDataHeader.get(BRACHOT), brachot); // Header, Child data
@@ -1267,6 +1376,10 @@ public class MainActivity extends AppCompatActivity
 		listDataChild.put(listDataHeader.get(R_SIMCHAT), r_simchat);
 		listDataChild.put(listDataHeader.get(R_MISHPHACHA), r_mispacha);
 		listDataChild.put(listDataHeader.get(R_PESACH), r_pesach);
+		listDataChild.put(listDataHeader.get(R_MOADIM), r_moadim);
+		listDataChild.put(listDataHeader.get(R_TEFILAT_NASHIM), r_tfilat_nashim);
+		listDataChild.put(listDataHeader.get(R_TFILA), r_tfila);
+		listDataChild.put(listDataHeader.get(R_ZMANIM), r_zmanim);
 
 	}//prepareListData
 

@@ -24,7 +24,7 @@ public class Settings extends Activity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_settings);
+		setContentView(R.layout.activity_pnina_yomit);
 		
 		cbSleepScreen 		= (CheckBox) findViewById(R.id.checkBoxSleepScreen);
 		cbBlackBackground 	= (CheckBox) findViewById(R.id.checkBoxBlackBackground);

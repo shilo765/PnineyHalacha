@@ -8,6 +8,7 @@
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/activity_audio.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/activity_feedback.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/activity_pnina_yomit.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/activity_search_help.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/activity_searchable.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/activity_settings.xml" value="0.36666666666666664" />
@@ -19,10 +20,12 @@
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/audio_list.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/auto_scroll.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/bookmarks.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/content_pnina_yomit.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/inner_search.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/language.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/list_group.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/new_version.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/note.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/paragraph.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/splash.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/text_main.xml" value="0.36666666666666664" />

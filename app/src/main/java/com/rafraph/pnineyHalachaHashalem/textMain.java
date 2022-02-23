@@ -107,10 +107,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int R_SIMCHAT      = 35;
 	private static final int R_MISHPHACHA   = 36;
 	private static final int R_PESACH       = 37;
-	private static final int BOOKS_NUMBER	= 38;
+	private static final int R_MOADIM       = 38;
+	private static final int R_TEFILAT_NASHIM=39;
+	private static final int R_TFILA         =40;
+	private static final int R_ZMANIM        =41;
+	private static final int BOOKS_NUMBER	= 42;
 
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33 34  35  36  37*/
-	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 10, 30, 10, 8, 10, 10, 16};
+	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33 34  35  36  37  38  39  40  41*/
+	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17};
 	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA};
 	public Dialog dialogModes;
 	private static final int HEBREW	 = 0;
@@ -436,9 +440,18 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				wv.loadUrl(fileName);
 			}
 		});
+		webview.getSettings().setJavaScriptEnabled(true);
+		webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+		webview.setWebViewClient(new WebViewClient());
+		//webview.setWebChromeClient(new WebChromeClient());
+		//webSettings.setJavaScriptEnabled(true);
+		//webSettings.setPluginState(WebSettings.PluginState.ON);
+		//webview.loadUrl("https://ph.yhb.org.il/pninayomit/");
+		//webview.scrollTo(0,680);
+		//webSettings.setDomStorageEnabled(true);
 
-		//webview.loadUrl("https://yhb.org.il/ly2/");
-		//webview.loadUrl(getClearUrl());
+
+
 
 	}
 
@@ -1125,7 +1138,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private void fillChaptersFiles()/*list of all assets*/
 	{
 		/*BRACHOT*/
-		chaptersFiles[BRACHOT][0] = "file:///android_asset/brachot_tochen.html";
+		//chaptersFiles[BRACHOT][0] = "file:///android_asset/brachot_tochen.html";
+		chaptersFiles[BRACHOT][0] = "https://ph.yhb.org.il/pninayomit/";
 		chaptersFiles[BRACHOT][1] = "file:///android_asset/brachot_1.html";
 		chaptersFiles[BRACHOT][2] = "file:///android_asset/brachot_2.html";
 		chaptersFiles[BRACHOT][3] = "file:///android_asset/brachot_3.html";
@@ -1840,6 +1854,99 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[R_PESACH][15] = "file:///android_asset/r_pesach_15.html";
 		chaptersFiles[R_PESACH][16] = "file:///android_asset/r_pesach_16.html";
 		chaptersFiles[R_PESACH][17] = "file:///android_asset/r_pesach_17.html";
+
+		/*R_moadim*/
+		chaptersFiles[R_MOADIM][0] = "file:///android_asset/r_moadim_tochen.html";
+		chaptersFiles[R_MOADIM][1] = "file:///android_asset/r_moadim_1.html";
+		chaptersFiles[R_MOADIM][2] = "file:///android_asset/r_moadim_2.html";
+		chaptersFiles[R_MOADIM][3] = "file:///android_asset/r_moadim_3.html";
+		chaptersFiles[R_MOADIM][4] = "file:///android_asset/r_moadim_4.html";
+		chaptersFiles[R_MOADIM][5] = "file:///android_asset/r_moadim_5.html";
+		chaptersFiles[R_MOADIM][6] = "file:///android_asset/r_moadim_6.html";
+		chaptersFiles[R_MOADIM][7] = "file:///android_asset/r_moadim_7.html";
+		chaptersFiles[R_MOADIM][8] = "file:///android_asset/r_moadim_8.html";
+		chaptersFiles[R_MOADIM][9] = "file:///android_asset/r_moadim_9.html";
+		chaptersFiles[R_MOADIM][9] = "file:///android_asset/r_moadim_9.html";
+		chaptersFiles[R_MOADIM][10] = "file:///android_asset/r_moadim_10.html";
+		chaptersFiles[R_MOADIM][11] = "file:///android_asset/r_moadim_11.html";
+		chaptersFiles[R_MOADIM][12] = "file:///android_asset/r_moadim_12.html";
+		chaptersFiles[R_MOADIM][13] = "file:///android_asset/r_moadim_13.html";
+
+		/*R_tfilat_nashim*/
+		chaptersFiles[R_TEFILAT_NASHIM][0] = "file:///android_asset/r_tfilat_nashim_tochen.html";
+		chaptersFiles[R_TEFILAT_NASHIM][1] = "file:///android_asset/r_tfilat_nashim_1.html";
+		chaptersFiles[R_TEFILAT_NASHIM][2] = "file:///android_asset/r_tfilat_nashim_2.html";
+		chaptersFiles[R_TEFILAT_NASHIM][3] = "file:///android_asset/r_tfilat_nashim_3.html";
+		chaptersFiles[R_TEFILAT_NASHIM][4] = "file:///android_asset/r_tfilat_nashim_4.html";
+		chaptersFiles[R_TEFILAT_NASHIM][5] = "file:///android_asset/r_tfilat_nashim_5.html";
+		chaptersFiles[R_TEFILAT_NASHIM][6] = "file:///android_asset/r_tfilat_nashim_6.html";
+		chaptersFiles[R_TEFILAT_NASHIM][7] = "file:///android_asset/r_tfilat_nashim_7.html";
+		chaptersFiles[R_TEFILAT_NASHIM][8] = "file:///android_asset/r_tfilat_nashim_8.html";
+		chaptersFiles[R_TEFILAT_NASHIM][9] = "file:///android_asset/r_tfilat_nashim_9.html";
+		chaptersFiles[R_TEFILAT_NASHIM][10] = "file:///android_asset/r_tfilat_nashim_10.html";
+		chaptersFiles[R_TEFILAT_NASHIM][11] = "file:///android_asset/r_tfilat_nashim_11.html";
+		chaptersFiles[R_TEFILAT_NASHIM][12] = "file:///android_asset/r_tfilat_nashim_12.html";
+		chaptersFiles[R_TEFILAT_NASHIM][13] = "file:///android_asset/r_tfilat_nashim_13.html";
+		chaptersFiles[R_TEFILAT_NASHIM][14] = "file:///android_asset/r_tfilat_nashim_14.html";
+		chaptersFiles[R_TEFILAT_NASHIM][15] = "file:///android_asset/r_tfilat_nashim_15.html";
+		chaptersFiles[R_TEFILAT_NASHIM][16] = "file:///android_asset/r_tfilat_nashim_16.html";
+		chaptersFiles[R_TEFILAT_NASHIM][17] = "file:///android_asset/r_tfilat_nashim_17.html";
+		chaptersFiles[R_TEFILAT_NASHIM][18] = "file:///android_asset/r_tfilat_nashim_18.html";
+		chaptersFiles[R_TEFILAT_NASHIM][19] = "file:///android_asset/r_tfilat_nashim_19.html";
+		chaptersFiles[R_TEFILAT_NASHIM][20] = "file:///android_asset/r_tfilat_nashim_20.html";
+		chaptersFiles[R_TEFILAT_NASHIM][21] = "file:///android_asset/r_tfilat_nashim_21.html";
+		chaptersFiles[R_TEFILAT_NASHIM][22] = "file:///android_asset/r_tfilat_nashim_22.html";
+		chaptersFiles[R_TEFILAT_NASHIM][23] = "file:///android_asset/r_tfilat_nashim_23.html";
+		chaptersFiles[R_TEFILAT_NASHIM][24] = "file:///android_asset/r_tfilat_nashim_24.html";
+
+		/*R_tfila*/
+		chaptersFiles[R_TFILA][0] = "file:///android_asset/r_tfila_tochen.html";
+		chaptersFiles[R_TFILA][1] = "file:///android_asset/r_tfila_1.html";
+		chaptersFiles[R_TFILA][2] = "file:///android_asset/r_tfila_2.html";
+		chaptersFiles[R_TFILA][3] = "file:///android_asset/r_tfila_3.html";
+		chaptersFiles[R_TFILA][4] = "file:///android_asset/r_tfila_4.html";
+		chaptersFiles[R_TFILA][5] = "file:///android_asset/r_tfila_5.html";
+		chaptersFiles[R_TFILA][6] = "file:///android_asset/r_tfila_6.html";
+		chaptersFiles[R_TFILA][7] = "file:///android_asset/r_tfila_7.html";
+		chaptersFiles[R_TFILA][8] = "file:///android_asset/r_tfila_8.html";
+		chaptersFiles[R_TFILA][9] = "file:///android_asset/r_tfila_9.html";
+		chaptersFiles[R_TFILA][10] = "file:///android_asset/r_tfila_10.html";
+		chaptersFiles[R_TFILA][11] = "file:///android_asset/r_tfila_11.html";
+		chaptersFiles[R_TFILA][12] = "file:///android_asset/r_tfila_12.html";
+		chaptersFiles[R_TFILA][13] = "file:///android_asset/r_tfila_13.html";
+		chaptersFiles[R_TFILA][14] = "file:///android_asset/r_tfila_14.html";
+		chaptersFiles[R_TFILA][15] = "file:///android_asset/r_tfila_15.html";
+		chaptersFiles[R_TFILA][16] = "file:///android_asset/r_tfila_16.html";
+		chaptersFiles[R_TFILA][17] = "file:///android_asset/r_tfila_17.html";
+		chaptersFiles[R_TFILA][18] = "file:///android_asset/r_tfila_18.html";
+		chaptersFiles[R_TFILA][19] = "file:///android_asset/r_tfila_19.html";
+		chaptersFiles[R_TFILA][20] = "file:///android_asset/r_tfila_20.html";
+		chaptersFiles[R_TFILA][21] = "file:///android_asset/r_tfila_21.html";
+		chaptersFiles[R_TFILA][22] = "file:///android_asset/r_tfila_22.html";
+		chaptersFiles[R_TFILA][23] = "file:///android_asset/r_tfila_23.html";
+		chaptersFiles[R_TFILA][24] = "file:///android_asset/r_tfila_24.html";
+		chaptersFiles[R_TFILA][25] = "file:///android_asset/r_tfila_25.html";
+		chaptersFiles[R_TFILA][26] = "file:///android_asset/r_tfila_26.html";
+
+		/*R_zmanim*/
+		chaptersFiles[R_ZMANIM][0] = "file:///android_asset/r_zmanim_tochen.html";
+		chaptersFiles[R_ZMANIM][1] = "file:///android_asset/r_zmanim_1.html";
+		chaptersFiles[R_ZMANIM][2] = "file:///android_asset/r_zmanim_2.html";
+		chaptersFiles[R_ZMANIM][3] = "file:///android_asset/r_zmanim_3.html";
+		chaptersFiles[R_ZMANIM][4] = "file:///android_asset/r_zmanim_4.html";
+		chaptersFiles[R_ZMANIM][5] = "file:///android_asset/r_zmanim_5.html";
+		chaptersFiles[R_ZMANIM][6] = "file:///android_asset/r_zmanim_6.html";
+		chaptersFiles[R_ZMANIM][7] = "file:///android_asset/r_zmanim_7.html";
+		chaptersFiles[R_ZMANIM][8] = "file:///android_asset/r_zmanim_8.html";
+		chaptersFiles[R_ZMANIM][9] = "file:///android_asset/r_zmanim_9.html";
+		chaptersFiles[R_ZMANIM][10] = "file:///android_asset/r_zmanim_10.html";
+		chaptersFiles[R_ZMANIM][11] = "file:///android_asset/r_zmanim_11.html";
+		chaptersFiles[R_ZMANIM][12] = "file:///android_asset/r_zmanim_12.html";
+		chaptersFiles[R_ZMANIM][13] = "file:///android_asset/r_zmanim_13.html";
+		chaptersFiles[R_ZMANIM][14] = "file:///android_asset/r_zmanim_14.html";
+		chaptersFiles[R_ZMANIM][15] = "file:///android_asset/r_zmanim_15.html";
+		chaptersFiles[R_ZMANIM][16] = "file:///android_asset/r_zmanim_16.html";
+		chaptersFiles[R_ZMANIM][17] = "file:///android_asset/r_zmanim_17.html";
 	}
 
 
@@ -2076,7 +2183,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		popupMenu.show();
 	}//showPopupMenuSettings
 
-	private class MyWebViewClient extends WebViewClient
+	class MyWebViewClient extends WebViewClient
 	{
 		@SuppressLint("NewApi")
 		@Override
@@ -2341,6 +2448,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				return "mishpacha(russian)";
 			case R_PESACH:
 				return "pesach(russian)";
+			case R_MOADIM:
+				return "moadim(russian)";
+			case R_TEFILAT_NASHIM:
+				return "tfilat nashim(russian)";
+			case R_TFILA:
+				return "tfila(russian)";
+			case R_ZMANIM:
+				return "zmanim(russian)";
 			default:
 				return "לא ידוע";
 		}
@@ -2844,6 +2959,89 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[R_PESACH][15]="Глава 15. Пасхальная Агада";
 		chaptersNames[R_PESACH][16]="Глава 16. Пасхальный Седер";
 
+		chaptersNames[R_MOADIM][1]="Глава 1. Вступление";
+		chaptersNames[R_MOADIM][2]="Глава 2. Заповеди-предписания (мицвот асэ),действующие в йом тов";
+		chaptersNames[R_MOADIM][3]="Глава 3. Запрет выполнения созидательной работы (мелаха) в йом тов";
+		chaptersNames[R_MOADIM][4]="Глава 4. Виды созидательной работы (мелаха),связанной с приготовлением пищи";
+		chaptersNames[R_MOADIM][5]="Глава 5. Зажигание и тушение огня; использование электричества в йом тов";
+		chaptersNames[R_MOADIM][6]="Глава 6. Перенесение предметов из одного владения в другое; закон мукце";
+		chaptersNames[R_MOADIM][7]="ГГлава 7. Некоторые законы йом това";
+		chaptersNames[R_MOADIM][8]="Глава 8. Эрув тавшилин";
+		chaptersNames[R_MOADIM][9]="Глава 9. Второй йом тов за пределами Земли Израиля";
+		chaptersNames[R_MOADIM][10]="Глава 10. Заповеди холь ѓа-моэда";
+		chaptersNames[R_MOADIM][11]="Глава 11. Созидательная работа (мелаха) в холь ѓа-моэд";
+		chaptersNames[R_MOADIM][12]="Глава 12. Какая работа разрешена в холь ѓа-моэд";
+		chaptersNames[R_MOADIM][13]="Глава 13 Шавуот";
+
+		chaptersNames[R_TEFILAT_NASHIM][1]="Глава 1  Основы законов молитвы ";
+		chaptersNames[R_TEFILAT_NASHIM][2]="Глава 2  Заповедь молитвы для женщин";
+		chaptersNames[R_TEFILAT_NASHIM][3]="Глава 3  Смысл заповедей, обязательных для женщин";
+		chaptersNames[R_TEFILAT_NASHIM][4]="Глава 4  Утреннее пробуждение";
+		chaptersNames[R_TEFILAT_NASHIM][5]="Глава 5  Утреннее омовение рук";
+		chaptersNames[R_TEFILAT_NASHIM][6]="ГГлава 6  Утренние благословения (Биркот ѓа-шахар) ";
+		chaptersNames[R_TEFILAT_NASHIM][7]="Глава 7  Благословения Торы (Биркот ѓа-Тора) ";
+		chaptersNames[R_TEFILAT_NASHIM][8]="Глава 8  Утренняя молитвенная служба (шахарит) и законы, связанные с подготовкой к ней";
+		chaptersNames[R_TEFILAT_NASHIM][9]="Глава 9  Телесная подготовка к молитве ";
+		chaptersNames[R_TEFILAT_NASHIM][10]="Глава 10  Подготовка души к молитве; одежда, подобающая молитве  ";
+		chaptersNames[R_TEFILAT_NASHIM][11]="Глава 11  Место молитвы ";
+		chaptersNames[R_TEFILAT_NASHIM][12]="Глава 12  Молитва амида ";
+		chaptersNames[R_TEFILAT_NASHIM][13]="Глава 13  Ошибки при чтении молитвы амида ";
+		chaptersNames[R_TEFILAT_NASHIM][14]="Глава 14  Почтительное отношение к молитве ";
+		chaptersNames[R_TEFILAT_NASHIM][15]="Глава 15  Отрывки о жертвоприношениях (Корбанот) и «Хвалебные гимны» (Псукей де-зимра) ";
+		chaptersNames[R_TEFILAT_NASHIM][16]="Глава 16  Шма Исраэль и сопутствующие благословения ";
+		chaptersNames[R_TEFILAT_NASHIM][17]="Глава 17  Молитвы, читаемые после амиды";
+		chaptersNames[R_TEFILAT_NASHIM][18]="Глава 18  Послеполуденная и вечерняя молитвы (минха и арвит) ";
+		chaptersNames[R_TEFILAT_NASHIM][19]="Глава 19  Чтение Шма Исраэль перед отходом ко сну ";
+		chaptersNames[R_TEFILAT_NASHIM][20]="Глава 20  Отдельные законы молитвы в миньяне ";
+		chaptersNames[R_TEFILAT_NASHIM][21]="Глава 21  Отдельные законы, связанные с синагогой ";
+		chaptersNames[R_TEFILAT_NASHIM][22]="Глава 22  Молитва и кидуш в субботу";
+		chaptersNames[R_TEFILAT_NASHIM][23]="Глава 23  Отдельные законы праздников и памятных дней";
+		chaptersNames[R_TEFILAT_NASHIM][24]="Глава 24  Молитвенные каноны и обычаи разных общин ";
+
+		chaptersNames[R_TFILA][1]="Глава 1 Основы законов молитвы ";
+		chaptersNames[R_TFILA][2]="Глава 2 Миньян";
+		chaptersNames[R_TFILA][3]="Глава 3 Место молитвы";
+		chaptersNames[R_TFILA][4]="Глава 4 Кантор и кадиш скорбящих";
+		chaptersNames[R_TFILA][5]="Глава 5 Подготовка к молитве";
+		chaptersNames[R_TFILA][6]="Глава 6 Молитвенные каноны и обычаи разных общин ";
+		chaptersNames[R_TFILA][7]="Глава 7 Утреннее пробуждение";
+		chaptersNames[R_TFILA][8]="Глава 8 Утреннее омовение рук";
+		chaptersNames[R_TFILA][9]="Глава 9 Утренние благословения (Биркот ѓа-шахар)";
+		chaptersNames[R_TFILA][10]="Глава 10 Благословения Торы (Биркот ѓа-Тора)";
+		chaptersNames[R_TFILA][11]="Глава 11 Время чтения Шма Исраэль и утренней молитвы ( шахарит)";
+		chaptersNames[R_TFILA][12]="Глава 12 Подготовка к утренней молитве";
+		chaptersNames[R_TFILA][13]="Глава 13 Порядок жертвоприношений (Корбанот)";
+		chaptersNames[R_TFILA][14]="Глава 14 Хвалебные гимны (Псукей де-зимра)";
+		chaptersNames[R_TFILA][15]="Глава 15 Шма Исраэль ";
+		chaptersNames[R_TFILA][16]="Глава 16 Благословения, сопровождающие чтение Шма Исраэль";
+		chaptersNames[R_TFILA][17]="Глава 17 Молитва амида";
+		chaptersNames[R_TFILA][18]="Глава 18 Ошибки при чтении молитвы амида";
+		chaptersNames[R_TFILA][19]="Глава 19 Повторение кантором молитвы амида";
+		chaptersNames[R_TFILA][20]="Глава 20 Благословение народа коѓенами (Биркат коѓаним)";
+		chaptersNames[R_TFILA][21]="Глава 21 Таханун и Нефилат апаим";
+		chaptersNames[R_TFILA][22]="Глава 22 Некоторые законы чтения Торы";
+		chaptersNames[R_TFILA][23]="Глава 23 Окончание утренней молитвы и законы кадиша";
+		chaptersNames[R_TFILA][24]="Глава 24 Минха - послеполуденная молитва ";
+		chaptersNames[R_TFILA][25]="Глава 25 Арвит - вечерняя молитва ";
+		chaptersNames[R_TFILA][26]="Глава 26 Чтение Шма Исраэль перед отходом ко сну";
+
+		chaptersNames[R_ZMANIM][1]="Глава 1. Новомесячье (рош ходеш)";
+		chaptersNames[R_ZMANIM][2]="Глава 2. Законы отсчета омера (сфират ѓа-омер)";
+		chaptersNames[R_ZMANIM][3]="Глава 3. Траурные обычаи в период отсчета омера";
+		chaptersNames[R_ZMANIM][4]="Глава 4. День независимости Израиля, День освобождения Иерусалима и дни памяти";
+		chaptersNames[R_ZMANIM][5]="Глава 5. Лаг ба-омер";
+		chaptersNames[R_ZMANIM][6]="Глава 6. Четыре поста в память о разрушении Храма";
+		chaptersNames[R_ZMANIM][7]="Глава 7. Законы малых постов";
+		chaptersNames[R_ZMANIM][8]="Глава 8. Обычаи трех траурных недель бейн ѓа-мецарим";
+		chaptersNames[R_ZMANIM][9]="Глава 9. Канун поста 9 ава";
+		chaptersNames[R_ZMANIM][10]="Глава 10. Законы поста 9 ава";
+		chaptersNames[R_ZMANIM][11]="Глава 11. Дни Хануки";
+		chaptersNames[R_ZMANIM][12]="Глава 12. Зажигание ханукальных свечей";
+		chaptersNames[R_ZMANIM][13]="Глава 13. Законы места и времени";
+		chaptersNames[R_ZMANIM][14]="Глава 14. Месяц адар";
+		chaptersNames[R_ZMANIM][15]="Глава 15. Пурим и чтение Свитка Эстер";
+		chaptersNames[R_ZMANIM][16]="Глава 16. Заповеди радости и милосердия";
+		chaptersNames[R_ZMANIM][17]="Глава 17. Законы городов, обнесенных и не обнесенных стеной";
 	}
 
 	void innerSearch()
