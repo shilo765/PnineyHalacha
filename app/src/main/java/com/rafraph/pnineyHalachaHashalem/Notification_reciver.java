@@ -13,7 +13,7 @@ import android.support.v4.app.NotificationManagerCompat;
 public class Notification_reciver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationManager notificationManager=(NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+       // NotificationManager notificationManager=(NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent pninaYomitRepit= new Intent(context,pninaYomit.class);
         pninaYomitRepit.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent=PendingIntent.getActivity(context,100,pninaYomitRepit,PendingIntent.FLAG_UPDATE_CURRENT);
@@ -25,6 +25,6 @@ public class Notification_reciver extends BroadcastReceiver {
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         NotificationManagerCompat notificationManagerCompat=NotificationManagerCompat.from(context);
-        notificationManager.notify(100,builder.build());
+        notificationManagerCompat.notify(100,builder.build());
     }
 }

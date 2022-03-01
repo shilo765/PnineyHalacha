@@ -77,18 +77,26 @@ public class MainActivity extends AppCompatActivity
 	private static final int E_SHABAT       = 28;
 	private static final int F_TEFILA       = 29;
 	private static final int S_SHABAT       = 30;
-	private static final int R_HAAM         = 31;
-	private static final int R_SHABBAT      = 32;
-	private static final int R_YAMMIM       = 33;
-	private static final int R_SUCOT        = 34;
-	private static final int R_SIMCHAT      = 35;
-	private static final int R_MISHPHACHA   = 36;
-	private static final int R_PESACH       = 37;
-	private static final int R_MOADIM       = 38;
-	private static final int R_TEFILAT_NASHIM=39;
-	private static final int R_TFILA         =40;
-	private static final int R_ZMANIM        =41;
-	private static final int BOOKS_NUMBER	= 42;
+	private static final int S_BRACHOT       =31;
+	private static final int S_MOADIM        =32;
+	private static final int S_YAMIM         =33;
+	private static final int S_PESACH        =34;
+	private static final int S_SIMCHAT       =35;
+	private static final int S_TFILA         =36;
+	private static final int S_TFILAT_NASHIM =37;
+	private static final int S_ZMANIM        =38;
+	private static final int R_HAAM         = 39;
+	private static final int R_SHABBAT      = 40;
+	private static final int R_YAMMIM       = 41;
+	private static final int R_SUCOT        = 42;
+	private static final int R_SIMCHAT      = 43;
+	private static final int R_MISHPHACHA   = 44;
+	private static final int R_PESACH       = 45;
+	private static final int R_MOADIM       = 46;
+	private static final int R_TEFILAT_NASHIM=47;
+	private static final int R_TFILA         =48;
+	private static final int R_ZMANIM        =49;
+	private static final int BOOKS_NUMBER	= 50;
 
 
 	private static final int HEBREW	 = 0;
@@ -164,13 +172,14 @@ public class MainActivity extends AppCompatActivity
 				{
 					//this if is for the pnina hayomit.(not ready)
 					//if(groupPosition==38)
-					//{
-				//		Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
-				//		Intent ourIntent = new Intent(MainActivity.this, ourClass);
-				//		startActivity(ourIntent);
-				//	}
-				//	else
-				//		{
+					if(false)
+					{
+						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
+						Intent ourIntent = new Intent(MainActivity.this, ourClass);
+						startActivity(ourIntent);
+					}
+					else
+						{
 						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
 						Intent ourIntent = new Intent(MainActivity.this, ourClass);
 						int[] book_chapter = new int[2];
@@ -178,7 +187,7 @@ public class MainActivity extends AppCompatActivity
 						book_chapter[1] = childPosition;
 						ourIntent.putExtra("book_chapter", book_chapter);
 						startActivity(ourIntent);
-				//	}
+					}
 				}
 				catch (ClassNotFoundException e)
 				{
@@ -487,6 +496,14 @@ public class MainActivity extends AppCompatActivity
 		listDataHeader.add("Laws of Shabbat");
 		listDataHeader.add("La prière d’Israël");
 		listDataHeader.add("Shabbat (Español)");
+		listDataHeader.add("brachot (Español)");
+		listDataHeader.add("moadim (Español)");
+		listDataHeader.add("Yamim noraiim (Español)");
+		listDataHeader.add("peasch (Español)");
+		listDataHeader.add("simchat habait (Español)");
+		listDataHeader.add("tfila (Español)");
+		listDataHeader.add("tfilat nashim (Español)");
+		listDataHeader.add("zmanim(Español)");
 		listDataHeader.add("Yammim Noraiim(russian)");
 		listDataHeader.add("shabaat(russian)");
 		listDataHeader.add("haam vehaarez(russian)");
@@ -498,6 +515,7 @@ public class MainActivity extends AppCompatActivity
 		listDataHeader.add("tfilat_nashim(russian)");
 		listDataHeader.add("tfila(russian)");
 		listDataHeader.add("zmanim(russian)");
+		;
 
 
 		// Adding child data
@@ -1100,15 +1118,15 @@ public class MainActivity extends AppCompatActivity
 		S_shabat.add("Índice Detallado, Prólogo");
 		S_shabat.add("1 - Introducción");
 		S_shabat.add("2 - Los preparativos previos al Shabat");
-		S_shabat.add("3 - Los preparativos previos al Shabat");
+		S_shabat.add("3 - Los horarios de Shabat");
 		S_shabat.add("4 - El encendido de las velas de Shabat");
-		S_shabat.add("5 - El encendido de las velas de Shabat");
+		S_shabat.add("5 - Torá y Tefilá (rezos) en Shabat");
 		S_shabat.add("6 - Leyes referentes al Kidush");
-		S_shabat.add("7 - Leyes referentes al Kidush");
+		S_shabat.add("7 - Las comidas de Shabat y el “Melavé Malká”");
 		S_shabat.add("8 - Havdalá y la conclusión del Shabat");
-		S_shabat.add("9 - Havdalá y la conclusión del Shabat");
+		S_shabat.add("9 - Las reglas generales de la realización de labores (“Melajot”).");
 		S_shabat.add("10 - Cocinar");
-		S_shabat.add("11 - Cocinar");
+		S_shabat.add("11 - Seleccionar (“Borer”)");
 		S_shabat.add("12 - La preparación de alimentos");
 		S_shabat.add("13 - Labores necesarias para la confección de vestimenta");
 		S_shabat.add("14 - El cuidado corporal");
@@ -1128,6 +1146,164 @@ public class MainActivity extends AppCompatActivity
 		S_shabat.add("28 - Persona enferma que no corre riesgo de vida");
 		S_shabat.add("29 - Eruvín");
 		S_shabat.add("30 - Las \"áreas (\"tjumim\") del Shabat\"");
+
+		List<String> s_brachot = new ArrayList<String>();
+		s_brachot.add("Índice Detallado, Prólogo");
+		s_brachot.add("1 - Introducción");
+		s_brachot.add("2 - Lavado o ablución de manos previo a la comida");
+		s_brachot.add("3 - La bendición de Hamotzí");
+		s_brachot.add("4 - Birkat Hamazón (La bendición posterior a la comida)");
+		s_brachot.add("5 - La convocatoria para bendecir: el Zimún");
+		s_brachot.add("6 - Las cinco especies de cereales.");
+		s_brachot.add("7 - La bendición por el vino");
+		s_brachot.add("8 - La bendición por los frutos y Shehakol");
+		s_brachot.add("9 - Reglas relativas a la bendición anterior a la ingestión (Berajá Rishoná).");
+		s_brachot.add("10 - Bendición final (Berajá Ajaroná).");
+		s_brachot.add("11 - Principal y secundario (Ykar Vetafel).");
+		s_brachot.add("12 - Reglas referentes a las bendiciones");
+		s_brachot.add("13 - Aspectos éticos y buenos modales (Derej Eretz).");
+		s_brachot.add("14 - Bendición por el aroma");
+		s_brachot.add("15 - Bendiciones por la visión de situaciones extraordinarias y conmovedoras");
+		s_brachot.add("16 - Bendición de agradecimiento por una salvación (Birkat Hagomel)");
+		s_brachot.add("17 - Bendiciones de agradecimiento y por una alegría");
+		s_brachot.add("18 - Tefilat Haderej (La plegaria del viajero)");
+
+		List<String> s_moadim = new ArrayList<String>();
+		s_moadim.add("Índice Detallado, Prólogo");
+		s_moadim.add("1 - Introducción");
+		s_moadim.add("2 - Reglas de preceptos positivos en las festividades");
+		s_moadim.add("3 - Reglas relativas a las labores");
+		s_moadim.add("4 - Las labores de los alimentos");
+		s_moadim.add("5 - Encender fuego, apagarlo y la electricidad");
+		s_moadim.add("6 - Transportar y Muktzé");
+		s_moadim.add("7 - Algunas leyes de Yom Tov");
+		s_moadim.add("8 - Eruv Tavshilín");
+		s_moadim.add("9 - Segundo día festivo de las diásporas");
+		s_moadim.add("10 - Preceptos de Jol HaMo’ed");
+		s_moadim.add("11 - La realización de labores durante Jol HaMo’ed");
+		s_moadim.add("12 - Permisos para trabajar en Jol HaMo’ed");
+		s_moadim.add("13 - Shavu’ot");
+
+		List<String> s_yamim = new ArrayList<String>();
+		s_yamim.add("Índice Detallado, Prólogo");
+		s_yamim.add("1 – El Juicio Divino, la recompensa y el castigo.");
+		s_yamim.add("2 - Selijot, las súplicas y las plegarias");
+		s_yamim.add("3 - Rosh HaShaná");
+		s_yamim.add("4 -El precepto del Shofar");
+		s_yamim.add("5 - Los Diez días del Retorno (teshuvá)");
+		s_yamim.add("6 - Yom Kipur");
+		s_yamim.add("7 - Reglas (halajot) de Yom Kipur");
+		s_yamim.add("8 - Las leyes del ayuno");
+		s_yamim.add("9 -  Las otras aflicciones");
+		s_yamim.add("10 -  La «Avodá» –la labor sagrada- en el Templo en Yom Kipur");
+
+		List<String> s_pesach = new ArrayList<String>();
+		s_pesach.add("Índice Detallado, Prólogo");
+		s_pesach.add("1 - El significado de la fiesta");
+		s_pesach.add("2 - Las reglas referentes a la prohibición de jametz");
+		s_pesach.add("3 - El precepto de cesar el jametz – “hashbatat jametz”");
+		s_pesach.add("4 - La revisación del jametz");
+		s_pesach.add("5 - La anulación del jametz y su eliminación");
+		s_pesach.add("6 - Venta de Jametz");
+		s_pesach.add("7 - Mezclas que contienen jametz");
+		s_pesach.add("8 - Leyes referentes a la kashrut en Pesaj");
+		s_pesach.add("9 - La costumbre de abstenerse de comer legumbres («kitniot»)");
+		s_pesach.add("10 - Reglas referentes a la kasherización de utensilios para Pesaj mediante inmersión en agua hirviendo («Hag´alát Kelím»)");
+		s_pesach.add("11 - Kasherización de la cocina para Pesaj");
+		s_pesach.add("12 - Leyes referentes a la matzá");
+		s_pesach.add("13 - Reglas referentes a la víspera de Pesaj y sus costumbres");
+		s_pesach.add("14 - Víspera de Pesaj que cae en Shabat");
+		s_pesach.add("15 - La Hagadá");
+		s_pesach.add("16 - La noche del Seder");
+
+		List<String> s_simchat = new ArrayList<String>();
+		s_simchat.add("Índice Detallado, Prólogo");
+		s_simchat.add("1 - El precepto de satisfacer sexualmente a la esposa (Oná)");
+		s_simchat.add("2 - Reglas referentes al cumplimiento del precepto de Oná");
+		s_simchat.add("3 - Santidad e intención (kavaná)");
+		s_simchat.add("4 - El cuidado del pacto");
+		s_simchat.add("5 - «Creced y multiplicaos» («Prú Urbú»)");
+		s_simchat.add("6 - Esterilidad y otras dificultades");
+		s_simchat.add("7 -  El caso del eunuco y otro tipo de daños");
+		s_simchat.add("8 - Un consuelo para quienes carecen de descendencia");
+		s_simchat.add("9 - La interrupción del embarazo");
+		s_simchat.add("10 - El hombre y la mujer");
+
+		List<String> s_tfila = new ArrayList<String>();
+		s_tfila.add("Índice Detallado, Prólogo");
+		s_tfila.add("1 - Las bases de las leyes referentes a la plegaria (Tefilá).");
+		s_tfila.add("2 - El «Minián»");
+		s_tfila.add("3 - El lugar del rezo.");
+		s_tfila.add("4 - El oficiante (jazán) y el «Kadish» de los que están de duelo.");
+		s_tfila.add("5 - Los preparativos previos al rezo.");
+		s_tfila.add("6 - Las diferentes versiones del rezo y las costumbres de las diversas comunidades.");
+		s_tfila.add("7 - Al despertar por la mañana");
+		s_tfila.add("8 - Lavado (ablución) de manos matinal.");
+		s_tfila.add("9 - Las bendiciones matinales («Birkot Hashajar»)");
+		s_tfila.add("10 -  La bendición por la Torá");
+		s_tfila.add("11 -  Los horarios de recitado del Shemá y el rezo matinal (Shajarit)");
+		s_tfila.add("12 - Antes de Shajarit");
+		s_tfila.add("13 - Las ofrendas («Korbanot»)");
+		s_tfila.add("14 - Los cánticos de alabanza (Pesukei dezimrá).");
+		s_tfila.add("15 - El recitado del Shemá.");
+		s_tfila.add("16 -  Las bendiciones del recitado del «Shemá»");
+		s_tfila.add("17 - La «Amidá» (el rezo de pie y en silencio).");
+		s_tfila.add("18 - Errores, olvidos y menciones");
+		s_tfila.add("19 - La repetición de la Amidá por parte del oficiante.");
+		s_tfila.add("20 -  La bendición sacerdotal (Birkat Cohanim).");
+		s_tfila.add("21 - La inclinación sobre el rostro («Nefilat Apáim») y las súplicas («Tajanunim»).");
+		s_tfila.add("22 - La lectura de la Torá.");
+		s_tfila.add("23 - La finalización del servicio de Shajarit y las leyes del Kadish.");
+		s_tfila.add("24 - El servicio de Minjá.");
+		s_tfila.add("25 -  El servicio de Arvit.");
+		s_tfila.add("26 -  El recitado del «Shemá» al acostarse");
+
+		List<String> s_tfilat_nashim = new ArrayList<String>();
+		s_tfilat_nashim.add("Índice Detallado, Prólogo");
+		s_tfilat_nashim.add("1 - Las bases de las leyes referentes a la plegaria (Tefilá)");
+		s_tfilat_nashim.add("2 -El precepto de rezar en las mujeres.");
+		s_tfilat_nashim.add("3 - El significado de los preceptos de las mujeres.");
+		s_tfilat_nashim.add("4 - Al despertar por la mañana.");
+		s_tfilat_nashim.add("5 - Lavado (ablución) de manos matinal.");
+		s_tfilat_nashim.add("6 - Las bendiciones matinales («Birkot Hashajar»)");
+		s_tfilat_nashim.add("7 - Las Bendiciones por la Torá.");
+		s_tfilat_nashim.add("8 - El rezo de Shajarit y  reglas previo a su recitado.");
+		s_tfilat_nashim.add("9 - La preparación corporal previa al rezo.");
+		s_tfilat_nashim.add("10 - Los preparativos emocionales y de indumentaria previa al rezo.");
+		s_tfilat_nashim.add("11 - El sitio del rezo.");
+		s_tfilat_nashim.add("12 - La «Amidá» (el rezo de pie y en silencio).");
+		s_tfilat_nashim.add("13 - Errores, olvidos y menciones.");
+		s_tfilat_nashim.add("14 - El respeto por la Tefilá.");
+		s_tfilat_nashim.add("15 - Ofrendas y cánticos de alabanza.");
+		s_tfilat_nashim.add("16 -  El recitado del «Shemá» y sus bendiciones");
+		s_tfilat_nashim.add("17 - Los pasajes posteriores a la Amidá");
+		s_tfilat_nashim.add("18 - Minjá y Arvit.");
+		s_tfilat_nashim.add("19 - El recitado del «Shemá» previo a dormir.");
+		s_tfilat_nashim.add("20 -  Leyes referentes al rezo con «Minián»");
+		s_tfilat_nashim.add("21 - Beit Kneset, Tzitzit y Tefilín.");
+		s_tfilat_nashim.add("22 - Rezo y Kidush en Shabat");
+		s_tfilat_nashim.add("23 - Leyes referentes a las fiestas y días festivos.");
+		s_tfilat_nashim.add("24 - Las diferentes versiones del rezo y las costumbres de las diversas comunidades.");
+
+		List<String> s_zmanim = new ArrayList<String>();
+		s_zmanim.add("Índice Detallado, Prólogo");
+		s_zmanim.add("1 - Rosh Jodesh (Novilunio)");
+		s_zmanim.add("2 - Las reglas del Conteo del “Omer”.");
+		s_zmanim.add("3 - Costumbres luctuosas durante el período de la Cuenta del “Omer”.");
+		s_zmanim.add("4 - Yom Haatzmaut, Yom Yerushalaim y los días de recordación.");
+		s_zmanim.add("5 - Lag Ba´Omer.");
+		s_zmanim.add("6 - Los cuatro ayunos por la destrucción del Templo.");
+		s_zmanim.add("7 - Leyes referentes a los ayunos menores");
+		s_zmanim.add("8 - Las costumbres de las «Tres Semanas»");
+		s_zmanim.add("9 - Víspera del 9 de Av.");
+		s_zmanim.add("10 - Leyes referentes al 9 de Av.");
+		s_zmanim.add("11 -  Januca");
+		s_zmanim.add("12 - El encendido de las velas de Januca.");
+		s_zmanim.add("13 - Leyes referentes a la ubicación de las velas y el horario de su encendido.");
+		s_zmanim.add("14 - El mes de Adar");
+		s_zmanim.add("15 - Purim y la lectura de la Meguilá (rollo del libro de Esther");
+		s_zmanim.add("16 - La alegría y la generosidad como preceptos");
+		s_zmanim.add("17 - Purim en ciudades con y sin murallas");
 
 		List<String> r_haam = new ArrayList<String>();
 		r_haam.add("Содержание");
@@ -1369,6 +1545,14 @@ public class MainActivity extends AppCompatActivity
 		listDataChild.put(listDataHeader.get(E_SHABAT), E_Shabat);
 		listDataChild.put(listDataHeader.get(F_TEFILA), F_tefila);
 		listDataChild.put(listDataHeader.get(S_SHABAT), S_shabat);
+		listDataChild.put(listDataHeader.get(S_BRACHOT), s_brachot);
+		listDataChild.put(listDataHeader.get(S_MOADIM), s_moadim);
+		listDataChild.put(listDataHeader.get(S_YAMIM), s_yamim);
+		listDataChild.put(listDataHeader.get(S_PESACH), s_pesach);
+		listDataChild.put(listDataHeader.get(S_SIMCHAT), s_simchat);
+		listDataChild.put(listDataHeader.get(S_TFILA), s_tfila);
+		listDataChild.put(listDataHeader.get(S_TFILAT_NASHIM), s_tfilat_nashim);
+		listDataChild.put(listDataHeader.get(S_ZMANIM), s_zmanim);
 		listDataChild.put(listDataHeader.get(R_SHABBAT), r_shabat);
 		listDataChild.put(listDataHeader.get(R_YAMMIM), r_yammim);
 		listDataChild.put(listDataHeader.get(R_HAAM), r_haam);

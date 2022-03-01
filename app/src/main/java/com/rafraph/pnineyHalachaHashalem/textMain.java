@@ -100,21 +100,29 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int E_SHABAT       = 28;
 	private static final int F_TEFILA       = 29;
 	private static final int S_SHABAT       = 30;
-	private static final int R_HAAM         = 31;
-	private static final int R_SHABBAT      = 32;
-	private static final int R_YAMMIM       = 33;
-	private static final int R_SUCOT        = 34;
-	private static final int R_SIMCHAT      = 35;
-	private static final int R_MISHPHACHA   = 36;
-	private static final int R_PESACH       = 37;
-	private static final int R_MOADIM       = 38;
-	private static final int R_TEFILAT_NASHIM=39;
-	private static final int R_TFILA         =40;
-	private static final int R_ZMANIM        =41;
-	private static final int BOOKS_NUMBER	= 42;
+	private static final int S_BRACHOT       =31;
+	private static final int S_MOADIM        =32;
+	private static final int S_YAMIM         =33;
+	private static final int S_PESACH        =34;
+	private static final int S_SIMCHAT       =35;
+	private static final int S_TFILA         =36;
+	private static final int S_TFILAT_NASHIM =37;
+	private static final int S_ZMANIM        =38;
+	private static final int R_HAAM         = 39;
+	private static final int R_SHABBAT      = 40;
+	private static final int R_YAMMIM       = 41;
+	private static final int R_SUCOT        = 42;
+	private static final int R_SIMCHAT      = 43;
+	private static final int R_MISHPHACHA   = 44;
+	private static final int R_PESACH       = 45;
+	private static final int R_MOADIM       = 46;
+	private static final int R_TEFILAT_NASHIM=47;
+	private static final int R_TFILA         =48;
+	private static final int R_ZMANIM        =49;
+	private static final int BOOKS_NUMBER	= 50;
 
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33 34  35  36  37  38  39  40  41*/
-	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17};
+	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42 43  44  45  46  47  48  49*/
+	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17};
 	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA};
 	public Dialog dialogModes;
 	private static final int HEBREW	 = 0;
@@ -1138,8 +1146,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private void fillChaptersFiles()/*list of all assets*/
 	{
 		/*BRACHOT*/
-		//chaptersFiles[BRACHOT][0] = "file:///android_asset/brachot_tochen.html";
-		chaptersFiles[BRACHOT][0] = "https://ph.yhb.org.il/pninayomit/";
+		chaptersFiles[BRACHOT][0] = "file:///android_asset/brachot_tochen.html";
 		chaptersFiles[BRACHOT][1] = "file:///android_asset/brachot_1.html";
 		chaptersFiles[BRACHOT][2] = "file:///android_asset/brachot_2.html";
 		chaptersFiles[BRACHOT][3] = "file:///android_asset/brachot_3.html";
@@ -1389,6 +1396,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[SHABAT][28] = "file:///android_asset/shabat_28.html";
 		chaptersFiles[SHABAT][29] = "file:///android_asset/shabat_29.html";
 		chaptersFiles[SHABAT][30] = "file:///android_asset/shabat_30.html";
+
 		/*SIMCHAT*/
 		chaptersFiles[SIMCHAT][0] = "file:///android_asset/simchat_tochen.html";
 		chaptersFiles[SIMCHAT][1] = "file:///android_asset/simchat_1.html";
@@ -1707,38 +1715,189 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[F_TEFILA][26] = "file:///android_asset/F_tefila_26.html";
 
 		/*S_SHABAT*/
-		chaptersFiles[S_SHABAT][0] = "file:///android_asset/s_shabbat_tochen.html";
-		chaptersFiles[S_SHABAT][1] = "file:///android_asset/s_shabbat_1.html";
-		chaptersFiles[S_SHABAT][2] = "file:///android_asset/s_shabbat_2.html";
-		chaptersFiles[S_SHABAT][3] = "file:///android_asset/s_shabbat_3.html";
-		chaptersFiles[S_SHABAT][4] = "file:///android_asset/s_shabbat_4.html";
-		chaptersFiles[S_SHABAT][5] = "file:///android_asset/s_shabbat_5.html";
-		chaptersFiles[S_SHABAT][6] = "file:///android_asset/s_shabbat_6.html";
-		chaptersFiles[S_SHABAT][7] = "file:///android_asset/s_shabbat_7.html";
-		chaptersFiles[S_SHABAT][8] = "file:///android_asset/s_shabbat_8.html";
-		chaptersFiles[S_SHABAT][9] = "file:///android_asset/s_shabbat_9.html";
-		chaptersFiles[S_SHABAT][10] = "file:///android_asset/s_shabbat_10.html";
-		chaptersFiles[S_SHABAT][11] = "file:///android_asset/s_shabbat_11.html";
-		chaptersFiles[S_SHABAT][12] = "file:///android_asset/s_shabbat_12.html";
-		chaptersFiles[S_SHABAT][13] = "file:///android_asset/s_shabbat_13.html";
-		chaptersFiles[S_SHABAT][14] = "file:///android_asset/s_shabbat_14.html";
-		chaptersFiles[S_SHABAT][15] = "file:///android_asset/s_shabbat_15.html";
-		chaptersFiles[S_SHABAT][16] = "file:///android_asset/s_shabbat_16.html";
-		chaptersFiles[S_SHABAT][17] = "file:///android_asset/s_shabbat_17.html";
-		chaptersFiles[S_SHABAT][18] = "file:///android_asset/s_shabbat_18.html";
-		chaptersFiles[S_SHABAT][19] = "file:///android_asset/s_shabbat_19.html";
-		chaptersFiles[S_SHABAT][20] = "file:///android_asset/s_shabbat_20.html";
-		chaptersFiles[S_SHABAT][21] = "file:///android_asset/s_shabbat_21.html";
-		chaptersFiles[S_SHABAT][22] = "file:///android_asset/s_shabbat_22.html";
-		chaptersFiles[S_SHABAT][23] = "file:///android_asset/s_shabbat_23.html";
-		chaptersFiles[S_SHABAT][24] = "file:///android_asset/s_shabbat_24.html";
-		chaptersFiles[S_SHABAT][25] = "file:///android_asset/s_shabbat_25.html";
-		chaptersFiles[S_SHABAT][26] = "file:///android_asset/s_shabbat_26.html";
-		chaptersFiles[S_SHABAT][27] = "file:///android_asset/s_shabbat_27.html";
-		chaptersFiles[S_SHABAT][28] = "file:///android_asset/s_shabbat_28.html";
-		chaptersFiles[S_SHABAT][29] = "file:///android_asset/s_shabbat_29.html";
-		chaptersFiles[S_SHABAT][30] = "file:///android_asset/s_shabbat_30.html";
+		chaptersFiles[S_SHABAT][0] = "file:///android_asset/s_shabat_tochen.html";
+		chaptersFiles[S_SHABAT][1] = "file:///android_asset/s_shabat_1.html";
+		chaptersFiles[S_SHABAT][2] = "file:///android_asset/s_shabat_2.html";
+		chaptersFiles[S_SHABAT][3] = "file:///android_asset/s_shabat_3.html";
+		chaptersFiles[S_SHABAT][4] = "file:///android_asset/s_shabat_4.html";
+		chaptersFiles[S_SHABAT][5] = "file:///android_asset/s_shabat_5.html";
+		chaptersFiles[S_SHABAT][6] = "file:///android_asset/s_shabat_6.html";
+		chaptersFiles[S_SHABAT][7] = "file:///android_asset/s_shabat_7.html";
+		chaptersFiles[S_SHABAT][8] = "file:///android_asset/s_shabat_8.html";
+		chaptersFiles[S_SHABAT][9] = "file:///android_asset/s_shabat_9.html";
+		chaptersFiles[S_SHABAT][10] = "file:///android_asset/s_shabat_10.html";
+		chaptersFiles[S_SHABAT][11] = "file:///android_asset/s_shabat_11.html";
+		chaptersFiles[S_SHABAT][12] = "file:///android_asset/s_shabat_12.html";
+		chaptersFiles[S_SHABAT][13] = "file:///android_asset/s_shabat_13.html";
+		chaptersFiles[S_SHABAT][14] = "file:///android_asset/s_shabat_14.html";
+		chaptersFiles[S_SHABAT][15] = "file:///android_asset/s_shabat_15.html";
+		chaptersFiles[S_SHABAT][16] = "file:///android_asset/s_shabat_16.html";
+		chaptersFiles[S_SHABAT][17] = "file:///android_asset/s_shabat_17.html";
+		chaptersFiles[S_SHABAT][18] = "file:///android_asset/s_shabat_18.html";
+		chaptersFiles[S_SHABAT][19] = "file:///android_asset/s_shabat_19.html";
+		chaptersFiles[S_SHABAT][20] = "file:///android_asset/s_shabat_20.html";
+		chaptersFiles[S_SHABAT][21] = "file:///android_asset/s_shabat_21.html";
+		chaptersFiles[S_SHABAT][22] = "file:///android_asset/s_shabat_22.html";
+		chaptersFiles[S_SHABAT][23] = "file:///android_asset/s_shabat_23.html";
+		chaptersFiles[S_SHABAT][24] = "file:///android_asset/s_shabat_24.html";
+		chaptersFiles[S_SHABAT][25] = "file:///android_asset/s_shabat_25.html";
+		chaptersFiles[S_SHABAT][26] = "file:///android_asset/s_shabat_26.html";
+		chaptersFiles[S_SHABAT][27] = "file:///android_asset/s_shabat_27.html";
+		chaptersFiles[S_SHABAT][28] = "file:///android_asset/s_shabat_28.html";
+		chaptersFiles[S_SHABAT][29] = "file:///android_asset/s_shabat_29.html";
+		chaptersFiles[S_SHABAT][30] = "file:///android_asset/s_shabat_30.html";
 
+		/*S_BRACHOT*/
+		chaptersFiles[S_BRACHOT][0] = "file:///android_asset/s_brachot_tochen.html";
+		chaptersFiles[S_BRACHOT][1] = "file:///android_asset/s_brachot_1.html";
+		chaptersFiles[S_BRACHOT][2] = "file:///android_asset/s_brachot_2.html";
+		chaptersFiles[S_BRACHOT][3] = "file:///android_asset/s_brachot_3.html";
+		chaptersFiles[S_BRACHOT][4] = "file:///android_asset/s_brachot_4.html";
+		chaptersFiles[S_BRACHOT][5] = "file:///android_asset/s_brachot_5.html";
+		chaptersFiles[S_BRACHOT][6] = "file:///android_asset/s_brachot_6.html";
+		chaptersFiles[S_BRACHOT][7] = "file:///android_asset/s_brachot_7.html";
+		chaptersFiles[S_BRACHOT][8] = "file:///android_asset/s_brachot_8.html";
+		chaptersFiles[S_BRACHOT][9] = "file:///android_asset/s_brachot_9.html";
+		chaptersFiles[S_BRACHOT][10] = "file:///android_asset/s_brachot_10.html";
+		chaptersFiles[S_BRACHOT][11] = "file:///android_asset/s_brachot_11.html";
+		chaptersFiles[S_BRACHOT][12] = "file:///android_asset/s_brachot_12.html";
+		chaptersFiles[S_BRACHOT][13] = "file:///android_asset/s_brachot_13.html";
+		chaptersFiles[S_BRACHOT][14] = "file:///android_asset/s_brachot_14.html";
+		chaptersFiles[S_BRACHOT][15] = "file:///android_asset/s_brachot_15.html";
+		chaptersFiles[S_BRACHOT][16] = "file:///android_asset/s_brachot_16.html";
+		chaptersFiles[S_BRACHOT][17] = "file:///android_asset/s_brachot_17.html";
+		chaptersFiles[S_BRACHOT][18] = "file:///android_asset/s_brachot_18.html";
+
+		/*S_MOADIM*/
+		chaptersFiles[S_MOADIM][0] = "file:///android_asset/s_moadim_tochen.html";
+		chaptersFiles[S_MOADIM][1] = "file:///android_asset/s_moadim_1.html";
+		chaptersFiles[S_MOADIM][2] = "file:///android_asset/s_moadim_2.html";
+		chaptersFiles[S_MOADIM][3] = "file:///android_asset/s_moadim_3.html";
+		chaptersFiles[S_MOADIM][4] = "file:///android_asset/s_moadim_4.html";
+		chaptersFiles[S_MOADIM][5] = "file:///android_asset/s_moadim_5.html";
+		chaptersFiles[S_MOADIM][6] = "file:///android_asset/s_moadim_6.html";
+		chaptersFiles[S_MOADIM][7] = "file:///android_asset/s_moadim_7.html";
+		chaptersFiles[S_MOADIM][8] = "file:///android_asset/s_moadim_8.html";
+		chaptersFiles[S_MOADIM][9] = "file:///android_asset/s_moadim_9.html";
+		chaptersFiles[S_MOADIM][10] = "file:///android_asset/s_moadim_10.html";
+		chaptersFiles[S_MOADIM][11] = "file:///android_asset/s_moadim_11.html";
+		chaptersFiles[S_MOADIM][12] = "file:///android_asset/s_moadim_12.html";
+		chaptersFiles[S_MOADIM][13] = "file:///android_asset/s_moadim_13.html";
+		/*S_YAMIM*/
+		chaptersFiles[S_MOADIM][0] = "file:///android_asset/s_yamim_tochen.html";
+		chaptersFiles[S_MOADIM][1] = "file:///android_asset/s_yamim_1.html";
+		chaptersFiles[S_MOADIM][2] = "file:///android_asset/s_yamim_2.html";
+		chaptersFiles[S_MOADIM][3] = "file:///android_asset/s_yamim_3.html";
+		chaptersFiles[S_MOADIM][4] = "file:///android_asset/s_yamim_4.html";
+		chaptersFiles[S_MOADIM][5] = "file:///android_asset/s_yamim_5.html";
+		chaptersFiles[S_MOADIM][6] = "file:///android_asset/s_yamim_6.html";
+		chaptersFiles[S_MOADIM][7] = "file:///android_asset/s_yamim_7.html";
+		chaptersFiles[S_MOADIM][8] = "file:///android_asset/s_yamim_8.html";
+		chaptersFiles[S_MOADIM][9] = "file:///android_asset/s_yamim_9.html";
+		chaptersFiles[S_MOADIM][10] = "file:///android_asset/s_yamim_10.html";
+		/*S_PESACH*/
+		chaptersFiles[S_PESACH][0] = "file:///android_asset/s_pesach_tochen.html";
+		chaptersFiles[S_PESACH][1] = "file:///android_asset/s_pesach_1.html";
+		chaptersFiles[S_PESACH][2] = "file:///android_asset/s_pesach_2.html";
+		chaptersFiles[S_PESACH][3] = "file:///android_asset/s_pesach_3.html";
+		chaptersFiles[S_PESACH][4] = "file:///android_asset/s_pesach_4.html";
+		chaptersFiles[S_PESACH][5] = "file:///android_asset/s_pesach_5.html";
+		chaptersFiles[S_PESACH][6] = "file:///android_asset/s_pesach_6.html";
+		chaptersFiles[S_PESACH][7] = "file:///android_asset/s_pesach_7.html";
+		chaptersFiles[S_PESACH][8] = "file:///android_asset/s_pesach_8.html";
+		chaptersFiles[S_PESACH][9] = "file:///android_asset/s_pesach_9.html";
+		chaptersFiles[S_PESACH][10] = "file:///android_asset/s_pesach_10.html";
+		chaptersFiles[S_PESACH][11] = "file:///android_asset/s_pesach_11.html";
+		chaptersFiles[S_PESACH][12] = "file:///android_asset/s_pesach_12.html";
+		chaptersFiles[S_PESACH][13] = "file:///android_asset/s_pesach_13.html";
+		chaptersFiles[S_PESACH][14] = "file:///android_asset/s_pesach_14.html";
+		chaptersFiles[S_PESACH][15] = "file:///android_asset/s_pesach_15.html";
+		chaptersFiles[S_PESACH][16] = "file:///android_asset/s_pesach_16.html";
+		/*S_simchat*/
+		chaptersFiles[S_SIMCHAT][0] = "file:///android_asset/s_simchat_tochen.html";
+		chaptersFiles[S_SIMCHAT][1] = "file:///android_asset/s_simchat_1.html";
+		chaptersFiles[S_SIMCHAT][2] = "file:///android_asset/s_simchat_2.html";
+		chaptersFiles[S_SIMCHAT][3] = "file:///android_asset/s_simchat_3.html";
+		chaptersFiles[S_SIMCHAT][4] = "file:///android_asset/s_simchat_4.html";
+		chaptersFiles[S_SIMCHAT][5] = "file:///android_asset/s_simchat_5.html";
+		chaptersFiles[S_SIMCHAT][6] = "file:///android_asset/s_simchat_6.html";
+		chaptersFiles[S_SIMCHAT][7] = "file:///android_asset/s_simchat_7.html";
+		chaptersFiles[S_SIMCHAT][8] = "file:///android_asset/s_simchat_8.html";
+		chaptersFiles[S_SIMCHAT][9] = "file:///android_asset/s_simchat_9.html";
+		chaptersFiles[S_SIMCHAT][10] = "file:///android_asset/s_simchat_10.html";
+		/*S_TFILA*/
+		chaptersFiles[S_TFILA][0] = "file:///android_asset/s_tfila_tochen.html";
+		chaptersFiles[S_TFILA][1] = "file:///android_asset/s_tfila_1.html";
+		chaptersFiles[S_TFILA][2] = "file:///android_asset/s_tfila_2.html";
+		chaptersFiles[S_TFILA][3] = "file:///android_asset/s_tfila_3.html";
+		chaptersFiles[S_TFILA][4] = "file:///android_asset/s_tfila_4.html";
+		chaptersFiles[S_TFILA][5] = "file:///android_asset/s_tfila_5.html";
+		chaptersFiles[S_TFILA][6] = "file:///android_asset/s_tfila_6.html";
+		chaptersFiles[S_TFILA][7] = "file:///android_asset/s_tfila_7.html";
+		chaptersFiles[S_TFILA][8] = "file:///android_asset/s_tfila_8.html";
+		chaptersFiles[S_TFILA][9] = "file:///android_asset/s_tfila_9.html";
+		chaptersFiles[S_TFILA][10] = "file:///android_asset/s_tfila_10.html";
+		chaptersFiles[S_TFILA][11] = "file:///android_asset/s_tfila_11.html";
+		chaptersFiles[S_TFILA][12] = "file:///android_asset/s_tfila_12.html";
+		chaptersFiles[S_TFILA][13] = "file:///android_asset/s_tfila_13.html";
+		chaptersFiles[S_TFILA][14] = "file:///android_asset/s_tfila_14.html";
+		chaptersFiles[S_TFILA][15] = "file:///android_asset/s_tfila_15.html";
+		chaptersFiles[S_TFILA][16] = "file:///android_asset/s_tfila_16.html";
+		chaptersFiles[S_TFILA][17] = "file:///android_asset/s_tfila_17.html";
+		chaptersFiles[S_TFILA][18] = "file:///android_asset/s_tfila_18.html";
+		chaptersFiles[S_TFILA][19] = "file:///android_asset/s_tfila_19.html";
+		chaptersFiles[S_TFILA][20] = "file:///android_asset/s_tfila_20.html";
+		chaptersFiles[S_TFILA][21] = "file:///android_asset/s_tfila_21.html";
+		chaptersFiles[S_TFILA][22] = "file:///android_asset/s_tfila_22.html";
+		chaptersFiles[S_TFILA][23] = "file:///android_asset/s_tfila_23.html";
+		chaptersFiles[S_TFILA][24] = "file:///android_asset/s_tfila_24.html";
+		chaptersFiles[S_TFILA][25] = "file:///android_asset/s_tfila_25.html";
+		chaptersFiles[S_TFILA][26] = "file:///android_asset/s_tfila_26.html";
+		/*S_TFILAT_NASHIM*/
+		chaptersFiles[S_TFILAT_NASHIM][0] = "file:///android_asset/s_tfilat_nashim_tochen.html";
+		chaptersFiles[S_TFILAT_NASHIM][1] = "file:///android_asset/s_tfilat_nashim_1.html";
+		chaptersFiles[S_TFILAT_NASHIM][2] = "file:///android_asset/s_tfilat_nashim_2.html";
+		chaptersFiles[S_TFILAT_NASHIM][3] = "file:///android_asset/s_tfilat_nashim_3.html";
+		chaptersFiles[S_TFILAT_NASHIM][4] = "file:///android_asset/s_tfilat_nashim_4.html";
+		chaptersFiles[S_TFILAT_NASHIM][5] = "file:///android_asset/s_tfilat_nashim_5.html";
+		chaptersFiles[S_TFILAT_NASHIM][6] = "file:///android_asset/s_tfilat_nashim_6.html";
+		chaptersFiles[S_TFILAT_NASHIM][7] = "file:///android_asset/s_tfilat_nashim_7.html";
+		chaptersFiles[S_TFILAT_NASHIM][8] = "file:///android_asset/s_tfilat_nashim_8.html";
+		chaptersFiles[S_TFILAT_NASHIM][9] = "file:///android_asset/s_tfilat_nashim_9.html";
+		chaptersFiles[S_TFILAT_NASHIM][10] = "file:///android_asset/s_tfilat_nashim_10.html";
+		chaptersFiles[S_TFILAT_NASHIM][11] = "file:///android_asset/s_tfilat_nashim_11.html";
+		chaptersFiles[S_TFILAT_NASHIM][12] = "file:///android_asset/s_tfilat_nashim_12.html";
+		chaptersFiles[S_TFILAT_NASHIM][13] = "file:///android_asset/s_tfilat_nashim_13.html";
+		chaptersFiles[S_TFILAT_NASHIM][14] = "file:///android_asset/s_tfilat_nashim_14.html";
+		chaptersFiles[S_TFILAT_NASHIM][15] = "file:///android_asset/s_tfilat_nashim_15.html";
+		chaptersFiles[S_TFILAT_NASHIM][16] = "file:///android_asset/s_tfilat_nashim_16.html";
+		chaptersFiles[S_TFILAT_NASHIM][17] = "file:///android_asset/s_tfilat_nashim_17.html";
+		chaptersFiles[S_TFILAT_NASHIM][18] = "file:///android_asset/s_tfilat_nashim_18.html";
+		chaptersFiles[S_TFILAT_NASHIM][19] = "file:///android_asset/s_tfilat_nashim_19.html";
+		chaptersFiles[S_TFILAT_NASHIM][20] = "file:///android_asset/s_tfilat_nashim_20.html";
+		chaptersFiles[S_TFILAT_NASHIM][21] = "file:///android_asset/s_tfilat_nashim_21.html";
+		chaptersFiles[S_TFILAT_NASHIM][22] = "file:///android_asset/s_tfilat_nashim_22.html";
+		chaptersFiles[S_TFILAT_NASHIM][23] = "file:///android_asset/s_tfila_t_nashim23.html";
+		chaptersFiles[S_TFILAT_NASHIM][24] = "file:///android_asset/s_tfila_t_nashim24.html";
+		/*S_ZMANIM*/
+		chaptersFiles[S_ZMANIM][0] = "file:///android_asset/s_zmanim_tochen.html";
+		chaptersFiles[S_ZMANIM][1] = "file:///android_asset/s_zmanim_1.html";
+		chaptersFiles[S_ZMANIM][2] = "file:///android_asset/s_zmanim_2.html";
+		chaptersFiles[S_ZMANIM][3] = "file:///android_asset/s_zmanim_3.html";
+		chaptersFiles[S_ZMANIM][4] = "file:///android_asset/s_zmanim_4.html";
+		chaptersFiles[S_ZMANIM][5] = "file:///android_asset/s_zmanim_5.html";
+		chaptersFiles[S_ZMANIM][6] = "file:///android_asset/s_zmanim_6.html";
+		chaptersFiles[S_ZMANIM][7] = "file:///android_asset/s_zmanim_7.html";
+		chaptersFiles[S_ZMANIM][8] = "file:///android_asset/s_zmanim_8.html";
+		chaptersFiles[S_ZMANIM][9] = "file:///android_asset/s_zmanim_9.html";
+		chaptersFiles[S_ZMANIM][10] = "file:///android_asset/s_zmanim_10.html";
+		chaptersFiles[S_ZMANIM][11] = "file:///android_asset/s_zmanim_11.html";
+		chaptersFiles[S_ZMANIM][12] = "file:///android_asset/s_zmanim_12.html";
+		chaptersFiles[S_ZMANIM][13] = "file:///android_asset/s_zmanim_13.html";
+		chaptersFiles[S_ZMANIM][14] = "file:///android_asset/s_zmanim_14.html";
+		chaptersFiles[S_ZMANIM][15] = "file:///android_asset/s_zmanim_15.html";
+		chaptersFiles[S_ZMANIM][16] = "file:///android_asset/s_zmanim_16.html";
+		chaptersFiles[S_ZMANIM][17] = "file:///android_asset/s_zmanim_17.html";
 		/*r_HAAM*/
 		chaptersFiles[R_HAAM][0] = "file:///android_asset/R_haamvehaarez_tochen.html";
 		chaptersFiles[R_HAAM][1] = "file:///android_asset/R_haamvehaarez_1.html";
@@ -2434,6 +2593,22 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				return "La prière d’Israël";
 			case S_SHABAT:
 				return "Shabbat (Español)";
+			case S_BRACHOT:
+				return "Brachot (Español)";
+			case S_MOADIM:
+				return "Moadim (Español)";
+			case S_YAMIM:
+				return "Yamim noriim(Español)";
+			case S_PESACH:
+				return "Pesach (Español)";
+			case S_SIMCHAT:
+				return "Simchat habit (Español)";
+			case S_TFILA:
+				return "Tfila (Español)";
+			case S_TFILAT_NASHIM:
+				return "Tfilat nashim (Español)";
+			case S_ZMANIM:
+				return "Zmanim (Español)";
 			case R_HAAM:
 				return "haam vehaarez(russian)";
 			case R_SHABBAT:
@@ -2464,7 +2639,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private void fillChaptersNames()
 	{
 		/*BRACHOT*/
-		chaptersNames[BRACHOT][1] = "ברכות: א - פתיחה";
+		chaptersNames[BRACHOT][1] = "ברכות: א - שילה";
 		chaptersNames[BRACHOT][2] = "ברכות: ב - נטילת ידיים לסעודה";
 		chaptersNames[BRACHOT][3] = "ברכות: ג - ברכת המוציא";
 		chaptersNames[BRACHOT][4] = "ברכות: ד - ברכת המזון";
