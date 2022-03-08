@@ -61,8 +61,8 @@ import org.jsoup.select.Elements;
 public class myAudio extends Activity implements AdapterView.OnItemSelectedListener {
     private static int API;
 
-    /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30*/
-    public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+    /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48*/
+    public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     String[][] chaptersNames = new String[BOOKS_NUMBER][31];
     private static final int BRACHOT = 0;
     private static final int HAAMVEHAAREZ = 1;
@@ -349,6 +349,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         extras = getIntent().getExtras();
         sections = new ArrayList<String>();
         book = extras.getInt("book_id");
+
         chapter = extras.getInt("chapter_id");
         if (hearAndRead) {
             scrollPos=getIntent().getIntExtra("scroolY",0);
@@ -1610,6 +1611,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 return "שמחת הבית וברכתו";
             case TEFILA:
                 return "תפילה";
+            case 48:
+                return "tfila(r)";
 //            case TEFILAT_NASHIM:
 //                return "תפילת נשים";
         }
@@ -1743,6 +1746,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     public String convert_character_to_id(int Id)
     {
+        if(book==48)
+            return String.valueOf(Id);
         switch (Id) {
             case 1:
                 return "א";

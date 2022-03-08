@@ -4,10 +4,8 @@ package com.rafraph.pnineyHalachaHashalem;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -27,6 +25,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -98,7 +97,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int E_ZMANIM       = 26;
 	private static final int E_WOMEN_PRAYER = 27;
 	private static final int E_SHABAT       = 28;
-	private static final int F_TEFILA       = 29;
+	private static final int E_somthing       = 29;
 	private static final int S_SHABAT       = 30;
 	private static final int S_BRACHOT       =31;
 	private static final int S_MOADIM        =32;
@@ -119,11 +118,17 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int R_TEFILAT_NASHIM=47;
 	private static final int R_TFILA         =48;
 	private static final int R_ZMANIM        =49;
-	private static final int BOOKS_NUMBER	= 50;
+	private static final int F_TEFILA        =50;
+	private static final int F_MOADIM        =51;
+	private static final int F_SUCOT         =52;
+	private static final int F_ZMANIM        =53;
+	private static final int F_SIMCHAT       =54;
+	private static final int F_PESACH        =55;
+	private static final int BOOKS_NUMBER	= 56;
 
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42 43  44  45  46  47  48  49*/
-	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17};
-	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA};
+	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42 43  44  45  46  47  48  49  50  51  52 53  54  55*/
+	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 1 , 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17, 26, 13, 8 ,17, 10, 16  };
+	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA,R_TFILA};
 	public Dialog dialogModes;
 	private static final int HEBREW	 = 0;
 	private static final int ENGLISH = 1;
@@ -224,13 +229,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		webview.setWebViewClient(new MyWebViewClient());
 
-		bParagraphs    = (ImageButton) findViewById(R.id.ibChapters);
-		bSwitchModes = (ImageButton) findViewById(R.id.switchModes);
+		bParagraphs    = (ImageButton) findViewById(R.id.tooApp);
+		bSwitchModes = (ImageButton) findViewById(R.id.setNotification);
 		bNext_sec      = (ImageButton) findViewById(R.id.ibNext);
 		bPrevious_sec  = (ImageButton) findViewById(R.id.ibPrevious);
 		bNext_page     = (ImageButton) findViewById(R.id.ibNextPage);
 		bPrevious_page = (ImageButton) findViewById(R.id.ibPreviousPage);
-		llMainLayout   = (LinearLayout) findViewById(R.id.llMainLayout);
+		llMainLayout   = (LinearLayout) findViewById(R.id.tooBooks);
 		lnrOptions     = (LinearLayout) findViewById(R.id.lnrOptions);
 		bFindNext      = (ImageButton) findViewById(R.id.ibFindNext);
 		bFindPrevious  = (ImageButton) findViewById(R.id.ibFindPrevious);
@@ -760,12 +765,12 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		switch(view.getId())
 		{
-			case R.id.ibChapters:
+			case R.id.tooApp:
 				findHeaders();
 				showPopupMenu(view);
 				break;
 
-			case R.id.switchModes:
+			case R.id.setNotification:
 				boolean enterForIf=false;
 				for (int i: haveAudio)
 				if(i==book_chapter[0]){
@@ -1031,12 +1036,19 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			@Override
 			public boolean onMenuItemClick(MenuItem item)
 			{
-				int id = item.getItemId()+1;
-				String s=fileName+ "#" + id;
-				String s2=fileName+ "#" + (id+1);
-				webview.loadUrl(s2);/*Workaround to fix the bug of jumping to same anchor twice*/
-				webview.loadUrl(s);
-				jumpToSectionFlag = true;
+				if(MyLanguage!=HEBREW&& MyLanguage!=ENGLISH) {
+					webview.findAllAsync(item.toString().trim());
+					webview.clearMatches();
+				}
+				else {
+					int id = item.getItemId() + 1;
+					String s = fileName + "#" + id;
+					String s2 = fileName + "#" + (id + 1);
+					webview.loadUrl(s2);/*Workaround to fix the bug of jumping to same anchor twice*/
+					webview.loadUrl(s);
+					jumpToSectionFlag = true;
+					return true;
+				}
 				return true;
 			}
 		});
@@ -1061,6 +1073,24 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 			Document doc = Jsoup.parse(input);
 			headers = doc.select("h2");
+			if(headers.size()==0){
+				headers = doc.select("p");
+
+				Elements NewHead = new Elements();
+				for(int j = 0; j < headers.size(); j++) {
+					if(headers.get(j).text().length()>1)
+					if(headers.get(j).text().charAt(1)=='.'||headers.get(j).text().charAt(2)=='.'||(MyLanguage==SPANISH&&(headers.get(j).text().charAt(1)==')'||headers.get(j).text().charAt(2)==')')))
+						NewHead.add(headers.get(j));
+				}
+			headers=NewHead;
+			}
+
+
+//				if (headers.get(j).text().contains("Chapitre"))
+//					NewHead.add(headers.get(j + 1));
+//			}
+			//headers=NewHead;
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1117,11 +1147,22 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				String input = new String(buffer);
 
 				Document doc = Jsoup.parse(input);
-				headers = doc.select("h2");
 
-				sections.clear();
-				for(j = 0; j < headers.size(); j++)
-					sections.add(headers.get(j).text());
+				headers = doc.select("h2");
+				if(headers.size()==0){
+					headers = doc.select("p");
+
+					Elements NewHead = new Elements();
+					for(int k = 0; k < headers.size(); k++) {
+						if(headers.get(k).text().length()>1)
+							if(headers.get(k).text().charAt(1)=='.'||headers.get(k).text().charAt(2)=='.'||(MyLanguage==SPANISH&&(headers.get(k).text().charAt(1)==')'||headers.get(k).text().charAt(2)==')')))
+								NewHead.add(headers.get(k));
+					}
+					headers=NewHead;
+				}
+				for(j = 0; j < headers.size(); j++) {
+						sections.add(headers.get(j).text());
+				}
 
 				String name;
 				if (book_chapter[0] == KASHRUT_B)
@@ -1713,7 +1754,85 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[F_TEFILA][24] = "file:///android_asset/F_tefila_24.html";
 		chaptersFiles[F_TEFILA][25] = "file:///android_asset/F_tefila_25.html";
 		chaptersFiles[F_TEFILA][26] = "file:///android_asset/F_tefila_26.html";
-
+		/*F_Moadim*/
+		chaptersFiles[F_MOADIM][0] = "file:///android_asset/f_moadim_tochen.html";
+		chaptersFiles[F_MOADIM][1] = "file:///android_asset/f_moadim_1.html";
+		chaptersFiles[F_MOADIM][2] = "file:///android_asset/f_moadim_2.html";
+		chaptersFiles[F_MOADIM][3] = "file:///android_asset/f_moadim_3.html";
+		chaptersFiles[F_MOADIM][4] = "file:///android_asset/f_moadim_4.html";
+		chaptersFiles[F_MOADIM][5] = "file:///android_asset/f_moadim_5.html";
+		chaptersFiles[F_MOADIM][6] = "file:///android_asset/f_moadim_6.html";
+		chaptersFiles[F_MOADIM][7] = "file:///android_asset/f_moadim_7.html";
+		chaptersFiles[F_MOADIM][8] = "file:///android_asset/f_moadim_8.html";
+		chaptersFiles[F_MOADIM][9] = "file:///android_asset/f_moadim_9.html";
+		chaptersFiles[F_MOADIM][10] = "file:///android_asset/f_moadim_10.html";
+		chaptersFiles[F_MOADIM][11] = "file:///android_asset/f_moadim_11.html";
+		chaptersFiles[F_MOADIM][12] = "file:///android_asset/f_moadim_12.html";
+		chaptersFiles[F_MOADIM][13] = "file:///android_asset/f_moadim_13.html";
+		/*F_SUCOT*/
+		chaptersFiles[F_SUCOT][0] = "file:///android_asset/f_sucot_tochen.html";
+		chaptersFiles[F_SUCOT][1] = "file:///android_asset/f_sucot_1.html";
+		chaptersFiles[F_SUCOT][2] = "file:///android_asset/f_sucot_2.html";
+		chaptersFiles[F_SUCOT][3] = "file:///android_asset/f_sucot_3.html";
+		chaptersFiles[F_SUCOT][4] = "file:///android_asset/f_sucot_4.html";
+		chaptersFiles[F_SUCOT][5] = "file:///android_asset/f_sucot_5.html";
+		chaptersFiles[F_SUCOT][6] = "file:///android_asset/f_sucot_6.html";
+		chaptersFiles[F_SUCOT][7] = "file:///android_asset/f_sucot_7.html";
+		chaptersFiles[F_SUCOT][8] = "file:///android_asset/f_sucot_8.html";
+		chaptersFiles[F_SUCOT][9] = "file:///android_asset/f_sucot_9.html";
+		chaptersFiles[F_SUCOT][10] = "file:///android_asset/f_sucot_10.html";
+		chaptersFiles[F_SUCOT][11] = "file:///android_asset/f_sucot_11.html";
+		chaptersFiles[F_SUCOT][12] = "file:///android_asset/f_sucot_12.html";
+		chaptersFiles[F_SUCOT][13] = "file:///android_asset/f_sucot_13.html";
+		/*F_ZMANIM*/
+		chaptersFiles[F_ZMANIM][0] = "file:///android_asset/f_zmanim_tochen.html";
+		chaptersFiles[F_ZMANIM][1] = "file:///android_asset/f_zmanim_1.html";
+		chaptersFiles[F_ZMANIM][2] = "file:///android_asset/f_zmanim_2.html";
+		chaptersFiles[F_ZMANIM][3] = "file:///android_asset/f_zmanim_3.html";
+		chaptersFiles[F_ZMANIM][4] = "file:///android_asset/f_zmanim_4.html";
+		chaptersFiles[F_ZMANIM][5] = "file:///android_asset/f_zmanim_5.html";
+		chaptersFiles[F_ZMANIM][6] = "file:///android_asset/f_zmanim_6.html";
+		chaptersFiles[F_ZMANIM][7] = "file:///android_asset/f_zmanim_7.html";
+		chaptersFiles[F_ZMANIM][8] = "file:///android_asset/f_zmanim_8.html";
+		chaptersFiles[F_ZMANIM][9] = "file:///android_asset/f_zmanim_9.html";
+		chaptersFiles[F_ZMANIM][10] = "file:///android_asset/f_zmanim_10.html";
+		chaptersFiles[F_ZMANIM][11] = "file:///android_asset/f_zmanim_11.html";
+		chaptersFiles[F_ZMANIM][12] = "file:///android_asset/f_zmanim_12.html";
+		chaptersFiles[F_ZMANIM][13] = "file:///android_asset/f_zmanim_13.html";
+		chaptersFiles[F_ZMANIM][14] = "file:///android_asset/f_zmanim_14.html";
+		chaptersFiles[F_ZMANIM][15] = "file:///android_asset/f_zmanim_15.html";
+		chaptersFiles[F_ZMANIM][16] = "file:///android_asset/f_zmanim_16.html";
+		chaptersFiles[F_ZMANIM][17] = "file:///android_asset/f_zmanim_17.html";
+		/*F_SIMCHAT*/
+		chaptersFiles[F_SIMCHAT][0] = "file:///android_asset/f_simchat_tochen.html";
+		chaptersFiles[F_SIMCHAT][1] = "file:///android_asset/f_simchat_1.html";
+		chaptersFiles[F_SIMCHAT][2] = "file:///android_asset/f_simchat_2.html";
+		chaptersFiles[F_SIMCHAT][3] = "file:///android_asset/f_simchat_3.html";
+		chaptersFiles[F_SIMCHAT][4] = "file:///android_asset/f_simchat_4.html";
+		chaptersFiles[F_SIMCHAT][5] = "file:///android_asset/f_simchat_5.html";
+		chaptersFiles[F_SIMCHAT][6] = "file:///android_asset/f_simchat_6.html";
+		chaptersFiles[F_SIMCHAT][7] = "file:///android_asset/f_simchat_7.html";
+		chaptersFiles[F_SIMCHAT][8] = "file:///android_asset/f_simchat_8.html";
+		chaptersFiles[F_SIMCHAT][9] = "file:///android_asset/f_simchat_9.html";
+		chaptersFiles[F_SIMCHAT][10] = "file:///android_asset/f_simchat_10.html";
+		/*F_ZMANIM*/
+		chaptersFiles[F_PESACH][0] = "file:///android_asset/f_pesach_tochen.html";
+		chaptersFiles[F_PESACH][1] = "file:///android_asset/f_pesach_1.html";
+		chaptersFiles[F_PESACH][2] = "file:///android_asset/f_pesach_2.html";
+		chaptersFiles[F_PESACH][3] = "file:///android_asset/f_pesach_3.html";
+		chaptersFiles[F_PESACH][4] = "file:///android_asset/f_pesach_4.html";
+		chaptersFiles[F_PESACH][5] = "file:///android_asset/f_pesach_5.html";
+		chaptersFiles[F_PESACH][6] = "file:///android_asset/f_pesach_6.html";
+		chaptersFiles[F_PESACH][7] = "file:///android_asset/f_pesach_7.html";
+		chaptersFiles[F_PESACH][8] = "file:///android_asset/f_pesach_8.html";
+		chaptersFiles[F_PESACH][9] = "file:///android_asset/f_pesach_9.html";
+		chaptersFiles[F_PESACH][10] = "file:///android_asset/f_pesach_10.html";
+		chaptersFiles[F_PESACH][11] = "file:///android_asset/f_pesach_11.html";
+		chaptersFiles[F_PESACH][12] = "file:///android_asset/f_pesach_12.html";
+		chaptersFiles[F_PESACH][13] = "file:///android_asset/f_pesach_13.html";
+		chaptersFiles[F_PESACH][14] = "file:///android_asset/f_pesach_14.html";
+		chaptersFiles[F_PESACH][15] = "file:///android_asset/f_pesach_15.html";
+		chaptersFiles[F_PESACH][16] = "file:///android_asset/f_pesach_16.html";
 		/*S_SHABAT*/
 		chaptersFiles[S_SHABAT][0] = "file:///android_asset/s_shabat_tochen.html";
 		chaptersFiles[S_SHABAT][1] = "file:///android_asset/s_shabat_1.html";
@@ -1784,17 +1903,17 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[S_MOADIM][12] = "file:///android_asset/s_moadim_12.html";
 		chaptersFiles[S_MOADIM][13] = "file:///android_asset/s_moadim_13.html";
 		/*S_YAMIM*/
-		chaptersFiles[S_MOADIM][0] = "file:///android_asset/s_yamim_tochen.html";
-		chaptersFiles[S_MOADIM][1] = "file:///android_asset/s_yamim_1.html";
-		chaptersFiles[S_MOADIM][2] = "file:///android_asset/s_yamim_2.html";
-		chaptersFiles[S_MOADIM][3] = "file:///android_asset/s_yamim_3.html";
-		chaptersFiles[S_MOADIM][4] = "file:///android_asset/s_yamim_4.html";
-		chaptersFiles[S_MOADIM][5] = "file:///android_asset/s_yamim_5.html";
-		chaptersFiles[S_MOADIM][6] = "file:///android_asset/s_yamim_6.html";
-		chaptersFiles[S_MOADIM][7] = "file:///android_asset/s_yamim_7.html";
-		chaptersFiles[S_MOADIM][8] = "file:///android_asset/s_yamim_8.html";
-		chaptersFiles[S_MOADIM][9] = "file:///android_asset/s_yamim_9.html";
-		chaptersFiles[S_MOADIM][10] = "file:///android_asset/s_yamim_10.html";
+		chaptersFiles[S_YAMIM][0] = "file:///android_asset/s_yamim_tochen.html";
+		chaptersFiles[S_YAMIM][1] = "file:///android_asset/s_yamim_1.html";
+		chaptersFiles[S_YAMIM][2] = "file:///android_asset/s_yamim_2.html";
+		chaptersFiles[S_YAMIM][3] = "file:///android_asset/s_yamim_3.html";
+		chaptersFiles[S_YAMIM][4] = "file:///android_asset/s_yamim_4.html";
+		chaptersFiles[S_YAMIM][5] = "file:///android_asset/s_yamim_5.html";
+		chaptersFiles[S_YAMIM][6] = "file:///android_asset/s_yamim_6.html";
+		chaptersFiles[S_YAMIM][7] = "file:///android_asset/s_yamim_7.html";
+		chaptersFiles[S_YAMIM][8] = "file:///android_asset/s_yamim_8.html";
+		chaptersFiles[S_YAMIM][9] = "file:///android_asset/s_yamim_9.html";
+		chaptersFiles[S_YAMIM][10] = "file:///android_asset/s_yamim_10.html";
 		/*S_PESACH*/
 		chaptersFiles[S_PESACH][0] = "file:///android_asset/s_pesach_tochen.html";
 		chaptersFiles[S_PESACH][1] = "file:///android_asset/s_pesach_1.html";
@@ -1945,17 +2064,17 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[R_SHABBAT][30] = "file:///android_asset/R_shabbat_30.html";
 
 		/*r_YAMIM*/
-		chaptersFiles[R_YAMMIM][0] = "file:///android_asset/R_YAMMIM_tochen.html";
-		chaptersFiles[R_YAMMIM][1] = "file:///android_asset/R_YAMMIM_1.html";
-		chaptersFiles[R_YAMMIM][2] = "file:///android_asset/R_YAMMIM_2.html";
-		chaptersFiles[R_YAMMIM][3] = "file:///android_asset/R_YAMMIM_3.html";
-		chaptersFiles[R_YAMMIM][4] = "file:///android_asset/R_YAMMIM_4.html";
-		chaptersFiles[R_YAMMIM][5] = "file:///android_asset/R_YAMMIM_5.html";
-		chaptersFiles[R_YAMMIM][6] = "file:///android_asset/R_YAMMIM_6.html";
-		chaptersFiles[R_YAMMIM][7] = "file:///android_asset/R_YAMMIM_7.html";
-		chaptersFiles[R_YAMMIM][8] = "file:///android_asset/R_YAMMIM_8.html";
-		chaptersFiles[R_YAMMIM][9] = "file:///android_asset/R_YAMMIM_9.html";
-		chaptersFiles[R_YAMMIM][10] = "file:///android_asset/R_YAMMIM_10.html";
+		chaptersFiles[R_YAMMIM][0] = "file:///android_asset/r_yammim_tochen.html";
+		chaptersFiles[R_YAMMIM][1] = "file:///android_asset/r_yammim_1.html";
+		chaptersFiles[R_YAMMIM][2] = "file:///android_asset/r_yammim_2.html";
+		chaptersFiles[R_YAMMIM][3] = "file:///android_asset/r_yammim_3.html";
+		chaptersFiles[R_YAMMIM][4] = "file:///android_asset/r_yammim_4.html";
+		chaptersFiles[R_YAMMIM][5] = "file:///android_asset/r_yammim_5.html";
+		chaptersFiles[R_YAMMIM][6] = "file:///android_asset/r_yammim_6.html";
+		chaptersFiles[R_YAMMIM][7] = "file:///android_asset/r_yammim_7.html";
+		chaptersFiles[R_YAMMIM][8] = "file:///android_asset/r_yammim_8.html";
+		chaptersFiles[R_YAMMIM][9] = "file:///android_asset/r_yammim_9.html";
+		chaptersFiles[R_YAMMIM][10]= "file:///android_asset/r_yammim_10.html";
 
 		/*r_SUCOT*/
 		chaptersFiles[R_SUCOT][0] = "file:///android_asset/R_sucot_tochen.html";
@@ -2589,8 +2708,20 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				return "Women’s Prayer";
 			case E_SHABAT:
 				return "Shabbat";
+			case E_somthing:
+				return "e_somthing";
 			case F_TEFILA:
 				return "La prière d’Israël";
+			case F_MOADIM:
+				return "moadim(french)";
+			case F_SUCOT:
+				return "sucot(french)";
+			case F_ZMANIM:
+				return "zmanim(french)";
+			case F_SIMCHAT:
+				return "simchat habait(french)";
+			case F_PESACH:
+				return "pesach(french)";
 			case S_SHABAT:
 				return "Shabbat (Español)";
 			case S_BRACHOT:

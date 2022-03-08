@@ -3,6 +3,8 @@ package com.rafraph.pnineyHalachaHashalem;
 
 
 
+import android.app.Activity;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity
 	private static final int E_ZMANIM       = 26;
 	private static final int E_WOMEN_PRAYER = 27;
 	private static final int E_SHABAT       = 28;
-	private static final int F_TEFILA       = 29;
+	private static final int E_somthing     = 29;
 	private static final int S_SHABAT       = 30;
 	private static final int S_BRACHOT       =31;
 	private static final int S_MOADIM        =32;
@@ -96,7 +98,13 @@ public class MainActivity extends AppCompatActivity
 	private static final int R_TEFILAT_NASHIM=47;
 	private static final int R_TFILA         =48;
 	private static final int R_ZMANIM        =49;
-	private static final int BOOKS_NUMBER	= 50;
+	private static final int F_TFILA         =50;
+	private static final int F_MOADIM        =51;
+	private static final int F_SUCOT         =52;
+	private static final int F_ZMANIM        =53;
+	private static final int F_SIMCHAT        =54;
+	private static final int F_PESACH        =55;
+	private static final int BOOKS_NUMBER	= 56;
 
 
 	private static final int HEBREW	 = 0;
@@ -104,6 +112,7 @@ public class MainActivity extends AppCompatActivity
 	private static final int RUSSIAN = 2;
 	private static final int SPANISH = 3;
 	private static final int FRENCH = 4;
+	private static  int  starter = 0;
 
 	public ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
@@ -123,6 +132,8 @@ public class MainActivity extends AppCompatActivity
 	public int StartInLastLocation = 1;
 	public boolean newVersion = false;
 	public Context context;
+	public boolean changeL=false;
+	public String tochen="";
 	//private StorageReference storageRef;
 	//private FirebaseStorage storage;
 	//private FirebaseAuth mAuth;
@@ -148,14 +159,51 @@ public class MainActivity extends AppCompatActivity
 		ab = getSupportActionBar();
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.lvExp);
+		Button pninaYomit = (Button) findViewById(R.id.button);
+		pninaYomit.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Class ourClass = null;
+				try {
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				Intent ourIntent = new Intent(MainActivity.this, ourClass);
+				startActivity(ourIntent);
+			}
+		});
 
 		// preparing list data
 		prepareListData();
-
-		listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
-
+		if(MyLanguage==HEBREW) {
+			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(0, 24), listDataChild);
+			starter = 0;
+		}
+		if(MyLanguage==ENGLISH) {
+			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(24, 30), listDataChild);
+			starter = 24;
+			tochen="Contents";
+		}
+		if(MyLanguage==FRENCH) {
+			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(50,56), listDataChild);
+			starter=50;
+			tochen="matières";
+		}
+		if(MyLanguage==SPANISH) {
+			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(30, 39), listDataChild);
+			starter = 30;
+			tochen="Índice";
+		}
+		if(MyLanguage==RUSSIAN)
+		{
+			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(39,50), listDataChild);
+			starter=39;
+			tochen="Содержание";
+		}
 		// setting list adapter
 		expListView.setAdapter(listAdapter);
+
 
 		// Listview on child click listener
 		expListView.setOnChildClickListener(new OnChildClickListener()
@@ -166,28 +214,20 @@ public class MainActivity extends AppCompatActivity
 			{
 				// TODO Auto-generated method stub
 
-				Toast.makeText(getApplicationContext(), listDataHeader.get(groupPosition) + " : "
-						+ listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), listDataHeader.get(groupPosition+starter) + " : "
+						+ listDataChild.get(listDataHeader.get(groupPosition+starter)).get(childPosition), Toast.LENGTH_SHORT).show();
 				try
 				{
 					//this if is for the pnina hayomit.(not ready)
-					//if(groupPosition==38)
-					if(false)
-					{
-						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
-						Intent ourIntent = new Intent(MainActivity.this, ourClass);
-						startActivity(ourIntent);
-					}
-					else
-						{
+
 						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
 						Intent ourIntent = new Intent(MainActivity.this, ourClass);
 						int[] book_chapter = new int[2];
-						book_chapter[0] = groupPosition;
+						book_chapter[0] = groupPosition+starter;
 						book_chapter[1] = childPosition;
 						ourIntent.putExtra("book_chapter", book_chapter);
 						startActivity(ourIntent);
-					}
+
 				}
 				catch (ClassNotFoundException e)
 				{
@@ -239,8 +279,9 @@ public class MainActivity extends AppCompatActivity
 		{
 			e.printStackTrace();
 		}
-		if(StartInLastLocation == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && newVersion == false)/*check if book and chapter are 0 so this is the first time the user open the application so don't go to the last location*/
+		if(changeL&&StartInLastLocation == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && newVersion == false)/*check if book and chapter are 0 so this is the first time the user open the application so don't go to the last location*/
 		{
+			changeL=false;
 			goToLastLocation();
 		}
 	}//onCreate
@@ -253,11 +294,12 @@ public class MainActivity extends AppCompatActivity
 		// Inflate the menu; this adds items to the action bar if it is present.
 		inflater = getMenuInflater();
 
+
 		if(BlackBackground == 1)
 		{
 			ab.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 			inflater.inflate(R.menu.tochen_actionbar_black, menu);
-			ab.setTitle(Html.fromHtml("<font color=\"white\">" + "תוכן" + "</font>"));
+			ab.setTitle(Html.fromHtml("<font color=\"white\">" + tochen + "</font>"));
 			listAdapter.setTextColor(Color.WHITE);//to set the list text color
 			expListView.setAdapter(listAdapter);//to set the list text color
 		}
@@ -265,7 +307,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			ab.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 			inflater.inflate(R.menu.tochen_actionbar, menu);
-			ab.setTitle(Html.fromHtml("<font color=\"black\">" + "תוכן" + "</font>"));
+			ab.setTitle(Html.fromHtml("<font color=\"black\">" + tochen + "</font>"));
 			listAdapter.setTextColor(Color.BLACK);//to set the list text color
 			expListView.setAdapter(listAdapter);//to set the list text color
 		}
@@ -465,56 +507,63 @@ public class MainActivity extends AppCompatActivity
 		listDataChild = new HashMap<String, List<String>>();
 
 		// Adding child data
-		listDataHeader.add("ברכות");
-		listDataHeader.add("העם והארץ");
-		listDataHeader.add("זמנים");
-		listDataHeader.add("טהרת המשפחה");
-		listDataHeader.add("ימים נוראים");
-		listDataHeader.add("כשרות א - הצומח והחי");
-		listDataHeader.add("כשרות ב - המזון והמטבח");
-		listDataHeader.add("ליקוטים א");
-		listDataHeader.add("ליקוטים ב");
-		listDataHeader.add("מועדים");
-		listDataHeader.add("משפחה");
-		listDataHeader.add("סוכות");
-		listDataHeader.add("פסח");
-		listDataHeader.add("שביעית ויובל");
-		listDataHeader.add("שבת");
-		listDataHeader.add("שמחת הבית וברכתו");
-		listDataHeader.add("תפילה");
-		listDataHeader.add("תפילת נשים");
-		listDataHeader.add("הרחבות ברכות");
-		listDataHeader.add("הרחבות ימים נוראים");
-		listDataHeader.add("הרחבות מועדים");
-		listDataHeader.add("הרחבות סוכות");
-		listDataHeader.add("הרחבות שבת");
-		listDataHeader.add("הרחבות שמחת הבית וברכתו");
-		listDataHeader.add("Tefila");
-		listDataHeader.add("Pesaĥ");
-		listDataHeader.add("Z’manim");
-		listDataHeader.add("Laws of Women’s Prayer");
-		listDataHeader.add("Laws of Shabbat");
-		listDataHeader.add("La prière d’Israël");
-		listDataHeader.add("Shabbat (Español)");
-		listDataHeader.add("brachot (Español)");
-		listDataHeader.add("moadim (Español)");
-		listDataHeader.add("Yamim noraiim (Español)");
-		listDataHeader.add("peasch (Español)");
-		listDataHeader.add("simchat habait (Español)");
-		listDataHeader.add("tfila (Español)");
-		listDataHeader.add("tfilat nashim (Español)");
-		listDataHeader.add("zmanim(Español)");
-		listDataHeader.add("Yammim Noraiim(russian)");
-		listDataHeader.add("shabaat(russian)");
-		listDataHeader.add("haam vehaarez(russian)");
-		listDataHeader.add("sucot(russian)");
-		listDataHeader.add("simchat habait(russian)");
-		listDataHeader.add("mishpacha(russian)");
-		listDataHeader.add("pesach(russian)");
-		listDataHeader.add("moadim(russian)");
-		listDataHeader.add("tfilat_nashim(russian)");
-		listDataHeader.add("tfila(russian)");
-		listDataHeader.add("zmanim(russian)");
+			listDataHeader.add("ברכות");
+			listDataHeader.add("העם והארץ");
+			listDataHeader.add("זמנים");
+			listDataHeader.add("טהרת המשפחה");
+			listDataHeader.add("ימים נוראים");
+			listDataHeader.add("כשרות א - הצומח והחי");
+			listDataHeader.add("כשרות ב - המזון והמטבח");
+			listDataHeader.add("ליקוטים א");
+			listDataHeader.add("ליקוטים ב");
+			listDataHeader.add("מועדים");
+			listDataHeader.add("משפחה");
+			listDataHeader.add("סוכות");
+			listDataHeader.add("פסח");
+			listDataHeader.add("שביעית ויובל");
+			listDataHeader.add("שבת");
+			listDataHeader.add("שמחת הבית וברכתו");
+			listDataHeader.add("תפילה");
+			listDataHeader.add("תפילת נשים");
+			listDataHeader.add("הרחבות ברכות");
+			listDataHeader.add("הרחבות ימים נוראים");
+			listDataHeader.add("הרחבות מועדים");
+			listDataHeader.add("הרחבות סוכות");
+			listDataHeader.add("הרחבות שבת");
+			listDataHeader.add("הרחבות שמחת הבית וברכתו");
+			listDataHeader.add("Tefila");
+			listDataHeader.add("Pesaĥ");
+			listDataHeader.add("Z’manim");
+			listDataHeader.add("Laws of Women’s Prayer");
+			listDataHeader.add("Laws of Shabbat");
+			listDataHeader.add("e_somthing");
+			listDataHeader.add("Shabbat (Español)");
+			listDataHeader.add("brachot (Español)");
+			listDataHeader.add("moadim (Español)");
+			listDataHeader.add("Yamim noraiim (Español)");
+			listDataHeader.add("peasch (Español)");
+			listDataHeader.add("simchat habait (Español)");
+			listDataHeader.add("tfila (Español)");
+			listDataHeader.add("tfilat nashim (Español)");
+			listDataHeader.add("zmanim(Español)");
+			listDataHeader.add("haam vehaarez(russian)");
+			listDataHeader.add("shabaat(russian)");
+			listDataHeader.add("Yammim Noraiim(russian)");
+			listDataHeader.add("sucot(russian)");
+			listDataHeader.add("simchat habait(russian)");
+			listDataHeader.add("mishpacha(russian)");
+			listDataHeader.add("pesach(russian)");
+			listDataHeader.add("moadim(russian)");
+			listDataHeader.add("tfilat_nashim(russian)");
+			listDataHeader.add("tfila(russian)");
+			listDataHeader.add("zmanim(russian)");
+			listDataHeader.add("La prière d’Israël");
+			listDataHeader.add("moadim(french)");
+			listDataHeader.add("sucot(french)");
+			listDataHeader.add("zmanim(french)");
+			listDataHeader.add("simchat habait(french)");
+			listDataHeader.add("pesach(french)");
+
 		;
 
 
@@ -1114,6 +1163,86 @@ public class MainActivity extends AppCompatActivity
 		F_tefila.add("25 - L’office d’Arvit");
 		F_tefila.add("26 - Prière du coucher");
 
+		List<String> f_moadim = new ArrayList<String>();
+		f_moadim.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_moadim.add("Chapitre 1 : Introduction");
+		f_moadim.add("Chapitre 2 : Mitsvot positives des jours de fête");
+		f_moadim.add("Chapitre 3 : Généralités sur les travaux interdits");
+		f_moadim.add("Chapitre 4 : Travaux relatifs aux aliments");
+		f_moadim.add("Chapitre 5 : Allumage, extinction et électricité");
+		f_moadim.add("Chapitre 6 : Port d’objets (hotsaa) et mouqtsé");
+		f_moadim.add("Chapitre 7 : Quelques-unes des lois de Yom tov");
+		f_moadim.add("Chapitre 8 : Érouv tavchilin");
+		f_moadim.add("Chapitre 9 : Second jour de Yom tov en diaspora");
+		f_moadim.add("Chapitre 10 : La mitsva de ‘Hol hamo’ed");
+		f_moadim.add("Chapitre 11 : Le travail exécuté à ‘Hol hamo’ed");
+		f_moadim.add("Chapitre 12 : Cas d’autorisation du travail à ‘Hol hamo’ed");
+		f_moadim.add("Chapitre 13 : Chavou’ot");
+
+		List<String> f_sucot = new ArrayList<String>();
+		f_sucot.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_sucot.add("Chapitre 1 : La fête de Soukot");
+		f_sucot.add("Chapitre 2 : Lois de la souka");
+		f_sucot.add("Chapitre 3 : Résider sous la souka");
+		f_sucot.add("Chapitre 4 : Les quatre espèces (arba’a minim) ");
+		f_sucot.add("Chapitre 5 : La mitsva d’agiter le loulav (nétilat loulav)");
+		f_sucot.add("Chapitre 6 : Hocha’na rabba");
+		f_sucot.add("Chapitre 7 : Chemini ‘atséret ");
+		f_sucot.add("Chapitre 8 : Le Haqhel");
+
+		List<String> f_zmanim = new ArrayList<String>();
+		f_zmanim.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_zmanim.add("Chapitre 1 : Roch ‘hodech (la néoménie)");
+		f_zmanim.add("Chapitre 2 : Lois du compte de l’omer");
+		f_zmanim.add("Chapitre 3 : Usages de deuil pendant l’omer");
+		f_zmanim.add("Chapitre 4 : Yom Ha’atsmaout ");
+		f_zmanim.add("Chapitre 5 : Lag ba’omer");
+		f_zmanim.add("Chapitre 6 : Les quatre jeûnes de deuil");
+		f_zmanim.add("Chapitre 7 : Règles des jeûnes légers");
+		f_zmanim.add("Chapitre 8 : Coutumes des trois semaines");
+		f_zmanim.add("Chapitre 9 : Veille du 9 av");
+		f_zmanim.add("Chapitre 10 : Lois du 9 av");
+		f_zmanim.add("Chapitre 11 : ‘Hanouka");
+		f_zmanim.add("Chapitre 12 : L’allumage des veilleuses de ‘Hanouka");
+		f_zmanim.add("Chapitre 13 : Le lieu et le temps de l’allumage");
+		f_zmanim.add("Chapitre 14 : Le mois d’adar");
+		f_zmanim.add("Chapitre 15 : Pourim et la lecture de la Méguila");
+		f_zmanim.add("Chapitre 16 : Mitsvot de la joie et de la bienfaisance");
+		f_zmanim.add("Chapitre 17 : Villes ouvertes et villes fortifiées");
+
+		List<String> f_simchat = new ArrayList<String>();
+		f_simchat.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_simchat.add("Chapitre 1 : Le devoir conjugal (mitsvat ‘ona)");
+		f_simchat.add("Chapitre 2 : Règles de l’union conjugale");
+		f_simchat.add("Chapitre 3 : Sainteté et intention");
+		f_simchat.add("Chapitre 4 : Préservation de l’alliance ");
+		f_simchat.add("Chapitre 5 : Croissez et multiplier");
+		f_simchat.add("Chapitre 6 : Difficultés et stérilité");
+		f_simchat.add("Chapitre 7 : Castration et mutilation");
+		f_simchat.add("Chapitre 8 : Consolation de ceux qui n’ont pas d’enfants");
+		f_simchat.add("Chapitre 9 : Interruption de grossesse");
+		f_simchat.add("Chapitre 10 : L’homme et la femme");
+
+		List<String> f_pesach = new ArrayList<String>();
+		f_pesach.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_pesach.add("Chapitre 1 : Signification de la fête");
+		f_pesach.add("Chapitre 2 : L’interdit du ‘hamets");
+		f_pesach.add("Chapitre 3 : La mitsva d’éliminer le ‘hamets");
+		f_pesach.add("Chapitre 4 : Recherche du ‘hamets ");
+		f_pesach.add("Chapitre 5 : Annulation et destruction du ‘hamets");
+		f_pesach.add("Chapitre 6 : Vente du ‘hamets");
+		f_pesach.add("Chapitre 7 : Le mélange de ‘hamets");
+		f_pesach.add("Chapitre 8 : Quelques règles de cacheroute à Pessa’h");
+		f_pesach.add("Chapitre 9 : Les kitniot (légumineuses)");
+		f_pesach.add("Chapitre 10 : Cachérisation des ustensiles");
+		f_pesach.add("Chapitre 11 : Cachérisation de la cuisine en vue de Pessa’h");
+		f_pesach.add("Chapitre 12 : Lois de la matsa");
+		f_pesach.add("Chapitre 13 : Veille de Pessa’h");
+		f_pesach.add("Chapitre 14 : Veille de Pessa’h ayant lieu le Chabbat");
+		f_pesach.add("Chapitre 15 : La Haggada");
+		f_pesach.add("Chapitre 16 : La soirée du séder");
+
+
 		List<String> S_shabat = new ArrayList<String>();
 		S_shabat.add("Índice Detallado, Prólogo");
 		S_shabat.add("1 - Introducción");
@@ -1514,56 +1643,62 @@ public class MainActivity extends AppCompatActivity
 		r_zmanim.add("Глава 17. Законы городов, обнесенных и не обнесенных стеной");
 
 
-		listDataChild.put(listDataHeader.get(BRACHOT), brachot); // Header, Child data
-		listDataChild.put(listDataHeader.get(HAAMVEHAAREZ), haam);
-		listDataChild.put(listDataHeader.get(ZMANIM), zmanim);
-		listDataChild.put(listDataHeader.get(TAHARAT), taharat);
-		listDataChild.put(listDataHeader.get(YAMIM), yamim);
-		listDataChild.put(listDataHeader.get(KASHRUT_A), kashrut_a);
-		listDataChild.put(listDataHeader.get(KASHRUT_B), kashrut_b);
-		listDataChild.put(listDataHeader.get(LIKUTIM_A), likutimA);
-		listDataChild.put(listDataHeader.get(LIKUTIM_B), likutimB);
-		listDataChild.put(listDataHeader.get(MOADIM), moadim);
-		listDataChild.put(listDataHeader.get(MISHPACHA), mishpacha);
-		listDataChild.put(listDataHeader.get(SUCOT), sucot);
-		listDataChild.put(listDataHeader.get(PESACH), pesach);
-		listDataChild.put(listDataHeader.get(SHVIIT), shviit);
-		listDataChild.put(listDataHeader.get(SHABAT), shabat);
-		listDataChild.put(listDataHeader.get(SIMCHAT), simchat);
-		listDataChild.put(listDataHeader.get(TEFILA), tefila);
-		listDataChild.put(listDataHeader.get(TEFILAT_NASHIM), tefilatNashim);
-		listDataChild.put(listDataHeader.get(HAR_BRACHOT), harchavot_brachot);
-		listDataChild.put(listDataHeader.get(HAR_YAMIM), harchavot_yamim);
-		listDataChild.put(listDataHeader.get(HAR_MOADIM), harchavot_moadim);
-		listDataChild.put(listDataHeader.get(HAR_SUCOT), harchavot_sucot);
-		listDataChild.put(listDataHeader.get(HAR_SHABAT), harchavot_shabat);
-		listDataChild.put(listDataHeader.get(HAR_SIMCHAT), harchavot_simchat);
-		listDataChild.put(listDataHeader.get(E_TEFILA), E_tefila);
-		listDataChild.put(listDataHeader.get(E_PESACH), E_pesach);
-		listDataChild.put(listDataHeader.get(E_ZMANIM), E_zmanim);
-		listDataChild.put(listDataHeader.get(E_WOMEN_PRAYER), E_Women_Prayer);
-		listDataChild.put(listDataHeader.get(E_SHABAT), E_Shabat);
-		listDataChild.put(listDataHeader.get(F_TEFILA), F_tefila);
-		listDataChild.put(listDataHeader.get(S_SHABAT), S_shabat);
-		listDataChild.put(listDataHeader.get(S_BRACHOT), s_brachot);
-		listDataChild.put(listDataHeader.get(S_MOADIM), s_moadim);
-		listDataChild.put(listDataHeader.get(S_YAMIM), s_yamim);
-		listDataChild.put(listDataHeader.get(S_PESACH), s_pesach);
-		listDataChild.put(listDataHeader.get(S_SIMCHAT), s_simchat);
-		listDataChild.put(listDataHeader.get(S_TFILA), s_tfila);
-		listDataChild.put(listDataHeader.get(S_TFILAT_NASHIM), s_tfilat_nashim);
-		listDataChild.put(listDataHeader.get(S_ZMANIM), s_zmanim);
-		listDataChild.put(listDataHeader.get(R_SHABBAT), r_shabat);
-		listDataChild.put(listDataHeader.get(R_YAMMIM), r_yammim);
-		listDataChild.put(listDataHeader.get(R_HAAM), r_haam);
-		listDataChild.put(listDataHeader.get(R_SUCOT), r_sucot);
-		listDataChild.put(listDataHeader.get(R_SIMCHAT), r_simchat);
-		listDataChild.put(listDataHeader.get(R_MISHPHACHA), r_mispacha);
-		listDataChild.put(listDataHeader.get(R_PESACH), r_pesach);
-		listDataChild.put(listDataHeader.get(R_MOADIM), r_moadim);
-		listDataChild.put(listDataHeader.get(R_TEFILAT_NASHIM), r_tfilat_nashim);
-		listDataChild.put(listDataHeader.get(R_TFILA), r_tfila);
-		listDataChild.put(listDataHeader.get(R_ZMANIM), r_zmanim);
+			listDataChild.put(listDataHeader.get(BRACHOT), brachot); // Header, Child data
+			listDataChild.put(listDataHeader.get(HAAMVEHAAREZ), haam);
+			listDataChild.put(listDataHeader.get(ZMANIM), zmanim);
+			listDataChild.put(listDataHeader.get(TAHARAT), taharat);
+			listDataChild.put(listDataHeader.get(YAMIM), yamim);
+			listDataChild.put(listDataHeader.get(KASHRUT_A), kashrut_a);
+			listDataChild.put(listDataHeader.get(KASHRUT_B), kashrut_b);
+			listDataChild.put(listDataHeader.get(LIKUTIM_A), likutimA);
+			listDataChild.put(listDataHeader.get(LIKUTIM_B), likutimB);
+			listDataChild.put(listDataHeader.get(MOADIM), moadim);
+			listDataChild.put(listDataHeader.get(MISHPACHA), mishpacha);
+			listDataChild.put(listDataHeader.get(SUCOT), sucot);
+			listDataChild.put(listDataHeader.get(PESACH), pesach);
+			listDataChild.put(listDataHeader.get(SHVIIT), shviit);
+			listDataChild.put(listDataHeader.get(SHABAT), shabat);
+			listDataChild.put(listDataHeader.get(SIMCHAT), simchat);
+			listDataChild.put(listDataHeader.get(TEFILA), tefila);
+			listDataChild.put(listDataHeader.get(TEFILAT_NASHIM), tefilatNashim);
+			listDataChild.put(listDataHeader.get(HAR_BRACHOT), harchavot_brachot);
+			listDataChild.put(listDataHeader.get(HAR_YAMIM), harchavot_yamim);
+			listDataChild.put(listDataHeader.get(HAR_MOADIM), harchavot_moadim);
+			listDataChild.put(listDataHeader.get(HAR_SUCOT), harchavot_sucot);
+			listDataChild.put(listDataHeader.get(HAR_SHABAT), harchavot_shabat);
+			listDataChild.put(listDataHeader.get(HAR_SIMCHAT), harchavot_simchat);
+			listDataChild.put(listDataHeader.get(E_TEFILA), E_tefila);
+			listDataChild.put(listDataHeader.get(E_PESACH), E_pesach);
+			listDataChild.put(listDataHeader.get(E_ZMANIM), E_zmanim);
+			listDataChild.put(listDataHeader.get(E_WOMEN_PRAYER), E_Women_Prayer);
+			listDataChild.put(listDataHeader.get(E_SHABAT), E_Shabat);
+			listDataChild.put(listDataHeader.get(E_somthing), E_Shabat);
+			listDataChild.put(listDataHeader.get(F_TFILA), F_tefila);
+			listDataChild.put(listDataHeader.get(F_MOADIM), f_moadim);
+			listDataChild.put(listDataHeader.get(F_SUCOT), f_sucot);
+			listDataChild.put(listDataHeader.get(F_ZMANIM), f_zmanim);
+			listDataChild.put(listDataHeader.get(F_SIMCHAT), f_simchat);
+			listDataChild.put(listDataHeader.get(F_PESACH), f_pesach);
+			listDataChild.put(listDataHeader.get(S_SHABAT), S_shabat);
+			listDataChild.put(listDataHeader.get(S_BRACHOT), s_brachot);
+			listDataChild.put(listDataHeader.get(S_MOADIM), s_moadim);
+			listDataChild.put(listDataHeader.get(S_YAMIM), s_yamim);
+			listDataChild.put(listDataHeader.get(S_PESACH), s_pesach);
+			listDataChild.put(listDataHeader.get(S_SIMCHAT), s_simchat);
+			listDataChild.put(listDataHeader.get(S_TFILA), s_tfila);
+			listDataChild.put(listDataHeader.get(S_TFILAT_NASHIM), s_tfilat_nashim);
+			listDataChild.put(listDataHeader.get(S_ZMANIM), s_zmanim);
+			listDataChild.put(listDataHeader.get(R_HAAM), r_haam);
+			listDataChild.put(listDataHeader.get(R_SHABBAT), r_shabat);
+			listDataChild.put(listDataHeader.get(R_YAMMIM), r_yammim);
+			listDataChild.put(listDataHeader.get(R_SUCOT), r_sucot);
+			listDataChild.put(listDataHeader.get(R_SIMCHAT), r_simchat);
+			listDataChild.put(listDataHeader.get(R_MISHPHACHA), r_mispacha);
+			listDataChild.put(listDataHeader.get(R_PESACH), r_pesach);
+			listDataChild.put(listDataHeader.get(R_MOADIM), r_moadim);
+			listDataChild.put(listDataHeader.get(R_TEFILAT_NASHIM), r_tfilat_nashim);
+			listDataChild.put(listDataHeader.get(R_TFILA), r_tfila);
+			listDataChild.put(listDataHeader.get(R_ZMANIM), r_zmanim);
 
 	}//prepareListData
 
@@ -1733,10 +1868,11 @@ public class MainActivity extends AppCompatActivity
 				{
 					MyLanguage = FRENCH;
 				}
-
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
-
+				changeL=true;
+				finish();
+				startActivity(getIntent());
 				languageDialog.dismiss();
 			}
 		});

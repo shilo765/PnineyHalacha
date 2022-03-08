@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llMainLayout"
+    android:id="@+id/tooBooks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -45,14 +45,14 @@
             />
 
         <ImageButton
-            android:id="@+id/switchModes"
+            android:id="@+id/setNotification"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:background="#00FFFFFF"
             android:src="@drawable/ic_action_switches_modes" />
 
         <ImageButton
-            android:id="@+id/ibChapters"
+            android:id="@+id/tooApp"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:background="#00FFFFFF"

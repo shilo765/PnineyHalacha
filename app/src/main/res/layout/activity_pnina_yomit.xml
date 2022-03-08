@@ -1,36 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tooBooks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:showDividers="middle|end"
-    tools:context=".pninaYomit" >
+    android:orientation="vertical" >
 
-
-    <Button
-        android:id="@+id/setNotifcation"
+    <LinearLayout
+        android:id="@+id/lnrOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:background="#003349"
+        android:gravity="center">
 
-    <EditText
-        android:id="@+id/etH"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        <ImageButton
+            android:id="@+id/setNotification"
+            android:layout_width="50dp"
+            android:layout_height="48dp"
+            android:background="#00FFFFFF"
+            android:src="@drawable/ic_action_switches_modes" />
 
-    <EditText
-        android:id="@+id/etM"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        <ImageButton
+            android:id="@+id/tooApp"
+            android:layout_width="52dp"
+            android:layout_height="48dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/Chapters"
+            android:src="@drawable/ic_action_view_as_list" />
+
+        <EditText
+            android:id="@+id/etH"
+            android:layout_width="2dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="12" />
+
+        <EditText
+            android:id="@+id/etM"
+            android:layout_width="39dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="00" />
+
+    </LinearLayout>
+
+
 
     <WebView
         android:id="@+id/webView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
 </LinearLayout>

@@ -105,7 +105,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public void onCreate() {
         super.onCreate();
         // Perform one-time setup procedures
-
+        float defSpeed=getSharedPreferences("MyPrefsFile",0).getFloat("audioSpeed",1);
+        System.out.println("shilo77777777777777777777777777777777777777"+book_audio_id);
         // Manage incoming phone calls during playback.
         // Pause MediaPlayer on incoming call,
         // Resume on hangup.
@@ -145,9 +146,13 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             chapter = intent.getExtras().getInt("chapter_id");
             section = intent.getExtras().getInt("audio_id");
             convert_book_id();
+            System.out.println("shilo6666666666666666666666666777777777777777777"+book_audio_id);
             sections = new ArrayList<String>();
             sections = serviceIntent.getExtras().getStringArrayList("sections_"+chapter);
-            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+            if (book_audio_id!=48)
+            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3",book_audio_id, chapter, section );
+            else
+                mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-%02d-%02d-%02d.mp3" ,2, chapter, section);
         } catch (NullPointerException e) {
             stopSelf();
         }
@@ -535,8 +540,13 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         else
             section++;
 
-        mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
-
+        if (book_audio_id!=48)
+            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3",book_audio_id, chapter, section );
+        else
+            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-%02d-%02d-%02d.mp3" ,2, chapter, section);
+        //else
+           // mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+            //mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-02-%02d-%02d.mp3" , chapter, section );
         Intent intent = new Intent("chapterUpdate");
         intent.putExtra("chapter", chapter);
         intent.putExtra("section", section);
@@ -568,7 +578,10 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
         else
             section--;
-        mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+        if (book_audio_id!=48)
+            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3",book_audio_id, chapter, section );
+        else
+            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-%02d-%02d-%02d.mp3" ,2, chapter, section);
 
         Intent intent = new Intent("chapterUpdate");
         intent.putExtra("chapter", chapter);
@@ -587,8 +600,10 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private void skipToSpecificSection() {
         stopMedia();
         mediaPlayer.reset();
-
+        if(book_audio_id!=48)
         mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+        else
+            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-%02d-%02d-%02d.mp3" ,2, chapter, section);
 
        /* Intent intent = new Intent("chapterUpdate");
         intent.putExtra("chapter", chapter);
@@ -751,9 +766,12 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             case TEFILA:
                 book_audio_id = 2;
                 return;
+            case 48:
+                book_audio_id=48;
 //            case TEFILAT_NASHIM:
 //                book_audio_id = 99;
 //                return;
+
         }
     }
 

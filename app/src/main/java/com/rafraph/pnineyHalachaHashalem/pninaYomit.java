@@ -50,7 +50,7 @@ public class pninaYomit extends Activity {
 
         createNotiChannel();
         refresh(10);
-        findViewById(R.id.setNotifcation).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.setNotification).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int hour= Integer.parseInt(((EditText) findViewById(R.id.etH)).getText().toString());
@@ -62,8 +62,15 @@ public class pninaYomit extends Activity {
                 Intent notiReciv=new Intent(getApplicationContext(), Notification_reciver.class);
                 PendingIntent penNotu=PendingIntent.getBroadcast(getApplicationContext(),100,notiReciv,PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager alarm=(AlarmManager) getSystemService(ALARM_SERVICE);
-                alarm.setRepeating(AlarmManager.RTC_WAKEUP,calnder.getTimeInMillis(),20*1000,penNotu);
-
+                alarm.setRepeating(AlarmManager.RTC_WAKEUP,calnder.getTimeInMillis(),AlarmManager.INTERVAL_DAY,penNotu);
+                Toast.makeText(getApplicationContext(),	"התראה הוגדרה בהצלחה!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        findViewById(R.id.tooApp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openMainActivity = new Intent("com.rafraph.ph_beta.MAINACTIVITY");
+                startActivity(openMainActivity);
             }
         });
     }
