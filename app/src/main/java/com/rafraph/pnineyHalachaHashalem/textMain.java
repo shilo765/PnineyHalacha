@@ -124,10 +124,12 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int F_ZMANIM        =53;
 	private static final int F_SIMCHAT       =54;
 	private static final int F_PESACH        =55;
-	private static final int BOOKS_NUMBER	= 56;
+	private static final int F_SHABBAT       =56;
+	private static final int F_YAMMIM        =57;
+	private static final int BOOKS_NUMBER	= 58;
 
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42 43  44  45  46  47  48  49  50  51  52 53  54  55*/
-	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 1 , 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17, 26, 13, 8 ,17, 10, 16  };
+	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42 43  44  45  46  47  48  49  50  51  52 53  54  55  56  57*/
+	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 1 , 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17, 26, 13, 8 ,17, 10, 16, 30, 10  };
 	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA,R_TFILA};
 	public Dialog dialogModes;
 	private static final int HEBREW	 = 0;
@@ -1833,6 +1835,52 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[F_PESACH][14] = "file:///android_asset/f_pesach_14.html";
 		chaptersFiles[F_PESACH][15] = "file:///android_asset/f_pesach_15.html";
 		chaptersFiles[F_PESACH][16] = "file:///android_asset/f_pesach_16.html";
+		/*R_SHABAT*/
+		chaptersFiles[F_SHABBAT][0] = "file:///android_asset/f_shabbat_tochen.html";
+		chaptersFiles[F_SHABBAT][1] = "file:///android_asset/f_shabbat_1.html";
+		chaptersFiles[F_SHABBAT][2] = "file:///android_asset/f_shabbat_2.html";
+		chaptersFiles[F_SHABBAT][3] = "file:///android_asset/f_shabbat_3.html";
+		chaptersFiles[F_SHABBAT][4] = "file:///android_asset/f_shabbat_4.html";
+		chaptersFiles[F_SHABBAT][5] = "file:///android_asset/f_shabbat_5.html";
+		chaptersFiles[F_SHABBAT][6] = "file:///android_asset/f_shabbat_6.html";
+		chaptersFiles[F_SHABBAT][7] = "file:///android_asset/f_shabbat_7.html";
+		chaptersFiles[F_SHABBAT][8] = "file:///android_asset/f_shabbat_8.html";
+		chaptersFiles[F_SHABBAT][9] = "file:///android_asset/f_shabbat_9.html";
+		chaptersFiles[F_SHABBAT][10] = "file:///android_asset/f_shabbat_10.html";
+		chaptersFiles[F_SHABBAT][11] = "file:///android_asset/f_shabbat_11.html";
+		chaptersFiles[F_SHABBAT][12] = "file:///android_asset/f_shabbat_12.html";
+		chaptersFiles[R_SHABBAT][13] = "file:///android_asset/f_shabbat_13.html";
+		chaptersFiles[F_SHABBAT][14] = "file:///android_asset/f_shabbat_14.html";
+		chaptersFiles[F_SHABBAT][15] = "file:///android_asset/f_shabbat_15.html";
+		chaptersFiles[F_SHABBAT][16] = "file:///android_asset/f_shabbat_16.html";
+		chaptersFiles[F_SHABBAT][17] = "file:///android_asset/f_shabbat_17.html";
+		chaptersFiles[F_SHABBAT][18] = "file:///android_asset/f_shabbat_18.html";
+		chaptersFiles[F_SHABBAT][19] = "file:///android_asset/f_shabbat_19.html";
+		chaptersFiles[F_SHABBAT][20] = "file:///android_asset/f_shabbat_20.html";
+		chaptersFiles[F_SHABBAT][21] = "file:///android_asset/f_shabbat_21.html";
+		chaptersFiles[F_SHABBAT][22] = "file:///android_asset/f_shabbat_22.html";
+		chaptersFiles[F_SHABBAT][23] = "file:///android_asset/f_shabbat_23.html";
+		chaptersFiles[F_SHABBAT][24] = "file:///android_asset/f_shabbat_24.html";
+		chaptersFiles[F_SHABBAT][25] = "file:///android_asset/f_shabbat_25.html";
+		chaptersFiles[F_SHABBAT][26] = "file:///android_asset/f_shabbat_26.html";
+		chaptersFiles[F_SHABBAT][27] = "file:///android_asset/f_shabbat_27.html";
+		chaptersFiles[F_SHABBAT][28] = "file:///android_asset/f_shabbat_28.html";
+		chaptersFiles[F_SHABBAT][29] = "file:///android_asset/f_shabbat_29.html";
+		chaptersFiles[F_SHABBAT][30] = "file:///android_asset/f_shabbat_30.html";
+
+		/*r_YAMIM*/
+		chaptersFiles[F_YAMMIM][0] = "file:///android_asset/f_yammim_tochen.html";
+		chaptersFiles[F_YAMMIM][1] = "file:///android_asset/f_yammim_1.html";
+		chaptersFiles[F_YAMMIM][2] = "file:///android_asset/f_yammim_2.html";
+		chaptersFiles[F_YAMMIM][3] = "file:///android_asset/f_yammim_3.html";
+		chaptersFiles[F_YAMMIM][4] = "file:///android_asset/f_yammim_4.html";
+		chaptersFiles[F_YAMMIM][5] = "file:///android_asset/f_yammim_5.html";
+		chaptersFiles[F_YAMMIM][6] = "file:///android_asset/f_yammim_6.html";
+		chaptersFiles[F_YAMMIM][7] = "file:///android_asset/f_yammim_7.html";
+		chaptersFiles[F_YAMMIM][8] = "file:///android_asset/f_yammim_8.html";
+		chaptersFiles[F_YAMMIM][9] = "file:///android_asset/f_yammim_9.html";
+		chaptersFiles[F_YAMMIM][10]= "file:///android_asset/f_yammim_10.html";
+
 		/*S_SHABAT*/
 		chaptersFiles[S_SHABAT][0] = "file:///android_asset/s_shabat_tochen.html";
 		chaptersFiles[S_SHABAT][1] = "file:///android_asset/s_shabat_1.html";
@@ -2556,6 +2604,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 	public String convertAnchorIdToSection(int Id)
 	{
+		if (MyLanguage!=HEBREW)
+			return String.valueOf(Id);
 		if(book_chapter[0] == KASHRUT_B && Id != 0)//for KASHRUT_B start from chapter 20
 			Id = Id + 19;
 		switch (Id)
@@ -2722,6 +2772,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				return "simchat habait(french)";
 			case F_PESACH:
 				return "pesach(french)";
+			case F_SHABBAT:
+				return "shabbat(french)";
+			case F_YAMMIM:
+				return "yammim noraiim(french)";
 			case S_SHABAT:
 				return "Shabbat (Español)";
 			case S_BRACHOT:

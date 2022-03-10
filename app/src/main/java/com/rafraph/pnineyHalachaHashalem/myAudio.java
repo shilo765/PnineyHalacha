@@ -63,7 +63,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48*/
     public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    String[][] chaptersNames = new String[BOOKS_NUMBER][31];
+    String[][] chaptersNames = new String[BOOKS_NUMBER][32];
     private static final int BRACHOT = 0;
     private static final int HAAMVEHAAREZ = 1;
     private static final int ZMANIM = 2;
@@ -96,7 +96,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private static final int E_SHABAT = 28;
     private static final int F_TEFILA = 29;
     private static final int S_SHABAT = 30;
-    private static final int BOOKS_NUMBER = 31;
+    private static final int R_TFILA = 48;
+    private static final int BOOKS_NUMBER = 32;
     private static final int HEBREW = 0;
     private static final int ENGLISH = 1;
     private static final int RUSSIAN = 2;
@@ -1458,6 +1459,34 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         chaptersNames[HAR_YAMIM][8] = "הר' ימים נוראים: ח - דיני התענית";
         chaptersNames[HAR_YAMIM][9] = "הר' ימים נוראים: ט - שאר עינויים";
         chaptersNames[HAR_YAMIM][10] = "הר' ימים נוראים: י - עבודת יום הכיפורים";
+
+        chaptersNames[R_TFILA][1]="Глава 1 Основы законов молитвы ";
+        chaptersNames[R_TFILA][2]="Глава 2 Миньян";
+        chaptersNames[R_TFILA][3]="Глава 3 Место молитвы";
+        chaptersNames[R_TFILA][4]="Глава 4 Кантор и кадиш скорбящих";
+        chaptersNames[R_TFILA][5]="Глава 5 Подготовка к молитве";
+        chaptersNames[R_TFILA][6]="Глава 6 Молитвенные каноны и обычаи разных общин ";
+        chaptersNames[R_TFILA][7]="Глава 7 Утреннее пробуждение";
+        chaptersNames[R_TFILA][8]="Глава 8 Утреннее омовение рук";
+        chaptersNames[R_TFILA][9]="Глава 9 Утренние благословения (Биркот ѓа-шахар)";
+        chaptersNames[R_TFILA][10]="Глава 10 Благословения Торы (Биркот ѓа-Тора)";
+        chaptersNames[R_TFILA][11]="Глава 11 Время чтения Шма Исраэль и утренней молитвы ( шахарит)";
+        chaptersNames[R_TFILA][12]="Глава 12 Подготовка к утренней молитве";
+        chaptersNames[R_TFILA][13]="Глава 13 Порядок жертвоприношений (Корбанот)";
+        chaptersNames[R_TFILA][14]="Глава 14 Хвалебные гимны (Псукей де-зимра)";
+        chaptersNames[R_TFILA][15]="Глава 15 Шма Исраэль ";
+        chaptersNames[R_TFILA][16]="Глава 16 Благословения, сопровождающие чтение Шма Исраэль";
+        chaptersNames[R_TFILA][17]="Глава 17 Молитва амида";
+        chaptersNames[R_TFILA][18]="Глава 18 Ошибки при чтении молитвы амида";
+        chaptersNames[R_TFILA][19]="Глава 19 Повторение кантором молитвы амида";
+        chaptersNames[R_TFILA][20]="Глава 20 Благословение народа коѓенами (Биркат коѓаним)";
+        chaptersNames[R_TFILA][21]="Глава 21 Таханун и Нефилат апаим";
+        chaptersNames[R_TFILA][22]="Глава 22 Некоторые законы чтения Торы";
+        chaptersNames[R_TFILA][23]="Глава 23 Окончание утренней молитвы и законы кадиша";
+        chaptersNames[R_TFILA][24]="Глава 24 Минха - послеполуденная молитва ";
+        chaptersNames[R_TFILA][25]="Глава 25 Арвит - вечерняя молитва ";
+        chaptersNames[R_TFILA][26]="Глава 26 Чтение Шма Исраэль перед отходом ко сну";
+
     }
 
     public void setAudioId(String id) {
@@ -1611,7 +1640,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 return "שמחת הבית וברכתו";
             case TEFILA:
                 return "תפילה";
-            case 48:
+            case R_TFILA:
                 return "tfila(r)";
 //            case TEFILAT_NASHIM:
 //                return "תפילת נשים";
@@ -1746,7 +1775,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     public String convert_character_to_id(int Id)
     {
-        if(book==48)
+        if(book==R_TFILA)
             return String.valueOf(Id);
         switch (Id) {
             case 1:

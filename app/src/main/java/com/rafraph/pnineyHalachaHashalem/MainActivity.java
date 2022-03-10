@@ -102,11 +102,11 @@ public class MainActivity extends AppCompatActivity
 	private static final int F_MOADIM        =51;
 	private static final int F_SUCOT         =52;
 	private static final int F_ZMANIM        =53;
-	private static final int F_SIMCHAT        =54;
+	private static final int F_SIMCHAT       =54;
 	private static final int F_PESACH        =55;
-	private static final int BOOKS_NUMBER	= 56;
-
-
+	private static final int F_SHABBAT       =56;
+	private static final int F_YAMMIM        =57;
+	private static final int BOOKS_NUMBER	= 58;
 	private static final int HEBREW	 = 0;
 	private static final int ENGLISH = 1;
 	private static final int RUSSIAN = 2;
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity
 			tochen="Contents";
 		}
 		if(MyLanguage==FRENCH) {
-			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(50,56), listDataChild);
+			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(50,58), listDataChild);
 			starter=50;
 			tochen="matières";
 		}
@@ -563,6 +563,8 @@ public class MainActivity extends AppCompatActivity
 			listDataHeader.add("zmanim(french)");
 			listDataHeader.add("simchat habait(french)");
 			listDataHeader.add("pesach(french)");
+			listDataHeader.add("shabbat(french)");
+			listDataHeader.add("yammim(french)");
 
 		;
 
@@ -1242,7 +1244,52 @@ public class MainActivity extends AppCompatActivity
 		f_pesach.add("Chapitre 15 : La Haggada");
 		f_pesach.add("Chapitre 16 : La soirée du séder");
 
+		List<String> f_shabbat = new ArrayList<String>();
+		f_shabbat.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_shabbat.add("Chapitre 1 : Ouverture");
+		f_shabbat.add("Chapitre 2 : Préparatifs du Chabbat");
+		f_shabbat.add("Chapitre 3 : Horaires du Chabbat");
+		f_shabbat.add("Chapitre 4 : Allumage des veilleuses (hadlaqat nérot)");
+		f_shabbat.add("Chapitre 5 : Etude de la Torah et prière, le Chabbat");
+		f_shabbat.add("Chapitre 6 : Règles du Qidouch");
+		f_shabbat.add("Chapitre 7 : Repas de Chabbat et mélavé malka");
+		f_shabbat.add("Chapitre 8 : Havdala et issue de Chabbat");
+		f_shabbat.add("Chapitre 9 : Généralités sur les travaux interdits (mélakhot)");
+		f_shabbat.add("Chapitre 10 : Cuisson (bichoul)");
+		f_shabbat.add("Chapitre 11 : Tri (borer)");
+		f_shabbat.add("Chapitre 12 : Préparation de la nourriture");
+		f_shabbat.add("Chapitre 13 : Travaux relatifs au vêtement");
+		f_shabbat.add("Chapitre 14 : Soins corporels");
+		f_shabbat.add("Chapitre 15 : Construire, détruire, un immeuble ou un objet");
+		f_shabbat.add("Chapitre 16 : Allumer, éteindre un feu");
+		f_shabbat.add("Chapitre 17 : Electricité et appareils électriques");
+		f_shabbat.add("Chapitre 18 : Ecrire, effacer et teindre");
+		f_shabbat.add("Chapitre 19 : Travaux liés aux végétaux");
+		f_shabbat.add("Chapitre 20 : Animaux");
+		f_shabbat.add("Chapitre 21 : Transfert et port d’objets (hotsaa)");
+		f_shabbat.add("Chapitre 22 : Le caractère du Chabbat");
+		f_shabbat.add("Chapitre 23 : Le mouqtsé");
+		f_shabbat.add("Chapitre 24 : Règles applicables au mineur");
+		f_shabbat.add("Chapitre 25 : Travaux exécutés par un non-Juif");
+		f_shabbat.add("Chapitre 26 : Travail exécuté pendant Chabbat et interdit d’induire son prochain à la faute");
+		f_shabbat.add("Chapitre 27 : Préservation de la vie humaine, cas du malade");
+		f_shabbat.add("Chapitre 28 : Malades dont l’état n’est pas dangereux");
+		f_shabbat.add("Chapitre 29 : L’érouv : jonction des domaines");
+		f_shabbat.add("Chapitre 30 : Zones d’habitation sabbatique (te’houmin)");
 
+		List<String> f_yammim = new ArrayList<String>();
+		f_yammim.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_yammim.add("Chapitre 1 : Jugement, récompense et punition");
+		f_yammim.add("Chapitre 2 : Les Seli’hot et autres prières");
+		f_yammim.add("Chapitre 3 : Roch hachana");
+		f_yammim.add("Chapitre 4 :La mitsva du chofar");
+		f_yammim.add("Chapitre 5 : Les dix jours de pénitence");
+		f_yammim.add("Chapitre 6 : Le jour de Kipour");
+		f_yammim.add("Chapitre 7 : Lois du jour de Kipour");
+		f_yammim.add("Chapitre 8 :Lois du jeûne de Kipour");
+		f_yammim.add("Chapitre 9 : Autres abstentions de Kipour");
+
+		f_yammim.add("Chapitre 10 : Le service de Yom Kipour à l’époque du sanctuaire");
 		List<String> S_shabat = new ArrayList<String>();
 		S_shabat.add("Índice Detallado, Prólogo");
 		S_shabat.add("1 - Introducción");
@@ -1679,6 +1726,8 @@ public class MainActivity extends AppCompatActivity
 			listDataChild.put(listDataHeader.get(F_ZMANIM), f_zmanim);
 			listDataChild.put(listDataHeader.get(F_SIMCHAT), f_simchat);
 			listDataChild.put(listDataHeader.get(F_PESACH), f_pesach);
+			listDataChild.put(listDataHeader.get(F_SHABBAT), f_shabbat);
+			listDataChild.put(listDataHeader.get(F_YAMMIM), f_yammim);
 			listDataChild.put(listDataHeader.get(S_SHABAT), S_shabat);
 			listDataChild.put(listDataHeader.get(S_BRACHOT), s_brachot);
 			listDataChild.put(listDataHeader.get(S_MOADIM), s_moadim);

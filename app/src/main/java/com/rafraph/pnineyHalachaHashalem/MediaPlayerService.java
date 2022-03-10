@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.PlaybackParams;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
@@ -28,15 +29,18 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MediaPlayerService extends Service implements MediaPlayer.OnCompletionListener,
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnSeekCompleteListener,
         MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener, AudioManager.OnAudioFocusChangeListener {
 
-    /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29*/
-    public int[] lastChapter = {18, 11, 17, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+    /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  31  32  33 34  35  36  37  38  39  40  41  42  42  44  45  46  47  48*/
+    public int[] lastChapter = {18, 11, 17, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30 ,0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 26};
 
     private MediaPlayer mediaPlayer;
     private String mediaUrl;
@@ -95,6 +99,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private static final int SIMCHAT		= 15;
     private static final int TEFILA			= 16;
     private static final int TEFILAT_NASHIM	= 17;
+    private static final int F_TFILA	= 48;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -106,7 +111,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         super.onCreate();
         // Perform one-time setup procedures
         float defSpeed=getSharedPreferences("MyPrefsFile",0).getFloat("audioSpeed",1);
-        System.out.println("shilo77777777777777777777777777777777777777"+book_audio_id);
+
+
         // Manage incoming phone calls during playback.
         // Pause MediaPlayer on incoming call,
         // Resume on hangup.
@@ -146,10 +152,10 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             chapter = intent.getExtras().getInt("chapter_id");
             section = intent.getExtras().getInt("audio_id");
             convert_book_id();
-            System.out.println("shilo6666666666666666666666666777777777777777777"+book_audio_id);
+
             sections = new ArrayList<String>();
             sections = serviceIntent.getExtras().getStringArrayList("sections_"+chapter);
-            if (book_audio_id!=48)
+            if (book_audio_id!=F_TFILA)
             mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3",book_audio_id, chapter, section );
             else
                 mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-%02d-%02d-%02d.mp3" ,2, chapter, section);
@@ -485,7 +491,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private BroadcastReceiver BR_skipToNext = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            skipToNext();
+            try {
+                skipToNext();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     };
 
@@ -518,10 +528,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
     };
 
-    private void skipToNext() {
+    private void skipToNext() throws IOException {
         stopMedia();
         mediaPlayer.reset();
-
+        if (book!=48)
+        //this if crash in russian(dont know whi
         if(section == sections.size())//if it the last section
         {
             if(chapter == lastChapter[book])//if it the last chapter
@@ -539,11 +550,26 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
         else
             section++;
-
+        else
+        {
+            int []r_tfilae={10,10,11,8,11,9,3,8,6,7,12,10,6,6,12,7,21,10,9,11,8,9,12,7,9,3};
+            if(section<r_tfilae[chapter-1])
+            {
+                section++;
+            }
+            else {
+                section = 1;
+                if(chapter<26)
+                    chapter++;
+                else
+                    chapter=1;
+            }
+        }
         if (book_audio_id!=48)
             mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3",book_audio_id, chapter, section );
         else
             mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-%02d-%02d-%02d.mp3" ,2, chapter, section);
+
         //else
            // mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
             //mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-02-%02d-%02d.mp3" , chapter, section );
