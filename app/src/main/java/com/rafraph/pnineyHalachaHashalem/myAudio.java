@@ -302,7 +302,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         content += "<body style=\"background-color:black;color:white\">";//Black background
 
                     ParseTheDoc();
-                    headers = doc.select("div#ftn" + 1);
+                    headers = doc.select("div#ftn" +note_id);
                     note = headers.get(0).text();
                     content += "<p dir=\"RTL\">" + note + "</p> </body></html>";
                     webviewNote.loadData(content, "text/html; charset=utf-8", "UTF-8");

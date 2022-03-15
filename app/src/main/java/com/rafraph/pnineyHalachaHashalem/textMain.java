@@ -126,10 +126,11 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int F_PESACH        =55;
 	private static final int F_SHABBAT       =56;
 	private static final int F_YAMMIM        =57;
-	private static final int BOOKS_NUMBER	= 58;
+	private static final int F_TFILAT_NASHIM =58;
+	private static final int BOOKS_NUMBER	= 59;
 
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42 43  44  45  46  47  48  49  50  51  52 53  54  55  56  57*/
-	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 1 , 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17, 26, 13, 8 ,17, 10, 16, 30, 10  };
+	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42 43  44  45  46  47  48  49  50  51  52 53  54  55  56  57  58*/
+	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 1 , 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17, 26, 13, 8 ,17, 10, 16, 30, 10, 24  };
 	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA,R_TFILA};
 	public Dialog dialogModes;
 	private static final int HEBREW	 = 0;
@@ -1835,6 +1836,34 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[F_PESACH][14] = "file:///android_asset/f_pesach_14.html";
 		chaptersFiles[F_PESACH][15] = "file:///android_asset/f_pesach_15.html";
 		chaptersFiles[F_PESACH][16] = "file:///android_asset/f_pesach_16.html";
+		/*F_TFILAT_NASHIM*/
+		chaptersFiles[F_TFILAT_NASHIM][0] = "file:///android_asset/f_tfilat_nashim_tochen.html";
+		chaptersFiles[F_TFILAT_NASHIM][1] = "file:///android_asset/f_tfilat_nashim_1.html";
+		chaptersFiles[F_TFILAT_NASHIM][2] = "file:///android_asset/f_tfilat_nashim_2.html";
+		chaptersFiles[F_TFILAT_NASHIM][3] = "file:///android_asset/f_tfilat_nashim_3.html";
+		chaptersFiles[F_TFILAT_NASHIM][4] = "file:///android_asset/f_tfilat_nashim_4.html";
+		chaptersFiles[F_TFILAT_NASHIM][5] = "file:///android_asset/f_tfilat_nashim_5.html";
+		chaptersFiles[F_TFILAT_NASHIM][6] = "file:///android_asset/f_tfilat_nashim_6.html";
+		chaptersFiles[F_TFILAT_NASHIM][7] = "file:///android_asset/f_tfilat_nashim_7.html";
+		chaptersFiles[F_TFILAT_NASHIM][8] = "file:///android_asset/f_tfilat_nashim_8.html";
+		chaptersFiles[F_TFILAT_NASHIM][9] = "file:///android_asset/f_tfilat_nashim_9.html";
+		chaptersFiles[F_TFILAT_NASHIM][10] = "file:///android_asset/f_tfilat_nashim_10.html";
+		chaptersFiles[F_TFILAT_NASHIM][11] = "file:///android_asset/f_tfilat_nashim_11.html";
+		chaptersFiles[F_TFILAT_NASHIM][12] = "file:///android_asset/f_tfilat_nashim_12.html";
+		chaptersFiles[F_TFILAT_NASHIM][13] = "file:///android_asset/f_tfilat_nashim_13.html";
+		chaptersFiles[F_TFILAT_NASHIM][14] = "file:///android_asset/f_tfilat_nashim_14.html";
+		chaptersFiles[F_TFILAT_NASHIM][15] = "file:///android_asset/f_tfilat_nashim_15.html";
+		chaptersFiles[F_TFILAT_NASHIM][16] = "file:///android_asset/f_tfilat_nashim_16.html";
+		chaptersFiles[F_TFILAT_NASHIM][17] = "file:///android_asset/f_tfilat_nashim_17.html";
+		chaptersFiles[F_TFILAT_NASHIM][18] = "file:///android_asset/f_tfilat_nashim_18.html";
+		chaptersFiles[F_TFILAT_NASHIM][19] = "file:///android_asset/f_tfilat_nashim_19.html";
+		chaptersFiles[F_TFILAT_NASHIM][20] = "file:///android_asset/f_tfilat_nashim_20.html";
+		chaptersFiles[F_TFILAT_NASHIM][21] = "file:///android_asset/f_tfilat_nashim_21.html";
+		chaptersFiles[F_TFILAT_NASHIM][22] = "file:///android_asset/f_tfilat_nashim_22.html";
+		chaptersFiles[F_TFILAT_NASHIM][23] = "file:///android_asset/f_tfilat_nashim_23.html";
+		chaptersFiles[F_TFILAT_NASHIM][24] = "file:///android_asset/f_tfilat_nashim_24.html";
+		chaptersFiles[F_TFILAT_NASHIM][25] = "file:///android_asset/f_tfilat_nashim_25.html";
+		chaptersFiles[F_TFILAT_NASHIM][26] = "file:///android_asset/f_tfilat_nashim_26.html";
 		/*R_SHABAT*/
 		chaptersFiles[F_SHABBAT][0] = "file:///android_asset/f_shabbat_tochen.html";
 		chaptersFiles[F_SHABBAT][1] = "file:///android_asset/f_shabbat_1.html";
@@ -2774,6 +2803,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				return "pesach(french)";
 			case F_SHABBAT:
 				return "shabbat(french)";
+			case F_TFILAT_NASHIM:
+				return "tfilat nashim(french)";
 			case F_YAMMIM:
 				return "yammim noraiim(french)";
 			case S_SHABAT:

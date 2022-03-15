@@ -3,8 +3,17 @@ package com.rafraph.pnineyHalachaHashalem;
 
 
 
-import android.app.Activity;
-import android.os.Handler;
+import android.Manifest;
+import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -37,6 +46,7 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RadioButton;
@@ -47,6 +57,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
 {
+	private HashMap<String,Integer> numbook=new HashMap<>();
 	private static final int BRACHOT      	= 0;
 	private static final int HAAMVEHAAREZ 	= 1;
 	private static final int ZMANIM    		= 2;
@@ -106,14 +117,15 @@ public class MainActivity extends AppCompatActivity
 	private static final int F_PESACH        =55;
 	private static final int F_SHABBAT       =56;
 	private static final int F_YAMMIM        =57;
-	private static final int BOOKS_NUMBER	= 58;
+	private static final int F_TFILAT_NASHIM =58;
+	private static final int BOOKS_NUMBER	= 59;
 	private static final int HEBREW	 = 0;
 	private static final int ENGLISH = 1;
 	private static final int RUSSIAN = 2;
 	private static final int SPANISH = 3;
 	private static final int FRENCH = 4;
 	private static  int  starter = 0;
-
+	private List<String> books = new ArrayList<String>();
 	public ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
 	LinearLayout LinearLayoutListGroup;
@@ -134,6 +146,8 @@ public class MainActivity extends AppCompatActivity
 	public Context context;
 	public boolean changeL=false;
 	public String tochen="";
+	public String HneedPr="זקוקה הרשאה",Hmassage="הרשאה זו נצרכת בשביל להוריד ולקרוא את הספרים",Hconfirm="אשר",Hcancel="סרב";
+	private int STORAGE_PREMISSION_CODE=1;
 	//private StorageReference storageRef;
 	//private FirebaseStorage storage;
 	//private FirebaseAuth mAuth;
@@ -186,7 +200,7 @@ public class MainActivity extends AppCompatActivity
 			tochen="Contents";
 		}
 		if(MyLanguage==FRENCH) {
-			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(50,58), listDataChild);
+			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(50,59), listDataChild);
 			starter=50;
 			tochen="matières";
 		}
@@ -503,6 +517,23 @@ public class MainActivity extends AppCompatActivity
 	/*Preparing the list data*/
 	private void prepareListData()
 	{
+		books.add("brachot");
+		//books.add("haamvehaarez");
+		//books.add("kashrut");
+		//books.add("likutim_a");
+		//books.add("likutim_b");
+		//books.add("mishpacha");
+		books.add("moadim");
+		books.add("pesach");
+		books.add("shabat");
+		//books.add("shviit");
+		books.add("simchat");
+		//books.add("sucot");
+		//books.add("taharat");
+		books.add("tefila");
+		books.add("tefilat_nashim");
+		books.add("yamim");
+		books.add("zmanim");
 		listDataHeader = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
 
@@ -565,6 +596,7 @@ public class MainActivity extends AppCompatActivity
 			listDataHeader.add("pesach(french)");
 			listDataHeader.add("shabbat(french)");
 			listDataHeader.add("yammim(french)");
+			listDataHeader.add("tfilat nashim(french)");
 
 		;
 
@@ -1288,8 +1320,34 @@ public class MainActivity extends AppCompatActivity
 		f_yammim.add("Chapitre 7 : Lois du jour de Kipour");
 		f_yammim.add("Chapitre 8 :Lois du jeûne de Kipour");
 		f_yammim.add("Chapitre 9 : Autres abstentions de Kipour");
-
 		f_yammim.add("Chapitre 10 : Le service de Yom Kipour à l’époque du sanctuaire");
+
+		List<String> F_tfilat_nashim = new ArrayList<String>();
+		F_tfilat_nashim.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		F_tfilat_nashim.add("1 - Bases des lois de la prière");
+		F_tfilat_nashim.add("2 - Les femmes et la mitsva de la prière");
+		F_tfilat_nashim.add("3 - Le lieu de la prière");
+		F_tfilat_nashim.add("4 - Le lever matinal");
+		F_tfilat_nashim.add("5 - Nétilat yadaïm , l’ablution matinale des mains");
+		F_tfilat_nashim.add("6 - Birkot hacha’har , les bénédictions du matin");
+		F_tfilat_nashim.add("7 - Birkot ha-Torah, les bénédictions de la Torah");
+		F_tfilat_nashim.add("8 - Office de Cha’harit et règles qui le précèdent");
+		F_tfilat_nashim.add("9 - Préparation corporelle");
+		F_tfilat_nashim.add("10 - Préparation spirituelle et vestimentaire");
+		F_tfilat_nashim.add("11 - Lieu de la prière");
+		F_tfilat_nashim.add("12 - La ‘Amida");
+		F_tfilat_nashim.add("13 - Erreurs et oublis dans la récitation de la ‘Amida");
+		F_tfilat_nashim.add("14 -  L’Honneur dû à la prière");
+		F_tfilat_nashim.add("15 - Qorbanot et Pessouqé dezimra");
+		F_tfilat_nashim.add("16 -Le Chéma et ses bénédictions");
+		F_tfilat_nashim.add("17 - Prières qui suivent la ‘Amida de Cha’harit");
+		F_tfilat_nashim.add("18 -  Min’ha et Arvit");
+		F_tfilat_nashim.add("19 -  Prière du coucher Qriat Chéma ‘al hamita");
+		F_tfilat_nashim.add("20 -  Quelques règles relatives à la prière en minyan");
+		F_tfilat_nashim.add("21 - La synagogue, les tsitsit et les téphilines");
+		F_tfilat_nashim.add("22 - Prière et Qidouch de Chabbat");
+		F_tfilat_nashim.add("23 - Quelques règles relatives aux fêtes");
+		F_tfilat_nashim.add("24 - Rituels et coutumes des communautés");
 		List<String> S_shabat = new ArrayList<String>();
 		S_shabat.add("Índice Detallado, Prólogo");
 		S_shabat.add("1 - Introducción");
@@ -1728,6 +1786,7 @@ public class MainActivity extends AppCompatActivity
 			listDataChild.put(listDataHeader.get(F_PESACH), f_pesach);
 			listDataChild.put(listDataHeader.get(F_SHABBAT), f_shabbat);
 			listDataChild.put(listDataHeader.get(F_YAMMIM), f_yammim);
+			listDataChild.put(listDataHeader.get(F_TFILAT_NASHIM), F_tfilat_nashim);
 			listDataChild.put(listDataHeader.get(S_SHABAT), S_shabat);
 			listDataChild.put(listDataHeader.get(S_BRACHOT), s_brachot);
 			listDataChild.put(listDataHeader.get(S_MOADIM), s_moadim);
@@ -1858,53 +1917,219 @@ public class MainActivity extends AppCompatActivity
 		dialog.show();
 	}
 
-	void languageDialog(Context context)
+	public static boolean isPremissionGranted(Context context)
 	{
-		languageDialog = new Dialog(context);
+		if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.R)
+			return Environment.isExternalStorageManager();
+		else
+			return ContextCompat.checkSelfPermission(context,Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED;
+	}
+	public  void getPremission(String needPre,String message,String confirm,String cancel)
+	{
+		if(!isPremissionGranted(getApplicationContext())) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+				new AlertDialog.Builder(getApplicationContext()).setTitle(needPre).setMessage(message)
+						.setPositiveButton(confirm, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								try {
+
+
+									Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+									intent.addCategory("android.intent.category.DEFAULT");
+									Uri uri = Uri.fromParts("package", getPackageName(), null);
+									intent.setData(uri);
+									startActivityForResult(intent, 101);
+								} catch (Exception e) {
+									e.printStackTrace();
+									Intent intent = new Intent();
+									intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+									startActivityForResult(intent, 101);
+								}
+							}
+						})
+						.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						})
+						.create().show();
+			}
+			else if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+				new AlertDialog.Builder(MainActivity.this).setTitle(needPre).setMessage(message)
+						.setPositiveButton(confirm, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PREMISSION_CODE);
+								Boolean confirm=true;
+							}
+						})
+						.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						})
+						.create().show();
+			} else
+				ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PREMISSION_CODE);
+		}
+		else
+			languageDialog.dismiss();
+
+		File file=new File(Environment.getExternalStorageDirectory().toString() + "/pnineyHalacha");
+		file.mkdirs();
+	}
+	public  void downloadBooks(String langString,HashMap specific_numbook,List specific_books,String folder)
+	{
+		File file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder);
+		if (!file.exists())
+			file.mkdirs();
+		for (String book : books) {
+			File file4 = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder, langString +book + "_tochen.html");
+			if (!file4.exists()) {
+				DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString + book + "_tochen.html"));
+				request.setDescription("please  wait");
+				//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+				request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString + book + "_tochen.html");
+				DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+				downloadManager.enqueue(request);
+			}
+			for (int i = 1; i <= numbook.get(book); i++) {
+				File file5 = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder, langString+book + "_" + i + ".html");
+				if (!file5.exists()) {
+					DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString + book + "_" + i + ".html"));
+					request.setDescription("please  wait");
+					//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString + book + "_" + i + ".html");
+					DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+					downloadManager.enqueue(request);
+				}
+
+			}
+		}
+	}
+	void languageDialog(Context context) {
+		languageDialog = new Dialog(context,android.R.style.Theme_Light_NoTitleBar_Fullscreen);
+
 		languageDialog.setContentView(R.layout.language);
 
 		Button ButtonSetLanguage = (Button) languageDialog.findViewById(R.id.dialogButtonOK);
 		final RadioButton radioHebrew = (RadioButton) languageDialog.findViewById(R.id.radioHebrew);
-		final RadioButton radioEnglish = (RadioButton) languageDialog.findViewById(R.id.radioEnglish);
+		//final RadioButton radioEnglish = (RadioButton) languageDialog.findViewById(R.id.radioEnglish);
 		final RadioButton radioRussian = (RadioButton) languageDialog.findViewById(R.id.radioRussian);
 		final RadioButton radioSpanish = (RadioButton) languageDialog.findViewById(R.id.radioSpanish);
 		final RadioButton radioFrench = (RadioButton) languageDialog.findViewById(R.id.radioFrench);
-
+		ImageView h_imv=(ImageView) languageDialog.findViewById(R.id.im_h);
+		ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
+		ImageView r_imv=(ImageView) languageDialog.findViewById(R.id.im_r);
+		ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
+		ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
+		final CheckBox chkHe=(CheckBox) languageDialog.findViewById(R.id.checkBoxH);
+		final CheckBox chkEn=(CheckBox) languageDialog.findViewById(R.id.checkBoxEN);
+		final CheckBox chkRu=(CheckBox) languageDialog.findViewById(R.id.checkBoxRU);
+		//final CheckBox chkFr=(CheckBox) languageDialog.findViewById(R.id.checkBoxFR);
+		//final CheckBox chkEs=(CheckBox) languageDialog.findViewById(R.id.checkBoxES);
 		if(MyLanguage == -1)
 		{
 			MyLanguage = HEBREW; /*default value*/
 			shPrefEditor.putInt("MyLanguage", MyLanguage);
 			shPrefEditor.commit();
+			h_imv.setImageResource(R.drawable.h_b_2);
 		}
 		else
 		{
 			if(MyLanguage == HEBREW)
-				radioHebrew.setChecked(true);
-			else if(MyLanguage == ENGLISH)
-				radioEnglish.setChecked(true);
+				h_imv.setImageResource(R.drawable.h_b_2);
 			else if(MyLanguage == RUSSIAN)
-				radioRussian.setChecked(true);
+				r_imv.setImageResource(R.drawable.h_b_2);
 			else if(MyLanguage == SPANISH)
-				radioSpanish.setChecked(true);
+				es_imv.setImageResource(R.drawable.h_b_2);
 			else if(MyLanguage == FRENCH)
-				radioFrench.setChecked(true);
+				f_imv.setImageResource(R.drawable.h_b_2);
+			else if(MyLanguage == ENGLISH)
+				en_imv.setImageResource(R.drawable.h_b_2);
 		}
+		h_imv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MyLanguage = HEBREW;
+				h_imv.setImageResource(R.drawable.h_b_2);
+				r_imv.setImageResource(R.drawable.r_b_1);
+				es_imv.setImageResource(R.drawable.es_b_1);
+				en_imv.setImageResource(R.drawable.en_b_1);
+				f_imv.setImageResource(R.drawable.f_b_1);
+			}
+		});
+		r_imv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MyLanguage = RUSSIAN;
+				h_imv.setImageResource(R.drawable.h_b_1);
+				r_imv.setImageResource(R.drawable.h_b_2);
+				es_imv.setImageResource(R.drawable.es_b_1);
+				en_imv.setImageResource(R.drawable.en_b_1);
+				f_imv.setImageResource(R.drawable.f_b_1);
+
+			}
+		});
+		es_imv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MyLanguage = SPANISH;
+				h_imv.setImageResource(R.drawable.h_b_1);
+				r_imv.setImageResource(R.drawable.r_b_1);
+				es_imv.setImageResource(R.drawable.h_b_2);
+				en_imv.setImageResource(R.drawable.en_b_1);
+				f_imv.setImageResource(R.drawable.f_b_1);
+			}
+		});
+		en_imv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MyLanguage = ENGLISH;
+				h_imv.setImageResource(R.drawable.h_b_1);
+				r_imv.setImageResource(R.drawable.r_b_1);
+				es_imv.setImageResource(R.drawable.es_b_1);
+				en_imv.setImageResource(R.drawable.h_b_2);
+				f_imv.setImageResource(R.drawable.f_b_1);
+			}
+		});
+		f_imv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MyLanguage = FRENCH;;
+				h_imv.setImageResource(R.drawable.h_b_1);
+				r_imv.setImageResource(R.drawable.r_b_1);
+				es_imv.setImageResource(R.drawable.es_b_1);
+				en_imv.setImageResource(R.drawable.en_b_1);
+				f_imv.setImageResource(R.drawable.h_b_2);
+			}
+		});
+
+
+
+
 
 		// if button is clicked
 		ButtonSetLanguage.setOnClickListener(new OnClickListener()
 		{
 			@SuppressLint("NewApi")
+
 			@Override
 			public void onClick(View v)
 			{
+
+
 				if(radioHebrew.isChecked())
 				{
 					MyLanguage = HEBREW;
 				}
-				else if(radioEnglish.isChecked())
-				{
-					MyLanguage = ENGLISH;
-				}
+				//else if(radioEnglish.isChecked())
+				//{
+				//	MyLanguage = ENGLISH;
+			//	}
 				else if(radioRussian.isChecked())
 				{
 					MyLanguage = RUSSIAN;
@@ -1917,12 +2142,61 @@ public class MainActivity extends AppCompatActivity
 				{
 					MyLanguage = FRENCH;
 				}
+				if(chkEn.isChecked())
+				{
+					getPremission(HneedPr,Hmassage,Hconfirm,Hcancel);
+					int count=0;
+
+
+
+					if(isPremissionGranted(getApplicationContext())){
+
+					numbook=new HashMap<>();
+					numbook.put("brachot", 18);
+					//numbook.put("haamvehaarez", 11);
+					//numbook.put("kashrut", 38);
+					//numbook.put("likutim_a", 13);
+					//numbook.put("likutim_b", 16);
+					//numbook.put("mishpacha", 10);
+					numbook.put("moadim", 13);
+					numbook.put("pesach", 16);
+					numbook.put("shabat", 30);
+					//numbook.put("shviit", 11);
+					numbook.put("simchat", 10);
+					//numbook.put("sucot", 8);
+					//numbook.put("taharat", 10);
+					numbook.put("tefila", 26);
+					numbook.put("tefilat_nashim", 24);
+					numbook.put("yamim", 10);
+					numbook.put("zmanim", 17);
+					final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
+					new Thread() {
+						public void run() {
+							try {
+								MainActivity.this.runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										downloadBooks("s_",numbook,books,"SpanishBooks");
+									}
+								});
+							} catch (Exception e) {
+
+							}
+							downloadWait.dismiss();
+						}
+					}.start();
+
+				}
+				}
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
 				changeL=true;
-				finish();
-				startActivity(getIntent());
-				languageDialog.dismiss();
+				if(isPremissionGranted(getApplicationContext())) {
+					finish();
+					startActivity(getIntent());
+					languageDialog.dismiss();
+				}
 			}
 		});
 

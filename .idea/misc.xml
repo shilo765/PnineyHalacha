@@ -21,9 +21,10 @@
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/audio_list.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/auto_scroll.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/bookmarks.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/books_download.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/content_pnina_yomit.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/inner_search.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/language.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/language.xml" value="0.34415584415584416" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/list_group.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/new_version.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/note.xml" value="0.36666666666666664" />
@@ -52,5 +53,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.36666666666666664" />
+      </ProjectState>
+    </option>
   </component>
 </project>
