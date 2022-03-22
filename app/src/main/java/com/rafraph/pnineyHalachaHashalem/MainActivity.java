@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -147,6 +148,7 @@ public class MainActivity extends AppCompatActivity
 	public boolean changeL=false;
 	public String tochen="";
 	public String HneedPr="זקוקה הרשאה",Hmassage="הרשאה זו נצרכת בשביל להוריד ולקרוא את הספרים",Hconfirm="אשר",Hcancel="סרב";
+	public String EnSureDel="books Deleted",EnmassageDel="this book will deleted",EnconfirmDel="confirm",EncancelDel="cancel";
 	private int STORAGE_PREMISSION_CODE=1;
 	//private StorageReference storageRef;
 	//private FirebaseStorage storage;
@@ -517,23 +519,7 @@ public class MainActivity extends AppCompatActivity
 	/*Preparing the list data*/
 	private void prepareListData()
 	{
-		books.add("brachot");
-		//books.add("haamvehaarez");
-		//books.add("kashrut");
-		//books.add("likutim_a");
-		//books.add("likutim_b");
-		//books.add("mishpacha");
-		books.add("moadim");
-		books.add("pesach");
-		books.add("shabat");
-		//books.add("shviit");
-		books.add("simchat");
-		//books.add("sucot");
-		//books.add("taharat");
-		books.add("tefila");
-		books.add("tefilat_nashim");
-		books.add("yamim");
-		books.add("zmanim");
+
 		listDataHeader = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
 
@@ -1924,6 +1910,27 @@ public class MainActivity extends AppCompatActivity
 		else
 			return ContextCompat.checkSelfPermission(context,Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED;
 	}
+	public static boolean isChecked=false;
+	public void sureToDelete(String needPre,String message,String confirm,String cancel,File file,ImageView img, int resId)
+	{
+
+		new AlertDialog.Builder(MainActivity.this).setTitle(needPre).setMessage(message)
+				.setPositiveButton(confirm, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						deleteRecursive(file);
+						img.setImageResource(resId);
+					}
+				})
+				.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				})
+				.create().show();
+
+	}
 	public  void getPremission(String needPre,String message,String confirm,String cancel)
 	{
 		if(!isPremissionGranted(getApplicationContext())) {
@@ -1975,18 +1982,17 @@ public class MainActivity extends AppCompatActivity
 			} else
 				ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PREMISSION_CODE);
 		}
-		else
-			languageDialog.dismiss();
+
 
 		File file=new File(Environment.getExternalStorageDirectory().toString() + "/pnineyHalacha");
 		file.mkdirs();
 	}
-	public  void downloadBooks(String langString,HashMap specific_numbook,List specific_books,String folder)
+	public  void downloadBooks(String langString,HashMap<String,Integer> specific_numbook,List<String> specific_books,String folder)
 	{
 		File file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder);
 		if (!file.exists())
 			file.mkdirs();
-		for (String book : books) {
+		for (String book : specific_books) {
 			File file4 = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder, langString +book + "_tochen.html");
 			if (!file4.exists()) {
 				DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString + book + "_tochen.html"));
@@ -1996,7 +2002,7 @@ public class MainActivity extends AppCompatActivity
 				DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 				downloadManager.enqueue(request);
 			}
-			for (int i = 1; i <= numbook.get(book); i++) {
+			for (int i = 1; i <= specific_numbook.get(book); i++) {
 				File file5 = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder, langString+book + "_" + i + ".html");
 				if (!file5.exists()) {
 					DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString + book + "_" + i + ".html"));
@@ -2010,25 +2016,29 @@ public class MainActivity extends AppCompatActivity
 			}
 		}
 	}
+	void deleteRecursive(File fileOrDirectory) {
+		if (fileOrDirectory.isDirectory())
+			for (File child : fileOrDirectory.listFiles())
+				deleteRecursive(child);
+
+		fileOrDirectory.delete();
+	}
 	void languageDialog(Context context) {
 		languageDialog = new Dialog(context,android.R.style.Theme_Light_NoTitleBar_Fullscreen);
 
 		languageDialog.setContentView(R.layout.language);
 
 		Button ButtonSetLanguage = (Button) languageDialog.findViewById(R.id.dialogButtonOK);
-		final RadioButton radioHebrew = (RadioButton) languageDialog.findViewById(R.id.radioHebrew);
-		//final RadioButton radioEnglish = (RadioButton) languageDialog.findViewById(R.id.radioEnglish);
-		final RadioButton radioRussian = (RadioButton) languageDialog.findViewById(R.id.radioRussian);
-		final RadioButton radioSpanish = (RadioButton) languageDialog.findViewById(R.id.radioSpanish);
-		final RadioButton radioFrench = (RadioButton) languageDialog.findViewById(R.id.radioFrench);
 		ImageView h_imv=(ImageView) languageDialog.findViewById(R.id.im_h);
-		ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
 		ImageView r_imv=(ImageView) languageDialog.findViewById(R.id.im_r);
+		ImageView r_imv_down=(ImageView) languageDialog.findViewById(R.id.im_r_down);
 		ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
+		ImageView es_imv_down=(ImageView) languageDialog.findViewById(R.id.im_es_down);
+		ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
+		ImageView en_imv_down=(ImageView) languageDialog.findViewById(R.id.im_en_down);
 		ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
-		final CheckBox chkHe=(CheckBox) languageDialog.findViewById(R.id.checkBoxH);
-		final CheckBox chkEn=(CheckBox) languageDialog.findViewById(R.id.checkBoxEN);
-		final CheckBox chkRu=(CheckBox) languageDialog.findViewById(R.id.checkBoxRU);
+		ImageView f_imv_down=(ImageView) languageDialog.findViewById(R.id.im_f_down);
+
 		//final CheckBox chkFr=(CheckBox) languageDialog.findViewById(R.id.checkBoxFR);
 		//final CheckBox chkEs=(CheckBox) languageDialog.findViewById(R.id.checkBoxES);
 		if(MyLanguage == -1)
@@ -2037,19 +2047,22 @@ public class MainActivity extends AppCompatActivity
 			shPrefEditor.putInt("MyLanguage", MyLanguage);
 			shPrefEditor.commit();
 			h_imv.setImageResource(R.drawable.h_b_2);
+
 		}
 		else
 		{
 			if(MyLanguage == HEBREW)
 				h_imv.setImageResource(R.drawable.h_b_2);
 			else if(MyLanguage == RUSSIAN)
-				r_imv.setImageResource(R.drawable.h_b_2);
+				r_imv.setImageResource(R.drawable.r_b_2);
 			else if(MyLanguage == SPANISH)
-				es_imv.setImageResource(R.drawable.h_b_2);
+				es_imv.setImageResource(R.drawable.es_b_2);
 			else if(MyLanguage == FRENCH)
-				f_imv.setImageResource(R.drawable.h_b_2);
+				f_imv.setImageResource(R.drawable.f_b_2);
 			else if(MyLanguage == ENGLISH)
-				en_imv.setImageResource(R.drawable.h_b_2);
+				en_imv.setImageResource(R.drawable.en_b_2);
+			shPrefEditor.putInt("MyLanguage", MyLanguage);
+			shPrefEditor.commit();
 		}
 		h_imv.setOnClickListener(new OnClickListener() {
 			@Override
@@ -2060,6 +2073,8 @@ public class MainActivity extends AppCompatActivity
 				es_imv.setImageResource(R.drawable.es_b_1);
 				en_imv.setImageResource(R.drawable.en_b_1);
 				f_imv.setImageResource(R.drawable.f_b_1);
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
 			}
 		});
 		r_imv.setOnClickListener(new OnClickListener() {
@@ -2067,10 +2082,12 @@ public class MainActivity extends AppCompatActivity
 			public void onClick(View v) {
 				MyLanguage = RUSSIAN;
 				h_imv.setImageResource(R.drawable.h_b_1);
-				r_imv.setImageResource(R.drawable.h_b_2);
+				r_imv.setImageResource(R.drawable.r_b_2);
 				es_imv.setImageResource(R.drawable.es_b_1);
 				en_imv.setImageResource(R.drawable.en_b_1);
 				f_imv.setImageResource(R.drawable.f_b_1);
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
 
 			}
 		});
@@ -2080,9 +2097,11 @@ public class MainActivity extends AppCompatActivity
 				MyLanguage = SPANISH;
 				h_imv.setImageResource(R.drawable.h_b_1);
 				r_imv.setImageResource(R.drawable.r_b_1);
-				es_imv.setImageResource(R.drawable.h_b_2);
+				es_imv.setImageResource(R.drawable.es_b_2);
 				en_imv.setImageResource(R.drawable.en_b_1);
 				f_imv.setImageResource(R.drawable.f_b_1);
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
 			}
 		});
 		en_imv.setOnClickListener(new OnClickListener() {
@@ -2092,8 +2111,10 @@ public class MainActivity extends AppCompatActivity
 				h_imv.setImageResource(R.drawable.h_b_1);
 				r_imv.setImageResource(R.drawable.r_b_1);
 				es_imv.setImageResource(R.drawable.es_b_1);
-				en_imv.setImageResource(R.drawable.h_b_2);
+				en_imv.setImageResource(R.drawable.en_b_2);
 				f_imv.setImageResource(R.drawable.f_b_1);
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
 			}
 		});
 		f_imv.setOnClickListener(new OnClickListener() {
@@ -2104,12 +2125,320 @@ public class MainActivity extends AppCompatActivity
 				r_imv.setImageResource(R.drawable.r_b_1);
 				es_imv.setImageResource(R.drawable.es_b_1);
 				en_imv.setImageResource(R.drawable.en_b_1);
-				f_imv.setImageResource(R.drawable.h_b_2);
+				f_imv.setImageResource(R.drawable.f_b_2);
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
 			}
 		});
+		File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
+		if(fileF.exists())
+			f_imv_down.setImageResource(R.drawable.f_b_4);
+		File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
+		if(fileEs.exists())
+			es_imv_down.setImageResource(R.drawable.es_b_4);
+		File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
+		if(fileEn.exists())
+			en_imv_down.setImageResource(R.drawable.en_b_4);
+		File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
+		if(fileR.exists())
+			r_imv_down.setImageResource(R.drawable.r_b_4);
+		es_imv_down.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getPremission(HneedPr,Hmassage,Hconfirm,Hcancel);
+				int count=0;
 
 
 
+				if(isPremissionGranted(getApplicationContext())) {
+					if (!fileEs.exists()) {
+						books.clear();
+						books.add("brachot");
+						//books.add("haamvehaarez");
+						//books.add("kashrut");
+						//books.add("likutim_a");
+						//books.add("likutim_b");
+						//books.add("mishpacha");
+						books.add("moadim");
+						books.add("pesach");
+						books.add("shabat");
+						//books.add("shviit");
+						books.add("simchat");
+						//books.add("sucot");
+						//books.add("taharat");
+						books.add("tfila");
+						books.add("tfilat_nashim");
+						books.add("yamim");
+						books.add("zmanim");
+						numbook = new HashMap<>();
+						numbook.put("brachot", 18);
+						//numbook.put("haamvehaarez", 11);
+						//numbook.put("kashrut", 38);
+						//numbook.put("likutim_a", 13);
+						//numbook.put("likutim_b", 16);
+						//numbook.put("mishpacha", 10);
+						numbook.put("moadim", 13);
+						numbook.put("pesach", 16);
+						numbook.put("shabat", 30);
+						//numbook.put("shviit", 11);
+						numbook.put("simchat", 10);
+						//numbook.put("sucot", 8);
+						//numbook.put("taharat", 10);
+						numbook.put("tfila", 26);
+						numbook.put("tfilat_nashim", 24);
+						numbook.put("yamim", 10);
+						numbook.put("zmanim", 17);
+						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
+						new Thread() {
+							public void run() {
+								try {
+									MainActivity.this.runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											downloadBooks("s_", numbook, books, "SpanishBooks");
+											es_imv_down.setImageResource(R.drawable.es_b_4);
+										}
+									});
+								} catch (Exception e) {
+
+								}
+								downloadWait.dismiss();
+							}
+						}.start();
+
+					}
+					else
+					{
+						sureToDelete(EnSureDel,EnmassageDel,EnconfirmDel,EncancelDel,fileEs, es_imv_down, R.drawable.es_b_3);
+						//es_imv_down.setImageResource(R.drawable.es_b_3);
+					}
+				}
+
+			}
+		});
+		r_imv_down.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getPremission(HneedPr,Hmassage,Hconfirm,Hcancel);
+				int count=0;
+
+
+
+				if(isPremissionGranted(getApplicationContext())){
+					if(!fileR.exists()) {
+						books.clear();
+						//books.add("brachot");
+						books.add("haamvehaarez");
+						//books.add("kashrut");
+						//books.add("likutim_a");
+						//books.add("likutim_b");
+						books.add("misphacha");
+						books.add("moadim");
+						books.add("pesach");
+						books.add("shabbat");
+						//books.add("shviit");
+						books.add("simchat");
+						books.add("sucot");
+						//books.add("taharat");
+						books.add("tfila");
+						books.add("tefilat_nashim");
+						books.add("yammim");
+						books.add("zmanim");
+						numbook = new HashMap<>();
+						//numbook.put("brachot", 18);
+						numbook.put("haamvehaarez", 11);
+						//numbook.put("kashrut", 38);
+						//numbook.put("likutim_a", 13);
+						//numbook.put("likutim_b", 16);
+						numbook.put("misphacha", 10);
+						numbook.put("moadim", 13);
+						numbook.put("pesach", 16);
+						numbook.put("shabbat", 30);
+						//numbook.put("shviit", 11);
+						numbook.put("simchat", 10);
+						numbook.put("sucot", 8);
+						//numbook.put("taharat", 10);
+						numbook.put("tfila", 26);
+						numbook.put("tefilat_nashim", 24);
+						numbook.put("yammim", 10);
+						numbook.put("zmanim", 17);
+						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
+						new Thread() {
+							public void run() {
+								try {
+									MainActivity.this.runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											downloadBooks("r_", numbook, books, "RussianBooks");
+											r_imv_down.setImageResource(R.drawable.r_b_4);
+										}
+									});
+								} catch (Exception e) {
+
+								}
+								downloadWait.dismiss();
+							}
+						}.start();
+					}
+					else
+					{
+						sureToDelete(EnSureDel,EnmassageDel,EnconfirmDel,EncancelDel,fileR, r_imv_down, R.drawable.r_b_3);
+						//es_imv_down.setImageResource(R.drawable.es_b_3);
+					}
+				}
+
+			}
+		});
+		f_imv_down.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getPremission(HneedPr,Hmassage,Hconfirm,Hcancel);
+				int count=0;
+
+
+
+				if(isPremissionGranted(getApplicationContext())){
+					if(!fileF.exists()) {
+						books.clear();
+						//books.add("brachot");
+						//books.add("haamvehaarez");
+						//books.add("kashrut");
+						//books.add("likutim_a");
+						//books.add("likutim_b");
+						//books.add("misphacha");
+						books.add("moadim");
+						books.add("pesach");
+						books.add("shabbat");
+						//books.add("shviit");
+						books.add("simchat");
+						books.add("sucot");
+						//books.add("taharat");
+						books.add("tefila");
+						books.add("tfilat_nashim");
+						books.add("yammim");
+						books.add("zmanim");
+						numbook = new HashMap<>();
+						//numbook.put("brachot", 18);
+						//numbook.put("haamvehaarez", 11);
+						//numbook.put("kashrut", 38);
+						//numbook.put("likutim_a", 13);
+						//numbook.put("likutim_b", 16);
+						//numbook.put("mishpacha", 10);
+						numbook.put("moadim", 13);
+						numbook.put("pesach", 16);
+						numbook.put("shabbat", 30);
+						//numbook.put("shviit", 11);
+						numbook.put("simchat", 10);
+						numbook.put("sucot", 8);
+						//numbook.put("taharat", 10);
+						numbook.put("tefila", 26);
+						numbook.put("tfilat_nashim", 24);
+						numbook.put("yammim", 10);
+						numbook.put("zmanim", 17);
+						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
+						new Thread() {
+							public void run() {
+								try {
+									MainActivity.this.runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											downloadBooks("f_", numbook, books, "FrenchBooks");
+											f_imv_down.setImageResource(R.drawable.f_b_4);
+										}
+									});
+								} catch (Exception e) {
+
+								}
+								downloadWait.dismiss();
+							}
+						}.start();
+					}
+					else
+					{
+						sureToDelete(EnSureDel,EnmassageDel,EnconfirmDel,EncancelDel,fileF, f_imv_down, R.drawable.f_b_3);
+						//es_imv_down.setImageResource(R.drawable.es_b_3);
+					}
+				}
+
+			}
+		});
+		en_imv_down.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getPremission(HneedPr,Hmassage,Hconfirm,Hcancel);
+				int count=0;
+
+
+
+				if(isPremissionGranted(getApplicationContext())){
+					if(!fileEn.exists()) {
+						books.clear();
+						//books.add("brachot");
+						//books.add("haamvehaarez");
+						//books.add("kashrut");
+						//books.add("likutim_a");
+						//books.add("likutim_b");
+						//books.add("misphacha");
+						//books.add("moadim");
+						books.add("pesach");
+						books.add("shabbat");
+						//books.add("shviit");
+						//books.add("simchat");
+						//books.add("sucot");
+						//books.add("taharat");
+						books.add("tefila");
+						books.add("w_prayer");
+						//books.add("yammim");
+						books.add("zmanim");
+						numbook = new HashMap<>();
+						//numbook.put("brachot", 18);
+						//numbook.put("haamvehaarez", 11);
+						//numbook.put("kashrut", 38);
+						//numbook.put("likutim_a", 13);
+						//numbook.put("likutim_b", 16);
+						//numbook.put("mishpacha", 10);
+						//numbook.put("moadim", 13);
+						numbook.put("pesach", 16);
+						numbook.put("shabbat", 30);
+						//numbook.put("shviit", 11);
+						//numbook.put("simchat", 10);
+						//numbook.put("sucot", 8);
+						//numbook.put("taharat", 10);
+						numbook.put("tefila", 26);
+						numbook.put("w_prayer", 24);
+						//numbook.put("yamim", 10);
+						numbook.put("zmanim", 17);
+						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
+						new Thread() {
+							public void run() {
+								try {
+									MainActivity.this.runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											downloadBooks("e_", numbook, books, "EnglishBooks");
+											en_imv_down.setImageResource(R.drawable.en_b_4);
+										}
+									});
+								} catch (Exception e) {
+
+								}
+								downloadWait.dismiss();
+							}
+						}.start();
+					}
+					else
+					{
+						sureToDelete(EnSureDel,EnmassageDel,EnconfirmDel,EncancelDel,fileEn, en_imv_down, R.drawable.en_b_3);
+						//es_imv_down.setImageResource(R.drawable.es_b_3);
+					}
+				}
+
+			}
+		});
 
 
 		// if button is clicked
@@ -2122,73 +2451,6 @@ public class MainActivity extends AppCompatActivity
 			{
 
 
-				if(radioHebrew.isChecked())
-				{
-					MyLanguage = HEBREW;
-				}
-				//else if(radioEnglish.isChecked())
-				//{
-				//	MyLanguage = ENGLISH;
-			//	}
-				else if(radioRussian.isChecked())
-				{
-					MyLanguage = RUSSIAN;
-				}
-				else if(radioSpanish.isChecked())
-				{
-					MyLanguage = SPANISH;
-				}
-				else if(radioFrench.isChecked())
-				{
-					MyLanguage = FRENCH;
-				}
-				if(chkEn.isChecked())
-				{
-					getPremission(HneedPr,Hmassage,Hconfirm,Hcancel);
-					int count=0;
-
-
-
-					if(isPremissionGranted(getApplicationContext())){
-
-					numbook=new HashMap<>();
-					numbook.put("brachot", 18);
-					//numbook.put("haamvehaarez", 11);
-					//numbook.put("kashrut", 38);
-					//numbook.put("likutim_a", 13);
-					//numbook.put("likutim_b", 16);
-					//numbook.put("mishpacha", 10);
-					numbook.put("moadim", 13);
-					numbook.put("pesach", 16);
-					numbook.put("shabat", 30);
-					//numbook.put("shviit", 11);
-					numbook.put("simchat", 10);
-					//numbook.put("sucot", 8);
-					//numbook.put("taharat", 10);
-					numbook.put("tefila", 26);
-					numbook.put("tefilat_nashim", 24);
-					numbook.put("yamim", 10);
-					numbook.put("zmanim", 17);
-					final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
-					new Thread() {
-						public void run() {
-							try {
-								MainActivity.this.runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										// TODO Auto-generated method stub
-										downloadBooks("s_",numbook,books,"SpanishBooks");
-									}
-								});
-							} catch (Exception e) {
-
-							}
-							downloadWait.dismiss();
-						}
-					}.start();
-
-				}
-				}
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
 				changeL=true;
