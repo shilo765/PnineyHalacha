@@ -1,53 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tooBooks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:context=".pninaYomit"
+    android:theme="@style/Theme.AppCompat.NoActionBar">
+
+    <LinearLayout
+        android:id="@+id/lnrOptions2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fefef2"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/tooApp"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
+            android:background="#00FFFFFF"
+            android:src="@drawable/to_main" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/lnrOptions"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#003349"
-        android:gravity="center">
+        android:layout_height="50dp"
+        android:background="#970606"
+        android:gravity="center"
+        >
 
         <ImageButton
             android:id="@+id/setNotification"
-            android:layout_width="50dp"
-            android:layout_height="48dp"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
             android:background="#00FFFFFF"
-            android:src="@drawable/ic_action_switches_modes" />
-
-        <ImageButton
-            android:id="@+id/tooApp"
-            android:layout_width="52dp"
-            android:layout_height="48dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/Chapters"
-            android:src="@drawable/ic_action_view_as_list" />
+            android:src="@drawable/h_pnina_remainder" />
 
         <EditText
             android:id="@+id/etH"
-            android:layout_width="2dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/reminder_rec"
             android:ems="10"
             android:inputType="textPersonName"
+            android:paddingLeft="20dp"
             android:text="12" />
+
+        <ImageButton
+            android:id="@+id/sep"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:background="#970606"
+            android:src="@drawable/pnina_sep" />
 
         <EditText
             android:id="@+id/etM"
-            android:layout_width="39dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:background="@drawable/reminder_rec"
             android:ems="10"
             android:inputType="textPersonName"
+            android:paddingLeft="20dp"
             android:text="00" />
 
     </LinearLayout>
-
-
 
     <WebView
         android:id="@+id/webView1"

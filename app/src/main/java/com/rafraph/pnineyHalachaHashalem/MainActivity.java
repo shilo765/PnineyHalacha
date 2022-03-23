@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -508,9 +509,7 @@ public class MainActivity extends AppCompatActivity
 					case 6:/*language*/
 						languageDialog(context);
 						break;
-					case 7:/*booksDownload*/
-						booksDownloadDialog(context);
-						break;
+
 
 					default:
 						break;
@@ -2060,27 +2059,42 @@ public class MainActivity extends AppCompatActivity
 		//final CheckBox chkEs=(CheckBox) languageDialog.findViewById(R.id.checkBoxES);
 		if(MyLanguage == -1)
 		{
-			MyLanguage = HEBREW; /*default value*/
+
+			switch (Locale.getDefault().getLanguage())
+			{
+				case "en":
+					MyLanguage=ENGLISH;
+					break;
+				case "es":
+					MyLanguage=SPANISH;
+					break;
+				case "ru":
+					MyLanguage=RUSSIAN;
+				case "fr":
+					MyLanguage=FRENCH;
+					break;
+				default:
+					MyLanguage=HEBREW;
+					break;
+			}
 			shPrefEditor.putInt("MyLanguage", MyLanguage);
 			shPrefEditor.commit();
-			h_imv.setImageResource(R.drawable.h_b_2);
-
 		}
-		else
-		{
-			if(MyLanguage == HEBREW)
+		else {
+			if (MyLanguage == HEBREW)
 				h_imv.setImageResource(R.drawable.h_b_2);
-			else if(MyLanguage == RUSSIAN)
+			else if (MyLanguage == RUSSIAN)
 				r_imv.setImageResource(R.drawable.r_b_2);
-			else if(MyLanguage == SPANISH)
+			else if (MyLanguage == SPANISH)
 				es_imv.setImageResource(R.drawable.es_b_2);
-			else if(MyLanguage == FRENCH)
+			else if (MyLanguage == FRENCH)
 				f_imv.setImageResource(R.drawable.f_b_2);
-			else if(MyLanguage == ENGLISH)
+			else if (MyLanguage == ENGLISH)
 				en_imv.setImageResource(R.drawable.en_b_2);
 			shPrefEditor.putInt("MyLanguage", MyLanguage);
 			shPrefEditor.commit();
 		}
+
 		h_imv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -2492,50 +2506,6 @@ public class MainActivity extends AppCompatActivity
 		languageDialog.show();
 	}
 
-
-	void booksDownloadDialog(Context context)
-	{
-		booksDownloadDialog = new Dialog(context);
-		booksDownloadDialog.setContentView(R.layout.books_download);
-
-		Button ButtonDownloadBooks = (Button) booksDownloadDialog.findViewById(R.id.dialogButtonDownload);
-		final CheckBox CheckBoxEnglish = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxEnglish);
-		final CheckBox CheckBoxRussian = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxRussian);
-		final CheckBox CheckBoxSpanish = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxSpanish);
-		final CheckBox CheckBoxFrench  = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxFrench);
-
-		// if button is clicked
-		ButtonDownloadBooks.setOnClickListener(new OnClickListener()
-		{
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v)
-			{
-				if(CheckBoxEnglish.isChecked())
-				{
-					downloadEnglishBooks();
-				}
-				if(CheckBoxRussian.isChecked())
-				{
-
-				}
-				if(CheckBoxSpanish.isChecked())
-				{
-
-				}
-				if(CheckBoxFrench.isChecked())
-				{
-
-				}
-
-				booksDownloadDialog.dismiss();
-			}
-		});
-
-		booksDownloadDialog.show();
-	}
-
-
 	void goToLastLocation()
 	{
 		try
@@ -2554,70 +2524,9 @@ public class MainActivity extends AppCompatActivity
 		}
 	}
 
-	void downloadEnglishBooks()
-	{
-		File f = null;
-
-		f = new File("ftp_brachot.html");
-		// find the absolute path
-		String a = f.getAbsolutePath();
-		// prints absolute path
-		System.out.print(a);
-
-		//  try {
-		downloadAndSaveFile("ftp.hesder.org", 21,
-				"pnineyapp@hesder.org", "pnineyapp312", "brachot_1.html", f);
-        /*}
-        catch (IOException e){
-            e.printStackTrace();
-        }*/
-	}
-
-   /* private void signInAnonymously(){
-        mtAuh.signInAnonymously().addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
-            @Override public void onSuccess(AuthResult authResult) {
-                // do your stuff
-                Log.i("TAG", "signInAnonymously:SUCCESS");
-            }
-        }) .addOnFailureListener(this, new OnFailureListener() {
-            @Override public void onFailure(@NonNull Exception exception) {
-                Log.e("TAG", "signInAnonymously:FAILURE", exception);
-            }
-        });
-    }*/
 
 	static final String LOG_TAG = "MyFtpTest";
 
-	private void downloadAndSaveFile(String server, int portNumber,
-									 String user, String password, String filename, File localFile){}
-			/*throws IOException {
-		try{
-		File fileFromFB = File.createTempFile("E_pesach_1", "html");
-//            signInAnonymously();
 
-// Create a reference to a file from a Google Cloud Storage URI
-        StorageReference gsReference = storage.getReferenceFromUrl("gs://pnineyhalachahashalem.appspot.com/English/E_pesach_1.html");
-
-		//StorageReference riversRef = mStorageRef.child("brachot_1.html");
-            gsReference.getFile(fileFromFB)
-				.addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-					@Override
-					public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-						Log.d(LOG_TAG, "Successfully downloaded data to local file");
-
-					}
-				}).addOnFailureListener(new OnFailureListener() {
-
-			@Override
-			public void onFailure(@NonNull Exception exception) {
-				Log.d(LOG_TAG, "Handle failed download");
-
-			}
-		});
-		}
-		catch (IOException e){
-			e.printStackTrace();
-		}
-	}*/
 
 }

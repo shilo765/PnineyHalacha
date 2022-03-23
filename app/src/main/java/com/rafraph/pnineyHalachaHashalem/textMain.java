@@ -202,8 +202,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	}//onCreate
 	public static void loadWebview(String path,WebView webview)
 	{
-		File fileEs = new File(path);
-		if(fileEs.exists())
+		File file = new File(path);
+		if(file.exists())
 			webview.loadUrl(path);
 		else
 		{
@@ -236,6 +236,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			ZipInputStream zin = new ZipInputStream(new FileInputStream(zipFile));
 			try {
 				ZipEntry ze = null;
+
 				while ((ze = zin.getNextEntry()) != null) {
 					String path = location + File.separator + ze.getName();
 					System.out.println(ze.getName());
