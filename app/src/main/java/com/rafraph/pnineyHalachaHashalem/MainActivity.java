@@ -22,12 +22,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -1935,14 +1941,14 @@ public class MainActivity extends AppCompatActivity
 	{
 		if(!isPremissionGranted(getApplicationContext())) {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-				new AlertDialog.Builder(getApplicationContext()).setTitle(needPre).setMessage(message)
+				new AlertDialog.Builder(MainActivity.this).setTitle(needPre).setMessage(message)
 						.setPositiveButton(confirm, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								try {
 
 
-									Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+									Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
 									intent.addCategory("android.intent.category.DEFAULT");
 									Uri uri = Uri.fromParts("package", getPackageName(), null);
 									intent.setData(uri);
@@ -1987,35 +1993,46 @@ public class MainActivity extends AppCompatActivity
 		File file=new File(Environment.getExternalStorageDirectory().toString() + "/pnineyHalacha");
 		file.mkdirs();
 	}
-	public  void downloadBooks(String langString,HashMap<String,Integer> specific_numbook,List<String> specific_books,String folder)
-	{
-		File file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder);
-		if (!file.exists())
-			file.mkdirs();
-		for (String book : specific_books) {
-			File file4 = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder, langString +book + "_tochen.html");
-			if (!file4.exists()) {
-				DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString + book + "_tochen.html"));
-				request.setDescription("please  wait");
-				//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-				request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString + book + "_tochen.html");
-				DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-				downloadManager.enqueue(request);
-			}
-			for (int i = 1; i <= specific_numbook.get(book); i++) {
-				File file5 = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder, langString+book + "_" + i + ".html");
-				if (!file5.exists()) {
-					DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString + book + "_" + i + ".html"));
-					request.setDescription("please  wait");
-					//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString + book + "_" + i + ".html");
-					DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-					downloadManager.enqueue(request);
-				}
 
-			}
-		}
+	public  void downloadBooks2(String langString,HashMap<String,Integer> specific_numbook,List<String> books,String folder) throws InterruptedException, IOException {
+		DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString));
+		request.setDescription("please  wait");
+		//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+		request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString);
+		DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+		downloadManager.enqueue(request);
 	}
+//	public  void downloadBooks(String langString,HashMap<String,Integer> specific_numbook,List<String> books,String folder) throws InterruptedException {
+//		File file4=null;
+//		File file5=null;
+//		File file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder);
+//		if (!file.exists())
+//			file.mkdirs();
+//		for (String book : books) {
+//			file4 = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder, langString +book + "_tochen.html");
+//			if (!file4.exists()) {
+//					DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString + book + "_tochen.html"));
+//					request.setDescription("please  wait");
+//					//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString + book + "_tochen.html");
+//					DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+//					downloadManager.enqueue(request);
+//			}
+//			for (int i = 1; i <= specific_numbook.get(book); i++) {
+//				 file5 = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder, langString+book + "_" + i + ".html");
+//				if (!file5.exists()) {
+//					DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString + book + "_" + i + ".html"));
+//					request.setDescription("please  wait");
+//					//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString + book + "_" + i + ".html");
+//					DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+//					downloadManager.enqueue(request);
+//				}
+//
+//			}
+//
+//		}
+//	}
 	void deleteRecursive(File fileOrDirectory) {
 		if (fileOrDirectory.isDirectory())
 			for (File child : fileOrDirectory.listFiles())
@@ -2196,8 +2213,12 @@ public class MainActivity extends AppCompatActivity
 										@Override
 										public void run() {
 											// TODO Auto-generated method stub
-											downloadBooks("s_", numbook, books, "SpanishBooks");
-											es_imv_down.setImageResource(R.drawable.es_b_4);
+											try {
+												downloadBooks2("es.zip", numbook, books, "SpanishBooks");
+											} catch (InterruptedException | IOException e) {
+												e.printStackTrace();
+											}
+											en_imv_down.setImageResource(R.drawable.en_b_4);
 										}
 									});
 								} catch (Exception e) {
@@ -2206,7 +2227,6 @@ public class MainActivity extends AppCompatActivity
 								downloadWait.dismiss();
 							}
 						}.start();
-
 					}
 					else
 					{
@@ -2242,7 +2262,7 @@ public class MainActivity extends AppCompatActivity
 						books.add("sucot");
 						//books.add("taharat");
 						books.add("tfila");
-						books.add("tefilat_nashim");
+						books.add("tfilat_nashim");
 						books.add("yammim");
 						books.add("zmanim");
 						numbook = new HashMap<>();
@@ -2260,7 +2280,7 @@ public class MainActivity extends AppCompatActivity
 						numbook.put("sucot", 8);
 						//numbook.put("taharat", 10);
 						numbook.put("tfila", 26);
-						numbook.put("tefilat_nashim", 24);
+						numbook.put("tfilat_nashim", 24);
 						numbook.put("yammim", 10);
 						numbook.put("zmanim", 17);
 						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
@@ -2271,8 +2291,12 @@ public class MainActivity extends AppCompatActivity
 										@Override
 										public void run() {
 											// TODO Auto-generated method stub
-											downloadBooks("r_", numbook, books, "RussianBooks");
-											r_imv_down.setImageResource(R.drawable.r_b_4);
+											try {
+												downloadBooks2("ru.zip", numbook, books, "RussianBooks");
+											} catch (InterruptedException | IOException e) {
+												e.printStackTrace();
+											}
+											en_imv_down.setImageResource(R.drawable.en_b_4);
 										}
 									});
 								} catch (Exception e) {
@@ -2345,8 +2369,12 @@ public class MainActivity extends AppCompatActivity
 										@Override
 										public void run() {
 											// TODO Auto-generated method stub
-											downloadBooks("f_", numbook, books, "FrenchBooks");
-											f_imv_down.setImageResource(R.drawable.f_b_4);
+											try {
+												downloadBooks2("fr.zip", numbook, books, "FrenchBooks");
+											} catch (InterruptedException | IOException e) {
+												e.printStackTrace();
+											}
+											en_imv_down.setImageResource(R.drawable.en_b_4);
 										}
 									});
 								} catch (Exception e) {
@@ -2419,7 +2447,11 @@ public class MainActivity extends AppCompatActivity
 										@Override
 										public void run() {
 											// TODO Auto-generated method stub
-											downloadBooks("e_", numbook, books, "EnglishBooks");
+											try {
+												downloadBooks2("en.zip", numbook, books, "EnglishBooks");
+											} catch (InterruptedException | IOException e) {
+												e.printStackTrace();
+											}
 											en_imv_down.setImageResource(R.drawable.en_b_4);
 										}
 									});
@@ -2429,11 +2461,6 @@ public class MainActivity extends AppCompatActivity
 								downloadWait.dismiss();
 							}
 						}.start();
-					}
-					else
-					{
-						sureToDelete(EnSureDel,EnmassageDel,EnconfirmDel,EncancelDel,fileEn, en_imv_down, R.drawable.en_b_3);
-						//es_imv_down.setImageResource(R.drawable.es_b_3);
 					}
 				}
 
