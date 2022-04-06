@@ -8,10 +8,11 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class Feedback extends Activity implements View.OnClickListener
 {
-	Button sendEmail;
+	TextView sendEmail;
 	EditText EmailHeader, EmailContent;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -21,11 +22,18 @@ public class Feedback extends Activity implements View.OnClickListener
 		EmailHeader = (EditText) findViewById(R.id.etHeader);
 		EmailContent = (EditText) findViewById(R.id.etContent);
 
-		sendEmail = (Button) findViewById(R.id.bSendEmail);
+		sendEmail = (TextView) findViewById(R.id.bSendEmail);
 		sendEmail.setOnClickListener(this);
 
 		Button linkForFix = (Button) findViewById(R.id.bContentFix);
 		linkForFix.setOnClickListener(this);
+		findViewById(R.id.tooApp).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent openMainActivity = new Intent("com.rafraph.ph_beta.MAINACTIVITY");
+				startActivity(openMainActivity);
+			}
+		});
 	}
 
 	@Override
@@ -42,7 +50,8 @@ public class Feedback extends Activity implements View.OnClickListener
 		switch(v.getId())
 		{
 		case R.id.bSendEmail:
-			String emailaddress[] = { "janer.solutions@gmail.com" };
+			//String emailaddress[] = { "janer.solutions@gmail.com" };
+			String emailaddress[] = { "shilob@yhb.org.il" };
 			String header;
 			String message;
 
@@ -65,6 +74,7 @@ public class Feedback extends Activity implements View.OnClickListener
 			intent.setData(Uri.parse("http://yhb.org.il/?page_id=1194"));
 			startActivity(intent);
 			break;
+
 		}
 	}
 

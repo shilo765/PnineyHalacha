@@ -54,7 +54,7 @@
             />
 
         <ImageButton
-            android:id="@+id/setNotification"
+            android:id="@+id/bSendEmail"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:background="#00FFFFFF"

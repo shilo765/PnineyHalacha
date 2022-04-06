@@ -3,4 +3,5 @@
     <!--drawable name="pressed_color">#90A3A2</drawable-->
     <drawable name="pressed_color">#ABAEB0</drawable>
     <drawable name="default_color">#ffffff</drawable>
+    <drawable name="black_color">#000000</drawable>
 </resources>

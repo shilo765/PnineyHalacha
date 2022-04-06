@@ -1,8 +1,6 @@
 package com.rafraph.pnineyHalachaHashalem;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,21 +11,19 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.view.Menu;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 public class pninaYomit extends Activity {
     public static final String PREFS_NAME = "MyPrefsFile";
@@ -39,6 +35,10 @@ public class pninaYomit extends Activity {
     private static final int RUSSIAN = 2;
     private static final int SPANISH = 3;
     private static final int FRENCH = 4;
+    private NumberPicker etH,etM;
+    public static AlarmManager alarm=null;
+    public static PendingIntent penNotu=null;
+    private String[] pickerValsH,pickerValsM;
     public boolean notPress=false;
     public static int scrool=0;
     @Override
@@ -85,20 +85,53 @@ public class pninaYomit extends Activity {
 
         createNotiChannel();
         refresh(10);
-        ImageView img=(ImageView) findViewById(R.id.setNotification);
-        EditText etH=(EditText) findViewById(R.id.etH);
-        EditText etM=(EditText) findViewById(R.id.etM);
+        TextView img=(TextView) findViewById(R.id.bSendEmail);
+        ImageView deleteR=(ImageView) findViewById(R.id.deleteReminder);
+        etH=(NumberPicker) findViewById(R.id.etH);
+        etM=(NumberPicker) findViewById(R.id.etM);
         ImageButton Sep=(ImageButton) findViewById(R.id.sep);
         etH.setVisibility(View.INVISIBLE);
         Sep.setVisibility(View.INVISIBLE);
         etM.setVisibility(View.INVISIBLE);
         LinearLayout l=(LinearLayout) findViewById(R.id.lnrOptions);
+        //String[] values = {"Public", "Shared", "Private"};
+        etH.setMaxValue(23);
+        etH.setMinValue(0);
+        //etH.def
+        etH.setWrapSelectorWheel(true);
+        etM.setMaxValue(59);
+        etM.setMinValue(0);
+        //etH.def
+        etM.setWrapSelectorWheel(true);
+        //etH.setDisplayedValues(values);
+        pickerValsM = new String[] {"00", "01", "02", "03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"};
+        pickerValsH = new String[] {"00", "01", "02", "03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
+
+        etH.setDisplayedValues(pickerValsH);
+        etM.setDisplayedValues(pickerValsM);
+        etH.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                int valuePicker1 = etH.getValue();
+                Log.d("picker value", pickerValsH[valuePicker1] + "");
+
+            }
+        });
+        etM.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                int valuePicker1 = etM.getValue();
+                Log.d("picker value", pickerValsM[valuePicker1] + "");
+            }
+        });
         l.setBackgroundColor(Color.parseColor("#fefef2"));
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!notPress) {
-                    img.setImageResource(R.drawable.h_set_remainder);
+                   // img.setBackgroundResource(R.drawable.h_set_remainder);
+                    img.setPadding(0,0,150,0);
+                    img.setText("קבע");
                     l.setBackgroundColor(Color.parseColor("#970606"));
                     etH.setVisibility(View.VISIBLE);
                     Sep.setVisibility(View.VISIBLE);
@@ -107,25 +140,53 @@ public class pninaYomit extends Activity {
                 }
                 else
                 {
-                    int hour = Integer.parseInt(((EditText) findViewById(R.id.etH)).getText().toString());
-                    int mins = Integer.parseInt(((EditText) findViewById(R.id.etM)).getText().toString());
+                    int hour=0,mins=0;
+                    try {
+                         hour = ((NumberPicker) findViewById(R.id.etH)).getValue();
+                         mins = ((NumberPicker) findViewById(R.id.etM)).getValue();
                     Calendar calnder = Calendar.getInstance();
                     calnder.set(Calendar.HOUR_OF_DAY, hour);
                     calnder.set(Calendar.MINUTE, mins);
 
                     Intent notiReciv = new Intent(getApplicationContext(), Notification_reciver.class);
-                    PendingIntent penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
-                    AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
                     alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
                     Toast.makeText(getApplicationContext(), "התראה הוגדרה בהצלחה!", Toast.LENGTH_SHORT).show();
+                    String setH="",setM="";
+                    if(((NumberPicker) findViewById(R.id.etH)).getValue()<10)
+                        setH+="0";
+                    if(((NumberPicker) findViewById(R.id.etM)).getValue()<10)
+                        setM+="0";
+                    img.setText(setH+((NumberPicker) findViewById(R.id.etH)).getValue()+" : "+setM+((NumberPicker) findViewById(R.id.etM)).getValue());
+
+
                     etH.setVisibility(View.INVISIBLE);
                     Sep.setVisibility(View.INVISIBLE);
-
+                    img.setPadding(50,0,0,0);
                     etM.setVisibility(View.INVISIBLE);
                     l.setBackgroundColor(Color.parseColor("#fefef2"));
-                    img.setImageResource(R.drawable.h_pnina_remainder);
+                    //img.setBackgroundResource(R.drawable.h_set_remainder);
                     notPress=false;
+//
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getApplicationContext(), "נא למלא את השעה", Toast.LENGTH_SHORT).show();
+                    }
                 }
+            }
+        });
+        deleteR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alarm.cancel(penNotu);
+                Toast.makeText(getApplicationContext(), "ההתראה בוטלה", Toast.LENGTH_SHORT).show();
+                etH.setVisibility(View.INVISIBLE);
+                Sep.setVisibility(View.INVISIBLE);
+                img.setPadding(50,0,0,0);
+                etM.setVisibility(View.INVISIBLE);
+                l.setBackgroundColor(Color.parseColor("#fefef2"));
+                //img.setBackgroundResource(R.drawable.h_set_remainder);
+                notPress=false;
             }
         });
         findViewById(R.id.tooApp).setOnClickListener(new View.OnClickListener() {

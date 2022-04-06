@@ -33,24 +33,34 @@
         android:gravity="center"
         >
 
-        <ImageButton
-            android:id="@+id/setNotification"
-            android:layout_width="170dp"
-            android:layout_height="40dp"
-            android:background="#00FFFFFF"
-            android:src="@drawable/h_pnina_remainder" />
-
-        <EditText
-            android:id="@+id/etH"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/reminder_rec"
+        <TextView
+            android:id="@+id/bSendEmail"
+            android:layout_width="138dp"
+            android:layout_height="29dp"
+            android:background="@drawable/h_pnina_reminder"
             android:ems="10"
             android:inputType="textPersonName"
-            android:paddingLeft="20dp"
-            android:text="12" />
+            android:paddingRight="50dp"
+            android:text="תזכיר לי"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
+
+        <ImageButton
+            android:id="@+id/deleteReminder"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:background="#00FFFFFF"
+            android:src="@drawable/delete_reminder" />
+
+        <NumberPicker
+            android:id="@+id/etH"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:paddingTop="5dp"
+            android:theme="@style/AppTheme.Picker"
+            android:scaleY="1.2"
+
+/>
 
         <ImageButton
             android:id="@+id/sep"
@@ -59,15 +69,17 @@
             android:background="#970606"
             android:src="@drawable/pnina_sep" />
 
-        <EditText
+        <NumberPicker
             android:id="@+id/etM"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:background="@drawable/reminder_rec"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:paddingLeft="20dp"
-            android:text="00" />
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:paddingTop="5dp"
+            android:theme="@style/AppTheme.Picker"
+            android:scaleY="1.2"
+
+            />
+
+
 
     </LinearLayout>
 

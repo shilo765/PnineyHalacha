@@ -133,11 +133,13 @@ public class MainActivity extends AppCompatActivity
 	private static final int SPANISH = 3;
 	private static final int FRENCH = 4;
 	private static  int  starter = 0;
+	public  static  int pop=0;
+	private static  boolean  hebDisplay = true;
 	private List<String> books = new ArrayList<String>();
 	public ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
 	LinearLayout LinearLayoutListGroup;
-	List<String> listDataHeader;
+	List<String> listDataHeader,listDisplay;
 	HashMap<String, List<String>> listDataChild;
 	public static final String PREFS_NAME = "MyPrefsFile";
 	static SharedPreferences mPrefs;
@@ -154,7 +156,7 @@ public class MainActivity extends AppCompatActivity
 	public Context context;
 	public boolean changeL=false;
 	public String tochen="";
-	public String HneedPr="זקוקה הרשאה",Hmassage="הרשאה זו נצרכת בשביל להוריד ולקרוא את הספרים",Hconfirm="אשר",Hcancel="סרב";
+	public String HneedPr="זקוקה הרשאה",Hmassage="הרשאה זו נצרכת בשביל להוריד  את הספרים",Hconfirm="אשר",Hcancel="סרב";
 	public String EnSureDel="books Deleted",EnmassageDel="this book will deleted",EnconfirmDel="confirm",EncancelDel="cancel";
 	private int STORAGE_PREMISSION_CODE=1;
 	//private StorageReference storageRef;
@@ -199,33 +201,35 @@ public class MainActivity extends AppCompatActivity
 
 		// preparing list data
 		prepareListData();
-		if(MyLanguage==HEBREW) {
-			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(0, 24), listDataChild);
-			starter = 0;
+		if(hebDisplay) {
+			for (int i = 0; i < 24; i++)
+				listDisplay.add(listDataHeader.get(i));
 		}
-		if(MyLanguage==ENGLISH) {
-			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(24, 30), listDataChild);
-			starter = 24;
-			tochen="Contents";
-		}
-		if(MyLanguage==FRENCH) {
-			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(50,59), listDataChild);
-			starter=50;
-			tochen="matières";
-		}
-		if(MyLanguage==SPANISH) {
-			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(30, 39), listDataChild);
-			starter = 30;
-			tochen="Índice";
-		}
-		if(MyLanguage==RUSSIAN)
-		{
-			listAdapter = new ExpandableListAdapter(this, listDataHeader.subList(39,50), listDataChild);
-			starter=39;
-			tochen="Содержание";
-		}
+
+		File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
+		if(fileEn.exists())
+			for (int i = 24; i < 30; i++)
+				listDisplay.add(listDataHeader.get(i));
+		File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
+		if(fileEs.exists())
+			for (int i = 30; i < 38; i++)
+				listDisplay.add(listDataHeader.get(i));
+		File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
+		if(fileR.exists())
+			for (int i = 38; i < 49; i++)
+				listDisplay.add(listDataHeader.get(i));
+		File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
+		if(fileF.exists())
+			for (int i = 49; i < 59; i++)
+				listDisplay.add(listDataHeader.get(i));
+
+
+		listAdapter = new ExpandableListAdapter(this, listDisplay, listDataChild);
+		starter = 0;
+
 		// setting list adapter
 		expListView.setAdapter(listAdapter);
+
 
 
 		// Listview on child click listener
@@ -236,9 +240,12 @@ public class MainActivity extends AppCompatActivity
 										int groupPosition, int childPosition, long id)
 			{
 				// TODO Auto-generated method stub
+				 pop=0;
 
-				Toast.makeText(getApplicationContext(), listDataHeader.get(groupPosition+starter) + " : "
-						+ listDataChild.get(listDataHeader.get(groupPosition+starter)).get(childPosition), Toast.LENGTH_SHORT).show();
+
+
+				Toast.makeText(getApplicationContext(), listDataHeader.indexOf(listDisplay.get(groupPosition)) + " : "
+						+ listDataChild.get(listDataHeader.get(listDataHeader.indexOf(listDisplay.get(groupPosition)))).get(childPosition), Toast.LENGTH_SHORT).show();
 				try
 				{
 					//this if is for the pnina hayomit.(not ready)
@@ -246,7 +253,7 @@ public class MainActivity extends AppCompatActivity
 						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
 						Intent ourIntent = new Intent(MainActivity.this, ourClass);
 						int[] book_chapter = new int[2];
-						book_chapter[0] = groupPosition+starter;
+						book_chapter[0] = listDataHeader.indexOf(listDisplay.get(groupPosition));
 						book_chapter[1] = childPosition;
 						ourIntent.putExtra("book_chapter", book_chapter);
 						startActivity(ourIntent);
@@ -526,6 +533,7 @@ public class MainActivity extends AppCompatActivity
 	{
 
 		listDataHeader = new ArrayList<String>();
+		listDisplay = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
 
 		// Adding child data
@@ -2046,6 +2054,7 @@ public class MainActivity extends AppCompatActivity
 
 		Button ButtonSetLanguage = (Button) languageDialog.findViewById(R.id.dialogButtonOK);
 		ImageView h_imv=(ImageView) languageDialog.findViewById(R.id.im_h);
+		ImageView h_imv_down=(ImageView) languageDialog.findViewById(R.id.im_h_down);
 		ImageView r_imv=(ImageView) languageDialog.findViewById(R.id.im_r);
 		ImageView r_imv_down=(ImageView) languageDialog.findViewById(R.id.im_r_down);
 		ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
@@ -2054,6 +2063,10 @@ public class MainActivity extends AppCompatActivity
 		ImageView en_imv_down=(ImageView) languageDialog.findViewById(R.id.im_en_down);
 		ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
 		ImageView f_imv_down=(ImageView) languageDialog.findViewById(R.id.im_f_down);
+		if(!hebDisplay)
+			h_imv_down.setImageResource(R.drawable.h_b_3);
+		else
+			h_imv_down.setImageResource(R.drawable.h_b_4);
 
 		//final CheckBox chkFr=(CheckBox) languageDialog.findViewById(R.id.checkBoxFR);
 		//final CheckBox chkEs=(CheckBox) languageDialog.findViewById(R.id.checkBoxES);
@@ -2173,6 +2186,26 @@ public class MainActivity extends AppCompatActivity
 		File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
 		if(fileR.exists())
 			r_imv_down.setImageResource(R.drawable.r_b_4);
+		h_imv_down.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+
+
+				if(h_imv_down.getTag().equals("4")) {
+					h_imv_down.setImageResource(R.drawable.h_b_3);
+					h_imv_down.setTag("3");
+					hebDisplay=false;
+				}
+				else {
+					h_imv_down.setImageResource(R.drawable.h_b_4);
+					h_imv_down.setTag("4");
+					hebDisplay=true;
+				}
+
+			}
+		});
+
 		es_imv_down.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -2232,7 +2265,7 @@ public class MainActivity extends AppCompatActivity
 											} catch (InterruptedException | IOException e) {
 												e.printStackTrace();
 											}
-											en_imv_down.setImageResource(R.drawable.en_b_4);
+											es_imv_down.setImageResource(R.drawable.es_b_4);
 										}
 									});
 								} catch (Exception e) {
@@ -2310,7 +2343,7 @@ public class MainActivity extends AppCompatActivity
 											} catch (InterruptedException | IOException e) {
 												e.printStackTrace();
 											}
-											en_imv_down.setImageResource(R.drawable.en_b_4);
+											r_imv_down.setImageResource(R.drawable.r_b_4);
 										}
 									});
 								} catch (Exception e) {
@@ -2388,7 +2421,7 @@ public class MainActivity extends AppCompatActivity
 											} catch (InterruptedException | IOException e) {
 												e.printStackTrace();
 											}
-											en_imv_down.setImageResource(R.drawable.en_b_4);
+											f_imv_down.setImageResource(R.drawable.f_b_4);
 										}
 									});
 								} catch (Exception e) {
@@ -2476,6 +2509,11 @@ public class MainActivity extends AppCompatActivity
 							}
 						}.start();
 					}
+					else
+					{
+						sureToDelete(EnSureDel,EnmassageDel,EnconfirmDel,EncancelDel,fileEn, en_imv_down, R.drawable.en_b_3);
+						//es_imv_down.setImageResource(R.drawable.es_b_3);
+					}
 				}
 
 			}
@@ -2491,7 +2529,7 @@ public class MainActivity extends AppCompatActivity
 			public void onClick(View v)
 			{
 
-
+				pop=0;
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
 				changeL=true;
