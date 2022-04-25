@@ -192,8 +192,14 @@ public class pninaYomit extends Activity {
         findViewById(R.id.tooApp).setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View v) {
-                Intent openMainActivity = new Intent("com.rafraph.ph_beta.MAINACTIVITY");
-               startActivity(openMainActivity);
+               Class ourClass = null;
+               try {
+                   ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+               } catch (ClassNotFoundException e) {
+                   e.printStackTrace();
+               }
+               Intent ourIntent = new Intent(pninaYomit.this, ourClass);
+               startActivity(ourIntent);
             }
         });
     }

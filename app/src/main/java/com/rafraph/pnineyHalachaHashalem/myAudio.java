@@ -10,6 +10,8 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.IBinder;
@@ -220,6 +222,29 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         return super.dispatchTouchEvent(ev);
     }
 
+    public void isConnected() throws ClassNotFoundException {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if(networkInfo!=null){
+            if(!networkInfo.isConnected())
+            {
+                Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.ExpandableListAdapter");
+                Intent ourIntent = new Intent(myAudio.this, ourClass);
+                ourIntent.putExtra("connect", 0);
+                startActivity(ourIntent);
+            }
+
+        }else
+        {
+            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.ExpandableListAdapter");
+            Intent ourIntent = new Intent(myAudio.this, ourClass);
+            ourIntent.putExtra("connect", 0);
+            startActivity(ourIntent);
+        }
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -352,6 +377,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         book = extras.getInt("book_id");
 
         chapter = extras.getInt("chapter_id");
+
+        System.out.println("shilo7777777777777777777777777777777777777777777777777"+extras.getInt("book_id")+":fff:"+extras.getInt("chapter_id")+"::"+extras.getInt("audio_id")+extras.getString("webLink"));
         if (hearAndRead) {
             scrollPos=getIntent().getIntExtra("scroolY",0);
             webview.scrollTo(0,scrollPos);

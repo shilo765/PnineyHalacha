@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -22,19 +21,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -49,7 +42,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Button;
@@ -57,7 +49,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -134,6 +126,8 @@ public class MainActivity extends AppCompatActivity
 	private static final int FRENCH = 4;
 	private static  int  starter = 0;
 	public  static  int pop=0;
+	private SeekBar seekbar;
+	private TextView cb;
 	private static  boolean  hebDisplay = true;
 	private List<String> books = new ArrayList<String>();
 	public ExpandableListAdapter listAdapter;
@@ -168,7 +162,8 @@ public class MainActivity extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+//		if (mPrefs.getInt("BlackBackground", 0)==0)
+//			Toast.makeText(getApplicationContext(), "אין חיבור אינטרנט", Toast.LENGTH_LONG).show();
 		context = this;
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
@@ -184,6 +179,7 @@ public class MainActivity extends AppCompatActivity
 		ab = getSupportActionBar();
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.lvExp);
+		expListView.setGroupIndicator(null);
 		Button pninaYomit = (Button) findViewById(R.id.button);
 		pninaYomit.setOnClickListener(new OnClickListener() {
 			@Override
@@ -232,6 +228,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
 		// Listview on child click listener
 		expListView.setOnChildClickListener(new OnChildClickListener()
 		{
@@ -271,7 +268,7 @@ public class MainActivity extends AppCompatActivity
 		/* Choose language*/
 		if(MyLanguage == -1)
 		{
-			languageDialog(context);
+			languageDialog(context,0);
 		}
 
 		/*display the new features of this version*/
@@ -327,7 +324,7 @@ public class MainActivity extends AppCompatActivity
 
 		if(BlackBackground == 1)
 		{
-			ab.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+			ab.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
 			inflater.inflate(R.menu.tochen_actionbar_black, menu);
 			ab.setTitle(Html.fromHtml("<font color=\"white\">" + tochen + "</font>"));
 			listAdapter.setTextColor(Color.WHITE);//to set the list text color
@@ -335,7 +332,7 @@ public class MainActivity extends AppCompatActivity
 		}
 		else
 		{
-			ab.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+			ab.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
 			inflater.inflate(R.menu.tochen_actionbar, menu);
 			ab.setTitle(Html.fromHtml("<font color=\"black\">" + tochen + "</font>"));
 			listAdapter.setTextColor(Color.BLACK);//to set the list text color
@@ -392,7 +389,6 @@ public class MainActivity extends AppCompatActivity
 	{
 		PopupMenu popupMenu = new PopupMenu(MainActivity.this, v);
 		//  popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu());
-
 		String configHeaders[] = new String[8];
 		if(MyLanguage == ENGLISH) {
 			configHeaders[0] = "Settings";
@@ -448,7 +444,10 @@ public class MainActivity extends AppCompatActivity
 		popupMenu.getMenu().add(0,4,4,configHeaders[4]);
 		popupMenu.getMenu().add(0,5,5,configHeaders[5]);
 		popupMenu.getMenu().add(0,6,6,configHeaders[6]);
+
 		//booksDownload popupMenu.getMenu().add(0,7,7,configHeaders[7]);
+
+
 
 		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
 		{
@@ -458,17 +457,7 @@ public class MainActivity extends AppCompatActivity
 				switch (item.getItemId())
 				{
 					case 0:/*settings*/
-						try
-						{
-							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Settings");
-							Intent ourIntent = new Intent(MainActivity.this, ourClass);
-							startActivity(ourIntent);
-						}
-						catch (ClassNotFoundException e)
-						{
-							e.printStackTrace();
-						}
-
+						languageDialog(context,1);//1 is  for users that not new
 						break;
 					case 1:/*about*/
 						try
@@ -514,7 +503,7 @@ public class MainActivity extends AppCompatActivity
 						hascamotDialog();
 						break;
 					case 6:/*language*/
-						languageDialog(context);
+						languageDialog(context,1);
 						break;
 
 
@@ -561,41 +550,41 @@ public class MainActivity extends AppCompatActivity
 			listDataHeader.add("הרחבות סוכות");
 			listDataHeader.add("הרחבות שבת");
 			listDataHeader.add("הרחבות שמחת הבית וברכתו");
-			listDataHeader.add("Tefila");
-			listDataHeader.add("Pesaĥ");
-			listDataHeader.add("Z’manim");
-			listDataHeader.add("Laws of Women’s Prayer");
-			listDataHeader.add("Laws of Shabbat");
-			listDataHeader.add("e_somthing");
-			listDataHeader.add("Shabbat (Español)");
-			listDataHeader.add("brachot (Español)");
-			listDataHeader.add("moadim (Español)");
-			listDataHeader.add("Yamim noraiim (Español)");
-			listDataHeader.add("peasch (Español)");
-			listDataHeader.add("simchat habait (Español)");
-			listDataHeader.add("tfila (Español)");
-			listDataHeader.add("tfilat nashim (Español)");
-			listDataHeader.add("zmanim(Español)");
-			listDataHeader.add("haam vehaarez(russian)");
-			listDataHeader.add("shabaat(russian)");
-			listDataHeader.add("Yammim Noraiim(russian)");
-			listDataHeader.add("sucot(russian)");
-			listDataHeader.add("simchat habait(russian)");
-			listDataHeader.add("mishpacha(russian)");
-			listDataHeader.add("pesach(russian)");
-			listDataHeader.add("moadim(russian)");
-			listDataHeader.add("tfilat_nashim(russian)");
-			listDataHeader.add("tfila(russian)");
-			listDataHeader.add("zmanim(russian)");
-			listDataHeader.add("La prière d’Israël");
-			listDataHeader.add("moadim(french)");
-			listDataHeader.add("sucot(french)");
-			listDataHeader.add("zmanim(french)");
-			listDataHeader.add("simchat habait(french)");
-			listDataHeader.add("pesach(french)");
-			listDataHeader.add("shabbat(french)");
-			listDataHeader.add("yammim(french)");
-			listDataHeader.add("tfilat nashim(french)");
+			listDataHeader.add("Tefila (en)");
+			listDataHeader.add("Pesaĥ (en)");
+			listDataHeader.add("Z’manim (en)");
+			listDataHeader.add("Laws of Women’s Prayer (en)");
+			listDataHeader.add("Laws of Shabbat (en)");
+			listDataHeader.add("e_somthing (en)");
+			listDataHeader.add("Shabbat (Es)");
+			listDataHeader.add("brachot (Es)");
+			listDataHeader.add("moadim (Es)");
+			listDataHeader.add("Yamim noraiim (Es)");
+			listDataHeader.add("peasch (Es)");
+			listDataHeader.add("simchat habait (Es)");
+			listDataHeader.add("tfila (Es)");
+			listDataHeader.add("tfilat nashim (Es)");
+			listDataHeader.add("zmanim(Es)");
+			listDataHeader.add("haam vehaarez(ru)");
+			listDataHeader.add("shabaat(ru)");
+			listDataHeader.add("Yammim Noraiim(ru)");
+			listDataHeader.add("sucot(ru)");
+			listDataHeader.add("simchat habait(ru)");
+			listDataHeader.add("mishpacha(ru)");
+			listDataHeader.add("pesach(ru)");
+			listDataHeader.add("moadim(ru)");
+			listDataHeader.add("tfilat_nashim(ru)");
+			listDataHeader.add("tfila(ru)");
+			listDataHeader.add("zmanim(ru)");
+			listDataHeader.add("La prière d’Israël (fr)");
+			listDataHeader.add("moadim(fr)");
+			listDataHeader.add("sucot(fr)");
+			listDataHeader.add("zmanim(fr)");
+			listDataHeader.add("simchat habait(fr)");
+			listDataHeader.add("pesach(fr)");
+			listDataHeader.add("shabbat(fr)");
+			listDataHeader.add("yammim(fr)");
+			listDataHeader.add("tfilat nashim(fr)");
 
 		;
 
@@ -2040,6 +2029,33 @@ public class MainActivity extends AppCompatActivity
 //
 //		}
 //	}
+private void initializeSeekBar()
+{
+
+			seekbar.setOnSeekBarChangeListener(
+			new SeekBar.OnSeekBarChangeListener() {
+				int userSelectedPosition = 0;
+				boolean mUserIsSeeking = false;
+
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar) {
+
+				}
+
+				@Override
+				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+					cb.setTextSize(progress);
+					shPrefEditor.putInt("fontSize",progress-20);
+					shPrefEditor.commit();
+
+				}
+
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) {
+
+				}
+			});
+}
 	void deleteRecursive(File fileOrDirectory) {
 		if (fileOrDirectory.isDirectory())
 			for (File child : fileOrDirectory.listFiles())
@@ -2047,53 +2063,70 @@ public class MainActivity extends AppCompatActivity
 
 		fileOrDirectory.delete();
 	}
-	void languageDialog(Context context) {
-		languageDialog = new Dialog(context,android.R.style.Theme_Light_NoTitleBar_Fullscreen);
-
-		languageDialog.setContentView(R.layout.language);
-
-		Button ButtonSetLanguage = (Button) languageDialog.findViewById(R.id.dialogButtonOK);
-		ImageView h_imv=(ImageView) languageDialog.findViewById(R.id.im_h);
-		ImageView h_imv_down=(ImageView) languageDialog.findViewById(R.id.im_h_down);
-		ImageView r_imv=(ImageView) languageDialog.findViewById(R.id.im_r);
-		ImageView r_imv_down=(ImageView) languageDialog.findViewById(R.id.im_r_down);
-		ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
-		ImageView es_imv_down=(ImageView) languageDialog.findViewById(R.id.im_es_down);
-		ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
-		ImageView en_imv_down=(ImageView) languageDialog.findViewById(R.id.im_en_down);
-		ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
-		ImageView f_imv_down=(ImageView) languageDialog.findViewById(R.id.im_f_down);
-		if(!hebDisplay)
-			h_imv_down.setImageResource(R.drawable.h_b_3);
-		else
-			h_imv_down.setImageResource(R.drawable.h_b_4);
-
-		//final CheckBox chkFr=(CheckBox) languageDialog.findViewById(R.id.checkBoxFR);
-		//final CheckBox chkEs=(CheckBox) languageDialog.findViewById(R.id.checkBoxES);
-		if(MyLanguage == -1)
-		{
-
-			switch (Locale.getDefault().getLanguage())
-			{
-				case "en":
-					MyLanguage=ENGLISH;
-					break;
-				case "es":
-					MyLanguage=SPANISH;
-					break;
-				case "ru":
-					MyLanguage=RUSSIAN;
-				case "fr":
-					MyLanguage=FRENCH;
-					break;
-				default:
-					MyLanguage=HEBREW;
-					break;
-			}
-			shPrefEditor.putInt("MyLanguage", MyLanguage);
-			shPrefEditor.commit();
+	void languageDialog(Context context,int firstLang) {
+		if(firstLang==0) {
+			languageDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+			languageDialog.setContentView(R.layout.language);
 		}
-		else {
+		else
+		{
+			languageDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+			languageDialog.setContentView(R.layout.activity_settings);
+		}
+
+
+
+		//Button ButtonSetLanguage = (Button) languageDialog.findViewById(R.id.dialogButtonOK);
+		//ImageView h_imv=(ImageView) languageDialog.findViewById(R.id.im_h);
+		ImageView h_imv_down = (ImageView) languageDialog.findViewById(R.id.too_py);
+		ImageView dialog_x = (ImageView) languageDialog.findViewById(R.id.dialog_x);
+		ImageView dialog_x2 = (ImageView) languageDialog.findViewById(R.id.dialog_x2);
+		//ImageView r_imv=(ImageView) languageDialog.findViewById(R.id.im_r);
+		ImageView r_imv_down = (ImageView) languageDialog.findViewById(R.id.too_books);
+		//ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
+		ImageView es_imv_down = (ImageView) languageDialog.findViewById(R.id.im_es_down);
+		//ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
+		ImageView en_imv_down = (ImageView) languageDialog.findViewById(R.id.about_p);
+		//ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
+		ImageView f_imv_down = (ImageView) languageDialog.findViewById(R.id.im_f_down);
+		if(firstLang==1)
+		{
+			ImageView h_imv=(ImageView) languageDialog.findViewById(R.id.im_h);
+			ImageView r_imv=(ImageView) languageDialog.findViewById(R.id.im_r);
+			ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
+			ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
+			ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
+			ImageView im_black_screen=(ImageView) languageDialog.findViewById(R.id.im_black_screen);
+			ImageView im_last_loc=(ImageView) languageDialog.findViewById(R.id.im_last_location);
+			if (mPrefs.getInt("BlackBackground", 0) == 1)
+			{
+				im_black_screen.setImageResource(R.drawable.check_fill);
+				im_black_screen.setTag("3");
+			}
+			else
+			{
+				im_black_screen.setImageResource(R.drawable.check);
+				im_black_screen.setTag("4");
+			}
+			if (mPrefs.getInt("StartInLastLocation", 1) == 1)
+			{
+				im_last_loc.setImageResource(R.drawable.check_fill);
+				im_last_loc.setTag("3");
+			}
+			else
+			{
+				im_last_loc.setImageResource(R.drawable.check);
+				im_last_loc.setTag("4");
+			}
+			seekbar = (SeekBar) languageDialog.findViewById(R.id.seekBar6);
+			seekbar.setMax(77);
+			seekbar.setProgress(mPrefs.getInt("fontSize",20));
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+				seekbar.setMin(40);
+			}
+			cb 		= (TextView) languageDialog.findViewById(R.id.textSizeExm);
+			cb.setTextSize(mPrefs.getInt("fontSize",20));
+			initializeSeekBar();
 			if (MyLanguage == HEBREW)
 				h_imv.setImageResource(R.drawable.h_b_2);
 			else if (MyLanguage == RUSSIAN)
@@ -2106,9 +2139,43 @@ public class MainActivity extends AppCompatActivity
 				en_imv.setImageResource(R.drawable.en_b_2);
 			shPrefEditor.putInt("MyLanguage", MyLanguage);
 			shPrefEditor.commit();
-		}
+			im_black_screen.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
 
-		h_imv.setOnClickListener(new OnClickListener() {
+
+					if (im_black_screen.getTag().equals("4")) {
+						im_black_screen.setImageResource(R.drawable.check_fill);
+						im_black_screen.setTag("3");
+						shPrefEditor.putInt("BlackBackground", 1);
+
+					} else {
+						im_black_screen.setImageResource(R.drawable.check);
+						im_black_screen.setTag("4");
+						shPrefEditor.putInt("BlackBackground", 0);
+					}
+
+				}
+			});
+			im_last_loc.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+
+					if (im_last_loc.getTag().equals("4")) {
+						im_last_loc.setImageResource(R.drawable.check_fill);
+						im_last_loc.setTag("3");
+						shPrefEditor.putInt("StartInLastLocation", 1);
+
+					} else {
+						im_last_loc.setImageResource(R.drawable.check);
+						im_last_loc.setTag("4");
+						shPrefEditor.putInt("StartInLastLocation", 0);
+					}
+
+				}
+			});
+			h_imv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				MyLanguage = HEBREW;
@@ -2174,33 +2241,110 @@ public class MainActivity extends AppCompatActivity
 				shPrefEditor.commit();
 			}
 		});
+
+		}
+		if (!hebDisplay)
+			h_imv_down.setImageResource(R.drawable.h_b_3);
+		else
+			h_imv_down.setImageResource(R.drawable.h_b_4);
+
+		//final CheckBox chkFr=(CheckBox) languageDialog.findViewById(R.id.checkBoxFR);
+		//final CheckBox chkEs=(CheckBox) languageDialog.findViewById(R.id.checkBoxES);
+		if(MyLanguage==-1) {
+			switch (Locale.getDefault().getLanguage()) {
+				case "en":
+					MyLanguage = ENGLISH;
+					break;
+				case "es":
+					MyLanguage = SPANISH;
+					break;
+				case "ru":
+					MyLanguage = RUSSIAN;
+				case "fr":
+					MyLanguage = FRENCH;
+					break;
+				default:
+					MyLanguage = HEBREW;
+					break;
+			}
+			shPrefEditor.putInt("MyLanguage", MyLanguage);
+			shPrefEditor.commit();
+		}
+		//else {
+
+
+
+
 		File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
-		if(fileF.exists())
+		if (fileF.exists())
 			f_imv_down.setImageResource(R.drawable.f_b_4);
 		File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
-		if(fileEs.exists())
+		if (fileEs.exists())
 			es_imv_down.setImageResource(R.drawable.es_b_4);
 		File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
-		if(fileEn.exists())
+		if (fileEn.exists())
 			en_imv_down.setImageResource(R.drawable.en_b_4);
 		File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
-		if(fileR.exists())
+		if (fileR.exists())
 			r_imv_down.setImageResource(R.drawable.r_b_4);
+		dialog_x.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
+				changeL = true;
+
+				if (firstLang==1)
+					startActivity(getIntent());
+				else
+				{
+					Class ourClass = null;
+					try {
+						ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+					Intent ourIntent = new Intent(MainActivity.this, ourClass);
+					startActivity(ourIntent);
+				}
+			}
+		});
+		if(firstLang==0) {
+			dialog_x2.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					shPrefEditor.putInt("MyLanguage", MyLanguage);
+					shPrefEditor.commit();
+					changeL = true;
+
+					if (firstLang == 1)
+						startActivity(getIntent());
+					else {
+						Class ourClass = null;
+						try {
+							ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						Intent ourIntent = new Intent(MainActivity.this, ourClass);
+						startActivity(ourIntent);
+					}
+				}
+			});
+		}
 		h_imv_down.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 
 
-				if(h_imv_down.getTag().equals("4")) {
+				if (h_imv_down.getTag().equals("4")) {
 					h_imv_down.setImageResource(R.drawable.h_b_3);
 					h_imv_down.setTag("3");
-					hebDisplay=false;
-				}
-				else {
+					hebDisplay = false;
+				} else {
 					h_imv_down.setImageResource(R.drawable.h_b_4);
 					h_imv_down.setTag("4");
-					hebDisplay=true;
+					hebDisplay = true;
 				}
 
 			}
@@ -2209,12 +2353,11 @@ public class MainActivity extends AppCompatActivity
 		es_imv_down.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getPremission(HneedPr,Hmassage,Hconfirm,Hcancel);
-				int count=0;
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+				int count = 0;
 
 
-
-				if(isPremissionGranted(getApplicationContext())) {
+				if (isPremissionGranted(getApplicationContext())) {
 					if (!fileEs.exists()) {
 						books.clear();
 						books.add("brachot");
@@ -2274,10 +2417,8 @@ public class MainActivity extends AppCompatActivity
 								downloadWait.dismiss();
 							}
 						}.start();
-					}
-					else
-					{
-						sureToDelete(EnSureDel,EnmassageDel,EnconfirmDel,EncancelDel,fileEs, es_imv_down, R.drawable.es_b_3);
+					} else {
+						sureToDelete(EnSureDel, EnmassageDel, EnconfirmDel, EncancelDel, fileEs, es_imv_down, R.drawable.es_b_3);
 						//es_imv_down.setImageResource(R.drawable.es_b_3);
 					}
 				}
@@ -2287,13 +2428,12 @@ public class MainActivity extends AppCompatActivity
 		r_imv_down.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getPremission(HneedPr,Hmassage,Hconfirm,Hcancel);
-				int count=0;
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+				int count = 0;
 
 
-
-				if(isPremissionGranted(getApplicationContext())){
-					if(!fileR.exists()) {
+				if (isPremissionGranted(getApplicationContext())) {
+					if (!fileR.exists()) {
 						books.clear();
 						//books.add("brachot");
 						books.add("haamvehaarez");
@@ -2352,10 +2492,8 @@ public class MainActivity extends AppCompatActivity
 								downloadWait.dismiss();
 							}
 						}.start();
-					}
-					else
-					{
-						sureToDelete(EnSureDel,EnmassageDel,EnconfirmDel,EncancelDel,fileR, r_imv_down, R.drawable.r_b_3);
+					} else {
+						sureToDelete(EnSureDel, EnmassageDel, EnconfirmDel, EncancelDel, fileR, r_imv_down, R.drawable.r_b_3);
 						//es_imv_down.setImageResource(R.drawable.es_b_3);
 					}
 				}
@@ -2365,13 +2503,12 @@ public class MainActivity extends AppCompatActivity
 		f_imv_down.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getPremission(HneedPr,Hmassage,Hconfirm,Hcancel);
-				int count=0;
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+				int count = 0;
 
 
-
-				if(isPremissionGranted(getApplicationContext())){
-					if(!fileF.exists()) {
+				if (isPremissionGranted(getApplicationContext())) {
+					if (!fileF.exists()) {
 						books.clear();
 						//books.add("brachot");
 						//books.add("haamvehaarez");
@@ -2430,10 +2567,8 @@ public class MainActivity extends AppCompatActivity
 								downloadWait.dismiss();
 							}
 						}.start();
-					}
-					else
-					{
-						sureToDelete(EnSureDel,EnmassageDel,EnconfirmDel,EncancelDel,fileF, f_imv_down, R.drawable.f_b_3);
+					} else {
+						sureToDelete(EnSureDel, EnmassageDel, EnconfirmDel, EncancelDel, fileF, f_imv_down, R.drawable.f_b_3);
 						//es_imv_down.setImageResource(R.drawable.es_b_3);
 					}
 				}
@@ -2443,13 +2578,12 @@ public class MainActivity extends AppCompatActivity
 		en_imv_down.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getPremission(HneedPr,Hmassage,Hconfirm,Hcancel);
-				int count=0;
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+				int count = 0;
 
 
-
-				if(isPremissionGranted(getApplicationContext())){
-					if(!fileEn.exists()) {
+				if (isPremissionGranted(getApplicationContext())) {
+					if (!fileEn.exists()) {
 						books.clear();
 						//books.add("brachot");
 						//books.add("haamvehaarez");
@@ -2508,41 +2642,47 @@ public class MainActivity extends AppCompatActivity
 								downloadWait.dismiss();
 							}
 						}.start();
-					}
-					else
-					{
-						sureToDelete(EnSureDel,EnmassageDel,EnconfirmDel,EncancelDel,fileEn, en_imv_down, R.drawable.en_b_3);
+					} else {
+						sureToDelete(EnSureDel, EnmassageDel, EnconfirmDel, EncancelDel, fileEn, en_imv_down, R.drawable.en_b_3);
 						//es_imv_down.setImageResource(R.drawable.es_b_3);
 					}
 				}
 
 			}
+
 		});
+		languageDialog.dismiss();
 
 
 		// if button is clicked
-		ButtonSetLanguage.setOnClickListener(new OnClickListener()
-		{
-			@SuppressLint("NewApi")
-
+		languageDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 			@Override
-			public void onClick(View v)
-			{
-
-				pop=0;
+			public void onDismiss(DialogInterface dialog) {
+				pop = 0;
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
-				changeL=true;
-				if(isPremissionGranted(getApplicationContext())) {
-					finish();
-					startActivity(getIntent());
-					languageDialog.dismiss();
-				}
+				changeL = true;
+
+					if (firstLang==1)
+						startActivity(getIntent());
+					else
+					{
+						Class ourClass = null;
+						try {
+							ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						Intent ourIntent = new Intent(MainActivity.this, ourClass);
+						startActivity(ourIntent);
+					}
+
+
 			}
 		});
-
 		languageDialog.show();
 	}
+
 
 	void goToLastLocation()
 	{

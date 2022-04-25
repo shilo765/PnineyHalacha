@@ -35,7 +35,7 @@
 		android:textStyle="bold" />
 
 	<EditText
-		android:id="@+id/etHeader"
+		android:id="@+id/last_search"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="@drawable/w_r_rec"
@@ -46,11 +46,11 @@
 		android:paddingTop="10dp"
 		android:paddingRight="10dp"
 		android:layout_marginBottom="20dp"
-		android:text="שם:"
+		android:hint="שם:"
 		android:textAlignment="viewStart" />
 
 	<EditText
-		android:id="@+id/editTextTitle"
+		android:id="@+id/editTextSearch"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="@drawable/w_r_rec"
@@ -61,24 +61,24 @@
 		android:paddingTop="10dp"
 		android:paddingRight="10dp"
 		android:layout_marginBottom="20dp"
-		android:text="כותרת:"
+		android:hint="כותרת:"
 		android:textAlignment="viewStart" />
+
 
 	<EditText
 		android:id="@+id/etContent"
 		android:layout_width="match_parent"
-		android:layout_height="150dp"
-		android:background="@drawable/w_r_rec"
+		android:layout_height="174dp"
+		android:layout_marginBottom="20dp"
+		android:background="@drawable/big_rec"
 		android:ems="10"
 		android:gravity="start"
+		android:inputType="textMultiLine"
 		android:paddingLeft="10dp"
 		android:paddingTop="10dp"
 		android:paddingRight="10dp"
-		android:layout_marginBottom="20dp"
-		android:text="תוכן הפניה:"
-		android:inputType="textMultiLine"
+		android:hint="תוכן הפניה:"
 		android:textAlignment="viewStart" />
-
 
 	<TextView
 		android:id="@+id/bSendEmail"

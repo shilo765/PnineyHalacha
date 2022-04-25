@@ -4,4 +4,5 @@
     <drawable name="pressed_color">#ABAEB0</drawable>
     <drawable name="default_color">#ffffff</drawable>
     <drawable name="black_color">#000000</drawable>
+    <drawable name="action_color">#69C547</drawable>
 </resources>

@@ -30,7 +30,7 @@
         android:layout_marginRight="79dp"
         android:background="#00FFFFFF"
         android:icon="@drawable/ic_action_scrool"
-        android:src="@drawable/ic_action_scrool"
+        android:src="@drawable/dialog_x"
         android:text="Button" />
 
     <ImageButton

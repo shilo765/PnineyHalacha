@@ -52,6 +52,7 @@
             android:id="@+id/hi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#970606"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -121,12 +122,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginLeft="20dp"
                     android:background="@null"
                     android:onClick="skip_to_previous"
                     android:src="@drawable/baseline_skip_previous_white_48" />
+
                 <ImageButton
                     android:id="@+id/media_rew"
                     android:layout_width="wrap_content"
@@ -175,6 +177,7 @@
                     style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
                     android:layout_width="74dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:background="#00FFFFFF"
                     android:backgroundTint="#FFFFFF"
                     android:popupBackground="#667B7B"
@@ -182,7 +185,6 @@
                     android:scaleY="0.7"
                     android:scrollbarSize="25dp"
                     android:spinnerMode="dropdown"
-                    android:layout_marginRight="10dp"
                     android:textColor="#FFFFFF" />
 
 

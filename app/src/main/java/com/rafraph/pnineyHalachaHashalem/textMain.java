@@ -15,6 +15,7 @@ import java.util.zip.ZipInputStream;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -199,31 +200,49 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		loadActivity();
 
 	}//onCreate
-	public static void loadWebview(String path,WebView webview)
+	public void loadWebview(String path, WebView webview)
 	{
-		File file = new File(path);
-		if(file.exists())
-			webview.loadUrl(path);
-		else
-		{
-			switch (path.split("/")[path.split("/").length-2]) {
-				case "EnglishBooks":
-					unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/en.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks",path.split("/")[path.split("/").length-1]);
-					break;
-				case "RussianBooks":
-					unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/ru.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks",path.split("/")[path.split("/").length-1]);
-					break;
-				case "FrenchBooks":
-					unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/fr.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks",path.split("/")[path.split("/").length-1]);
-					break;
-				case "SpanishBooks":
-					unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/es.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks",path.split("/")[path.split("/").length-1]);
-					break;
-				default:
-					break;
+		final ProgressDialog downloadWait = ProgressDialog.show(textMain.this, "", "please wait");
+		new Thread() {
+			public void run() {
+				try {
+					textMain.this.runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							File file = new File(path);
+							if(file.exists())
+								webview.loadUrl(path);
+							else
+							{
+								switch (path.split("/")[path.split("/").length-2]) {
+									case "EnglishBooks":
+										unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/en.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks",path.split("/")[path.split("/").length-1]);
+										break;
+									case "RussianBooks":
+										unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/ru.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks",path.split("/")[path.split("/").length-1]);
+										break;
+									case "FrenchBooks":
+										unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/fr.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks",path.split("/")[path.split("/").length-1]);
+										break;
+									case "SpanishBooks":
+										unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/es.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks",path.split("/")[path.split("/").length-1]);
+										break;
+									default:
+										break;
+								}
+								webview.loadUrl(path);webview.loadUrl(path);
+							}
+
+						}
+					});
+				} catch (Exception e) {
+
+				}
+				downloadWait.dismiss();
 			}
-			webview.loadUrl(path);webview.loadUrl(path);
-		}
+		}.start();
+
 	}
 
 	private static void unzip(String zipFile, String location,String specificFile) {
@@ -238,7 +257,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 				while ((ze = zin.getNextEntry()) != null) {
 					String path = location + File.separator + ze.getName();
-					System.out.println(ze.getName());
+
 					if(ze.getName().equals(specificFile)){
 						if (ze.isDirectory()) {
 							File unzipFile = new File(path);
@@ -631,6 +650,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		String input;
 
 		fileName = getClearUrl();
+
 		if ((fileName.equals(lastFileName) == false))
 		{
 			lastFileName = fileName;
@@ -1141,8 +1161,28 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private void findHeaders()
 	{
 		String prefix;
+
 		fileName = getClearUrl();
-		prefix = "file:///android_asset/";
+		String[] splitString = fileName.split("/");
+		switch (splitString[splitString.length-2])
+		{
+			case "EnglishBooks":
+				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/";
+				break;
+			case "RussianBooks":
+				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/";
+				break;
+			case "FrenchBooks":
+				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/";
+				break;
+			case "SpanishBooks":
+				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/";
+				break;
+			default:
+				prefix = "file:///android_asset/";
+				break;
+		}
+
 		fileNameOnly = fileName.substring(prefix.length());
 		try
 		{
@@ -1211,7 +1251,25 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		ArrayList<String> sections = new ArrayList<String>();
 		ArrayList<String> sections2 = new ArrayList<String>();
 		fileName = getClearUrl();
-		prefix = "file:///android_asset/";
+		String[] splitString = fileName.split("/");
+		switch (splitString[splitString.length-2])
+		{
+			case "EnglishBooks":
+				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/";
+				break;
+			case "RussianBooks":
+				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/";
+				break;
+			case "FrenchBooks":
+				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/";
+				break;
+			case "SpanishBooks":
+				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/";
+				break;
+			default:
+				prefix = "file:///android_asset/";
+				break;
+		}
 		fileNameOnly = fileName.substring(prefix.length());
 		fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
 

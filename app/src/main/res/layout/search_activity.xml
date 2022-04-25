@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#FFFFFF"
+	android:orientation="vertical"
+	android:paddingTop="0dp"
+	tools:context=".Feedback">
+
+	<LinearLayout
+		android:id="@+id/lnrOptions2"
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:background="#fefef2"
+		android:gravity="center">
+
+		<ImageButton
+			android:id="@+id/tooApp"
+			android:layout_width="170dp"
+			android:layout_height="40dp"
+			android:background="#00FFFFFF"
+			android:src="@drawable/to_main" />
+
+
+	</LinearLayout>
+
+	<TextView
+		android:id="@+id/textView2"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="20dp"
+		android:text="חיפוש בפניני הלכה"
+		android:textColor="#121010"
+		android:textStyle="bold" />
+
+	<LinearLayout
+		android:id="@+id/lnrOptions"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="20dp"
+		android:background="#FFFFFF"
+		android:gravity="center">
+
+		<TextView
+			android:id="@+id/last_search"
+			android:layout_width="126dp"
+			android:layout_height="30dp"
+			android:background="@drawable/rec_r_half2_empty"
+			android:gravity="center"
+			android:inputType="textPersonName"
+
+			android:text="חיפוש אחרון"
+			android:textColor="#970606"
+			android:textStyle="bold" />
+
+		<TextView
+			android:id="@+id/search_now"
+			android:layout_width="126dp"
+			android:layout_height="30dp"
+			android:background="@drawable/rec_r_half_full"
+			android:gravity="center"
+			android:inputType="textPersonName"
+			android:text="חיפוש"
+			android:textColor="#FFFFFF"
+			android:textStyle="bold" />
+	</LinearLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" >
+
+		<EditText
+			android:id="@+id/editTextSearch"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@drawable/w_r_rec"
+			android:gravity="start"
+			android:hint="טקסט לחיפוש"
+			android:inputType="textPersonName"
+			android:paddingTop="8dp"
+			android:paddingRight="50dp"
+			android:textAlignment="viewStart" />
+
+		<ImageView
+			android:id="@+id/goSearch"
+			android:layout_width="wrap_content"
+			android:layout_height="35dp"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:layout_marginStart="5dp"
+			android:layout_marginLeft="5dp"
+			android:layout_marginTop="5dp"
+			android:layout_marginRight="12dp"
+			android:paddingBottom="10dp"
+
+			android:src="@drawable/search" />
+
+	</RelativeLayout>
+	<ListView
+		android:id="@+id/list"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:divider="#FFF7EC"
+		android:dividerHeight="2px"
+		>
+
+	</ListView>
+
+
+</LinearLayout>

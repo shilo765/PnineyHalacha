@@ -20,9 +20,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/linearLayout1"
+
+
         android:layout_alignParentTop="true"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="54dp"></ExpandableListView>
+        android:layout_marginTop="51dp"
+        android:background="#00FFFFFF"
+        android:cacheColorHint="#00FFFFFF"
+        android:divider="#00FFFFFF"
+        android:dividerHeight="2px"
+
+
+        android:groupIndicator="@null"
+
+
+        ></ExpandableListView>
 
     <Button
         android:id="@+id/button"

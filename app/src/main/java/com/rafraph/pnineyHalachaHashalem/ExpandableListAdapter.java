@@ -1,12 +1,18 @@
 package com.rafraph.pnineyHalachaHashalem;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +21,16 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.app.Activity;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter
 {
+
 
 	private Context _context;
 	public int BlackBackground=0;
@@ -31,6 +44,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 	public LinearLayout listGroupLayout;
 	public LinearLayout listChildLayout;
 	public ImageView ListHeaderIconPlay;
+	public ImageView ListHeaderIconPlay2;
+	String fileName, fileNameOnly, lastFileName = null,bookName="";
+	int lastChap,bookId;
+	Elements headers;
+
 	public ExpandableListAdapter(Context context, List<String> listDataHeader,
 	HashMap<String, List<String>> listChildData) 
 	{
@@ -117,10 +135,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 
 		listGroupLayout = (LinearLayout) convertView.findViewById(R.id.LLlistGroup);
 		ListHeaderIconPlay = (ImageView) convertView.findViewById(R.id.ListHeaderIconPlay);
+		ListHeaderIconPlay2 = (ImageView) convertView.findViewById(R.id.ListHeaderIconPlay2);
 
 		TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
 		ImageView ListHeaderIconPlay = (ImageView) convertView.findViewById(R.id.ListHeaderIconPlay);
 		int a = lblListHeader.getId();
+		System.out.println(headerTitle);
 		if(headerTitle.equals("ברכות") || headerTitle.equals("מועדים")      ||
 		   headerTitle.equals("זמנים") || headerTitle.equals("סוכות")       ||
 		   headerTitle.equals("שבת")   || headerTitle.equals("פסח")         ||
@@ -130,11 +150,236 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 			headerTitle.equals("שביעית ויובל") || headerTitle.equals("העם והארץ"))
 		{
 			ListHeaderIconPlay.setVisibility(View.VISIBLE);
+			ListHeaderIconPlay2.setVisibility(View.VISIBLE);
 		}
 		else
 		{
 			ListHeaderIconPlay.setVisibility(View.GONE);
+			ListHeaderIconPlay2.setVisibility(View.GONE);
 		}
+		ListHeaderIconPlay.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try
+				{
+
+
+					switch (headerTitle){
+						case "ברכות":
+							bookName="brachot";
+							lastChap=18;
+							bookId=0;
+							break;
+						case "מועדים":
+							bookName="moadim";
+							lastChap=13;
+							bookId=9;
+							break;
+						case "זמנים":
+							bookName="zmanim";
+							lastChap=17;
+							bookId=2;
+							break;
+						case "סוכות":
+							bookName="sucot";
+							lastChap=8;
+							bookId=11;
+							break;
+						case "שבת":
+							bookName="shabat";
+							lastChap=30;
+							bookId=14;
+							break;
+						case "פסח":
+							bookName="pesach";
+							lastChap=16;
+							bookId=12;
+							break;
+						case "תפילה":
+							bookName="tefila";
+							lastChap=26;
+							bookId=16;
+							break;
+						case "כשרות א - הצומח והחי":
+							bookName="kashrut";
+							lastChap=19;
+							bookId=5;
+							break;
+						case "כשרות ב - המזון והמטבח":
+							bookName="kashrut";
+							lastChap=19;
+							bookId=6;
+							break;
+						case "שמחת הבית וברכתו":
+							bookName="simchat";
+							lastChap=10;
+							bookId=15;
+							break;
+						case "טהרת המשפחה":
+							bookName="taharat";
+							lastChap=10;
+							bookId=3;
+							break;
+						case "שביעית ויובל":
+							bookName="shviit";
+							lastChap=11;
+							bookId=13;
+							break;
+						case "העם והארץ":
+							bookName="haamvehaarez";
+							lastChap=11;
+							bookId=1;
+							break;
+						case "ימים נוראים":
+							bookName="yamim";
+							lastChap=10;
+							bookId=4;
+							break;
+						default:
+							bookName="yamim";
+							lastChap=10;
+							bookId=4;
+							break;
+
+					}
+
+					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
+					Intent ourIntent = new Intent(_context, ourClass);
+					ourIntent.putExtra("audio_id", 1);
+					ourIntent.putExtra("book_id", bookId);
+					ourIntent.putExtra("chapter_id", 1);
+					if (bookId!=6)
+					ourIntent.putExtra("webLink", "file:///android_asset/"+bookName+"_1.html");
+					else
+					ourIntent.putExtra("webLink", "file:///android_asset/"+bookName+"_20.html");
+						//ourIntent.putExtra("webLink", localFile.getPath());
+					ourIntent.putExtra("hearAndRead", true
+					);
+					ourIntent.putExtra("fontSize", 15);
+					//findAllHeaders(ourIntent);
+					findAllHeaders(ourIntent);
+					_context.startActivity(ourIntent);
+
+
+
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+		ListHeaderIconPlay2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try
+				{
+
+
+					switch (headerTitle){
+						case "ברכות":
+							bookName="brachot";
+							lastChap=18;
+							bookId=0;
+							break;
+						case "מועדים":
+							bookName="moadim";
+							lastChap=13;
+							bookId=9;
+							break;
+						case "זמנים":
+							bookName="zmanim";
+							lastChap=17;
+							bookId=2;
+							break;
+						case "סוכות":
+							bookName="sucot";
+							lastChap=8;
+							bookId=11;
+							break;
+						case "שבת":
+							bookName="shabat";
+							lastChap=30;
+							bookId=14;
+							break;
+						case "פסח":
+							bookName="pesach";
+							lastChap=16;
+							bookId=12;
+							break;
+						case "תפילה":
+							bookName="tefila";
+							lastChap=26;
+							bookId=16;
+							break;
+						case "כשרות א - הצומח והחי":
+							bookName="kashrut";
+							lastChap=19;
+							bookId=5;
+							break;
+						case "כשרות ב - המזון והמטבח":
+							bookName="kashrut";
+							lastChap=19;
+							bookId=6;
+							break;
+						case "שמחת הבית וברכתו":
+							bookName="simchat";
+							lastChap=10;
+							bookId=15;
+							break;
+						case "טהרת המשפחה":
+							bookName="taharat";
+							lastChap=10;
+							bookId=3;
+							break;
+						case "שביעית ויובל":
+							bookName="shviit";
+							lastChap=11;
+							bookId=13;
+							break;
+						case "העם והארץ":
+							bookName="haamvehaarez";
+							lastChap=11;
+							bookId=1;
+							break;
+						case "ימים נוראים":
+							bookName="yamim";
+							lastChap=10;
+							bookId=4;
+							break;
+						default:
+							bookName="yamim";
+							lastChap=10;
+							bookId=4;
+							break;
+
+					}
+
+					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
+					Intent ourIntent = new Intent(_context, ourClass);
+					ourIntent.putExtra("audio_id", 1);
+					ourIntent.putExtra("book_id", bookId);
+					ourIntent.putExtra("chapter_id", 1);
+					if (bookId!=6)
+						ourIntent.putExtra("webLink", "file:///android_asset/"+bookName+"_1.html");
+					else
+						ourIntent.putExtra("webLink", "file:///android_asset/"+bookName+"_20.html");
+					//ourIntent.putExtra("webLink", localFile.getPath());
+					ourIntent.putExtra("hearAndRead", false);
+					ourIntent.putExtra("fontSize", 15);
+					//findAllHeaders(ourIntent);
+					findAllHeaders(ourIntent);
+					_context.startActivity(ourIntent);
+
+
+
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
 		lblListHeader.setTypeface(null, Typeface.BOLD);
 		lblListHeader.setText(headerTitle);
 		if(textColor==Color.BLACK)
@@ -166,5 +411,76 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 	{
 		textColor=c;
 	}
-	
+
+	private String getClearUrl()
+	{
+		String ClearUrl;
+		//ClearUrl = webview.getUrl();
+		//ClearUrl = ClearUrl.substring(0, ClearUrl.indexOf(".html")+5);
+		return "";
+	}
+
+	private void findAllHeaders(Intent ourIntent)
+	{
+		String prefix, a;
+		int j;
+		ArrayList<String> sections = new ArrayList<String>();
+		ArrayList<String> sections2 = new ArrayList<String>();
+		if(bookId!=6)
+		fileName = "file:///android_asset/"+bookName+"_1.html";
+		else
+		fileName = "file:///android_asset/"+bookName+"_20.html";
+		prefix = "file:///android_asset/";
+		fileNameOnly = fileName.substring(prefix.length());
+		fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
+
+		for(int i=1; i<=lastChap; i++) {
+			try {
+				InputStream is;
+				if(bookId==6)
+					is = _context.getAssets().open(fileNameOnly+(i+19)+".html");
+				else
+					is = _context.getAssets().open(fileNameOnly+i+".html");
+				int size = is.available();
+				byte[] buffer = new byte[size];
+				is.read(buffer);
+				is.close();
+				String input = new String(buffer);
+
+				Document doc = Jsoup.parse(input);
+
+				headers = doc.select("h2");
+				if(headers.size()==0){
+					headers = doc.select("p");
+
+					Elements NewHead = new Elements();
+					for(int k = 0; k < headers.size(); k++) {
+						if(headers.get(k).text().length()>1)
+							if(headers.get(k).text().charAt(1)=='.'||headers.get(k).text().charAt(2)=='.'||headers.get(k).text().charAt(2)==')')
+								NewHead.add(headers.get(k));
+					}
+					headers=NewHead;
+				}
+				for(j = 0; j < headers.size(); j++) {
+					sections.add(headers.get(j).text());
+				}
+
+				String name;
+				if(bookId==6)
+				name = "sections_"+(i+19);
+				else
+				name = "sections_"+i;
+
+				// Creating a new local copy of the current list.
+				ArrayList<String> newList = new ArrayList<>(sections);
+
+				ourIntent.putStringArrayListExtra(name, newList);
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 }

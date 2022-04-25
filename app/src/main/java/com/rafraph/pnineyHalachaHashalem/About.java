@@ -19,27 +19,8 @@ public class About extends Activity implements View.OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
-				
-		link = (Button) findViewById(R.id.buttonLink);
-		link.setOnClickListener(this);
-		
-		/*version*/
-		String myVersionName = "not available"; // initialize String
 
-		Context context = getApplicationContext(); // or activity.getApplicationContext()
-		PackageManager packageManager = context.getPackageManager();
-		String packageName = context.getPackageName();
 
-		try 
-		{
-		    myVersionName = "גירסה: " + packageManager.getPackageInfo(packageName, 0).versionName;
-		} 
-		catch (PackageManager.NameNotFoundException e) 
-		{
-		    e.printStackTrace();
-		}
-		TextView tvVersion = (TextView) findViewById(R.id.textViewVersion);
-		tvVersion.setText(myVersionName);
 	}
 
 	@Override
@@ -49,10 +30,10 @@ public class About extends Activity implements View.OnClickListener
 		return true;
 	}
 	
-	public void onClick(View v) 
+	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
-	
+
 		Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);

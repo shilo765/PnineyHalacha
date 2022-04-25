@@ -19,7 +19,7 @@ public class Feedback extends Activity implements View.OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_feedback);
-		EmailHeader = (EditText) findViewById(R.id.etHeader);
+		EmailHeader = (EditText) findViewById(R.id.last_search);
 		EmailContent = (EditText) findViewById(R.id.etContent);
 
 		sendEmail = (TextView) findViewById(R.id.bSendEmail);

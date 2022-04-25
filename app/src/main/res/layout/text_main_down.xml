@@ -16,7 +16,7 @@
         android:id="@+id/lnrOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#003349"
+        android:background="#970606"
         android:gravity="center">
 
         <ImageButton
@@ -36,22 +36,21 @@
             android:src="@drawable/ic_action_up" />
 
 
-
         <ImageButton
             android:id="@+id/ibNext"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/Next"
-            android:src="@drawable/ic_action_next_item"/>
+            android:src="@drawable/ic_action_next_item" />
+
         <ImageButton
             android:id="@+id/ibPrevious"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/Previous"
-            android:src="@drawable/ic_action_previous_item"
-            />
+            android:src="@drawable/ic_action_previous_item" />
 
         <ImageButton
             android:id="@+id/bSendEmail"
@@ -80,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:background="#970606"
             android:contentDescription="@string/NextPage"
             android:src="@drawable/ic_action_down" />
 
@@ -88,6 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:background="#970606"
             android:contentDescription="@string/PreviousPage"
             android:src="@drawable/ic_action_up" />
     </LinearLayout>

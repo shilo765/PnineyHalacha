@@ -41,9 +41,9 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:paddingRight="50dp"
-            android:text="תזכיר לי"
+            android:text="קבע תזכורת"
             android:textColor="#FFFFFF"
-            android:textSize="20dp" />
+            android:textSize="17dp" />
 
         <ImageButton
             android:id="@+id/deleteReminder"

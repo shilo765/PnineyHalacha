@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.CheckBox;
 
-public class Settings extends Activity 
+public class Settings extends Activity
 {
 	public static final String PREFS_NAME = "MyPrefsFile";
 	static SharedPreferences mPrefs;
@@ -21,16 +21,16 @@ public class Settings extends Activity
     private static final int FRENCH = 4;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
-		
-		cbSleepScreen 		= (CheckBox) findViewById(R.id.checkBoxSleepScreen);
-		cbBlackBackground 	= (CheckBox) findViewById(R.id.checkBoxBlackBackground);
-		cbFullScreen 		= (CheckBox) findViewById(R.id.checkBoxFullScreen);
-		cbAssistButtons 	= (CheckBox) findViewById(R.id.checkBoxAssistButtons);
-		cbLastLocation 		= (CheckBox) findViewById(R.id.checkBoxLastLocation);
+
+//		cbSleepScreen 		= (CheckBox) findViewById(R.id.checkBoxSleepScreen);
+//		cbBlackBackground 	= (CheckBox) findViewById(R.id.checkBoxBlackBackground);
+//		cbFullScreen 		= (CheckBox) findViewById(R.id.checkBoxFullScreen);
+//		cbAssistButtons 	= (CheckBox) findViewById(R.id.checkBoxAssistButtons);
+//		cbLastLocation 		= (CheckBox) findViewById(R.id.checkBoxLastLocation);
 
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
@@ -51,7 +51,7 @@ public class Settings extends Activity
 		{
 			cbSleepScreen.setChecked(false);
 		}
-		
+
 		if (mPrefs.getInt("BlackBackground", 0) == 1)
 		{
 			cbBlackBackground.setChecked(true);
@@ -60,7 +60,7 @@ public class Settings extends Activity
 		{
 			cbBlackBackground.setChecked(false);
 		}
-		
+
 		if (mPrefs.getInt("cbFullScreen", 1) == 1)
 		{
 			cbFullScreen.setChecked(true);
@@ -69,7 +69,7 @@ public class Settings extends Activity
 		{
 			cbFullScreen.setChecked(false);
 		}
-		
+
 		if (mPrefs.getInt("cbAssistButtons", 1) == 1)
 		{
 			cbAssistButtons.setChecked(true);
@@ -90,56 +90,56 @@ public class Settings extends Activity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
+	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.settings, menu);
 		return true;
 	}
 
-	public void onCheckboxClicked(View view) 
-	{
-		
-		//shPrefEditor.putInt("SleepScreen", 1);
-	    // Is the view now checked?
-	    boolean checked = ((CheckBox) view).isChecked();
-	    
-	    // Check which checkbox was clicked
-	    switch(view.getId()) 
-	    {
-	        case R.id.checkBoxSleepScreen:
-	            if (checked == true)
-	            	shPrefEditor.putInt("SleepScreen", 1);
-	            else
-	            	shPrefEditor.putInt("SleepScreen", 0);
-	            break;
-	        case R.id.checkBoxBlackBackground:
-	            if (checked == true)
-	            	shPrefEditor.putInt("BlackBackground", 1);
-	            else
-	            	shPrefEditor.putInt("BlackBackground", 0);
-	            break;
-	        case R.id.checkBoxFullScreen:
-	            if (checked == true)
-	            	shPrefEditor.putInt("cbFullScreen", 1);
-	            else
-	            	shPrefEditor.putInt("cbFullScreen", 0);
-	            break;
-	        case R.id.checkBoxAssistButtons:
-	            if (checked == true)
-	            	shPrefEditor.putInt("cbAssistButtons", 1);
-	            else
-	            	shPrefEditor.putInt("cbAssistButtons", 0);
-	            break;
-			case R.id.checkBoxLastLocation:
-				if (checked == true)
-					shPrefEditor.putInt("StartInLastLocation", 1);
-				else
-					shPrefEditor.putInt("StartInLastLocation", 0);
-				break;
-	    }
-	    shPrefEditor.commit();
-	}
+//	public void onCheckboxClicked(View view)
+//	{
+//
+//		//shPrefEditor.putInt("SleepScreen", 1);
+//	    // Is the view now checked?
+//	    boolean checked = ((CheckBox) view).isChecked();
+//
+//	    // Check which checkbox was clicked
+//	    switch(view.getId())
+//	    {
+//	        case R.id.checkBoxSleepScreen:
+//	            if (checked == true)
+//	            	shPrefEditor.putInt("SleepScreen", 1);
+//	            else
+//	            	shPrefEditor.putInt("SleepScreen", 0);
+//	            break;
+//	        case R.id.checkBoxBlackBackground:
+//	            if (checked == true)
+//	            	shPrefEditor.putInt("BlackBackground", 1);
+//	            else
+//	            	shPrefEditor.putInt("BlackBackground", 0);
+//	            break;
+//	        case R.id.checkBoxFullScreen:
+//	            if (checked == true)
+//	            	shPrefEditor.putInt("cbFullScreen", 1);
+//	            else
+//	            	shPrefEditor.putInt("cbFullScreen", 0);
+//	            break;
+//	        case R.id.checkBoxAssistButtons:
+//	            if (checked == true)
+//	            	shPrefEditor.putInt("cbAssistButtons", 1);
+//	            else
+//	            	shPrefEditor.putInt("cbAssistButtons", 0);
+//	            break;
+//			case R.id.checkBoxLastLocation:
+//				if (checked == true)
+//					shPrefEditor.putInt("StartInLastLocation", 1);
+//				else
+//					shPrefEditor.putInt("StartInLastLocation", 0);
+//				break;
+//	    }
+//	    shPrefEditor.commit();
+//	}
 
 	public void ChangeTextLengauge(int language)
 	{
