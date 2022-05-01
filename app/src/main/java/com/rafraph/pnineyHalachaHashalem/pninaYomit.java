@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -20,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,25 +66,160 @@ public class pninaYomit extends Activity {
         switch (MyLanguage)
         {
             case ENGLISH:
-                webview.loadUrl("https://ph.yhb.org.il/pninayomit-en/#page-text");
+                webview.loadUrl("https://ph.yhb.org.il/pninayomit-en/");
                 break;
             case RUSSIAN:
-                webview.loadUrl("https://ph.yhb.org.il/pninayomit-ru/#page-text");
+                webview.loadUrl("https://ph.yhb.org.il/pninayomit-ru/");
                 break;
             case FRENCH:
-                webview.loadUrl("https://ph.yhb.org.il/pninayomit-fr/#page-text");
+                webview.loadUrl("https://ph.yhb.org.il/pninayomit-fr/");
                 break;
             case SPANISH:
-                webview.loadUrl("https://ph.yhb.org.il/pninayomit-es/#page-text");
+                webview.loadUrl("https://ph.yhb.org.il/pninayomit-es/");
                 break;
             case HEBREW:
-                webview.loadUrl("https://ph.yhb.org.il/pninayomit/#page-text");
+                webview.loadUrl("https://ph.yhb.org.il/pninayomit/");
                 break;
         }
 
 
         scrool=webview.getScrollY();
+        ImageView menu= (ImageView) findViewById(R.id.menu);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(pninaYomit.this, v);
+                //popupMenu.
 
+                if(MyLanguage == ENGLISH) {
+
+                    popupMenu.getMenu().add(0,0,0,"Settings");
+                    popupMenu.getMenu().add(0,1,0,"About");
+                    popupMenu.getMenu().add(0,2,0,"Feedback");
+                    popupMenu.getMenu().add(0,3,0,"Explanation of search results");
+                    popupMenu.getMenu().add(0,4,0,"Acronyms");
+                    popupMenu.getMenu().add(0,5,0,"Approbations");
+                    popupMenu.getMenu().add(0,6,0,"Language / שפה");
+                }
+                else if(MyLanguage == RUSSIAN) {
+                    popupMenu.getMenu().add(0,0,0,"Настройки");
+                    popupMenu.getMenu().add(0,1,0,"Около");
+                    popupMenu.getMenu().add(0,2,0,"Обратная связь");
+                    popupMenu.getMenu().add(0,3,0,"Объяснение результатов поиска");
+                    popupMenu.getMenu().add(0,4,0,"Абревиатуры");
+                    popupMenu.getMenu().add(0,5,0,"Апробации");
+                    popupMenu.getMenu().add(0,6,0,"ЯЗЫК / שפה");
+                }
+                else if(MyLanguage == SPANISH) {
+                    popupMenu.getMenu().add(0,0,0,"Ajustes");
+                    popupMenu.getMenu().add(0,1,0,"Acerca de");
+                    popupMenu.getMenu().add(0,2,0,"Comentarios");
+                    popupMenu.getMenu().add(0,3,0,"Explicacion del resultado de la busqueda");
+                    popupMenu.getMenu().add(0,4,0,"Acronimos");
+                    popupMenu.getMenu().add(0,5,0,"Aprovaciones");
+                    popupMenu.getMenu().add(0,6,0,"Idioma / שפה");
+                }
+                else if(MyLanguage == FRENCH) {
+                    popupMenu.getMenu().add(0,0,0,"Definitions");
+                    popupMenu.getMenu().add(0,1,0,"A Propos de…");
+                    popupMenu.getMenu().add(0,2,0,"Commentaires");
+                    popupMenu.getMenu().add(0,3,0,"Explication de la recherche");
+                    popupMenu.getMenu().add(0,4,0,"Acronymes");
+                    popupMenu.getMenu().add(0,5,0,"Approbations");
+                    popupMenu.getMenu().add(0,6,0,"Langue / שפה");
+                }
+                else {/*this is the default*/
+                    popupMenu.getMenu().add(0,0,0,"הגדרות");
+                    popupMenu.getMenu().add(0,1,0,"אודות");
+                    popupMenu.getMenu().add(0,2,0,"משוב");
+                    popupMenu.getMenu().add(0,3,0,"הסבר על החיפוש");
+                    popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
+                    popupMenu.getMenu().add(0,5,0,"הסכמות");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,6,0,"Language / שפה");
+                }
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+                {
+
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item)
+                    {
+                        Class ourClass = null;
+                        Intent ourIntent;
+                        switch (item.getItemId())
+                        {
+                            case 0:/*settings*/
+
+                                try {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                ourIntent = new Intent(pninaYomit.this, ourClass);
+                                ourIntent.putExtra("homePage", true);
+                                startActivity(ourIntent);
+                                break;
+
+                            case 1:/*about*/
+                                try
+                                {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+                                    ourIntent = new Intent(pninaYomit.this, ourClass);
+                                    startActivity(ourIntent);
+                                }
+                                catch (ClassNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                break;
+                            case 2:/*Feedback*/
+                                try
+                                {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+                                    ourIntent = new Intent(pninaYomit.this, ourClass);
+                                    startActivity(ourIntent);
+                                }
+                                catch (ClassNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 3:/*Explanation for Search*/
+                                try
+                                {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+                                    ourIntent = new Intent(pninaYomit.this, ourClass);
+                                    startActivity(ourIntent);
+                                }
+                                catch (ClassNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 4:/*acronyms*/
+
+
+                                break;
+
+                            case 5:/*hascamot*/
+
+                                break;
+                            case 6:/*language*/
+                                ;
+                                break;
+
+
+                            default:
+                                break;
+                        }
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
         createNotiChannel();
         refresh(10);
         TextView img=(TextView) findViewById(R.id.bSendEmail);
@@ -93,6 +230,7 @@ public class pninaYomit extends Activity {
         etH.setVisibility(View.INVISIBLE);
         Sep.setVisibility(View.INVISIBLE);
         etM.setVisibility(View.INVISIBLE);
+
         LinearLayout l=(LinearLayout) findViewById(R.id.lnrOptions);
         //String[] values = {"Public", "Shared", "Private"};
         etH.setMaxValue(23);
@@ -182,7 +320,8 @@ public class pninaYomit extends Activity {
                 Toast.makeText(getApplicationContext(), "ההתראה בוטלה", Toast.LENGTH_SHORT).show();
                 etH.setVisibility(View.INVISIBLE);
                 Sep.setVisibility(View.INVISIBLE);
-                img.setPadding(50,0,0,0);
+                img.setPadding(0,0,85,0);
+                img.setText("קבע תזכורת");
                 etM.setVisibility(View.INVISIBLE);
                 l.setBackgroundColor(Color.parseColor("#fefef2"));
                 //img.setBackgroundResource(R.drawable.h_set_remainder);

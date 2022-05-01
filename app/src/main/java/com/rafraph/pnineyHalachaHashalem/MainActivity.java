@@ -88,45 +88,47 @@ public class MainActivity extends AppCompatActivity
 	private static final int E_ZMANIM       = 26;
 	private static final int E_WOMEN_PRAYER = 27;
 	private static final int E_SHABAT       = 28;
-	private static final int E_somthing     = 29;
-	private static final int S_SHABAT       = 30;
-	private static final int S_BRACHOT       =31;
-	private static final int S_MOADIM        =32;
-	private static final int S_YAMIM         =33;
-	private static final int S_PESACH        =34;
-	private static final int S_SIMCHAT       =35;
-	private static final int S_TFILA         =36;
-	private static final int S_TFILAT_NASHIM =37;
-	private static final int S_ZMANIM        =38;
-	private static final int R_HAAM         = 39;
-	private static final int R_SHABBAT      = 40;
-	private static final int R_YAMMIM       = 41;
-	private static final int R_SUCOT        = 42;
-	private static final int R_SIMCHAT      = 43;
-	private static final int R_MISHPHACHA   = 44;
-	private static final int R_PESACH       = 45;
-	private static final int R_MOADIM       = 46;
-	private static final int R_TEFILAT_NASHIM=47;
-	private static final int R_TFILA         =48;
-	private static final int R_ZMANIM        =49;
-	private static final int F_TFILA         =50;
-	private static final int F_MOADIM        =51;
-	private static final int F_SUCOT         =52;
-	private static final int F_ZMANIM        =53;
-	private static final int F_SIMCHAT       =54;
-	private static final int F_PESACH        =55;
-	private static final int F_SHABBAT       =56;
-	private static final int F_YAMMIM        =57;
-	private static final int F_TFILAT_NASHIM =58;
-	private static final int BOOKS_NUMBER	= 59;
+	private static final int E_YAMMIM 	    = 29;
+	private static final int E_MOADIM   	= 30;
+	private static final int E_SIMCHAT     	= 31;
+	private static final int S_SHABAT       = 32;
+	private static final int S_BRACHOT       =33;
+	private static final int S_MOADIM        =34;
+	private static final int S_YAMIM         =35;
+	private static final int S_PESACH        =36;
+	private static final int S_SIMCHAT       =37;
+	private static final int S_TFILA         =38;
+	private static final int S_TFILAT_NASHIM =39;
+	private static final int S_ZMANIM        =40;
+	private static final int R_HAAM         = 41;
+	private static final int R_SHABBAT      = 42;
+	private static final int R_YAMMIM       = 43;
+	private static final int R_SUCOT        = 44;
+	private static final int R_SIMCHAT      = 45;
+	private static final int R_MISHPHACHA   = 46;
+	private static final int R_PESACH       = 47;
+	private static final int R_MOADIM       = 48;
+	private static final int R_TEFILAT_NASHIM=49;
+	private static final int R_TFILA         =50;
+	private static final int R_ZMANIM        =51;
+	private static final int F_TFILA         =52;
+	private static final int F_MOADIM        =53;
+	private static final int F_SUCOT         =54;
+	private static final int F_ZMANIM        =55;
+	private static final int F_SIMCHAT       =56;
+	private static final int F_PESACH        =57;
+	private static final int F_SHABBAT       =58;
+	private static final int F_YAMMIM        =59;
+	private static final int F_TFILAT_NASHIM =60;
+	private static final int BOOKS_NUMBER	= 61;
 	private static final int HEBREW	 = 0;
 	private static final int ENGLISH = 1;
 	private static final int RUSSIAN = 2;
 	private static final int SPANISH = 3;
 	private static final int FRENCH = 4;
-	private static  int  starter = 0;
 	public  static  int pop=0;
 	private SeekBar seekbar;
+	private static int heS=0,heE=23,enS=24,enE=31,esS=32,esE=40,ruS=41,ruE=51,frS=52,frE=60;
 	private TextView cb;
 	private static  boolean  hebDisplay = true;
 	private List<String> books = new ArrayList<String>();
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity
 	SharedPreferences.Editor shPrefEditor;
 	public int BlackBackground=0, SleepScreen=1, MyLanguage = -1;
 	public MenuInflater inflater;
-	public ActionBar ab;
+	public ActionBar actionBar;
 	public Menu abMenu=null;
 	public EditText TextToDecode;
 	public Dialog acronymsDialog, newVersionDialog, simchatDialog, languageDialog, booksDownloadDialog;
@@ -153,6 +155,7 @@ public class MainActivity extends AppCompatActivity
 	public String HneedPr="זקוקה הרשאה",Hmassage="הרשאה זו נצרכת בשביל להוריד  את הספרים",Hconfirm="אשר",Hcancel="סרב";
 	public String EnSureDel="books Deleted",EnmassageDel="this book will deleted",EnconfirmDel="confirm",EncancelDel="cancel";
 	private int STORAGE_PREMISSION_CODE=1;
+	public boolean HomePage;
 	//private StorageReference storageRef;
 	//private FirebaseStorage storage;
 	//private FirebaseAuth mAuth;
@@ -176,52 +179,170 @@ public class MainActivity extends AppCompatActivity
 
 		//mAuth = FirebaseAuth.getInstance();
 
-		ab = getSupportActionBar();
+		actionBar = getSupportActionBar();
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.lvExp);
 		expListView.setGroupIndicator(null);
-		Button pninaYomit = (Button) findViewById(R.id.button);
-		pninaYomit.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Class ourClass = null;
-				try {
-					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-				Intent ourIntent = new Intent(MainActivity.this, ourClass);
-				startActivity(ourIntent);
-			}
-		});
 
 		// preparing list data
 		prepareListData();
 		if(hebDisplay) {
-			for (int i = 0; i < 24; i++)
+			for (int i = heS; i <= heE; i++)
 				listDisplay.add(listDataHeader.get(i));
 		}
 
+		ImageView menu= (ImageView) findViewById(R.id.menu);
+		menu.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				PopupMenu popupMenu = new PopupMenu(MainActivity.this, v);
+				//popupMenu.
+
+				if(MyLanguage == ENGLISH) {
+
+					popupMenu.getMenu().add("Settings");
+					popupMenu.getMenu().add("About");
+					popupMenu.getMenu().add("Feedback");
+					popupMenu.getMenu().add("Explanation of search results");
+					popupMenu.getMenu().add("Acronyms");
+					popupMenu.getMenu().add("Approbations");
+					popupMenu.getMenu().add("Language / שפה");
+				}
+				else if(MyLanguage == RUSSIAN) {
+					popupMenu.getMenu().add("Настройки");
+					popupMenu.getMenu().add("Около");
+					popupMenu.getMenu().add("Обратная связь");
+					popupMenu.getMenu().add("Объяснение результатов поиска");
+					popupMenu.getMenu().add("Абревиатуры");
+					popupMenu.getMenu().add("Апробации");
+					popupMenu.getMenu().add("ЯЗЫК / שפה");
+				}
+				else if(MyLanguage == SPANISH) {
+					popupMenu.getMenu().add("Ajustes");
+					popupMenu.getMenu().add("Acerca de");
+					popupMenu.getMenu().add("Comentarios");
+					popupMenu.getMenu().add("Explicacion del resultado de la busqueda");
+					popupMenu.getMenu().add("Acronimos");
+					popupMenu.getMenu().add("Aprovaciones");
+					popupMenu.getMenu().add("Idioma / שפה");
+				}
+				else if(MyLanguage == FRENCH) {
+					popupMenu.getMenu().add("Definitions");
+					popupMenu.getMenu().add("A Propos de…");
+					popupMenu.getMenu().add("Commentaires");
+					popupMenu.getMenu().add("Explication de la recherche");
+					popupMenu.getMenu().add("Acronymes");
+					popupMenu.getMenu().add("Approbations");
+					popupMenu.getMenu().add("Langue / שפה");
+				}
+				else {/*this is the default*/
+					popupMenu.getMenu().add("הגדרות");
+					popupMenu.getMenu().add("אודות");
+					popupMenu.getMenu().add("משוב");
+					popupMenu.getMenu().add("הסבר על החיפוש");
+					popupMenu.getMenu().add("ראשי תיבות");
+					popupMenu.getMenu().add("הסכמות");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add("Language / שפה");
+				}
+				popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+				{
+					@Override
+					public boolean onMenuItemClick(MenuItem item)
+					{
+						Class ourClass = null;
+						Intent ourIntent;
+						switch (item.getItemId())
+						{
+							case 0:/*settings*/
+
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(MainActivity.this, ourClass);
+								startActivity(ourIntent);
+								break;
+							case 1:/*about*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+									ourIntent = new Intent(MainActivity.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+
+								break;
+							case 2:/*Feedback*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+									ourIntent = new Intent(MainActivity.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+							case 3:/*Explanation for Search*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+									ourIntent = new Intent(MainActivity.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+							case 4:/*acronyms*/
+
+								break;
+							case 5:/*hascamot*/
+
+								break;
+							case 6:/*language*/
+								;
+								break;
+
+
+							default:
+								break;
+						}
+						return true;
+					}
+				});
+
+				popupMenu.show();
+			}
+		});
+
 		File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
 		if(fileEn.exists())
-			for (int i = 24; i < 30; i++)
+			for (int i = enS; i <= enE; i++)
 				listDisplay.add(listDataHeader.get(i));
 		File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
 		if(fileEs.exists())
-			for (int i = 30; i < 38; i++)
+			for (int i = esS; i <= esE; i++)
 				listDisplay.add(listDataHeader.get(i));
 		File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
 		if(fileR.exists())
-			for (int i = 38; i < 49; i++)
+			for (int i = ruS; i <= ruE; i++)
 				listDisplay.add(listDataHeader.get(i));
 		File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
 		if(fileF.exists())
-			for (int i = 49; i < 59; i++)
+			for (int i = frS; i <= frE; i++)
 				listDisplay.add(listDataHeader.get(i));
 
 
 		listAdapter = new ExpandableListAdapter(this, listDisplay, listDataChild);
-		starter = 0;
+
 
 		// setting list adapter
 		expListView.setAdapter(listAdapter);
@@ -253,6 +374,7 @@ public class MainActivity extends AppCompatActivity
 						book_chapter[0] = listDataHeader.indexOf(listDisplay.get(groupPosition));
 						book_chapter[1] = childPosition;
 						ourIntent.putExtra("book_chapter", book_chapter);
+						//ourIntent.putExtra("readonly", true);
 						startActivity(ourIntent);
 
 				}
@@ -270,7 +392,10 @@ public class MainActivity extends AppCompatActivity
 		{
 			languageDialog(context,0);
 		}
-
+		Bundle extras = getIntent().getExtras();
+		 HomePage = extras.getBoolean("homePage", false);
+		if(HomePage)
+			languageDialog(context,1);
 		/*display the new features of this version*/
 		PackageManager packageManager = context.getPackageManager();
 		String packageName = context.getPackageName();
@@ -324,17 +449,17 @@ public class MainActivity extends AppCompatActivity
 
 		if(BlackBackground == 1)
 		{
-			ab.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
+			actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
 			inflater.inflate(R.menu.tochen_actionbar_black, menu);
-			ab.setTitle(Html.fromHtml("<font color=\"white\">" + tochen + "</font>"));
+			actionBar.setTitle(Html.fromHtml("<font color=\"white\">" + tochen + "</font>"));
 			listAdapter.setTextColor(Color.WHITE);//to set the list text color
 			expListView.setAdapter(listAdapter);//to set the list text color
 		}
 		else
 		{
-			ab.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
+			actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
 			inflater.inflate(R.menu.tochen_actionbar, menu);
-			ab.setTitle(Html.fromHtml("<font color=\"black\">" + tochen + "</font>"));
+			actionBar.setTitle(Html.fromHtml("<font color=\"black\">" + tochen + "</font>"));
 			listAdapter.setTextColor(Color.BLACK);//to set the list text color
 			expListView.setAdapter(listAdapter);//to set the list text color
 		}
@@ -555,7 +680,9 @@ public class MainActivity extends AppCompatActivity
 			listDataHeader.add("Z’manim (en)");
 			listDataHeader.add("Laws of Women’s Prayer (en)");
 			listDataHeader.add("Laws of Shabbat (en)");
-			listDataHeader.add("e_somthing (en)");
+			listDataHeader.add("yammim noraiim (en)");
+			listDataHeader.add("moadim (en)");
+			listDataHeader.add("simchat habait (en)");
 			listDataHeader.add("Shabbat (Es)");
 			listDataHeader.add("brachot (Es)");
 			listDataHeader.add("moadim (Es)");
@@ -1155,6 +1282,45 @@ public class MainActivity extends AppCompatActivity
 		E_Shabat.add("28 - Illness That Is Not Life-Threatening");
 		E_Shabat.add("29 - Eruvin");
 		E_Shabat.add("30 - Teĥum Shabbat ");
+		List<String> e_yammim = new ArrayList<String>();
+		e_yammim.add("Contents, Introduction");
+		e_yammim.add("1 - Judgment, Reward, and Punishment");
+		e_yammim.add("2 - Seliḥot and Prayers");
+		e_yammim.add("3 - Rosh Ha-shana");
+		e_yammim.add("4 - The Mitzva of Shofar");
+		e_yammim.add("5 - The Ten Days of Repentance");
+		e_yammim.add("6 - Yom Kippur");
+		e_yammim.add("7 - Laws of Yom Kippur");
+		e_yammim.add("8 - The Laws of the Fast");
+		e_yammim.add("9 - The Other Deprivations");
+		e_yammim.add("10 - The Yom Kippur Avoda");
+		List<String> e_moadim = new ArrayList<String>();
+		e_moadim.add("Contents, Introduction");
+		e_moadim.add("1 - Introduction");
+		e_moadim.add("2 - Positive Yom Tov Obligations");
+		e_moadim.add("3 - The Principles of the Melakhot");
+		e_moadim.add("4 - Melakhot Pertaining to Food");
+		e_moadim.add("5 - Mav’ir, Mekhabeh, and Electricity");
+		e_moadim.add("6 - Hotza’ah and Muktzeh");
+		e_moadim.add("7 - Various Laws of Yom Tov");
+		e_moadim.add("8 - Eruv Tavshilin");
+		e_moadim.add("9 - Yom Tov Sheni");
+		e_moadim.add("10 - The Mitzvot of Ḥol Ha-mo’ed");
+		e_moadim.add("11 - Melakha on Ḥol Ha-mo’ed");
+		e_moadim.add("12 - When Work Is Permitted on Ḥol Ha-mo’ed");
+		e_moadim.add("13 - Shavu’ot");
+		List<String> e_simchat = new ArrayList<String>();
+		e_simchat.add("Contents, Introduction");
+		e_simchat.add("1 - The Mitzva of Marital Sexual Relations");
+		e_simchat.add("2 - The Laws of Ona");
+		e_simchat.add("3 - Sanctity and Intention");
+		e_simchat.add("4 - Safeguarding the Covenant of Circumcision");
+		e_simchat.add("5 - Procreation");
+		e_simchat.add("6 - Complications and Infertility");
+		e_simchat.add("7 - Castration and Sterilization");
+		e_simchat.add("8 – Consolation for the Childless");
+		e_simchat.add("9 - Terminating Pregnancy");
+
 
 		List<String> F_tefila = new ArrayList<String>();
 		F_tefila.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
@@ -1765,7 +1931,9 @@ public class MainActivity extends AppCompatActivity
 			listDataChild.put(listDataHeader.get(E_ZMANIM), E_zmanim);
 			listDataChild.put(listDataHeader.get(E_WOMEN_PRAYER), E_Women_Prayer);
 			listDataChild.put(listDataHeader.get(E_SHABAT), E_Shabat);
-			listDataChild.put(listDataHeader.get(E_somthing), E_Shabat);
+			listDataChild.put(listDataHeader.get(E_YAMMIM), e_yammim);
+			listDataChild.put(listDataHeader.get(E_MOADIM), e_moadim);
+			listDataChild.put(listDataHeader.get(E_SIMCHAT), e_simchat);
 			listDataChild.put(listDataHeader.get(F_TFILA), F_tefila);
 			listDataChild.put(listDataHeader.get(F_MOADIM), f_moadim);
 			listDataChild.put(listDataHeader.get(F_SUCOT), f_sucot);
@@ -2294,8 +2462,20 @@ private void initializeSeekBar()
 				shPrefEditor.commit();
 				changeL = true;
 
-				if (firstLang==1)
-					startActivity(getIntent());
+				if (firstLang==1) {
+					if (HomePage) {
+						Class ourClass = null;
+						try {
+							ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						Intent ourIntent = new Intent(MainActivity.this, ourClass);
+						startActivity(ourIntent);
+					}
+					else
+						startActivity(getIntent());
+				}
 				else
 				{
 					Class ourClass = null;
@@ -2318,6 +2498,17 @@ private void initializeSeekBar()
 					changeL = true;
 
 					if (firstLang == 1)
+						if (HomePage) {
+							Class ourClass = null;
+							try {
+								ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+							} catch (ClassNotFoundException e) {
+								e.printStackTrace();
+							}
+							Intent ourIntent = new Intent(MainActivity.this, ourClass);
+							startActivity(ourIntent);
+						}
+						else
 						startActivity(getIntent());
 					else {
 						Class ourClass = null;
@@ -2664,6 +2855,17 @@ private void initializeSeekBar()
 				changeL = true;
 
 					if (firstLang==1)
+						if (HomePage) {
+							Class ourClass = null;
+							try {
+								ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+							} catch (ClassNotFoundException e) {
+								e.printStackTrace();
+							}
+							Intent ourIntent = new Intent(MainActivity.this, ourClass);
+							startActivity(ourIntent);
+						}
+						else
 						startActivity(getIntent());
 					else
 					{

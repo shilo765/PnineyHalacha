@@ -5,10 +5,18 @@
 
     <item
         android:id="@+id/action_search"
-        android:icon= "@drawable/to_main2"
+        android:icon="@drawable/a1"
         android:title="@string/action_search"
-        app:showAsAction="always"
-        />
+        app:showAsAction="always">
+
+    </item>
+    <item
+        android:id="@+id/action_searc"
+        android:icon="@drawable/a1"
+        android:title="@string/action_search"
+        app:showAsAction="always">
+
+    </item>
     <item android:id="@+id/action_bookmarks"
           android:icon="@drawable/ic_action_bookmarks"
           android:title="@string/bookmarks_icon"
@@ -20,9 +28,9 @@
     <item android:id="@+id/action_config"
           android:icon="@drawable/ic_action_config"
           android:title="@string/action_config"
-          app:showAsAction="always"
-        app:popupTheme="@style/ThemeOverlay.mypopuoTheme"
-        android:theme="?attr/actionBarTheme"/>
+          app:showAsAction="always" />
+
+
     
 
 </menu>

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -96,46 +97,48 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int HAR_SUCOT      = 21;
 	private static final int HAR_SHABAT     = 22;
 	private static final int HAR_SIMCHAT    = 23;
-	private static final int BOOKS_HEB_NUMBER= 24;
+	private static final int BOOKS_HEB_NUMBER=24;
 	private static final int E_TEFILA       = 24;
 	private static final int E_PESACH       = 25;
 	private static final int E_ZMANIM       = 26;
 	private static final int E_WOMEN_PRAYER = 27;
 	private static final int E_SHABAT       = 28;
-	private static final int E_somthing       = 29;
-	private static final int S_SHABAT       = 30;
-	private static final int S_BRACHOT       =31;
-	private static final int S_MOADIM        =32;
-	private static final int S_YAMIM         =33;
-	private static final int S_PESACH        =34;
-	private static final int S_SIMCHAT       =35;
-	private static final int S_TFILA         =36;
-	private static final int S_TFILAT_NASHIM =37;
-	private static final int S_ZMANIM        =38;
-	private static final int R_HAAM         = 39;
-	private static final int R_SHABBAT      = 40;
-	private static final int R_YAMMIM       = 41;
-	private static final int R_SUCOT        = 42;
-	private static final int R_SIMCHAT      = 43;
-	private static final int R_MISHPHACHA   = 44;
-	private static final int R_PESACH       = 45;
-	private static final int R_MOADIM       = 46;
-	private static final int R_TEFILAT_NASHIM=47;
-	private static final int R_TFILA         =48;
-	private static final int R_ZMANIM        =49;
-	private static final int F_TEFILA        =50;
-	private static final int F_MOADIM        =51;
-	private static final int F_SUCOT         =52;
-	private static final int F_ZMANIM        =53;
-	private static final int F_SIMCHAT       =54;
-	private static final int F_PESACH        =55;
-	private static final int F_SHABBAT       =56;
-	private static final int F_YAMMIM        =57;
-	private static final int F_TFILAT_NASHIM =58;
-	private static final int BOOKS_NUMBER	= 59;
+	private static final int E_YAMMIM 	    = 29;
+	private static final int E_MOADIM   	= 30;
+	private static final int E_SIMCHAT     	= 31;
+	private static final int S_SHABAT       = 32;
+	private static final int S_BRACHOT       =33;
+	private static final int S_MOADIM        =34;
+	private static final int S_YAMIM         =35;
+	private static final int S_PESACH        =36;
+	private static final int S_SIMCHAT       =37;
+	private static final int S_TFILA         =38;
+	private static final int S_TFILAT_NASHIM =39;
+	private static final int S_ZMANIM        =40;
+	private static final int R_HAAM         = 41;
+	private static final int R_SHABBAT      = 42;
+	private static final int R_YAMMIM       = 43;
+	private static final int R_SUCOT        = 44;
+	private static final int R_SIMCHAT      = 45;
+	private static final int R_MISHPHACHA   = 46;
+	private static final int R_PESACH       = 47;
+	private static final int R_MOADIM       = 48;
+	private static final int R_TEFILAT_NASHIM=49;
+	private static final int R_TFILA         =50;
+	private static final int R_ZMANIM        =51;
+	private static final int F_TEFILA         =52;
+	private static final int F_MOADIM        =53;
+	private static final int F_SUCOT         =54;
+	private static final int F_ZMANIM        =55;
+	private static final int F_SIMCHAT       =56;
+	private static final int F_PESACH        =57;
+	private static final int F_SHABBAT       =58;
+	private static final int F_YAMMIM        =59;
+	private static final int F_TFILAT_NASHIM =60;
+	private static final int BOOKS_NUMBER	= 61;
 
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42 43  44  45  46  47  48  49  50  51  52 53  54  55  56  57  58*/
-	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 1 , 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17, 26, 13, 8 ,17, 10, 16, 30, 10, 24  };
+	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29   30  31  32  33  34  35  36  37  38  39  40  41  42  43  44 45  46  47  48  49  50  51  52  53  54 55  56  57  58  59  60*/
+	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 10 , 13,  9, 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17, 26, 13, 8 ,17, 10, 16, 30, 10, 24  };
 	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA,R_TFILA};
 	public Dialog dialogModes;
 	private static final int HEBREW	 = 0;
@@ -422,6 +425,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						Intent ourIntent = new Intent(textMain.this, ourClass);
 
 						ourIntent.putExtra("audio_id", Integer.parseInt(audio_id));
+						ourIntent.putExtra("MyLanguage", MyLanguage);
 						ourIntent.putExtra("book_id", book_chapter[0]);
 						ourIntent.putExtra("chapter_id", book_chapter[1]);
 						ourIntent.putExtra("chapter_id", book_chapter[1]);
@@ -650,15 +654,47 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		String input;
 
 		fileName = getClearUrl();
+		String[] splitString = fileName.split("/");
 
 		if ((fileName.equals(lastFileName) == false))
 		{
 			lastFileName = fileName;
-			prefix = "file:///android_asset/";
-			fileNameOnly = fileName.substring(prefix.length());
+
 			try
 			{
-				is = getAssets().open(fileNameOnly);
+				File file=null;
+				switch (splitString[splitString.length-2])
+				{
+					case "EnglishBooks":
+						prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/";
+						fileNameOnly = fileName.substring(prefix.length());
+						file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks/"+fileNameOnly);
+						is = new FileInputStream(file);
+						break;
+					case "RussianBooks":
+						prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/";
+						fileNameOnly = fileName.substring(prefix.length());
+						file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks/"+fileNameOnly);
+						is = new FileInputStream(file);
+						break;
+					case "FrenchBooks":
+						prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/";
+						fileNameOnly = fileName.substring(prefix.length());
+						file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks/"+fileNameOnly);
+						is = new FileInputStream(file);
+						break;
+					case "SpanishBooks":
+						prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/";
+						fileNameOnly = fileName.substring(prefix.length());
+						file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks/"+fileNameOnly);
+						is = new FileInputStream(file);
+						break;
+					default:
+						prefix = "file:///android_asset/";
+						fileNameOnly = fileName.substring(prefix.length());
+						is = getAssets().open(fileNameOnly);
+						break;
+				}
 				size = is.available();
 				buffer = new byte[size];
 				is.read(buffer);
@@ -891,7 +927,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					ourIntent.putExtra("chapter_id", book_chapter[1]);
 					ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
 					ourIntent.putExtra("hearAndRead", true);
-					ourIntent.putExtra("Mylanguage", MyLanguage);
+					ourIntent.putExtra("MyLanguage", MyLanguage);
 					ourIntent.putExtra("scroolY", webview.getScrollY());
 					ourIntent.putExtra("fontSize", fontSize);
 					findAllHeaders(ourIntent);
@@ -1164,29 +1200,45 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		fileName = getClearUrl();
 		String[] splitString = fileName.split("/");
+		try
+		{
+			File file=null;
+			InputStream is=null;
 		switch (splitString[splitString.length-2])
 		{
 			case "EnglishBooks":
 				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/";
+				fileNameOnly = fileName.substring(prefix.length());
+				file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks/"+fileNameOnly);
+				is = new FileInputStream(file);
 				break;
 			case "RussianBooks":
 				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/";
+				fileNameOnly = fileName.substring(prefix.length());
+				file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks/"+fileNameOnly);
+				is = new FileInputStream(file);
 				break;
 			case "FrenchBooks":
 				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/";
+				fileNameOnly = fileName.substring(prefix.length());
+				file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks/"+fileNameOnly);
+				is = new FileInputStream(file);
 				break;
 			case "SpanishBooks":
 				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/";
+				fileNameOnly = fileName.substring(prefix.length());
+				file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks/"+fileNameOnly);
+				is = new FileInputStream(file);
 				break;
 			default:
 				prefix = "file:///android_asset/";
+				fileNameOnly = fileName.substring(prefix.length());
+				is = getAssets().open(fileNameOnly);
 				break;
 		}
 
-		fileNameOnly = fileName.substring(prefix.length());
-		try
-		{
-			InputStream is = getAssets().open(fileNameOnly);
+
+			//InputStream is = getAssets().open(fileNameOnly);
 			int size = is.available();
 			byte[] buffer = new byte[size];
 			is.read(buffer);
@@ -1252,34 +1304,48 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		ArrayList<String> sections2 = new ArrayList<String>();
 		fileName = getClearUrl();
 		String[] splitString = fileName.split("/");
-		switch (splitString[splitString.length-2])
-		{
-			case "EnglishBooks":
-				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/";
-				break;
-			case "RussianBooks":
-				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/";
-				break;
-			case "FrenchBooks":
-				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/";
-				break;
-			case "SpanishBooks":
-				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/";
-				break;
-			default:
-				prefix = "file:///android_asset/";
-				break;
-		}
-		fileNameOnly = fileName.substring(prefix.length());
-		fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
-
 		for(int i=1; i<=lastChapter[book_chapter[0]]; i++) {
 			try {
-				InputStream is;
-				if (book_chapter[0] == KASHRUT_B)
-					is = getAssets().open(fileNameOnly+(i+19)+".html");
-				else
-					is = getAssets().open(fileNameOnly+i+".html");
+					File file=null;
+					InputStream is=null;
+					switch (splitString[splitString.length-2])
+					{
+						case "EnglishBooks":
+							prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/";
+							fileNameOnly = fileName.substring(prefix.length());
+							fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
+							file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks/"+fileNameOnly);
+							is = new FileInputStream(file);
+							break;
+						case "RussianBooks":
+							prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/";
+							fileNameOnly = fileName.substring(prefix.length());
+							fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
+							file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks/"+fileNameOnly);
+							is = new FileInputStream(file);
+							break;
+						case "FrenchBooks":
+							prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/";
+							fileNameOnly = fileName.substring(prefix.length());
+							fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
+							file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks/"+fileNameOnly);
+							is = new FileInputStream(file);
+							break;
+						case "SpanishBooks":
+							prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/";
+							fileNameOnly = fileName.substring(prefix.length());
+							fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
+							file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks/"+fileNameOnly);
+							is = new FileInputStream(file);
+							break;
+						default:
+							prefix = "file:///android_asset/";
+							fileNameOnly = fileName.substring(prefix.length());
+							is = getAssets().open(fileNameOnly);
+							break;
+					}
+
+
 				int size = is.available();
 				byte[] buffer = new byte[size];
 				is.read(buffer);
@@ -1867,6 +1933,44 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[E_SHABAT][28] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_28.html";
 		chaptersFiles[E_SHABAT][29] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_29.html";
 		chaptersFiles[E_SHABAT][30] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_30.html";
+		/*E_yammim*/
+		chaptersFiles[E_YAMMIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_tochen.html";
+		chaptersFiles[E_YAMMIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_1.html";
+		chaptersFiles[E_YAMMIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_2.html";
+		chaptersFiles[E_YAMMIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_3.html";
+		chaptersFiles[E_YAMMIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_4.html";
+		chaptersFiles[E_YAMMIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_5.html";
+		chaptersFiles[E_YAMMIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_6.html";
+		chaptersFiles[E_YAMMIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_7.html";
+		chaptersFiles[E_YAMMIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_8.html";
+		chaptersFiles[E_YAMMIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_9.html";
+		chaptersFiles[E_YAMMIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_10.html";
+		/*E_moadim*/
+		chaptersFiles[E_MOADIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_tochen.html";
+		chaptersFiles[E_MOADIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_1.html";
+		chaptersFiles[E_MOADIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_2.html";
+		chaptersFiles[E_MOADIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_3.html";
+		chaptersFiles[E_MOADIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_4.html";
+		chaptersFiles[E_MOADIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_5.html";
+		chaptersFiles[E_MOADIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_6.html";
+		chaptersFiles[E_MOADIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_7.html";
+		chaptersFiles[E_MOADIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_8.html";
+		chaptersFiles[E_MOADIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_9.html";
+		chaptersFiles[E_MOADIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_10.html";
+		chaptersFiles[E_MOADIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_11.html";
+		chaptersFiles[E_MOADIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_12.html";
+		chaptersFiles[E_MOADIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_13.html";
+		/*E_simchat*/
+		chaptersFiles[E_SIMCHAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_tochen.html";
+		chaptersFiles[E_SIMCHAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_1.html";
+		chaptersFiles[E_SIMCHAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_2.html";
+		chaptersFiles[E_SIMCHAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_3.html";
+		chaptersFiles[E_SIMCHAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_4.html";
+		chaptersFiles[E_SIMCHAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_5.html";
+		chaptersFiles[E_SIMCHAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_6.html";
+		chaptersFiles[E_SIMCHAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_7.html";
+		chaptersFiles[E_SIMCHAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_8.html";
+		chaptersFiles[E_SIMCHAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_9.html";
 		/*F_TEFILA*/
 		chaptersFiles[F_TEFILA][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_tochen.html";
 		chaptersFiles[F_TEFILA][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_1.html";
@@ -2917,75 +3021,79 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			case HAR_BRACHOT:
 				return "הר' ברכות";
 			case E_TEFILA:
-				return "Tefila";
+				return "Tefila(en)";
 			case E_PESACH:
-				return "Pesach";
+				return "Pesach(en)";
 			case E_ZMANIM:
-				return "Zmanim";
+				return "Zmanim(en)";
 			case E_WOMEN_PRAYER:
-				return "Women’s Prayer";
+				return "Women’s Prayer(en)";
 			case E_SHABAT:
-				return "Shabbat";
-			case E_somthing:
-				return "e_somthing";
+				return "Shabbat(en)";
+			case E_YAMMIM:
+				return "yammim(en)";
+			case E_MOADIM:
+				return "moadim(en)";
+			case E_SIMCHAT:
+				return "simchat habait(en)";
 			case F_TEFILA:
-				return "La prière d’Israël";
+				return "La prière d’Israël(fr)";
 			case F_MOADIM:
-				return "moadim(french)";
+				return "moadim(fr)";
 			case F_SUCOT:
-				return "sucot(french)";
+				return "sucot(fr)";
 			case F_ZMANIM:
-				return "zmanim(french)";
+				return "zmanim(fr)";
 			case F_SIMCHAT:
-				return "simchat habait(french)";
+				return "simchat habait(fr)";
 			case F_PESACH:
-				return "pesach(french)";
+				return "pesach(fr)";
 			case F_SHABBAT:
-				return "shabbat(french)";
+				return "shabbat(fr)";
 			case F_TFILAT_NASHIM:
-				return "tfilat nashim(french)";
+				return "tfilat nashim(fr)";
 			case F_YAMMIM:
-				return "yammim noraiim(french)";
+				return "yammim noraiim(fr)";
 			case S_SHABAT:
-				return "Shabbat (Español)";
+				return "Shabbat (Es)";
 			case S_BRACHOT:
-				return "Brachot (Español)";
+				return "Brachot (Es)";
 			case S_MOADIM:
-				return "Moadim (Español)";
+				return "Moadim (Es)";
 			case S_YAMIM:
-				return "Yamim noriim(Español)";
+				return "Yamim noriim(Es)";
 			case S_PESACH:
-				return "Pesach (Español)";
+				return "Pesach (Es)";
 			case S_SIMCHAT:
-				return "Simchat habit (Español)";
+				return "Simchat habit (Es)";
 			case S_TFILA:
-				return "Tfila (Español)";
+				return "Tfila (Es)";
 			case S_TFILAT_NASHIM:
-				return "Tfilat nashim (Español)";
+				return "Tfilat nashim (Es)";
 			case S_ZMANIM:
-				return "Zmanim (Español)";
+				return "Zmanim (Es)";
 			case R_HAAM:
-				return "haam vehaarez(russian)";
+				return "haam vehaarez(ru)";
 			case R_SHABBAT:
-				return "shabbat(russian)";
+				return "shabbat(ru)";
 			case R_YAMMIM:
-				return "yamim noriim(russian)";
+				return "yamim noriim(ru)";
 			case R_SUCOT:
-				return "sucot(russian)";
+				return "sucot(ru)";
 			case R_SIMCHAT:
-				return "simchat habiit(russian)";
+				return "simchat habiit(ru)";
 			case R_MISHPHACHA:
-				return "mishpacha(russian)";
+				return "mishpacha(ru)";
 			case R_PESACH:
-				return "pesach(russian)";
+				return "pesach(ru)";
 			case R_MOADIM:
-				return "moadim(russian)";
+				return "moadim(ru)";
 			case R_TEFILAT_NASHIM:
-				return "tfilat nashim(russian)";
+				return "tfilat nashim(ru)";
 			case R_TFILA:
-				return "tfila(russian)";
+				return "tfila(ru)";
 			case R_ZMANIM:
-				return "zmanim(russian)";
+				return "zmanim(ru)";
 			default:
 				return "לא ידוע";
 		}

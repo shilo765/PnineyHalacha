@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/drawable/background_list_item.xml" value="0.3828125" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/drawable/ic_search_black_24dp.xml" value="0.2078125" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/about_pninei.xml" value="0.3775401069518717" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/acronyms.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/layout/activity_about.xml" value="0.36666666666666664" />
@@ -47,12 +48,13 @@
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/actionbar_textmain_black.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/bookmark.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/bookmarks.xml" value="0.18385416666666668" />
-        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/down_menu.xml" value="0.1953125" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/down_menu.xml" value="0.67" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/down_menu_english.xml" value="0.1953125" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/down_menu_french.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/down_menu_russian.xml" value="0.1953125" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/down_menu_spanish.xml" value="0.1953125" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/feedback.xml" value="0.1953125" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/main_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/popup_sections.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/popupmenu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/searchable.xml" value="0.36666666666666664" />

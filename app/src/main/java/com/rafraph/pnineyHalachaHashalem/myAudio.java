@@ -64,7 +64,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private static int API;
 
     /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48*/
-    public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10};
     String[][] chaptersNames = new String[BOOKS_NUMBER][32];
     private static final int BRACHOT = 0;
     private static final int HAAMVEHAAREZ = 1;
@@ -99,7 +99,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private static final int F_TEFILA = 29;
     private static final int S_SHABAT = 30;
     private static final int R_TFILA = 48;
-    private static final int BOOKS_NUMBER = 32;
+    private static final int BOOKS_NUMBER = 49;
     private static final int HEBREW = 0;
     private static final int ENGLISH = 1;
     private static final int RUSSIAN = 2;
@@ -164,6 +164,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public LayoutInflater inf;
     public View infView;
     public RelativeLayout rl;
+    public  LinearLayout ll;
     public String acronymsText;
     public Date time = new Date();
     public int lastScrool = 0;
@@ -249,7 +250,13 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         extras = getIntent().getExtras();
-        MyLanguage = extras.getInt("MyLanguage");
+        mPrefs = getSharedPreferences(PREFS_NAME, 0);
+        shPrefEditor = mPrefs.edit();
+
+        MyLanguage = mPrefs.getInt("MyLanguage", 0);
+
+
+
         hearAndRead = extras.getBoolean("hearAndRead");
         //PRAPRE TO READ AND LISTEN VIEW
         if (hearAndRead)
@@ -262,11 +269,13 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             inf = getLayoutInflater();
             infView = inf.inflate(R.layout.tochen_actionbar_lay, null);
             rl = (RelativeLayout) findViewById(R.id.content);
+
             infView.setVisibility(View.VISIBLE);
             rl.addView(infView);
         }
         context = this;
-
+        ll = (LinearLayout) findViewById(R.id.hi);
+        //ll.setVisibility(View.INVISIBLE);
         //to swich to read and hear mode change here and 269+- to if(true)
         if (hearAndRead) {
 
@@ -381,7 +390,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         System.out.println("shilo7777777777777777777777777777777777777777777777777"+extras.getInt("book_id")+":fff:"+extras.getInt("chapter_id")+"::"+extras.getInt("audio_id")+extras.getString("webLink"));
         if (hearAndRead) {
             scrollPos=getIntent().getIntExtra("scroolY",0);
-            webview.scrollTo(0,scrollPos);
             fontSize = extras.getInt("fontSize");
             webSettings.setMinimumFontSize(fontSize);
 
