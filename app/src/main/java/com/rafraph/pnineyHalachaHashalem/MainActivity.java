@@ -190,8 +190,26 @@ public class MainActivity extends AppCompatActivity
 			for (int i = heS; i <= heE; i++)
 				listDisplay.add(listDataHeader.get(i));
 		}
-
+		ImageView toMain= (ImageView) findViewById(R.id.b_chap);
+		toMain.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try
+				{
+					Class ourClass = null;
+					Intent ourIntent;
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+					ourIntent = new Intent(MainActivity.this, ourClass);
+					startActivity(ourIntent);
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
 		ImageView menu= (ImageView) findViewById(R.id.menu);
+
 		menu.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -200,53 +218,54 @@ public class MainActivity extends AppCompatActivity
 
 				if(MyLanguage == ENGLISH) {
 
-					popupMenu.getMenu().add("Settings");
-					popupMenu.getMenu().add("About");
-					popupMenu.getMenu().add("Feedback");
-					popupMenu.getMenu().add("Explanation of search results");
-					popupMenu.getMenu().add("Acronyms");
-					popupMenu.getMenu().add("Approbations");
-					popupMenu.getMenu().add("Language / שפה");
+					popupMenu.getMenu().add(0,0,0,"Settings");
+					popupMenu.getMenu().add(0,1,0,"About");
+					popupMenu.getMenu().add(0,2,0,"Feedback");
+					popupMenu.getMenu().add(0,3,0,"Explanation of search results");
+					popupMenu.getMenu().add(0,4,0,"Acronyms");
+					popupMenu.getMenu().add(0,5,0,"Approbations");
+					popupMenu.getMenu().add(0,6,0,"Language / שפה");
 				}
 				else if(MyLanguage == RUSSIAN) {
-					popupMenu.getMenu().add("Настройки");
-					popupMenu.getMenu().add("Около");
-					popupMenu.getMenu().add("Обратная связь");
-					popupMenu.getMenu().add("Объяснение результатов поиска");
-					popupMenu.getMenu().add("Абревиатуры");
-					popupMenu.getMenu().add("Апробации");
-					popupMenu.getMenu().add("ЯЗЫК / שפה");
+					popupMenu.getMenu().add(0,0,0,"Настройки");
+					popupMenu.getMenu().add(0,1,0,"Около");
+					popupMenu.getMenu().add(0,2,0,"Обратная связь");
+					popupMenu.getMenu().add(0,3,0,"Объяснение результатов поиска");
+					popupMenu.getMenu().add(0,4,0,"Абревиатуры");
+					popupMenu.getMenu().add(0,5,0,"Апробации");
+					popupMenu.getMenu().add(0,6,0,"ЯЗЫК / שפה");
 				}
 				else if(MyLanguage == SPANISH) {
-					popupMenu.getMenu().add("Ajustes");
-					popupMenu.getMenu().add("Acerca de");
-					popupMenu.getMenu().add("Comentarios");
-					popupMenu.getMenu().add("Explicacion del resultado de la busqueda");
-					popupMenu.getMenu().add("Acronimos");
-					popupMenu.getMenu().add("Aprovaciones");
-					popupMenu.getMenu().add("Idioma / שפה");
+					popupMenu.getMenu().add(0,0,0,"Ajustes");
+					popupMenu.getMenu().add(0,1,0,"Acerca de");
+					popupMenu.getMenu().add(0,2,0,"Comentarios");
+					popupMenu.getMenu().add(0,3,0,"Explicacion del resultado de la busqueda");
+					popupMenu.getMenu().add(0,4,0,"Acronimos");
+					popupMenu.getMenu().add(0,5,0,"Aprovaciones");
+					popupMenu.getMenu().add(0,6,0,"Idioma / שפה");
 				}
 				else if(MyLanguage == FRENCH) {
-					popupMenu.getMenu().add("Definitions");
-					popupMenu.getMenu().add("A Propos de…");
-					popupMenu.getMenu().add("Commentaires");
-					popupMenu.getMenu().add("Explication de la recherche");
-					popupMenu.getMenu().add("Acronymes");
-					popupMenu.getMenu().add("Approbations");
-					popupMenu.getMenu().add("Langue / שפה");
+					popupMenu.getMenu().add(0,0,0,"Definitions");
+					popupMenu.getMenu().add(0,1,0,"A Propos de…");
+					popupMenu.getMenu().add(0,2,0,"Commentaires");
+					popupMenu.getMenu().add(0,3,0,"Explication de la recherche");
+					popupMenu.getMenu().add(0,4,0,"Acronymes");
+					popupMenu.getMenu().add(0,5,0,"Approbations");
+					popupMenu.getMenu().add(0,6,0,"Langue / שפה");
 				}
 				else {/*this is the default*/
-					popupMenu.getMenu().add("הגדרות");
-					popupMenu.getMenu().add("אודות");
-					popupMenu.getMenu().add("משוב");
-					popupMenu.getMenu().add("הסבר על החיפוש");
-					popupMenu.getMenu().add("ראשי תיבות");
-					popupMenu.getMenu().add("הסכמות");
+					popupMenu.getMenu().add(0,0,0,"הגדרות");
+					popupMenu.getMenu().add(0,1,0,"אודות");
+					popupMenu.getMenu().add(0,2,0,"משוב");
+					popupMenu.getMenu().add(0,3,0,"הסבר על החיפוש");
+					popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
+					popupMenu.getMenu().add(0,5,0,"הסכמות");
 					//booksDownload configHeaders[6] = "ספרים להורדה";
-					popupMenu.getMenu().add("Language / שפה");
+					popupMenu.getMenu().add(0,6,0,"Language / שפה");
 				}
 				popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
 				{
+
 					@Override
 					public boolean onMenuItemClick(MenuItem item)
 					{
@@ -255,15 +274,9 @@ public class MainActivity extends AppCompatActivity
 						switch (item.getItemId())
 						{
 							case 0:/*settings*/
-
-								try {
-									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
-								} catch (ClassNotFoundException e) {
-									e.printStackTrace();
-								}
-								ourIntent = new Intent(MainActivity.this, ourClass);
-								startActivity(ourIntent);
+								languageDialog(context,1);
 								break;
+
 							case 1:/*about*/
 								try
 								{
@@ -303,7 +316,9 @@ public class MainActivity extends AppCompatActivity
 								break;
 							case 4:/*acronyms*/
 
+
 								break;
+
 							case 5:/*hascamot*/
 
 								break;

@@ -27,7 +27,7 @@ public class Feedback extends Activity implements View.OnClickListener
 
 		Button linkForFix = (Button) findViewById(R.id.bContentFix);
 		linkForFix.setOnClickListener(this);
-		findViewById(R.id.tooApp).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.b_chap).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent openMainActivity = new Intent("com.rafraph.ph_beta.MAINACTIVITY");

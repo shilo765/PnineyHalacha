@@ -10,6 +10,7 @@
     <!-- Header -->
 
     <!-- Center -->
+
     <RelativeLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -21,8 +22,40 @@
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
-            android:layout_height="700dp"
-            android:choiceMode="singleChoice" />
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice"
+            android:paddingTop="50dp" />
+        <LinearLayout
+            android:id="@+id/lnrOption3"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="#FFF7EC"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/b_chap"
+                android:layout_width="170dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="110dp"
+                android:layout_marginLeft="110dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/to_main"
+                android:tag="4" />
+
+            <ImageView
+                android:id="@+id/menu"
+                android:layout_width="69dp"
+                android:layout_height="40dp"
+
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:paddingRight="15dp"
+                android:scaleX="0.6"
+                android:scaleY="0.6"
+                android:src="@drawable/action_config"
+                android:tag="4" />
+        </LinearLayout>
     </RelativeLayout>
 
 

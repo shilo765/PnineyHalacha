@@ -14,7 +14,7 @@
         android:gravity="center">
 
         <ImageView
-            android:id="@+id/too_main"
+            android:id="@+id/b_chap"
             android:layout_width="170dp"
             android:layout_height="40dp"
             android:layout_marginStart="110dp"
@@ -55,7 +55,7 @@
 
             android:layout_alignParentTop="true"
             android:layout_marginLeft="2dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:background="#00FFFFFF"
             android:cacheColorHint="#00FFFFFF"
             android:divider="#00FFFFFF"

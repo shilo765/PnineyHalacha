@@ -9,19 +9,36 @@
 	tools:context=".Feedback">
 
 	<LinearLayout
-		android:id="@+id/lnrOptions2"
+		android:id="@+id/lnrOption3"
 		android:layout_width="match_parent"
-		android:layout_height="50dp"
-		android:background="#fefef2"
+		android:layout_height="52dp"
+		android:background="#FFF7EC"
+
 		android:gravity="center">
 
-		<ImageButton
-			android:id="@+id/tooApp"
+		<ImageView
+			android:id="@+id/b_chap"
 			android:layout_width="170dp"
 			android:layout_height="40dp"
-			android:background="#00FFFFFF"
-			android:src="@drawable/to_main" />
+			android:layout_marginStart="110dp"
+			android:layout_marginLeft="110dp"
+			android:scaleX="1"
+			android:scaleY="1"
+			android:src="@drawable/to_main"
+			android:tag="4" />
 
+		<ImageView
+			android:id="@+id/menu"
+			android:layout_width="69dp"
+			android:layout_height="40dp"
+
+			android:layout_marginStart="50dp"
+			android:layout_marginLeft="50dp"
+			android:paddingRight="15dp"
+			android:scaleX="0.6"
+			android:scaleY="0.6"
+			android:src="@drawable/action_config"
+			android:tag="4" />
 
 	</LinearLayout>
 
@@ -98,13 +115,20 @@
 
 	</RelativeLayout>
 	<ListView
+		android:id="@+id/list2"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:divider="#FFF7EC"
+		android:dividerHeight="2px"
+		>
+	</ListView>
+	<ListView
 		android:id="@+id/list"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:divider="#FFF7EC"
 		android:dividerHeight="2px"
 		>
-
 	</ListView>
 
 

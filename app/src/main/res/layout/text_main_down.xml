@@ -6,11 +6,43 @@
     android:orientation="vertical"
     android:background="#003349">
 
+    <LinearLayout
+        android:id="@+id/lnrOption3"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="#FFF7EC"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/too_main"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="110dp"
+            android:layout_marginLeft="110dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:src="@drawable/to_main"
+            android:tag="4" />
+
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_width="69dp"
+            android:layout_height="40dp"
+
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
+            android:paddingRight="15dp"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:src="@drawable/action_config"
+            android:tag="4" />
+    </LinearLayout>
+
     <WebView
         android:id="@+id/webView1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="594dp"
+        android:layout_marginTop="5dp" />
 
     <LinearLayout
         android:id="@+id/lnrOptions"
@@ -60,7 +92,7 @@
             android:src="@drawable/ic_action_switches_modes" />
 
         <ImageButton
-            android:id="@+id/tooApp"
+            android:id="@+id/b_chap"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:background="#00FFFFFF"

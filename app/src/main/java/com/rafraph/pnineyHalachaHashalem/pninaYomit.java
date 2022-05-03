@@ -62,6 +62,7 @@ public class pninaYomit extends Activity {
         webSettings.setPluginState(WebSettings.PluginState.ON);
         mPrefs = getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();
+
         int MyLanguage = mPrefs.getInt("MyLanguage", 0);
         switch (MyLanguage)
         {
@@ -84,6 +85,24 @@ public class pninaYomit extends Activity {
 
 
         scrool=webview.getScrollY();
+        ImageView toMain= (ImageView) findViewById(R.id.b_chap);
+        toMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try
+                {
+                    Class ourClass = null;
+                    Intent ourIntent;
+                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+                    ourIntent = new Intent(pninaYomit.this, ourClass);
+                    startActivity(ourIntent);
+                }
+                catch (ClassNotFoundException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
         ImageView menu= (ImageView) findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -328,7 +347,7 @@ public class pninaYomit extends Activity {
                 notPress=false;
             }
         });
-        findViewById(R.id.tooApp).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.b_chap).setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View v) {
                Class ourClass = null;

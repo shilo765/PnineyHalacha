@@ -13,10 +13,17 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class HomePage extends Activity {
     public boolean newVersion = false;
@@ -31,6 +38,9 @@ public class HomePage extends Activity {
     private static final int RUSSIAN = 2;
     private static final int SPANISH = 3;
     private static final int FRENCH = 4;
+    public EditText TextToDecode;
+    public Dialog acronymsDialog;
+    String acronymsText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,13 +154,15 @@ public class HomePage extends Activity {
                 }
                 else {/*this is the default*/
                     popupMenu.getMenu().add(0,0,0,"הגדרות");
-                    popupMenu.getMenu().add(0,1,0,"אודות");
-                    popupMenu.getMenu().add(0,2,0,"משוב");
-                    popupMenu.getMenu().add(0,3,0,"הסבר על החיפוש");
-                    popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
-                    popupMenu.getMenu().add(0,5,0,"הסכמות");
+                    popupMenu.getMenu().add(0,1,0,"ספרים");
+                    popupMenu.getMenu().add(0,2,0,"לימוד יומי");
+                    popupMenu.getMenu().add(0,3,0,"משוב");
+                    popupMenu.getMenu().add(0,4,0,"רכישת ספרים");
+                    popupMenu.getMenu().add(0,5,0,"שאל את הרב");
+                    popupMenu.getMenu().add(0,6,0,"ראשי תיבות");
+                    popupMenu.getMenu().add(0,7,0,"הסכמות");
                     //booksDownload configHeaders[6] = "ספרים להורדה";
-                    popupMenu.getMenu().add(0,6,0,"Language / שפה");
+                    popupMenu.getMenu().add(0,8,0,"אודות");
                 }
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
                 {
@@ -160,6 +172,7 @@ public class HomePage extends Activity {
                     {
                         Class ourClass = null;
                         Intent ourIntent;
+                        Intent intent;
                     switch (item.getItemId())
                         {
                             case 0:/*settings*/
@@ -174,20 +187,25 @@ public class HomePage extends Activity {
                                 startActivity(ourIntent);
                                 break;
 
-                            case 1:/*about*/
-                                try
-                                {
-                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
-                                    ourIntent = new Intent(HomePage.this, ourClass);
-                                    startActivity(ourIntent);
-                                }
-                                catch (ClassNotFoundException e)
-                                {
+                            case 1:/*search in all books*/
+                                try {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+                                } catch (ClassNotFoundException e) {
                                     e.printStackTrace();
                                 }
+                                ourIntent = new Intent(HomePage.this, ourClass);
+                                startActivity(ourIntent);
 
                                 break;
-                            case 2:/*Feedback*/
+                            case 2:/*pninaYomit*/
+                                try {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                ourIntent = new Intent(HomePage.this, ourClass);
+                                startActivity(ourIntent);
+                            case 3:/*feedback*/
                                 try
                                 {
                                     ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
@@ -199,10 +217,27 @@ public class HomePage extends Activity {
                                     e.printStackTrace();
                                 }
                                 break;
-                            case 3:/*Explanation for Search*/
+                            case 4:/*buy books*/
+                                intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+                                startActivity(intent);
+                                break;
+
+                            case 5:/*ask the rav*/
+                                intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
+                                startActivity(intent);
+                                break;
+                            case 6:/*acronyms*/
+                                acronymsDecode();
+                            break;
+                            case 7:/*hascamot*/
+                                hascamotDialog();
+                                break;
+                            case 8:/*about*/
                                 try
                                 {
-                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
                                     ourIntent = new Intent(HomePage.this, ourClass);
                                     startActivity(ourIntent);
                                 }
@@ -211,17 +246,6 @@ public class HomePage extends Activity {
                                     e.printStackTrace();
                                 }
                                 break;
-                            case 4:/*acronyms*/
-
-
-                                break;
-
-                            case 5:/*hascamot*/
-
-                                break;
-                            case 6:/*language*/
-                                ;
-                            break;
 
 
                         default:
@@ -341,5 +365,110 @@ public class HomePage extends Activity {
         //Sep.setVisibility(View.VISIBLE);
 
 
+    }
+    void acronymsDecode()
+    {
+        final Context context = this;
+
+        // custom dialog
+        acronymsDialog = new Dialog(context);
+        acronymsDialog.setContentView(R.layout.acronyms);
+        acronymsDialog.setTitle("פענוח ראשי תיבות");
+
+        Button dialogButtonExit = (Button) acronymsDialog.findViewById(R.id.dialogButtonExit);
+        Button dialogButtonDecode = (Button) acronymsDialog.findViewById(R.id.dialogButtonDecode);
+        final TextView decodedText = (TextView) acronymsDialog.findViewById(R.id.textViewDecodedText);
+        //final byte[] buffer;
+        //final int size;
+
+        TextToDecode = (EditText) acronymsDialog.findViewById(R.id.editTextAcronyms );
+
+        // if button is clicked
+        dialogButtonExit.setOnClickListener(new View.OnClickListener()
+        {
+            @SuppressLint("NewApi")
+            @Override
+            public void onClick(View v)
+            {
+                acronymsDialog.dismiss();
+            }
+        });
+
+        dialogButtonDecode.setOnClickListener(new View.OnClickListener()
+        {
+            @SuppressLint("NewApi")
+            @Override
+            public void onClick(View v)
+            {
+                acronymsText = "\r\n" + /*"י\"א" */TextToDecode.getText().toString() + " - ";
+                acronymsText = acronymsText.replace("\"", "");
+                acronymsText = acronymsText.replace("'", "");
+                InputStream is;
+                String r="לא נמצאו תוצאות";
+                int index=0, index_end=0, first=1;
+                try
+                {
+                    is = getAssets().open("acronyms.txt");
+                    int size = is.available();
+                    byte[] buffer = new byte[size];
+                    is.read(buffer);
+                    is.close();
+                    String strText  = new String(buffer);
+
+                    while (strText.indexOf(acronymsText, index_end) != -1)
+                    {
+                        index = strText.indexOf(acronymsText, index);
+                        index = strText.indexOf("-", index+1) + 2;
+                        index_end = strText.indexOf("\r\n", index);
+                        if(first==1)
+                        {
+                            r = strText.substring (index, index_end);
+                            first=0;
+                        }
+                        else
+                            r += ", " + strText.substring (index, index_end);
+                    }
+                }
+                catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                decodedText.setText(TextToDecode.getText().toString() + " - " + r);
+
+            }
+        });
+        acronymsDialog.show();
+    }
+    @SuppressLint("SetJavaScriptEnabled")
+    void hascamotDialog()
+    {
+        final Context context = this;
+        final Dialog dialog = new Dialog(context);
+        int fontSize;
+        WebView webviewHascmot;
+        WebSettings webSettingsHascamot;
+
+        dialog.setContentView(R.layout.note);
+
+        dialog.setTitle(" הסכמות ");
+
+        webviewHascmot = (WebView) dialog.findViewById(R.id.webViewNote1);
+        webSettingsHascamot = webviewHascmot.getSettings();
+        webSettingsHascamot.setJavaScriptEnabled(true);
+        webSettingsHascamot.setDefaultTextEncodingName("utf-8");
+        webviewHascmot.requestFocusFromTouch();
+        //	if(API < 19)
+        //	webSettingsNote.setBuiltInZoomControls(true);
+
+        fontSize = mPrefs.getInt("fontSize", 20);
+        webSettingsHascamot.setDefaultFontSize(fontSize);
+        int backgroundColor = mPrefs.getInt("BlackBackground", 0);
+        webviewHascmot.setBackgroundColor(backgroundColor);
+        if(backgroundColor==1)
+            webviewHascmot.loadUrl("file:///android_asset/hascamot_white.html");
+        else
+            webviewHascmot.loadUrl("file:///android_asset/hascamot.html");
+        dialog.show();
     }
 }

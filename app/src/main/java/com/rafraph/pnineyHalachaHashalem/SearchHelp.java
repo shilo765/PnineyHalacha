@@ -1,23 +1,24 @@
 package com.rafraph.pnineyHalachaHashalem;
 
 import android.app.AlertDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -52,6 +53,17 @@ public class SearchHelp extends Activity {
 	private static final int HAR_SHABAT     = 22;
 	private static final int HAR_SIMCHAT    = 23;
 	private static final int BOOKS_NUMBER	= 24;
+	public static int totalCount=0;
+	public static int totalCount2=0;
+	public int MyLanguage;
+	static SharedPreferences mPrefs;
+	SharedPreferences.Editor shPrefEditor;
+	public static final String PREFS_NAME = "MyPrefsFile";
+	private static final int HEBREW	 = 0;
+	private static final int ENGLISH = 1;
+	private static final int RUSSIAN = 2;
+	private static final int SPANISH = 3;
+	private static final int FRENCH = 4;
 
 	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23*/
 	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10};
@@ -61,8 +73,8 @@ public class SearchHelp extends Activity {
 	public List<String> listBookLocation = new ArrayList<String>();
 	public List<String> listStrAnchor = new ArrayList<String>();
 	public ListView searchListView = null;
+	public ListView searchListView2 = null;
 	public String query;
-	public static final String PREFS_NAME = "MyPrefsFile";
 	public String sectionsForToast = null;
 	public int i = 0;
 	public String hebCharacter = "אבגדהוזחטיכלמנסעפצקרשתםןץףך -'\"";
@@ -72,12 +84,173 @@ public class SearchHelp extends Activity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_activity);
-		ImageView tooHome= (ImageView) findViewById(R.id.tooApp);
+		mPrefs = getSharedPreferences(PREFS_NAME, 0);
+		shPrefEditor = mPrefs.edit();
+		MyLanguage = mPrefs.getInt("MyLanguage", -1);
+		fillChaptersFiles();
+		fillChaptersNames();
+		ImageView tooHome= (ImageView) findViewById(R.id.b_chap);
 		ImageView goSearch= (ImageView) findViewById(R.id.goSearch);
 		TextView searchNow= (TextView) findViewById(R.id.search_now);
 		TextView tv= (TextView) findViewById(R.id.textView2);
 		EditText searchText= (EditText) findViewById(R.id.editTextSearch);
 		TextView lastSearch= (TextView) findViewById(R.id.last_search);
+		ImageView toMain= (ImageView) findViewById(R.id.b_chap);
+		searchListView2 = (ListView) findViewById(R.id.list2);
+		searchListView2.setVisibility(View.GONE);
+		toMain.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try
+				{
+					Class ourClass = null;
+					Intent ourIntent;
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+					ourIntent = new Intent(SearchHelp.this, ourClass);
+					startActivity(ourIntent);
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+		ImageView menu= (ImageView) findViewById(R.id.menu);
+		menu.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				PopupMenu popupMenu = new PopupMenu(SearchHelp.this, v);
+				//popupMenu.
+
+				if(MyLanguage == ENGLISH) {
+
+					popupMenu.getMenu().add(0,0,0,"Settings");
+					popupMenu.getMenu().add(0,1,0,"About");
+					popupMenu.getMenu().add(0,2,0,"Feedback");
+					popupMenu.getMenu().add(0,3,0,"Explanation of search results");
+					popupMenu.getMenu().add(0,4,0,"Acronyms");
+					popupMenu.getMenu().add(0,5,0,"Approbations");
+					popupMenu.getMenu().add(0,6,0,"Language / שפה");
+				}
+				else if(MyLanguage == RUSSIAN) {
+					popupMenu.getMenu().add(0,0,0,"Настройки");
+					popupMenu.getMenu().add(0,1,0,"Около");
+					popupMenu.getMenu().add(0,2,0,"Обратная связь");
+					popupMenu.getMenu().add(0,3,0,"Объяснение результатов поиска");
+					popupMenu.getMenu().add(0,4,0,"Абревиатуры");
+					popupMenu.getMenu().add(0,5,0,"Апробации");
+					popupMenu.getMenu().add(0,6,0,"ЯЗЫК / שפה");
+				}
+				else if(MyLanguage == SPANISH) {
+					popupMenu.getMenu().add(0,0,0,"Ajustes");
+					popupMenu.getMenu().add(0,1,0,"Acerca de");
+					popupMenu.getMenu().add(0,2,0,"Comentarios");
+					popupMenu.getMenu().add(0,3,0,"Explicacion del resultado de la busqueda");
+					popupMenu.getMenu().add(0,4,0,"Acronimos");
+					popupMenu.getMenu().add(0,5,0,"Aprovaciones");
+					popupMenu.getMenu().add(0,6,0,"Idioma / שפה");
+				}
+				else if(MyLanguage == FRENCH) {
+					popupMenu.getMenu().add(0,0,0,"Definitions");
+					popupMenu.getMenu().add(0,1,0,"A Propos de…");
+					popupMenu.getMenu().add(0,2,0,"Commentaires");
+					popupMenu.getMenu().add(0,3,0,"Explication de la recherche");
+					popupMenu.getMenu().add(0,4,0,"Acronymes");
+					popupMenu.getMenu().add(0,5,0,"Approbations");
+					popupMenu.getMenu().add(0,6,0,"Langue / שפה");
+				}
+				else {/*this is the default*/
+					popupMenu.getMenu().add(0,0,0,"הגדרות");
+					popupMenu.getMenu().add(0,1,0,"אודות");
+					popupMenu.getMenu().add(0,2,0,"משוב");
+					popupMenu.getMenu().add(0,3,0,"הסבר על החיפוש");
+					popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
+					popupMenu.getMenu().add(0,5,0,"הסכמות");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,6,0,"Language / שפה");
+				}
+				popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+				{
+
+					@Override
+					public boolean onMenuItemClick(MenuItem item)
+					{
+						Class ourClass = null;
+						Intent ourIntent;
+						switch (item.getItemId())
+						{
+							case 0:/*settings*/
+
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(SearchHelp.this, ourClass);
+								ourIntent.putExtra("homePage", true);
+								startActivity(ourIntent);
+								break;
+
+							case 1:/*about*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+									ourIntent = new Intent(SearchHelp.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+
+								break;
+							case 2:/*Feedback*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+									ourIntent = new Intent(SearchHelp.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+							case 3:/*Explanation for Search*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+									ourIntent = new Intent(SearchHelp.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+							case 4:/*acronyms*/
+
+
+								break;
+
+							case 5:/*hascamot*/
+
+								break;
+							case 6:/*language*/
+								;
+								break;
+
+
+							default:
+								break;
+						}
+						return true;
+					}
+				});
+
+				popupMenu.show();
+			}
+		});
 
 		searchText.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -100,6 +273,40 @@ public class SearchHelp extends Activity {
 				searchNow.setTextColor(Color.WHITE);
 				lastSearch.setBackgroundResource(R.drawable.rec_r_half2_empty);
 				lastSearch.setTextColor(Color.rgb(151, 6, 6));
+				searchListView2.setVisibility(View.GONE);
+				if(searchListView!=null)
+					searchListView.setVisibility(View.VISIBLE);
+			}
+		});
+		lastSearch.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				lastSearch.setBackgroundResource(R.drawable.rec_r_half2_full);
+				lastSearch.setTextColor(Color.WHITE);
+				searchNow.setBackgroundResource(R.drawable.rec_r_half_empty);
+				searchNow.setTextColor(Color.rgb(151, 6, 6));
+				if(searchListView!=null)
+				searchListView.setVisibility(View.GONE);
+				searchListView2.setVisibility(View.VISIBLE);
+
+				mPrefs = getSharedPreferences(PREFS_NAME, 0);
+				shPrefEditor = mPrefs.edit();
+				//BlackBackground = mPrefs.getInt("BlackBackground", 0);
+				//searchListView2.addHeaderView(mPrefs.getString("BlackBackground", ""));
+				for(int k=0;k<10;k++) {
+					TextView textView = new TextView(getBaseContext());
+					//String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
+					//String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
+					textView.setText(mPrefs.getString("s" + k, ""));
+					//textView.setText("shilo");
+					//textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
+					textView.setTextColor(Color.BLACK);
+					textView.setTextSize(24);
+					searchListView2.addFooterView(textView);
+					showResults();
+				}
+
 			}
 		});
 		goSearch.setOnClickListener(new View.OnClickListener() {
@@ -111,11 +318,7 @@ public class SearchHelp extends Activity {
 					for (int i=searchListView.getFooterViewsCount() ;i>=0;i--)
 						searchListView.removeFooterView(searchListView.getChildAt(i));
 				}
-				lastSearch.setBackgroundResource(R.drawable.rec_r_half2_full);
-				lastSearch.setTextColor(Color.WHITE);
-				searchNow.setBackgroundResource(R.drawable.rec_r_half_empty);
-				searchNow.setTextColor(Color.rgb(151, 6, 6));
-				tv.setText(searchText.getText());
+
 				query=searchText.getText().toString();
 				{
 
@@ -134,10 +337,11 @@ public class SearchHelp extends Activity {
 						searchListView = (ListView) findViewById(R.id.list);
 
 
-
-						fillChaptersFiles();
-						fillChaptersNames();
-						doMySearch();
+						try {
+							doMySearch(50);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 						showResults();
 
 						searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -152,12 +356,17 @@ public class SearchHelp extends Activity {
 									Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
 									Intent ourIntent = new Intent(SearchHelp.this, ourClass);
 
-									searchPosition = listStrAnchor.get(position-1);
+									searchPosition = listStrAnchor.get(position);
 									cameFromSearch = true;
-									sectionsForToast =listStrAnchor.get(position - 1);
+									sectionsForToast =listStrAnchor.get(position );
 									ourIntent.putExtra("cameFromSearch", cameFromSearch);
 									ourIntent.putExtra("searchPosition", searchPosition);
 									ourIntent.putExtra("query", query);
+									for (int i=1;i<10;i++) {
+										shPrefEditor.putString("s"+i, mPrefs.getString("s" + (i-1), ""));
+									}
+									shPrefEditor.putString("s0", query);
+									shPrefEditor.commit();
 
 									if (sectionsForToast.indexOf("הערות:") != -1) {
 										sectionsForToast = sectionsForToast.substring(sectionsForToast.indexOf("הערות: ") + 7, sectionsForToast.indexOf(")"));
@@ -229,18 +438,17 @@ public class SearchHelp extends Activity {
 		});
 	}
 
-	public boolean doMySearch()
-	{
+	public boolean doMySearch(int num) throws InterruptedException {
 
 		InputStream is;
 		int size, i, j, index, index_anchor_start, index_anchor_end, anchorId=0, lastanchorId=0, globalCounter=0, chapterCounter=0, noteIndex = 0;
 		byte[] buffer;
 		String strText = null, strAnchor=null, section=null, sections=null;
 		String prefixAnchor="<a name=" ;
-
-		for(i=0; i<BOOKS_NUMBER; i++)
+		if(totalCount<num)
+		for(i=0; i<BOOKS_NUMBER&&totalCount<num; i++)
 		{
-			for(j=1; j<=lastChapter[i]; j++)//starts from 1 since I don't need to search in "tochen" files
+			for(j=1; j<=lastChapter[i]&&totalCount<num; j++)//starts from 1 since I don't need to search in "tochen" files
 			{
 				try
 				{
@@ -257,7 +465,7 @@ public class SearchHelp extends Activity {
 					index_anchor_start = 0;
 					index_anchor_end = 0;
 					noteIndex = strText.indexOf("<div style=\"display:none;\">", 0);
-					while(index != (-1))
+					while(index != (-1)&&totalCount<num)
 					{
 						//System.out.println("book="+i+" chapter="+j+" chapterCounter="+chapterCounter);/*for test - if need to check crash with searching*/
 						index = strText.indexOf(query, index+1);
@@ -304,19 +512,24 @@ public class SearchHelp extends Activity {
 								sections += ","+section;
 							}
 							globalCounter++;
+							totalCount++;
 							chapterCounter++;
 							lastanchorId = anchorId;
 						}
 					}
 					if(chapterCounter > 0)
 					{
-						TextView textView = new TextView(this);
-						String sourceString = "<b>" +"["+chapterCounter+"] "+chaptersNames[i][j]+  "</b> " + sections;
-						textView.setText(Html.fromHtml(sourceString));
-						//textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
-						textView.setTextColor(Color.BLACK);
-						textView.setTextSize(24);
-						searchListView.addFooterView(textView);
+
+							TextView textView = new TextView(this);
+							//String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
+							String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
+							textView.setText(Html.fromHtml(sourceString));
+							//textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
+							textView.setTextColor(Color.BLACK);
+							textView.setTextSize(24);
+							searchListView.addFooterView(textView);
+
+
 						//listBookLocation.add(textView.getText().toString());
 						//listBookLocation.add("["+chapterCounter+"] "+chaptersNames[i][j]+ " (" + sections+ ")");/*only one item in the list per chapter*/
 						//listBookLocation.add(Html.fromHtml(sourceString).toString());/*only one item in the list per chapter*/
@@ -326,12 +539,16 @@ public class SearchHelp extends Activity {
 					e.printStackTrace();
 				}
 			}
-		}
-		TextView textView = new TextView(this);
-		textView.setText(query + ": נמצאו "+globalCounter+" תוצאות");
-		textView.setTextSize(30);
-		searchListView.addHeaderView(textView);
+			//TextView textView = new TextView(this);
+			//textView.setText(query + ": נמצאו "+globalCounter+" תוצאות");
+			//textView.setTextSize(30);
+			//searchListView.addHeaderView(textView);
 
+			showResults();
+		}
+
+
+		totalCount=0;
 		return true;
 	}
 
@@ -339,7 +556,9 @@ public class SearchHelp extends Activity {
 	{
 		ArrayAdapter adapter;
 		adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listBookLocation);
-		searchListView.setAdapter(adapter);
+		if(searchListView!=null)
+			searchListView.setAdapter(adapter);
+		searchListView2.setAdapter(adapter);
 	}
 
 	public String convertAnchorIdToSection(int Id)

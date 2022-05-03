@@ -52,7 +52,7 @@
             android:src="@drawable/ic_action_switches_modes" />
 
         <ImageButton
-            android:id="@+id/tooApp"
+            android:id="@+id/b_chap"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:background="#00FFFFFF"

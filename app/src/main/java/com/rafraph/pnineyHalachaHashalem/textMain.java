@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -149,7 +148,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 	WebView webview;
 	public static int[] book_chapter = new int[2];
-	boolean cameFromSearch = false, firstTime = true, ChangeChapter = false;
+	boolean cameFromSearch = false, firstTime = true, ChangeChapter = false,gi=false;
 	String searchPosition = null, sectionsForToast = null;
 	ImageButton bParagraphs, bSwitchModes, bNext_sec, bPrevious_sec, bNext_page, bPrevious_page, bFindNext, bFindPrevious;
 	LinearLayout llMainLayout;
@@ -326,7 +325,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		webview.setWebViewClient(new MyWebViewClient());
 
-		bParagraphs    = (ImageButton) findViewById(R.id.tooApp);
+		bParagraphs    = (ImageButton) findViewById(R.id.b_chap);
 		bSwitchModes = (ImageButton) findViewById(R.id.bSendEmail);
 		bNext_sec      = (ImageButton) findViewById(R.id.ibNext);
 		bPrevious_sec  = (ImageButton) findViewById(R.id.ibPrevious);
@@ -492,8 +491,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 				//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
 				loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
+				System.out.println("shilo77777777777777777777777777777777777777777777777777777777777777777777" +query);
+
+
 				scrollY = 0;
 				lnrFindOptions.setVisibility(View.VISIBLE);
+				webview.findAllAsync(/*"כל"*/query);
+
 			}
 			else
 			{
@@ -901,7 +905,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		switch(view.getId())
 		{
-			case R.id.tooApp:
+			case R.id.b_chap:
 				findHeaders();
 				showPopupMenu(view);
 				break;
