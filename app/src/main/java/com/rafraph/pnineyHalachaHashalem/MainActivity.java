@@ -49,6 +49,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -359,12 +360,30 @@ public class MainActivity extends AppCompatActivity
 		listAdapter = new ExpandableListAdapter(this, listDisplay, listDataChild);
 
 
+
 		// setting list adapter
 		expListView.setAdapter(listAdapter);
 
 
 
-
+		if(BlackBackground == 1)
+		{
+			//actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
+			//inflater.inflate(R.menu.tochen_actionbar_black, menu);
+			//actionBar.setTitle(Html.fromHtml("<font color=\"white\">" + tochen + "</font>"));
+			listAdapter.setTextColor(Color.WHITE);
+			//to set the list text color
+			expListView.setAdapter(listAdapter);
+			expListView.setBackgroundColor(Color.BLACK);//to set the list text color
+		}
+		else
+		{
+			//.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
+			//inflater.inflate(R.menu.tochen_actionbar, menu);
+			//actionBar.setTitle(Html.fromHtml("<font color=\"black\">" + tochen + "</font>"));
+			listAdapter.setTextColor(Color.BLACK);//to set the list text color
+			expListView.setAdapter(listAdapter);//to set the list text color
+		}
 		// Listview on child click listener
 		expListView.setOnChildClickListener(new OnChildClickListener()
 		{
@@ -462,22 +481,7 @@ public class MainActivity extends AppCompatActivity
 		inflater = getMenuInflater();
 
 
-		if(BlackBackground == 1)
-		{
-			actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
-			inflater.inflate(R.menu.tochen_actionbar_black, menu);
-			actionBar.setTitle(Html.fromHtml("<font color=\"white\">" + tochen + "</font>"));
-			listAdapter.setTextColor(Color.WHITE);//to set the list text color
-			expListView.setAdapter(listAdapter);//to set the list text color
-		}
-		else
-		{
-			actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
-			inflater.inflate(R.menu.tochen_actionbar, menu);
-			actionBar.setTitle(Html.fromHtml("<font color=\"black\">" + tochen + "</font>"));
-			listAdapter.setTextColor(Color.BLACK);//to set the list text color
-			expListView.setAdapter(listAdapter);//to set the list text color
-		}
+
 
 		return true;
 	}//onCreateOptionsMenu
@@ -2255,6 +2259,45 @@ private void initializeSeekBar()
 		{
 			languageDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 			languageDialog.setContentView(R.layout.activity_settings);
+			TextView langOf=(TextView) languageDialog.findViewById(R.id.langof);
+			TextView chooseTochen=(TextView) languageDialog.findViewById(R.id.chooseTochen);
+			TextView chooseSize=(TextView) languageDialog.findViewById(R.id.chooseSize);
+			TextView textSizeExm=(TextView) languageDialog.findViewById(R.id.textSizeExm);
+			TextView chooseBlack=(TextView) languageDialog.findViewById(R.id.blackScreen);
+			TextView chooseLastLoc=(TextView) languageDialog.findViewById(R.id.lastLocation);
+
+			//LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption2);
+			//	LinearLayout main3=(LinearLayout) findViewById(R.id.lnrOption3);
+			//	LinearLayout main4=(LinearLayout) findViewById(R.id.lnrOption7);
+			//	LinearLayout main5=(LinearLayout) findViewById(R.id.lnrOption8);
+			RelativeLayout main=(RelativeLayout) languageDialog.findViewById(R.id.layout_root);
+			LinearLayout main2=(LinearLayout) languageDialog.findViewById(R.id.main);
+			LinearLayout partA=(LinearLayout) languageDialog.findViewById(R.id.lnrOptions);
+			LinearLayout partB=(LinearLayout) languageDialog.findViewById(R.id.lnrOption2);
+			LinearLayout partC=(LinearLayout) languageDialog.findViewById(R.id.lnrOption5);
+			LinearLayout partD=(LinearLayout) languageDialog.findViewById(R.id.lnrOption6);
+			LinearLayout partE=(LinearLayout) languageDialog.findViewById(R.id.lnrOption7);
+			if (mPrefs.getInt("BlackBackground", 0)==1)
+			{
+				langOf.setTextColor(Color.WHITE);
+				chooseBlack.setTextColor(Color.WHITE);
+				chooseTochen.setTextColor(Color.WHITE);
+				chooseSize.setTextColor(Color.WHITE);
+				textSizeExm.setTextColor(Color.WHITE);
+				chooseLastLoc.setTextColor(Color.WHITE);
+
+				main.setBackgroundColor(Color.BLACK);
+				main2.setBackgroundColor(Color.BLACK);
+				partA.setBackgroundColor(Color.BLACK);
+				partB.setBackgroundColor(Color.BLACK);
+				partC.setBackgroundColor(Color.BLACK);
+				partD.setBackgroundColor(Color.BLACK);
+				partE.setBackgroundColor(Color.BLACK);
+				//main3.setBackgroundColor(Color.BLACK);
+				//main4.setBackgroundColor(Color.BLACK);
+				//main5.setBackgroundColor(Color.BLACK);
+
+			}
 		}
 
 

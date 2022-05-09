@@ -33,6 +33,7 @@ import android.os.Handler;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,6 +50,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
@@ -200,6 +202,17 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		super.onCreate(savedInstanceState);
 		final Context context = this;
 		loadActivity();
+		if (BlackBackground == 1) {
+			webview.setWebViewClient(new WebViewClient() {
+				public void onPageFinished(WebView view, String url) {
+					view.loadUrl(
+							"javascript:document.body.style.setProperty(\"color\", \"white\");"
+					);
+				}
+			});
+			webview.setBackgroundColor(Color.BLACK);//black
+			//infView.setBackgroundColor(Color.BLACK);
+		}
 
 	}//onCreate
 	public void loadWebview(String path, WebView webview)
@@ -335,6 +348,25 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		lnrOptions     = (LinearLayout) findViewById(R.id.lnrOptions);
 		bFindNext      = (ImageButton) findViewById(R.id.ibFindNext);
 		bFindPrevious  = (ImageButton) findViewById(R.id.ibFindPrevious);
+		ImageView toMain = (ImageView) findViewById(R.id.too_main);
+		toMain.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try
+				{
+					Class ourClass = null;
+					Intent ourIntent;
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+					ourIntent = new Intent(textMain.this, ourClass);
+					ourIntent.putExtra("goLast",false);
+					startActivity(ourIntent);
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
 
 		bParagraphs.setOnClickListener(this);
 		bSwitchModes.setOnClickListener(this);
@@ -491,12 +523,67 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 				//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
 				loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
-				System.out.println("shilo77777777777777777777777777777777777777777777777777777777777777777777" +query);
+
 
 
 				scrollY = 0;
 				lnrFindOptions.setVisibility(View.VISIBLE);
-				webview.findAllAsync(/*"כל"*/query);
+				webview.findAllAsync(query);
+				webview.setFindListener(new WebView.FindListener() {
+
+				@Override
+				public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+					if(numberOfMatches==0) {
+						webview.findAllAsync("ו" + query + " ");
+						webview.setFindListener(new WebView.FindListener() {
+
+							@Override
+							public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+								if (numberOfMatches == 0) {
+									webview.findAllAsync("ה" + query + " ");
+									webview.setFindListener(new WebView.FindListener() {
+
+										@Override
+										public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+											if (numberOfMatches == 0) {
+												webview.findAllAsync("ל" + query + " ");
+												webview.setFindListener(new WebView.FindListener() {
+
+													@Override
+													public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+														if (numberOfMatches == 0) {
+															webview.findAllAsync(" " + query + "ם");
+															webview.setFindListener(new WebView.FindListener() {
+
+																@Override
+																public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+																	if (numberOfMatches == 0) {
+																		webview.findAllAsync(" " + query + "הם");
+																		webview.setFindListener(new WebView.FindListener() {
+
+																			@Override
+																			public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+																				if (numberOfMatches == 0) {
+																					webview.findAllAsync(" " + query + "יהם");
+																				}
+																			}
+																		});
+																	}
+																}
+															});
+														}
+													}
+												});
+											}
+										}
+									});
+								}
+							}
+						});
+					}
+
+				}
+			});
 
 			}
 			else
@@ -775,6 +862,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left\"); y[0].style.display = 'none';} myFunction(); ");
 			webview.setBackgroundColor(0xFFFFFF);//black
 			llMainLayout.setBackgroundColor(Color.BLACK);
+			webview.setWebViewClient(new WebViewClient() {
+				public void onPageFinished(WebView view, String url) {
+					webview.loadUrl(
+							"javascript:document.body.style.setProperty(\"color\", \"white\");"
+					);
+				}
+			});
 			textActionBar.setTitle(Html.fromHtml("<font color=\"#ffffff\">" + title + "</font>"));
 			bParagraphs.setImageDrawable(resources.getDrawable(R.drawable.ic_action_view_as_list));
 			bSwitchModes.setImageDrawable(resources.getDrawable(R.drawable.ic_action_switches_modes));
@@ -2832,6 +2926,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				{
 					//webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left_white\"); y[0].style.display = 'none';} myFunction(); ");
 					webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";} myFunction(); ");
+					webview.loadUrl("javascript:document.body.style.setProperty(\"color\", \"white\");");
 					llMainLayout.setBackgroundColor(Color.BLACK);
 					webview.setBackgroundColor(0xFFFFFF);//black
 					//	textActionBar.setTitle(Html.fromHtml("<font color=\"white\">" + title + "</font>"));

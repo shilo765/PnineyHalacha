@@ -22,9 +22,12 @@
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="569dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="0dp"
             android:choiceMode="singleChoice"
-            android:paddingTop="50dp" />
+            android:paddingBottom="50dp" />
+
         <LinearLayout
             android:id="@+id/lnrOption3"
             android:layout_width="match_parent"
@@ -67,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="-3dp"
 
         android:background="#970606"
         android:gravity="center_horizontal"

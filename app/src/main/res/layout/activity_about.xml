@@ -46,6 +46,7 @@
                 android:src="@drawable/action_config"
                 android:tag="4" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/about"
             android:layout_width="match_parent"
@@ -58,29 +59,51 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/appName"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_gravity="right"
+            android:paddingRight="10dp"
+            android:text="אפליקציית פניני הלכה"
+            android:textColor="#970606"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/include"
             android:layout_width="match_parent"
             android:layout_height="86dp"
             android:layout_gravity="right"
             android:paddingRight="10dp"
-            android:text="כולל את כל ספרי פניני הלכה(כולל הרחבות) בעברית,אנגלית,רוסית וצרפתית"
+            android:text="כוללת את כל ספרי פניני הלכה(כולל הרחבות) בעברית,אנגלית,רוסית וצרפתית"
             android:textColor="#000000"
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/newV"
             android:layout_width="match_parent"
-            android:layout_height="76dp"
+            android:layout_height="42dp"
             android:layout_gravity="right"
             android:paddingRight="10dp"
             android:text="עדכון גרסא שילה בן נתן"
             android:textColor="#000000"
             android:textSize="16dp" />
+
         <TextView
-            android:id="@+id/textedit"
+            android:id="@+id/newD"
             android:layout_width="match_parent"
-            android:layout_height="76dp"
+            android:layout_height="42dp"
+            android:layout_gravity="right"
+            android:paddingRight="10dp"
+            android:text="עיצוב האפליקציה אניה בורוכוב"
+            android:textColor="#000000"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
             android:layout_gravity="right"
             android:paddingRight="10dp"
             android:text="עריכת הטקסט לאפליקציה אלישע הנשקה ושילה בן נתן"
@@ -97,6 +120,7 @@
             android:scaleY="0.9"
             android:src="@drawable/y_logo"
             android:tag="4" />
+
         <ImageView
             android:id="@+id/j_logo"
             android:layout_width="138dp"

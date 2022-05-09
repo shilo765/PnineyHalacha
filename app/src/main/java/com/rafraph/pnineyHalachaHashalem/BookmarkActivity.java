@@ -10,13 +10,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -45,12 +48,26 @@ public class BookmarkActivity extends Activity
 		
 		TextView textView = new TextView(this);
 		textView.setText("סימניות");
+		textView.setTextColor(Color.BLACK);
 		textView.setTextSize(30);
 		bookmarksListView.addHeaderView(textView);
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
 		Bookmarks = mPrefs.getString("Bookmarks", "");
-		
+		LinearLayout main=(LinearLayout) findViewById(R.id.main);
+		LinearLayout main2=(LinearLayout) findViewById(R.id.lnrOption3);
+		if (mPrefs.getInt("BlackBackground", 0)==1)
+		{
+;
+			//main.setBackgroundColor(Color.BLACK);
+			main.setBackgroundColor(Color.BLACK);
+			//main2.setBackgroundColor(Color.BLACK);
+			//main3.setBackgroundColor(Color.BLACK);
+			//main4.setBackgroundColor(Color.BLACK);
+			//main5.setBackgroundColor(Color.BLACK);
+
+
+		}
 		fillBookmarksNames();
 		showBookmarksList();
 
@@ -60,121 +77,52 @@ public class BookmarkActivity extends Activity
 		{
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
-			{
-				try
-				{
-					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
-					Intent ourIntent = new Intent(BookmarkActivity.this, ourClass);
-					int i, index = 1/*to skip the first comma*/, index_end=0;
-					int bookmarkScrollY, fontSize;
-					
-					for(i=0;i<((position-1)*5)+1;i++)/*skip to the book of the right bookmark*/
-						index = Bookmarks.indexOf("," , index) + 1;
-					
-					/*book*/
-					index_end = Bookmarks.indexOf("," , index);
-					book_chapter[0] = Integer.parseInt(Bookmarks.substring(index, index_end));
-					
-					/*chapter*/
-					index = index_end+1;
-					index_end = Bookmarks.indexOf("," , index);
-					book_chapter[1] = Integer.parseInt(Bookmarks.substring(index, index_end));					
-					ourIntent.putExtra("book_chapter", book_chapter);
-					
-					/*scroll*/
-					index = index_end+1;
-					index_end = Bookmarks.indexOf("," , index);
-					bookmarkScrollY = Integer.parseInt(Bookmarks.substring(index, index_end));
-					ourIntent.putExtra("bookmarkScrollY", bookmarkScrollY);
-					
-					/*font size*/
-					index = index_end+1;
-					index_end = Bookmarks.indexOf("," , index);
-					if(index_end == -1)/*last bookmark*/
-						index_end = Bookmarks.length();
-					fontSize = Integer.parseInt(Bookmarks.substring(index, index_end));
-					shPrefEditor.putInt("fontSize", fontSize);
-					shPrefEditor.commit();
-					
-					ourIntent.putExtra("fromBookmarks", 1);
-					startActivity(ourIntent);
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				if (position != 0) {
+					try {
+						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
+						Intent ourIntent = new Intent(BookmarkActivity.this, ourClass);
+						int i, index = 1/*to skip the first comma*/, index_end = 0;
+						int bookmarkScrollY, fontSize;
+
+						for (i = 0; i < ((position - 1) * 5) + 1; i++)/*skip to the book of the right bookmark*/
+							index = Bookmarks.indexOf(",", index) + 1;
+
+						/*book*/
+						index_end = Bookmarks.indexOf(",", index);
+						book_chapter[0] = Integer.parseInt(Bookmarks.substring(index, index_end));
+
+						/*chapter*/
+						index = index_end + 1;
+						index_end = Bookmarks.indexOf(",", index);
+						book_chapter[1] = Integer.parseInt(Bookmarks.substring(index, index_end));
+						ourIntent.putExtra("book_chapter", book_chapter);
+
+						/*scroll*/
+						index = index_end + 1;
+						index_end = Bookmarks.indexOf(",", index);
+						bookmarkScrollY = Integer.parseInt(Bookmarks.substring(index, index_end));
+						ourIntent.putExtra("bookmarkScrollY", bookmarkScrollY);
+
+						/*font size*/
+						index = index_end + 1;
+						index_end = Bookmarks.indexOf(",", index);
+						if (index_end == -1)/*last bookmark*/
+							index_end = Bookmarks.length();
+						fontSize = Integer.parseInt(Bookmarks.substring(index, index_end));
+						shPrefEditor.putInt("fontSize", fontSize);
+						shPrefEditor.commit();
+
+						ourIntent.putExtra("fromBookmarks", 1);
+						startActivity(ourIntent);
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
 				}
-				catch (ClassNotFoundException e)
-				{
-					e.printStackTrace();
-				}  
 			}
 		});
 	
-		bookmarksListView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener ()
-		{ 
-			@Override 
-			public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) 
-			{ 
-				bookmarksListView.setOnItemClickListener(new OnItemClickListener() 
-				{
-					public void onItemClick(AdapterView<?> a, View v, int position, long id) 
-					{
-						AlertDialog.Builder adb=new AlertDialog.Builder(context);
-						adb.setTitle("Delete?");
-						adb.setMessage("Are you sure you want to delete " + position);
-						final int positionToRemove = position-1;
-						adb.setNegativeButton("Cancel", null);
-						adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() 
-						{
-							public void onClick(DialogInterface dialog, int which) 
-							{
-								int index = 0, index_end = 0;
-								listBookmarksNames.remove(positionToRemove);
-								adapter.notifyDataSetChanged();
-								/*remove the bookmark detailes from Bookmark variable*/
-								for(int i=0;i<(positionToRemove*5)+1;i++)/*skip to the book of the right bookmark*/
-									index = Bookmarks.indexOf("," , index) + 1;
-								index_end = index;
-								if(index != 0)
-									index--;//in order to delete the comma "," (except in case we want to delete the first item)
-								for(int i=0;i<5;i++)/*find the end index of this bookmark*/
-									index_end = Bookmarks.indexOf("," , index_end) + 1;
-								if(index_end == 0)
-									index_end = Bookmarks.length();
-								else
-									index_end--;//We don't want to delete the last comma
-								String strToDelete = Bookmarks.substring(index, index_end);
-								Bookmarks = Bookmarks.substring(0, index) + Bookmarks.substring(index_end, Bookmarks.length());
-								String strBookmark = Bookmarks;
-								shPrefEditor.putString("Bookmarks", Bookmarks);
-								shPrefEditor.commit();
-							}});
-						adb.show();
-					}
-				});
-				/*Listener for the "delete all button"*/
-				buttonDeleteAll.setOnClickListener(new OnClickListener()
-				{
-					@SuppressLint("NewApi")
-					@Override
-					public void onClick(View v) 
-					{
-						AlertDialog.Builder adb=new AlertDialog.Builder(context);
-						adb.setTitle("Delete?");
-						adb.setMessage("Are you sure you want to delete all?");
-						adb.setNegativeButton("Cancel", null);
-						adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() 
-						{
-							public void onClick(DialogInterface dialog, int which) 
-							{
-								Bookmarks = "";
-								shPrefEditor.putString("Bookmarks", Bookmarks);
-								shPrefEditor.commit();
-							}});
-						adb.show();
-					}
-					
-				});
-				return false; 
-			} 
-		}); 	
+
 	}
 
 
@@ -187,7 +135,23 @@ public class BookmarkActivity extends Activity
 		{
 			index++;
 			index_end = Bookmarks.indexOf("," , index);
-			listBookmarksNames.add(Bookmarks.substring(index, index_end));
+			//listBookmarksNames.add(Bookmarks.substring(index, index_end));
+			TextView textView = new TextView(getBaseContext());
+			//String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
+			//String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
+			textView.setText(Bookmarks.substring(index, index_end));
+			//textView.setText("shilo");
+			//textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
+			if (mPrefs.getInt("BlackBackground", 0)==1)
+			{
+				textView.setTextColor(Color.WHITE);
+				bookmarksListView.setBackgroundColor(Color.BLACK);
+
+			}
+			else
+				textView.setTextColor(Color.BLACK);
+			textView.setTextSize(24);
+			bookmarksListView.addFooterView(textView);
 			for(i=0;i<4;i++)/*skip all other fields*/
 				index = Bookmarks.indexOf("," , index) + 1;
 		}

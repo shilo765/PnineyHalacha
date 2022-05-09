@@ -17,6 +17,7 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,6 +64,13 @@ public class pninaYomit extends Activity {
         mPrefs = getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();
 
+        LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+        if (mPrefs.getInt("BlackBackground", 0)==1)
+        {
+            main.setBackgroundColor(Color.BLACK);
+            webview.setBackgroundColor(Color.BLACK);
+
+        }
         int MyLanguage = mPrefs.getInt("MyLanguage", 0);
         switch (MyLanguage)
         {
@@ -282,6 +290,17 @@ public class pninaYomit extends Activity {
             }
         });
         l.setBackgroundColor(Color.parseColor("#fefef2"));
+        if(mPrefs.getInt("PYnote" , -1)!=-1) {
+            img.setPadding(50,0,0,0);
+            if(mPrefs.getInt("PYnote" , -1)<10&&mPrefs.getInt("PYnote2" , -1)<10)
+                img.setText("0"+mPrefs.getInt("PYnote" , -1)+" : 0"+mPrefs.getInt("PYnote2" , -1));
+            if(mPrefs.getInt("PYnote" , -1)<10&&mPrefs.getInt("PYnote2" , -1)>=10)
+                img.setText("0"+mPrefs.getInt("PYnote" , -1)+" : "+mPrefs.getInt("PYnote2" , -1));
+            if(mPrefs.getInt("PYnote" , -1)>=10&&mPrefs.getInt("PYnote2" , -1)<10)
+                img.setText(mPrefs.getInt("PYnote" , -1)+" : 0"+mPrefs.getInt("PYnote2" , -1));
+            if(mPrefs.getInt("PYnote" , -1)>=10&&mPrefs.getInt("PYnote2" , -1)>=10)
+                img.setText(mPrefs.getInt("PYnote" , -1)+" : "+mPrefs.getInt("PYnote2" , -1));
+        }
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -293,6 +312,9 @@ public class pninaYomit extends Activity {
                     etH.setVisibility(View.VISIBLE);
                     Sep.setVisibility(View.VISIBLE);
                     etM.setVisibility(View.VISIBLE);
+                    shPrefEditor.putInt("PYnote",0 );
+                    shPrefEditor.putInt("PYnote2",0);
+                    shPrefEditor.commit();
                     notPress=true;
                 }
                 else
@@ -310,6 +332,9 @@ public class pninaYomit extends Activity {
                     alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
                     alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
                     Toast.makeText(getApplicationContext(), "התראה הוגדרה בהצלחה!", Toast.LENGTH_SHORT).show();
+                        shPrefEditor.putInt("PYnote",hour );
+                        shPrefEditor.putInt("PYnote2",mins);
+                        shPrefEditor.commit();
                     String setH="",setM="";
                     if(((NumberPicker) findViewById(R.id.etH)).getValue()<10)
                         setH+="0";
@@ -340,6 +365,8 @@ public class pninaYomit extends Activity {
                 etH.setVisibility(View.INVISIBLE);
                 Sep.setVisibility(View.INVISIBLE);
                 img.setPadding(0,0,85,0);
+                shPrefEditor.putInt("PYnote",-1 );
+                shPrefEditor.commit();
                 img.setText("קבע תזכורת");
                 etM.setVisibility(View.INVISIBLE);
                 l.setBackgroundColor(Color.parseColor("#fefef2"));

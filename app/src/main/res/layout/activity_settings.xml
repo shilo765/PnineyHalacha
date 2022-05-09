@@ -10,6 +10,7 @@
 	android:padding="10dp">
 
 	<LinearLayout
+		android:id="@+id/main"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:background="#FFFFFF"
@@ -38,7 +39,7 @@
 			android:orientation="vertical" />
 
 		<TextView
-			android:id="@+id/textView16"
+			android:id="@+id/langof"
 			android:layout_width="347dp"
 			android:layout_height="wrap_content"
 			android:layout_gravity="right"
@@ -106,7 +107,7 @@
 		</LinearLayout>
 
 		<TextView
-			android:id="@+id/textView17"
+			android:id="@+id/chooseTochen"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 
@@ -170,7 +171,7 @@
 		</LinearLayout>
 
 		<TextView
-			android:id="@+id/textSize"
+			android:id="@+id/chooseSize"
 			android:layout_width="344dp"
 			android:layout_height="wrap_content"
 			android:layout_gravity="right"

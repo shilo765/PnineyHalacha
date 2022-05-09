@@ -32,6 +32,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -387,7 +388,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
         chapter = extras.getInt("chapter_id");
 
-        System.out.println("shilo7777777777777777777777777777777777777777777777777"+extras.getInt("book_id")+":fff:"+extras.getInt("chapter_id")+"::"+extras.getInt("audio_id")+extras.getString("webLink"));
         if (hearAndRead) {
             scrollPos=getIntent().getIntExtra("scroolY",0);
             fontSize = extras.getInt("fontSize");
@@ -402,11 +402,28 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         book_name = get_book_name_by_id();
         playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section));
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
-
+        List<TextView> txtvList = new ArrayList<TextView>();
+        TextView textView = new TextView(getBaseContext());
         for (int i = 0; i < sections.size(); i++) {
             HashMap<String, String> hm = new HashMap<String, String>();
             hm.put("listview_title", sections.get(i));
-            aList.add(hm);
+            //aList.add(hm);
+            textView = new TextView(getBaseContext());
+            //String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
+            //String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
+            textView.setText("  "+sections.get(i)+"\n");
+            //textView.setText("shilo");
+            //textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
+            if (mPrefs.getInt("BlackBackground", 0)==1)
+            {
+                textView.setTextColor(Color.WHITE);
+               // listview.setBackgroundColor(Color.BLACK);
+            }
+            else
+                textView.setTextColor(Color.BLACK);
+            textView.setTextSize(24);
+            txtvList.add(textView);
+           // listview.addFooterView(textView);
         }
 
         String[] from = {"listview_title"};
@@ -414,13 +431,38 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
         listview = (ListView) findViewById(R.id.list_view);
         listview.setAdapter(simpleAdapter);
+        if (mPrefs.getInt("BlackBackground", 0)==1)
+            listview.setBackgroundColor(Color.BLACK);
+        else
+            listview.setBackgroundColor(Color.WHITE);
+        for (int i=0;i<txtvList.size();i++)
+            listview.addHeaderView(txtvList.get(i));
+
+        listview.setCacheColorHint(Color.WHITE);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 listview.setSelected(true);
                 listview.setSelection(position);
-                if (clickOnItemFromList == true)
+
+                if (clickOnItemFromList == true) {
                     sendSectionIdAndPlay(position + 1);
+                    for (int i=0;i<txtvList.size();i++)
+                        if(i==position)
+                            txtvList.get(position).setBackgroundColor(Color.RED);
+                        else
+                        if (mPrefs.getInt("BlackBackground", 0)==1)
+                                 txtvList.get(i).setBackgroundColor(Color.BLACK);
+                            else
+                                 txtvList.get(i).setBackgroundColor(Color.WHITE);
+                    SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
+                    listview = (ListView) findViewById(R.id.list_view);
+                    listview.setAdapter(simpleAdapter);
+                    listview.setBackgroundColor(Color.WHITE);
+                    //for (int i=0;i<txtvList.size();i++)
+                      //  listview.addHeaderView(txtvList.get(i));
+                }
+
                 playPause(view);
                 clickOnItemFromList = true;//change it back to true. In cases that it is not came directly from click om list item, it will be changed to false in this cases
             }
@@ -520,22 +562,175 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         scrollSpeed=-1;
         infView.setVisibility(View.VISIBLE);
         ImageButton searchBtn = infView.findViewById(R.id.searchBtn);
+
         final ImageButton searchBtnDown = infView.findViewById(R.id.ibFindNext);
         final ImageButton searchBtnUp = infView.findViewById(R.id.ibFindPrevious);
         final ImageButton addBookMark = infView.findViewById(R.id.action_add_bookmark);
 
-        final ImageButton config = infView.findViewById(R.id.action_config);
+        final ImageView menu = infView.findViewById(R.id.menu);
+
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(myAudio.this, v);
+                //popupMenu.
+
+                if(MyLanguage == ENGLISH) {
+
+                    popupMenu.getMenu().add(0,0,0,"Settings");
+                    popupMenu.getMenu().add(0,1,0,"About");
+                    popupMenu.getMenu().add(0,2,0,"Feedback");
+                    popupMenu.getMenu().add(0,3,0,"Explanation of search results");
+                    popupMenu.getMenu().add(0,4,0,"Acronyms");
+                    popupMenu.getMenu().add(0,5,0,"Approbations");
+                    popupMenu.getMenu().add(0,6,0,"Language / שפה");
+                }
+                else if(MyLanguage == RUSSIAN) {
+                    popupMenu.getMenu().add(0,0,0,"Настройки");
+                    popupMenu.getMenu().add(0,1,0,"Около");
+                    popupMenu.getMenu().add(0,2,0,"Обратная связь");
+                    popupMenu.getMenu().add(0,3,0,"Объяснение результатов поиска");
+                    popupMenu.getMenu().add(0,4,0,"Абревиатуры");
+                    popupMenu.getMenu().add(0,5,0,"Апробации");
+                    popupMenu.getMenu().add(0,6,0,"ЯЗЫК / שפה");
+                }
+                else if(MyLanguage == SPANISH) {
+                    popupMenu.getMenu().add(0,0,0,"Ajustes");
+                    popupMenu.getMenu().add(0,1,0,"Acerca de");
+                    popupMenu.getMenu().add(0,2,0,"Comentarios");
+                    popupMenu.getMenu().add(0,3,0,"Explicacion del resultado de la busqueda");
+                    popupMenu.getMenu().add(0,4,0,"Acronimos");
+                    popupMenu.getMenu().add(0,5,0,"Aprovaciones");
+                    popupMenu.getMenu().add(0,6,0,"Idioma / שפה");
+                }
+                else if(MyLanguage == FRENCH) {
+                    popupMenu.getMenu().add(0,0,0,"Definitions");
+                    popupMenu.getMenu().add(0,1,0,"A Propos de…");
+                    popupMenu.getMenu().add(0,2,0,"Commentaires");
+                    popupMenu.getMenu().add(0,3,0,"Explication de la recherche");
+                    popupMenu.getMenu().add(0,4,0,"Acronymes");
+                    popupMenu.getMenu().add(0,5,0,"Approbations");
+                    popupMenu.getMenu().add(0,6,0,"Langue / שפה");
+                }
+                else {/*this is the default*/
+                    popupMenu.getMenu().add(0,0,0,"הגדרות");
+                    popupMenu.getMenu().add(0,1,0,"אודות");
+                    popupMenu.getMenu().add(0,2,0,"משוב");
+                    popupMenu.getMenu().add(0,3,0,"הסבר על החיפוש");
+                    popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
+                    popupMenu.getMenu().add(0,5,0,"הסכמות");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,6,0,"Language / שפה");
+                }
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+                {
+
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item)
+                    {
+                        Class ourClass = null;
+                        Intent ourIntent;
+                        switch (item.getItemId())
+                        {
+                            case 0:/*settings*/
+
+                                try {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                ourIntent = new Intent(myAudio.this, ourClass);
+                                ourIntent.putExtra("homePage", true);
+                                startActivity(ourIntent);
+                                break;
+
+                            case 1:/*about*/
+                                try
+                                {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+                                    ourIntent = new Intent(myAudio.this, ourClass);
+                                    startActivity(ourIntent);
+                                }
+                                catch (ClassNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                break;
+                            case 2:/*Feedback*/
+                                try
+                                {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+                                    ourIntent = new Intent(myAudio.this, ourClass);
+                                    startActivity(ourIntent);
+                                }
+                                catch (ClassNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 3:/*Explanation for Search*/
+                                try
+                                {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+                                    ourIntent = new Intent(myAudio.this, ourClass);
+                                    startActivity(ourIntent);
+                                }
+                                catch (ClassNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 4:/*acronyms*/
+
+
+                                break;
+
+                            case 5:/*hascamot*/
+
+                                break;
+                            case 6:/*language*/
+                                ;
+                                break;
+
+
+                            default:
+                                break;
+                        }
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
+
         final ImageButton scrollBtn = infView.findViewById(R.id.action_auto_scrool);
+        final ImageView toMain = infView.findViewById(R.id.too_main);
+        searchBtn.setVisibility(View.GONE);
+        addBookMark.setVisibility(View.GONE);
+        //config.setVisibility(View.GONE);
+        scrollBtn.setVisibility(View.GONE);
         searchBtnDown.setVisibility(View.GONE);
         searchBtnUp.setVisibility(View.GONE);
-        config.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                showPopupMenuSettings(findViewById(R.id.action_config));
-    }
-});
+
         scrollBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showPopupAutoScroolSettings(findViewById(R.id.action_auto_scrool));
+            }
+        });
+        toMain.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                playPause(v);
+                Class ourClass = null;
+                try {
+                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Intent ourIntent = new Intent(myAudio.this, ourClass);
+                ourIntent.putExtra("goLast", true);
+                startActivity(ourIntent);
             }
         });
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -1760,6 +1955,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             HashMap<String, String> hm = new HashMap<String, String>();
             hm.put("listview_title", sections.get(i));
             aList.add(hm);
+            for (String s: hm.keySet())
+                System.out.print("shilobn17654432"+ hm.get(s));
+            System.out.println("");
         }
 
         String[] from = {"listview_title"};

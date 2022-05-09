@@ -8,8 +8,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -49,6 +52,9 @@ public class HomePage extends Activity {
         mPrefs = getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();
         MyLanguage = mPrefs.getInt("MyLanguage", -1);
+        Bundle extras = getIntent().getExtras();
+
+
         PackageManager packageManager = context.getPackageManager();
         String packageName = context.getPackageName();
         String version;
@@ -109,6 +115,15 @@ public class HomePage extends Activity {
         ImageView askTheRav= (ImageView) findViewById(R.id.ask_the_rav);
         ImageView donate= (ImageView) findViewById(R.id.donation);
         ImageView menu= (ImageView) findViewById(R.id.menu);
+        LinearLayout main=(LinearLayout) findViewById(R.id.main);
+        LinearLayout main2=(LinearLayout) findViewById(R.id.lnrOption2);
+        LinearLayout main3=(LinearLayout) findViewById(R.id.lnrOption7);
+        if (mPrefs.getInt("BlackBackground", 0)==1)
+        {
+            main.setBackgroundColor(Color.BLACK);
+            main2.setBackgroundColor(Color.BLACK);
+            main3.setBackgroundColor(Color.BLACK);
+        }
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,15 +169,16 @@ public class HomePage extends Activity {
                 }
                 else {/*this is the default*/
                     popupMenu.getMenu().add(0,0,0,"הגדרות");
-                    popupMenu.getMenu().add(0,1,0,"ספרים");
-                    popupMenu.getMenu().add(0,2,0,"לימוד יומי");
-                    popupMenu.getMenu().add(0,3,0,"משוב");
-                    popupMenu.getMenu().add(0,4,0,"רכישת ספרים");
-                    popupMenu.getMenu().add(0,5,0,"שאל את הרב");
-                    popupMenu.getMenu().add(0,6,0,"ראשי תיבות");
-                    popupMenu.getMenu().add(0,7,0,"הסכמות");
+                    popupMenu.getMenu().add(0,1,0,"חיפוש");
+                    popupMenu.getMenu().add(0,2,0,"ספרים");
+                    popupMenu.getMenu().add(0,3,0,"לימוד יומי");
+                    popupMenu.getMenu().add(0,4,0,"משוב");
+                    popupMenu.getMenu().add(0,5,0,"רכישת ספרים");
+                    popupMenu.getMenu().add(0,6,0,"שאל את הרב");
+                    popupMenu.getMenu().add(0,7,0,"ראשי תיבות");
+                    popupMenu.getMenu().add(0,8,0,"הסכמות");
                     //booksDownload configHeaders[6] = "ספרים להורדה";
-                    popupMenu.getMenu().add(0,8,0,"אודות");
+                    popupMenu.getMenu().add(0,9,0,"אודות");
                 }
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
                 {
@@ -197,7 +213,18 @@ public class HomePage extends Activity {
                                 startActivity(ourIntent);
 
                                 break;
-                            case 2:/*pninaYomit*/
+                            case 2:/*to books*/
+                                try {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                ourIntent = new Intent(HomePage.this, ourClass);
+                                ourIntent.putExtra("homePage", false);
+                                startActivity(ourIntent);
+                                break;
+
+                            case 3:/*pninaYomit*/
                                 try {
                                     ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
                                 } catch (ClassNotFoundException e) {
@@ -205,7 +232,8 @@ public class HomePage extends Activity {
                                 }
                                 ourIntent = new Intent(HomePage.this, ourClass);
                                 startActivity(ourIntent);
-                            case 3:/*feedback*/
+                                break;
+                            case 4:/*feedback*/
                                 try
                                 {
                                     ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
@@ -217,24 +245,24 @@ public class HomePage extends Activity {
                                     e.printStackTrace();
                                 }
                                 break;
-                            case 4:/*buy books*/
+                            case 5:/*buy books*/
                                 intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setData(Uri.parse("https://shop.yhb.org.il/"));
                                 startActivity(intent);
                                 break;
 
-                            case 5:/*ask the rav*/
+                            case 6:/*ask the rav*/
                                 intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
                                 startActivity(intent);
                                 break;
-                            case 6:/*acronyms*/
+                            case 7:/*acronyms*/
                                 acronymsDecode();
                             break;
-                            case 7:/*hascamot*/
+                            case 8:/*hascamot*/
                                 hascamotDialog();
                                 break;
-                            case 8:/*about*/
+                            case 9:/*about*/
                                 try
                                 {
                                     ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
@@ -468,7 +496,11 @@ public class HomePage extends Activity {
         if(backgroundColor==1)
             webviewHascmot.loadUrl("file:///android_asset/hascamot_white.html");
         else
+        {
             webviewHascmot.loadUrl("file:///android_asset/hascamot.html");
+            webviewHascmot.setBackgroundColor(Color.WHITE);
+        }
+
         dialog.show();
     }
 }

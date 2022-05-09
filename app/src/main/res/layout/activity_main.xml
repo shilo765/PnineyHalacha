@@ -50,14 +50,14 @@
         <ExpandableListView
             android:id="@+id/lvExp"
             android:layout_width="409dp"
-            android:layout_height="647dp"
+            android:layout_height="match_parent"
 
 
             android:layout_alignParentTop="true"
             android:layout_marginLeft="2dp"
-            android:layout_marginTop="5dp"
-            android:background="#00FFFFFF"
-            android:cacheColorHint="#00FFFFFF"
+            android:layout_marginTop="0dp"
+            android:background="#00131515"
+            android:cacheColorHint="#DC0A0A"
             android:divider="#00FFFFFF"
             android:dividerHeight="2px"
 

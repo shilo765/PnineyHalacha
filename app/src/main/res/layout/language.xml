@@ -49,7 +49,7 @@
         </RadioGroup>
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/chooseTochen"
             android:layout_width="418dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#003349">
+    android:background="#eed7d5">
 
     <LinearLayout
         android:id="@+id/lnrOption3"
@@ -37,17 +37,21 @@
             android:src="@drawable/action_config"
             android:tag="4" />
     </LinearLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <WebView
         android:id="@+id/webView1"
         android:layout_width="match_parent"
-        android:layout_height="594dp"
-        android:layout_marginTop="5dp" />
+        android:layout_height="669dp"
+        android:layout_marginTop="2dp" />
 
     <LinearLayout
+        android:layout_alignParentBottom="true"
         android:id="@+id/lnrOptions"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="77dp"
         android:background="#970606"
         android:gravity="center">
 
@@ -101,6 +105,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_alignParentBottom="true"
         android:id="@+id/lnrFindOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -125,4 +130,5 @@
             android:src="@drawable/ic_action_up" />
     </LinearLayout>
 
+</RelativeLayout>
 </LinearLayout>

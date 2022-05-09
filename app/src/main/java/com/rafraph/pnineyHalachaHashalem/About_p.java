@@ -3,12 +3,15 @@ package com.rafraph.pnineyHalachaHashalem;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class About_p extends Activity
 {
@@ -31,6 +34,29 @@ public class About_p extends Activity
 		shPrefEditor = mPrefs.edit();
 		MyLanguage = mPrefs.getInt("MyLanguage", -1);
 		ImageView toMain= (ImageView) findViewById(R.id.b_chap);
+		TextView txt1=(TextView) findViewById(R.id.include);
+		TextView txt2=(TextView) findViewById(R.id.newV);
+		TextView txt3=(TextView) findViewById(R.id.textView3);
+		TextView txt4=(TextView) findViewById(R.id.textView4);
+		//LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption2);
+	//	LinearLayout main3=(LinearLayout) findViewById(R.id.lnrOption3);
+	//	LinearLayout main4=(LinearLayout) findViewById(R.id.lnrOption7);
+	//	LinearLayout main5=(LinearLayout) findViewById(R.id.lnrOption8);
+		RelativeLayout main2=(RelativeLayout) findViewById(R.id.layout_root);
+		if (mPrefs.getInt("BlackBackground", 0)==1)
+		{
+			txt1.setTextColor(Color.WHITE);
+			txt2.setTextColor(Color.WHITE);
+			txt3.setTextColor(Color.WHITE);
+			txt4.setTextColor(Color.WHITE);
+			//main.setBackgroundColor(Color.BLACK);
+			main2.setBackgroundColor(Color.BLACK);
+			//main3.setBackgroundColor(Color.BLACK);
+			//main4.setBackgroundColor(Color.BLACK);
+			//main5.setBackgroundColor(Color.BLACK);
+
+
+		}
 		toMain.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
