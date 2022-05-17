@@ -67,6 +67,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48*/
     public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10};
     String[][] chaptersNames = new String[BOOKS_NUMBER][32];
+    public  static int rotateState;
     private static final int BRACHOT = 0;
     private static final int HAAMVEHAAREZ = 1;
     private static final int ZMANIM = 2;
@@ -250,254 +251,255 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //rotateState=getResources().getConfiguration().orientation;
         extras = getIntent().getExtras();
         mPrefs = getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();
-
+        rotateState=mPrefs.getInt("rotate",-1);
         MyLanguage = mPrefs.getInt("MyLanguage", 0);
 
+        //if u wont rotate modecheck if(rotateState==getResources().getConfiguration().orientation)
+        if (true) {
+            shPrefEditor.putInt("rotate", getResources().getConfiguration().orientation);
+            hearAndRead = extras.getBoolean("hearAndRead");
+            //PRAPRE TO READ AND LISTEN VIEW
+            if (hearAndRead)
+                setContentView(R.layout.text_main_audio);
+            else
+                setContentView(R.layout.activity_audio);
+            mPrefs = getSharedPreferences(PREFS_NAME, 0);
+            shPrefEditor = mPrefs.edit();
+            if (hearAndRead) {
+                inf = getLayoutInflater();
+                infView = inf.inflate(R.layout.tochen_actionbar_lay, null);
+                rl = (RelativeLayout) findViewById(R.id.content);
 
-
-        hearAndRead = extras.getBoolean("hearAndRead");
-        //PRAPRE TO READ AND LISTEN VIEW
-        if (hearAndRead)
-            setContentView(R.layout.text_main_audio);
-        else
-            setContentView(R.layout.activity_audio);
-        mPrefs = getSharedPreferences(PREFS_NAME, 0);
-        shPrefEditor = mPrefs.edit();
-        if (hearAndRead) {
-            inf = getLayoutInflater();
-            infView = inf.inflate(R.layout.tochen_actionbar_lay, null);
-            rl = (RelativeLayout) findViewById(R.id.content);
-
-            infView.setVisibility(View.VISIBLE);
-            rl.addView(infView);
-        }
-        context = this;
-        ll = (LinearLayout) findViewById(R.id.hi);
-        //ll.setVisibility(View.INVISIBLE);
-        //to swich to read and hear mode change here and 269+- to if(true)
-        if (hearAndRead) {
-
-            webview = (WebView) findViewById(R.id.webView1);
-            webSettings = webview.getSettings();
-            webSettings.setMinimumFontSize(20);
-            webSettings.setDefaultTextEncodingName("utf-8");
-            webSettings.setJavaScriptEnabled(true);
-            webSettings.setSupportZoom(true);
-            API = android.os.Build.VERSION.SDK_INT;
-            if (API < 19)
-                webSettings.setBuiltInZoomControls(true);
-            webview.requestFocusFromTouch();
-            webview.getSettings().setAllowFileAccess(true);
-            webLink = getIntent().getStringExtra("webLink");
-
-            webview.loadUrl(webLink);
-
-            webview.setY(80);
-            BlackBackground = mPrefs.getInt("BlackBackground", 0);
-            if (BlackBackground == 1) {
-                webview.setWebViewClient(new WebViewClient() {
-                    public void onPageFinished(WebView view, String url) {
-                        view.loadUrl(
-                                "javascript:document.body.style.setProperty(\"color\", \"white\");"
-                        );
-                    }
-                });
-                webview.setBackgroundColor(Color.BLACK);//black
-                infView.setBackgroundColor(Color.BLACK);
+                infView.setVisibility(View.VISIBLE);
+                rl.addView(infView);
             }
+            context = this;
+            ll = (LinearLayout) findViewById(R.id.hi);
+            //ll.setVisibility(View.INVISIBLE);
+            //to swich to read and hear mode change here and 269+- to if(true)
+            if (hearAndRead) {
 
-            final Runnable runnableNote = new Runnable() {
-                public void run() {
-                    String note, content = null;
-                    int intNoteId;
-                    final Dialog dialog = new Dialog(context);
-                    WebView webviewNote;
-                    WebSettings webSettingsNote;
-                    dialog.setContentView(R.layout.note);
-                    intNoteId = Integer.parseInt(note_id) - 1000;
-                    note_id = Integer.toString(intNoteId);
-                    dialog.setTitle("        הערה " + note_id);
-                    webviewNote = (WebView) dialog.findViewById(R.id.webViewNote1);
-                    webSettingsNote = webviewNote.getSettings();
-                    webSettingsNote.setDefaultTextEncodingName("utf-8");
-                    webviewNote.requestFocusFromTouch();
-                    if (API < 19)
-                        webSettingsNote.setBuiltInZoomControls(true);
+                webview = (WebView) findViewById(R.id.webView1);
+                webSettings = webview.getSettings();
+                webSettings.setMinimumFontSize(20);
+                webSettings.setDefaultTextEncodingName("utf-8");
+                webSettings.setJavaScriptEnabled(true);
+                webSettings.setSupportZoom(true);
+                API = android.os.Build.VERSION.SDK_INT;
+                if (API < 19)
+                    webSettings.setBuiltInZoomControls(true);
+                webview.requestFocusFromTouch();
+                webview.getSettings().setAllowFileAccess(true);
+                webLink = getIntent().getStringExtra("webLink");
 
-                    content = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
-                            "<html><head>" +
-                            "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />" +
-                            "<head>";
-                    if (mPrefs.getInt("BlackBackground", 0) == 0)
-                        content += "<body>";//White background
-                    else
-                        content += "<body style=\"background-color:black;color:white\">";//Black background
+                webview.loadUrl(webLink);
 
-                    ParseTheDoc();
-                    headers = doc.select("div#ftn" +note_id);
-                    note = headers.get(0).text();
-                    content += "<p dir=\"RTL\">" + note + "</p> </body></html>";
-                    webviewNote.loadData(content, "text/html; charset=utf-8", "UTF-8");
-                    webSettingsNote.setDefaultFontSize(18);
-                    dialog.show();
-
-                    dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-                            //do whatever you want the back key to do
-                            dialog.dismiss();
-
+                webview.setY(80);
+                BlackBackground = mPrefs.getInt("BlackBackground", 0);
+                if (BlackBackground == 1) {
+                    webview.setWebViewClient(new WebViewClient() {
+                        public void onPageFinished(WebView view, String url) {
+                            view.loadUrl(
+                                    "javascript:document.body.style.setProperty(\"color\", \"white\");"
+                            );
                         }
                     });
+                    webview.setBackgroundColor(Color.BLACK);//black
+                    infView.setBackgroundColor(Color.BLACK);
                 }
-            };
-            final Runnable runnableAudio = new Runnable() {
-                public void run() {
-                    sendSectionIdAndPlay(Integer.parseInt(audio_id));
-                }
-            };
-            webview.addJavascriptInterface(new Object() {
-                @JavascriptInterface
-                public <var> void performClick(String id) {
-                    setNoteId(id);
-                    runOnUiThread(runnableNote);
-                }
-            }, "ok");
-            webview.addJavascriptInterface(new Object() {
-                @JavascriptInterface
-                public void performClick(String id) {
-                    setAudioId(id);
-                    runOnUiThread(runnableAudio);
-                    playing = 0;
-                    playPause(view);
-                }
-            }, "audio");
-            createActionBar();
-        }
 
-        firstCall = true;
-        registerAllBroadcast();
-        initializeViews();
-        playerInfo = (TextView) findViewById(R.id.playerInfo);
-        extras = getIntent().getExtras();
-        sections = new ArrayList<String>();
-        book = extras.getInt("book_id");
+                final Runnable runnableNote = new Runnable() {
+                    public void run() {
+                        String note, content = null;
+                        int intNoteId;
+                        final Dialog dialog = new Dialog(context);
+                        WebView webviewNote;
+                        WebSettings webSettingsNote;
+                        dialog.setContentView(R.layout.note);
+                        intNoteId = Integer.parseInt(note_id) - 1000;
+                        note_id = Integer.toString(intNoteId);
+                        dialog.setTitle("        הערה " + note_id);
+                        webviewNote = (WebView) dialog.findViewById(R.id.webViewNote1);
+                        webSettingsNote = webviewNote.getSettings();
+                        webSettingsNote.setDefaultTextEncodingName("utf-8");
+                        webviewNote.requestFocusFromTouch();
+                        if (API < 19)
+                            webSettingsNote.setBuiltInZoomControls(true);
 
-        chapter = extras.getInt("chapter_id");
-
-        if (hearAndRead) {
-            scrollPos=getIntent().getIntExtra("scroolY",0);
-            fontSize = extras.getInt("fontSize");
-            webSettings.setMinimumFontSize(fontSize);
-
-        }
-
-        if (book == KASHRUT_B)//KASHRUT_B is starting from chapter 20
-            chapter += 19;
-        section = extras.getInt("audio_id");
-        sections = extras.getStringArrayList("sections_" + chapter);
-        book_name = get_book_name_by_id();
-        playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section));
-        List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
-        List<TextView> txtvList = new ArrayList<TextView>();
-        TextView textView = new TextView(getBaseContext());
-        for (int i = 0; i < sections.size(); i++) {
-            HashMap<String, String> hm = new HashMap<String, String>();
-            hm.put("listview_title", sections.get(i));
-            //aList.add(hm);
-            textView = new TextView(getBaseContext());
-            //String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
-            //String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
-            textView.setText("  "+sections.get(i)+"\n");
-            //textView.setText("shilo");
-            //textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
-            if (mPrefs.getInt("BlackBackground", 0)==1)
-            {
-                textView.setTextColor(Color.WHITE);
-               // listview.setBackgroundColor(Color.BLACK);
-            }
-            else
-                textView.setTextColor(Color.BLACK);
-            textView.setTextSize(24);
-            txtvList.add(textView);
-           // listview.addFooterView(textView);
-        }
-
-        String[] from = {"listview_title"};
-        int[] to = {R.id.listview_item_title};
-        SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
-        listview = (ListView) findViewById(R.id.list_view);
-        listview.setAdapter(simpleAdapter);
-        if (mPrefs.getInt("BlackBackground", 0)==1)
-            listview.setBackgroundColor(Color.BLACK);
-        else
-            listview.setBackgroundColor(Color.WHITE);
-        for (int i=0;i<txtvList.size();i++)
-            listview.addHeaderView(txtvList.get(i));
-
-        listview.setCacheColorHint(Color.WHITE);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listview.setSelected(true);
-                listview.setSelection(position);
-
-                if (clickOnItemFromList == true) {
-                    sendSectionIdAndPlay(position + 1);
-                    for (int i=0;i<txtvList.size();i++)
-                        if(i==position)
-                            txtvList.get(position).setBackgroundColor(Color.RED);
+                        content = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
+                                "<html><head>" +
+                                "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />" +
+                                "<head>";
+                        if (mPrefs.getInt("BlackBackground", 0) == 0)
+                            content += "<body>";//White background
                         else
-                        if (mPrefs.getInt("BlackBackground", 0)==1)
-                                 txtvList.get(i).setBackgroundColor(Color.BLACK);
+                            content += "<body style=\"background-color:black;color:white\">";//Black background
+
+                        ParseTheDoc();
+                        headers = doc.select("div#ftn" + note_id);
+                        note = headers.get(0).text();
+                        content += "<p dir=\"RTL\">" + note + "</p> </body></html>";
+                        webviewNote.loadData(content, "text/html; charset=utf-8", "UTF-8");
+                        webSettingsNote.setDefaultFontSize(18);
+                        dialog.show();
+
+                        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                //do whatever you want the back key to do
+                                dialog.dismiss();
+
+                            }
+                        });
+                    }
+                };
+                final Runnable runnableAudio = new Runnable() {
+                    public void run() {
+                        sendSectionIdAndPlay(Integer.parseInt(audio_id));
+                    }
+                };
+                webview.addJavascriptInterface(new Object() {
+                    @JavascriptInterface
+                    public <var> void performClick(String id) {
+                        setNoteId(id);
+                        runOnUiThread(runnableNote);
+                    }
+                }, "ok");
+                webview.addJavascriptInterface(new Object() {
+                    @JavascriptInterface
+                    public void performClick(String id) {
+                        setAudioId(id);
+                        runOnUiThread(runnableAudio);
+                        playing = 0;
+                        playPause(view);
+                    }
+                }, "audio");
+                createActionBar();
+            }
+
+            firstCall = true;
+            registerAllBroadcast();
+            initializeViews();
+            playerInfo = (TextView) findViewById(R.id.playerInfo);
+            extras = getIntent().getExtras();
+            sections = new ArrayList<String>();
+            book = extras.getInt("book_id");
+
+            chapter = extras.getInt("chapter_id");
+
+            if (hearAndRead) {
+                scrollPos = getIntent().getIntExtra("scroolY", 0);
+                fontSize = extras.getInt("fontSize");
+                webSettings.setMinimumFontSize(fontSize);
+
+            }
+
+            if (book == KASHRUT_B)//KASHRUT_B is starting from chapter 20
+                chapter += 19;
+            section = extras.getInt("audio_id");
+            sections = extras.getStringArrayList("sections_" + chapter);
+            book_name = get_book_name_by_id();
+            playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section));
+            List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
+            List<TextView> txtvList = new ArrayList<TextView>();
+            TextView textView = new TextView(getBaseContext());
+            for (int i = 0; i < sections.size(); i++) {
+                HashMap<String, String> hm = new HashMap<String, String>();
+                hm.put("listview_title", sections.get(i));
+                //aList.add(hm);
+                textView = new TextView(getBaseContext());
+                //String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
+                //String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
+                textView.setText("  " + sections.get(i) + "\n");
+                //textView.setText("shilo");
+                //textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
+                if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                    textView.setTextColor(Color.WHITE);
+                    // listview.setBackgroundColor(Color.BLACK);
+                } else
+                    textView.setTextColor(Color.BLACK);
+                textView.setTextSize(24);
+                txtvList.add(textView);
+                // listview.addFooterView(textView);
+            }
+
+            String[] from = {"listview_title"};
+            int[] to = {R.id.listview_item_title};
+            SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
+            listview = (ListView) findViewById(R.id.list_view);
+            listview.setAdapter(simpleAdapter);
+            if (mPrefs.getInt("BlackBackground", 0) == 1)
+                listview.setBackgroundColor(Color.BLACK);
+            else
+                listview.setBackgroundColor(Color.WHITE);
+            for (int i = 0; i < txtvList.size(); i++)
+                listview.addHeaderView(txtvList.get(i));
+
+            listview.setCacheColorHint(Color.WHITE);
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    listview.setSelected(true);
+                    //listview.setSelection(position);
+
+                    if (clickOnItemFromList == true) {
+                        sendSectionIdAndPlay(position + 1);
+                        for (int i = 0; i < txtvList.size(); i++)
+                            if (i == position)
+                                txtvList.get(position).setBackgroundColor(Color.rgb(151, 6, 6));
+                            else if (mPrefs.getInt("BlackBackground", 0) == 1)
+                                txtvList.get(i).setBackgroundColor(Color.BLACK);
                             else
-                                 txtvList.get(i).setBackgroundColor(Color.WHITE);
-                    SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
-                    listview = (ListView) findViewById(R.id.list_view);
-                    listview.setAdapter(simpleAdapter);
-                    listview.setBackgroundColor(Color.WHITE);
-                    //for (int i=0;i<txtvList.size();i++)
-                      //  listview.addHeaderView(txtvList.get(i));
+                                txtvList.get(i).setBackgroundColor(Color.WHITE);
+                        SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
+                        listview = (ListView) findViewById(R.id.list_view);
+                        listview.setAdapter(simpleAdapter);
+                        listview.setBackgroundColor(Color.WHITE);
+                        listview.setSelection(position);
+
+                        //for (int i=0;i<txtvList.size();i++)
+                        //  listview.addHeaderView(txtvList.get(i));
+                    }
+
+                    playPause(view);
+                    clickOnItemFromList = true;//change it back to true. In cases that it is not came directly from click om list item, it will be changed to false in this cases
                 }
+            });
+            buttonNext = (ImageButton) findViewById(R.id.media_next);
+            buttonPrevious = (ImageButton) findViewById(R.id.media_prev);
+            initializeSeekBar();
+            while (playing == 1) {
+                try {
+                    wait(1000);
+                    Intent broadcastIntent = new Intent(Broadcast_FORWARD_10);
+                    sendBroadcast(broadcastIntent);
 
-                playPause(view);
-                clickOnItemFromList = true;//change it back to true. In cases that it is not came directly from click om list item, it will be changed to false in this cases
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        });
-        buttonNext = (ImageButton) findViewById(R.id.media_next);
-        buttonPrevious = (ImageButton) findViewById(R.id.media_prev);
-        initializeSeekBar();
-        while (playing == 1)
-        {
-            try {
-                wait(1000);
-                Intent broadcastIntent = new Intent(Broadcast_FORWARD_10);
-                sendBroadcast(broadcastIntent);
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            spinner = findViewById(R.id.myspinner);
+            spinner.setSelected(true);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.speed_audio_array, android.R.layout.simple_list_item_1);
+            adapter.setDropDownViewResource((android.R.layout.simple_list_item_1));
+            spinner.setAdapter(adapter);
+            spinner.setSelection(4);
+            spinner.setOnItemSelectedListener(this);
+            Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
+            sendBroadcast(broadcastIntent);
+            broadcastIntent = new Intent(Broadcast_Speed);
+            int choice = spinner.getSelectedItemPosition();
+            speed = sppedArray[choice];
+            broadcastIntent.putExtra("speed", speed);
+            if (playing == 0)
+                broadcastIntent.putExtra("play", 0);
+            sendBroadcast(broadcastIntent);
+            refresh(2000);
         }
-        spinner = findViewById(R.id.myspinner);
-        spinner.setSelected(true);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.speed_audio_array, android.R.layout.simple_list_item_1);
-        adapter.setDropDownViewResource((android.R.layout.simple_list_item_1));
-        spinner.setAdapter(adapter);
-        spinner.setSelection(4);
-        spinner.setOnItemSelectedListener(this);
-        Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
-        sendBroadcast(broadcastIntent);
-        broadcastIntent = new Intent(Broadcast_Speed);
-        int choice = spinner.getSelectedItemPosition();
-        speed = sppedArray[choice];
-        broadcastIntent.putExtra("speed", speed);
-        if (playing == 0)
-            broadcastIntent.putExtra("play", 0);
-        sendBroadcast(broadcastIntent);
-        refresh(2000);
     }
 
     private void refresh(int millisec) {
@@ -1773,6 +1775,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 timeElapsedUpdates, new IntentFilter("timeElapsedUpdates"));
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 chapterUpdate, new IntentFilter("chapterUpdate"));
+
     }
 
 
@@ -1882,15 +1885,18 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public void onDestroy()
     {
         super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(BRskipNext);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(timeElapsedUpdates);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(chapterUpdate);
+        //for not crash on rotate change if to true and change the plappusae icon
+        if(true) {
 
-        if (serviceBound)
-        {
-            unbindService(serviceConnection);
-            //service is active
-            stopService(playerIntent);
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(BRskipNext);
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(timeElapsedUpdates);
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(chapterUpdate);
+
+            if (serviceBound) {
+                unbindService(serviceConnection);
+                //service is active
+                stopService(playerIntent);
+            }
         }
     }
 

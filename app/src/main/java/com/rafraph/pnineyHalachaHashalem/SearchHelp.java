@@ -476,7 +476,7 @@ public class SearchHelp extends Activity {
 						String  s=mPrefs.getString("sp" + position, "");
 						ourIntent.putExtra("searchPosition", mPrefs.getString("sp" + position, ""));
 
-						ourIntent.putExtra("query", querys[position]);
+						ourIntent.putExtra("query", query);
 						//ourIntent.putExtra("sectionsForToast", sectionsForToast);
 
 						startActivity(ourIntent);
@@ -529,41 +529,41 @@ public class SearchHelp extends Activity {
 												temp=totalCount;
 												if(totalCount<num)
 												{
-													query=" "+searchText.getText().toString()+",";
+													query=" "+ queryToSearch+",";
 													doMySearch(num);
 												}
 
 												if(totalCount<num)
 												{
-													query=","+searchText.getText().toString()+" ";
+													query=","+queryToSearch+" ";
 													doMySearch(num);
 												}
 
 												if(totalCount<num)
 												{
-													query="ה"+searchText.getText().toString()+" ";
+													query="ה"+queryToSearch+" ";
 													//doMySearch(num);
 												}
 												if(totalCount<num)
 												{
-													query="ו"+searchText.getText().toString()+" ";
+													query="ו"+query+" ";
 													//doMySearch(num);
 												}
 												if(totalCount<num)
 												{
-													query=" "+searchText.getText().toString()+"ם";
-													//doMySearch(num);
-												}
-
-												if(totalCount<num)
-												{
-													query=" "+searchText.getText().toString()+"הם";
+													query=" "+queryToSearch+"ם";
 													//doMySearch(num);
 												}
 
 												if(totalCount<num)
 												{
-													query=" "+searchText.getText().toString()+"יהם";
+													query=" "+queryToSearch+"הם";
+													//doMySearch(num);
+												}
+
+												if(totalCount<num)
+												{
+													query=" "+queryToSearch+"יהם";
 													//doMySearch(num);
 												}
 
@@ -605,12 +605,12 @@ public class SearchHelp extends Activity {
 									ourIntent.putExtra("cameFromSearch", cameFromSearch);
 									ourIntent.putExtra("searchPosition", searchPosition);
 
-									ourIntent.putExtra("query", query);
+									ourIntent.putExtra("query",queryToSearch);
 									for (int i=1;i<10;i++) {
 										shPrefEditor.putString("s"+i, mPrefs.getString("s" + (i-1), ""));
 										shPrefEditor.putString("sp"+i, mPrefs.getString("sp" + (i-1), ""));
 									}
-									shPrefEditor.putString("s0", query);
+									shPrefEditor.putString("s0", queryToSearch);
 									shPrefEditor.putString("sp0", searchPosition+"");
 									shPrefEditor.commit();
 
@@ -788,7 +788,7 @@ public class SearchHelp extends Activity {
 								textView.setTextColor(Color.BLACK);
 							textView.setTextSize(24);
 							searchListView.addHeaderView(textView);
-							querys[totalCount-1]=queryToSearch;
+							querys[totalCount-1]=query;
 							listStrName.add("(" + chaptersNames[i][j].split("-")[0] + "," + sections + ")");
 
 						}

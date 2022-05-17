@@ -525,28 +525,29 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
 
 
-
+				System.out.println(query);
+				//String s=query.split("l")[2];
 				scrollY = 0;
 				lnrFindOptions.setVisibility(View.VISIBLE);
-				webview.findAllAsync(query);
+				webview.findAllAsync(" "+query+" ");
 				webview.setFindListener(new WebView.FindListener() {
 
 				@Override
 				public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
 					if(numberOfMatches==0) {
-						webview.findAllAsync("ו" + query + " ");
+						webview.findAllAsync(" " + query + ",");
 						webview.setFindListener(new WebView.FindListener() {
 
 							@Override
 							public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
 								if (numberOfMatches == 0) {
-									webview.findAllAsync("ה" + query + " ");
+									webview.findAllAsync("," + query + " ");
 									webview.setFindListener(new WebView.FindListener() {
 
 										@Override
 										public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
 											if (numberOfMatches == 0) {
-												webview.findAllAsync("ל" + query + " ");
+												webview.findAllAsync(query);
 												webview.setFindListener(new WebView.FindListener() {
 
 													@Override

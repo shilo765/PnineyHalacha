@@ -101,6 +101,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private static final int TEFILAT_NASHIM	= 17;
     private static final int F_TFILA	= 48;
 
+
     @Override
     public IBinder onBind(Intent intent) {
         return iBinder;
@@ -109,6 +110,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     @Override
     public void onCreate() {
         super.onCreate();
+
         // Perform one-time setup procedures
         float defSpeed=getSharedPreferences("MyPrefsFile",0).getFloat("audioSpeed",1);
 
@@ -125,6 +127,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         if (mediaPlayer != null) {
             stopMedia();
             mediaPlayer.release();
@@ -489,6 +492,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     };
 
     private BroadcastReceiver BR_skipToNext = new BroadcastReceiver() {
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
@@ -528,7 +532,14 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void skipToNext() throws IOException {
+        //stopMedia();
+        if (mediaPlayer==null){
+            initMediaPlayer();
+            mediaPlayer.start();
+
+        }
         stopMedia();
         mediaPlayer.reset();
         if (book!=48)
