@@ -32,7 +32,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="שמחים להשיק את השיפורים החדשים באפליקציה לנוחיותכם:"
+                android:text="התחדשנו! "
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="שמחים להגיש בפניכם את אפליקצית פניני הלכה בעיצוב משופר, הכוללת:"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#5A9B85"
                 android:textSize="20dp" />
@@ -50,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="1. הוספנו מצב קריאה והאזנה משולב לשיפור חווית הלימוד"
+                android:text="1. מראה נקי וחדשני"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#5A9B85"
                 android:textSize="20dp" />
@@ -69,13 +77,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="2. לחצן קביעת מהירות השמעה בנגן"
+                android:text="2. השלמת כל ספרי פניני הלכה בשפות"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#5A9B85"
                 android:textSize="20dp" />
-
             <TextView
-                android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -85,11 +91,81 @@
                 android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="3. שיפור הצגת תוצאות במנוע החיפוש כולל השלמה אוטומטית"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text='             '
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="4. הלכה יומית ואפשרות לתזמון תזכורת"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text='             '
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="5. פתרון באגים"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
+
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text='             '
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="יש לכם הצעות ורעיונות? כתבו לנו באזור ה'משוב' בתפריט הראשי. לימוד פורה, צוות הפיתוח אפליקציית פניני הלכה"
+                android:text="לימוד מהנה!"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text='             '
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#5A9B85"
+                android:textSize="20dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="צוות אפליקציית פניני הלכה"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#5A9B85"
                 android:textSize="20dp" />

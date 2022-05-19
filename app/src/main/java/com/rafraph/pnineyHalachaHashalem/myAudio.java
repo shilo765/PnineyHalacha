@@ -40,6 +40,7 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
@@ -120,6 +121,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private int book;
     private int chapter;
     private int section;
+    public int lastSec;
     ArrayList<String> sections;
     View view;
     public int refreshCount=0;
@@ -131,6 +133,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public String book_name;
     public TextView playerInfo;
     Bundle extras;
+    public TextView[] v1=new TextView[50];
     private MediaPlayerService playerService;
     boolean serviceBound = false;
     boolean firstCall;
@@ -423,21 +426,34 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 } else
                     textView.setTextColor(Color.BLACK);
                 textView.setTextSize(24);
+                if ((textView.getText().charAt(2) == 'א') && i != 0)
+                    break;
                 txtvList.add(textView);
                 // listview.addFooterView(textView);
             }
+            lastSec=txtvList.size();
 
             String[] from = {"listview_title"};
             int[] to = {R.id.listview_item_title};
-            SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
+            ArrayAdapter adapter;
+            adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, aList);
             listview = (ListView) findViewById(R.id.list_view);
-            listview.setAdapter(simpleAdapter);
+            listview.setAdapter(adapter);
+
             if (mPrefs.getInt("BlackBackground", 0) == 1)
                 listview.setBackgroundColor(Color.BLACK);
             else
                 listview.setBackgroundColor(Color.WHITE);
-            for (int i = 0; i < txtvList.size(); i++)
+            for (int i = 0; i <txtvList.size(); i++) {
+
                 listview.addHeaderView(txtvList.get(i));
+                v1[i]=txtvList.get(i);
+                System.out.println(txtvList.get(i).getText());
+            }
+            v1[section-1].setBackgroundColor(Color.rgb(151, 6, 6));
+            v1[section-1].setTextColor(Color.WHITE);
+
+
 
             listview.setCacheColorHint(Color.WHITE);
             listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -449,15 +465,21 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     if (clickOnItemFromList == true) {
                         sendSectionIdAndPlay(position + 1);
                         for (int i = 0; i < txtvList.size(); i++)
-                            if (i == position)
+                            if (i == position){
                                 txtvList.get(position).setBackgroundColor(Color.rgb(151, 6, 6));
-                            else if (mPrefs.getInt("BlackBackground", 0) == 1)
+                                txtvList.get(position).setTextColor(Color.WHITE);}
+                            else if (mPrefs.getInt("BlackBackground", 0) == 1) {
                                 txtvList.get(i).setBackgroundColor(Color.BLACK);
-                            else
+                                txtvList.get(i).setTextColor(Color.WHITE);
+                            }
+                            else {
                                 txtvList.get(i).setBackgroundColor(Color.WHITE);
-                        SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
+                                txtvList.get(i).setTextColor(Color.BLACK);
+
+                            }
+
                         listview = (ListView) findViewById(R.id.list_view);
-                        listview.setAdapter(simpleAdapter);
+                        listview.setAdapter(adapter);
                         listview.setBackgroundColor(Color.WHITE);
                         listview.setSelection(position);
 
@@ -484,9 +506,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             }
             spinner = findViewById(R.id.myspinner);
             spinner.setSelected(true);
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.speed_audio_array, android.R.layout.simple_list_item_1);
-            adapter.setDropDownViewResource((android.R.layout.simple_list_item_1));
-            spinner.setAdapter(adapter);
+            ArrayAdapter<CharSequence> simpleadapter = ArrayAdapter.createFromResource(this, R.array.speed_audio_array, android.R.layout.simple_list_item_1);
+            simpleadapter.setDropDownViewResource((android.R.layout.simple_list_item_1));
+            spinner.setAdapter(simpleadapter);
             spinner.setSelection(4);
             spinner.setOnItemSelectedListener(this);
             Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
@@ -1812,15 +1834,43 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         @Override
         public void onReceive(Context context, Intent intent)
         {
+
             int oldChapter;
+
             oldChapter = chapter;
             chapter = intent.getIntExtra("chapter", 0);
             if (chapter != oldChapter) {
                 restartPage();
             }
             section = intent.getIntExtra("section", 0);
+            v1[section-1].setBackgroundColor(Color.rgb(151, 6, 6));
+            v1[section-1].setTextColor(Color.WHITE);
+            if(section!=1)
+                if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                    v1[section - 2].setBackgroundColor(Color.BLACK);
+                    v1[section - 2].setTextColor(Color.WHITE);
+                }
+                else {
+                    v1[section - 2].setBackgroundColor(Color.WHITE);
+                    v1[section - 2].setTextColor(Color.BLACK);
+                }
+            if(v1[section]!=null)
+                if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                    v1[section ].setBackgroundColor(Color.BLACK);
+                    v1[section ].setTextColor(Color.WHITE);
+                }
+                else {
+                    v1[section ].setBackgroundColor(Color.WHITE);
+                    v1[section ].setTextColor(Color.BLACK);
+                }
+
+
+
+
+
+
             clickOnItemFromList = false;
-            listview.performItemClick(listview.getAdapter().getView(section - 1, null, null), section - 1, section - 1);
+            //listview.performItemClick(listview.getAdapter().getView(section - 1, null, null), section - 1, section - 1);
         }
     };
 
@@ -1952,25 +2002,116 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     public void restartPage()
     {
+        List<TextView> txtvList = new ArrayList<TextView>();
+        TextView textView = new TextView(getBaseContext());
         header = book_name + " " + convert_character_to_id(chapter) + ", א";
         playerInfo.setText(header);
         // TODO: fill the list of sections of the new chapter
         sections = extras.getStringArrayList("sections_" + chapter);
+        System.out.println(section);
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
+        boolean first=true;
+        ArrayAdapter adapter;
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, aList);
+
+        for (int m = 0; m < v1.length; m++) {
+             listview.removeHeaderView(v1[m]);
+        }
+
+
+        for (int m = listview.getFooterViewsCount()-1; m >= 0; m--)
+            listview.removeFooterView(listview.getChildAt(0));
+        v1=new TextView[50];
+        //while (listview.getHeaderViewsCount()>0)
+           // listview.removeHeaderView(listview.getChildAt(0));
         for (int i = 0; i < sections.size(); i++) {
             HashMap<String, String> hm = new HashMap<String, String>();
             hm.put("listview_title", sections.get(i));
-            aList.add(hm);
-            for (String s: hm.keySet())
-                System.out.print("shilobn17654432"+ hm.get(s));
-            System.out.println("");
+            //aList.add(hm);
+            textView = new TextView(getBaseContext());
+            //String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
+            //String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
+            textView.setText("  " + sections.get(i) + "\n");
+            //textView.setText("shilo");
+            //textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
+            if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                textView.setTextColor(Color.WHITE);
+                // listview.setBackgroundColor(Color.BLACK);
+            } else
+                textView.setTextColor(Color.BLACK);
+            textView.setTextSize(24);
+            if ((textView.getText().charAt(2) != 'א')&&first)
+                continue;
+            if ((textView.getText().charAt(2) == 'א')&&!first)
+                break;
+            if ((textView.getText().charAt(2) == 'א')&&first)
+                first=false;
+            if(i==section-1)
+                textView.setBackgroundColor(Color.RED);
+            txtvList.add(textView);
+
         }
+
+        lastSec=txtvList.size();
 
         String[] from = {"listview_title"};
         int[] to = {R.id.listview_item_title};
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
-        listview.setAdapter(simpleAdapter);
+        listview.setAdapter(adapter);
+
+        if (mPrefs.getInt("BlackBackground", 0) == 1)
+            listview.setBackgroundColor(Color.BLACK);
+        else
+            listview.setBackgroundColor(Color.WHITE);
+        for (int i = 0; i <txtvList.size(); i++) {
+
+            listview.addHeaderView(txtvList.get(i));
+            v1[i]=txtvList.get(i);
+
+        }
+  ;
+
+        //int a=0/0;
+
+        listview.setCacheColorHint(Color.WHITE);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listview.setSelected(true);
+
+                //listview.setSelection(position);
+
+                if (clickOnItemFromList == true) {
+                    sendSectionIdAndPlay(position + 1);
+                    for (int i = 0; i < txtvList.size(); i++)
+                        if (i == position) {
+                            txtvList.get(position).setBackgroundColor(Color.rgb(151, 6, 6));
+                            txtvList.get(position).setTextColor(Color.WHITE);
+                        }
+                        else if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                            txtvList.get(i).setBackgroundColor(Color.BLACK);
+                            txtvList.get(i).setTextColor(Color.WHITE);
+                        }
+                        else {
+                            txtvList.get(i).setBackgroundColor(Color.WHITE);
+                            txtvList.get(i).setTextColor(Color.BLACK);
+                        }
+                    ArrayAdapter adapter;
+                    adapter = new ArrayAdapter(getBaseContext(), android.R.layout.simple_list_item_1, aList);
+                    listview = (ListView) findViewById(R.id.list_view);
+
+                    listview.setAdapter(adapter);
+                    listview.setBackgroundColor(Color.WHITE);
+                    listview.setSelection(position);
+
+                    //for (int i=0;i<txtvList.size();i++)
+                    //  listview.addHeaderView(txtvList.get(i));
+                }
+
+                playPause(view);
+                clickOnItemFromList = true;//change it back to true. In cases that it is not came directly from click om list item, it will be changed to false in this cases
+            }
+        });
     }
 
     public void skip_to_previous(View view)

@@ -102,6 +102,14 @@
             android:background="#00FFFFFF"
             android:contentDescription="@string/Chapters"
             android:src="@drawable/ic_action_view_as_list" />
+
+        <ImageButton
+            android:id="@+id/auto_scrool"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/Chapters"
+            android:src="@drawable/auto_scrool" />
     </LinearLayout>
 
     <LinearLayout

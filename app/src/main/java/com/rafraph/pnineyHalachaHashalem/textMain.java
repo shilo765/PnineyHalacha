@@ -1403,8 +1403,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		ArrayList<String> sections2 = new ArrayList<String>();
 		fileName = getClearUrl();
 		String[] splitString = fileName.split("/");
+
 		for(int i=1; i<=lastChapter[book_chapter[0]]; i++) {
 			try {
+				sections = new ArrayList<String>();
 					File file=null;
 					InputStream is=null;
 					switch (splitString[splitString.length-2])
@@ -1440,14 +1442,15 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						default:
 							prefix = "file:///android_asset/";
 							fileNameOnly = fileName.substring(prefix.length());
-							is = getAssets().open(fileNameOnly);
+							is = getAssets().open(fileNameOnly.split("_")[0]+"_"+i+".html");
 							break;
 					}
 
-
+				System.out.println(fileNameOnly.split("_")[0]+"_"+i);
 				int size = is.available();
 				byte[] buffer = new byte[size];
 				is.read(buffer);
+
 				is.close();
 				String input = new String(buffer);
 
@@ -1465,6 +1468,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					}
 					headers=NewHead;
 				}
+				System.out.println(headers.size());
 				for(j = 0; j < headers.size(); j++) {
 						sections.add(headers.get(j).text());
 				}
@@ -1475,8 +1479,11 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				else
 					name = "sections_"+i;
 
+
 				// Creating a new local copy of the current list.
 				ArrayList<String> newList = new ArrayList<>(sections);
+
+				int n=0;
 
 				ourIntent.putStringArrayListExtra(name, newList);
 
