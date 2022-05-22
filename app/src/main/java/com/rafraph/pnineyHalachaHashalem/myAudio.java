@@ -110,6 +110,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private static final int FRENCH = 4;
     public boolean firstChap = true;
     float speed;
+    public static String[] ToAudio={"שמע:","audio:","","",""};
     String fileName, fileNameOnly, lastFileName = null;
     public TextView duration, duration2;
     private double timeElapsed = 0, finalTime = 0;
@@ -291,6 +292,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 webSettings.setMinimumFontSize(20);
                 webSettings.setDefaultTextEncodingName("utf-8");
                 webSettings.setJavaScriptEnabled(true);
+
                 webSettings.setSupportZoom(true);
                 API = android.os.Build.VERSION.SDK_INT;
                 if (API < 19)
@@ -585,11 +587,11 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     {
         scrollSpeed=-1;
         infView.setVisibility(View.VISIBLE);
-        ImageButton searchBtn = infView.findViewById(R.id.searchBtn);
+        ImageView searchBtn = infView.findViewById(R.id.page_search);
 
         final ImageButton searchBtnDown = infView.findViewById(R.id.ibFindNext);
         final ImageButton searchBtnUp = infView.findViewById(R.id.ibFindPrevious);
-        final ImageButton addBookMark = infView.findViewById(R.id.action_add_bookmark);
+        final ImageView addBookMark = infView.findViewById(R.id.make_mark);
 
         final ImageView menu = infView.findViewById(R.id.menu);
 
@@ -731,8 +733,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
         final ImageButton scrollBtn = infView.findViewById(R.id.action_auto_scrool);
         final ImageView toMain = infView.findViewById(R.id.too_main);
-        searchBtn.setVisibility(View.GONE);
-        addBookMark.setVisibility(View.GONE);
+        //searchBtn.setVisibility(View.GONE);
+        //addBookMark.setVisibility(View.GONE);
         //config.setVisibility(View.GONE);
         scrollBtn.setVisibility(View.GONE);
         searchBtnDown.setVisibility(View.GONE);
@@ -802,11 +804,26 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     @Override
                     public void onClick(View v)
                     {
+                        String extra="";
                         int index = 0, index_end = 0;
                         String bookmarkText = BookmarkName.getText().toString();
                         bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
-                        /*		      bookmark name			book					chapter						scroll							fontSize*/
-                        strBookmark = bookmarkText + "," + book + "," + chapter + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
+                        /*		      bookmark name			book					chapter						scroll
+                        						fontSize*/
+                        if (MyLanguage == ENGLISH)
+                            extra=ToAudio[1];
+
+                        else if (MyLanguage == RUSSIAN)
+                            extra=ToAudio[2];
+
+                        else if (MyLanguage == SPANISH)
+                            extra = ToAudio[3];
+                        else if (MyLanguage == FRENCH)
+                            extra = ToAudio[4];
+                        else
+                            extra = ToAudio[0];
+
+                        strBookmark =extra+ bookmarkText + "," + book + "," + chapter + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
 
                         Bookmarks = mPrefs.getString("Bookmarks", "");
                         if ((index = Bookmarks.indexOf(bookmarkText)) != -1)/*if there is already bookmark with the same name override it*/ {
@@ -818,30 +835,44 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                                     index_end = Bookmarks.length();
                             }
                             Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
-                            if (MyLanguage == ENGLISH)
+                            if (MyLanguage == ENGLISH) {
                                 Toast.makeText(getApplicationContext(), "Existing bookmark updated", Toast.LENGTH_SHORT).show();
-                            else if (MyLanguage == RUSSIAN)
+                            }
+                            else if (MyLanguage == RUSSIAN) {
                                 Toast.makeText(getApplicationContext(), "Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
-                            else if (MyLanguage == SPANISH)
+                            }
+                            else if (MyLanguage == SPANISH) {
                                 Toast.makeText(getApplicationContext(), "Marcador existente actualizado", Toast.LENGTH_SHORT).show();
-                            else if (MyLanguage == FRENCH)
+                            }
+                            else if (MyLanguage == FRENCH) {
                                 Toast.makeText(getApplicationContext(), "Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
-                            else
+                            }
+                            else {
                                 Toast.makeText(getApplicationContext(), "הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         else
                             {
                             Bookmarks += "," + strBookmark;
-                            if (MyLanguage == ENGLISH)
+                            if (MyLanguage == ENGLISH) {
                                 Toast.makeText(getApplicationContext(), "New bookmark created", Toast.LENGTH_SHORT).show();
-                            else if (MyLanguage == RUSSIAN)
+                                extra = ToAudio[1];
+                            }
+                            else if (MyLanguage == RUSSIAN) {
                                 Toast.makeText(getApplicationContext(), "Создана новая закладка", Toast.LENGTH_SHORT).show();
-                            else if (MyLanguage == SPANISH)
+                                extra = ToAudio[2];
+                            }
+                            else if (MyLanguage == SPANISH) {
                                 Toast.makeText(getApplicationContext(), "Nuevo marcador creado", Toast.LENGTH_SHORT).show();
-                            else if (MyLanguage == FRENCH)
+                                extra = ToAudio[3];
+                            }
+                            else if (MyLanguage == FRENCH) {
                                 Toast.makeText(getApplicationContext(), "Nouveau signet créé", Toast.LENGTH_SHORT).show();
-                            else
+                                extra = ToAudio[4];
+                            }
+                            else {
                                 Toast.makeText(getApplicationContext(), "סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
+                            }
                             }
                         shPrefEditor.putString("Bookmarks", Bookmarks);
                         shPrefEditor.commit();

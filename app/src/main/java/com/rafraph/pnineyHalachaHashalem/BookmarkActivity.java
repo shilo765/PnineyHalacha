@@ -1,5 +1,9 @@
 package com.rafraph.pnineyHalachaHashalem;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -22,6 +27,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 public class BookmarkActivity extends Activity 
 {
@@ -80,7 +89,7 @@ public class BookmarkActivity extends Activity
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (position != 0) {
 					try {
-						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
+						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
 						Intent ourIntent = new Intent(BookmarkActivity.this, ourClass);
 						int i, index = 1/*to skip the first comma*/, index_end = 0;
 						int bookmarkScrollY, fontSize;
@@ -90,6 +99,9 @@ public class BookmarkActivity extends Activity
 
 						/*book*/
 						index_end = Bookmarks.indexOf(",", index);
+						System.out.println(Bookmarks);
+						System.out.println((Bookmarks.substring(index, index_end)));
+
 						book_chapter[0] = Integer.parseInt(Bookmarks.substring(index, index_end));
 
 						/*chapter*/
@@ -124,7 +136,6 @@ public class BookmarkActivity extends Activity
 	
 
 	}
-
 
 
 	private void fillBookmarksNames()

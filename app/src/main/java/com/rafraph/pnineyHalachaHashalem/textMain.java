@@ -138,6 +138,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int F_TFILAT_NASHIM =60;
 	private static final int BOOKS_NUMBER	= 61;
 
+
 	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29   30  31  32  33  34  35  36  37  38  39  40  41  42  43  44 45  46  47  48  49  50  51  52  53  54 55  56  57  58  59  60*/
 	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 10 , 13,  9, 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17, 26, 13, 8 ,17, 10, 16, 30, 10, 24  };
 	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA,R_TFILA};
@@ -306,13 +307,11 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
-		cbAssistButtons = mPrefs.getInt("cbAssistButtons", 1);
+
 		MyLanguage = mPrefs.getInt("MyLanguage", 0);
 
-		if(cbAssistButtons==0)
-			setContentView(R.layout.text_main);
-		else
-			setContentView(R.layout.text_main_down);
+
+		setContentView(R.layout.text_main_down);
 
 		firstTime = true;
 		book_chapter[0] = -1;
@@ -321,6 +320,113 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		lnrOptions = (LinearLayout) findViewById(R.id.lnrOptions);
 		lnrFindOptions = (LinearLayout) findViewById(R.id.lnrFindOptions);
 		final Context context = this;
+		ImageView searchPage=findViewById(R.id.page_search);
+		searchPage.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				innerSearch();
+			}
+		});
+		ImageView addMark=findViewById(R.id.make_mark);
+		addMark.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				bookmarkDialog = new Dialog(context);
+				if(MyLanguage == ENGLISH)
+					bookmarkDialog.setContentView(R.layout.add_bookmark_english);
+				else if(MyLanguage == RUSSIAN)
+					bookmarkDialog.setContentView(R.layout.add_bookmark_russian);
+				else if(MyLanguage == SPANISH)
+					bookmarkDialog.setContentView(R.layout.add_bookmark_spanish);
+				else if(MyLanguage == FRENCH)
+					bookmarkDialog.setContentView(R.layout.add_bookmark_french);
+				else
+					bookmarkDialog.setContentView(R.layout.add_bookmark);
+				bookmarkDialog.setTitle("הוסף סימניה");
+
+				Button dialogButton = (Button) bookmarkDialog.findViewById(R.id.dialogButtonOK);
+				spinner1 = (Spinner) bookmarkDialog.findViewById(R.id.spinner1);
+				BookmarkName = (EditText) bookmarkDialog.findViewById(R.id.editTextBookmarkName);
+
+				// if button is clicked, close the custom dialog
+				dialogButton.setOnClickListener(new OnClickListener()
+				{
+					@Override
+					public void onClick(View v)
+					{
+						int index = 0, index_end = 0;
+						String bookmarkText = BookmarkName.getText().toString();
+						bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
+						/*		      bookmark name			book					chapter						scroll							fontSize*/
+						strBookmark = bookmarkText + "," + book_chapter[0] + "," + book_chapter[1] + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
+
+						Bookmarks = mPrefs.getString("Bookmarks", "");
+						if((index = Bookmarks.indexOf(bookmarkText))!=-1)/*if there is already bookmark with the same name override it*/
+						{
+							index_end = index;
+							for(int i=0; i<5; i++)
+							{
+								if(Bookmarks.indexOf(",", index_end+1) != -1)
+									index_end = Bookmarks.indexOf(",", index_end + 1);
+								else/*in case that this is the last bookmark*/
+									index_end = Bookmarks.length();
+							}
+							Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
+							if(MyLanguage == ENGLISH)
+								Toast.makeText(getApplicationContext(),	"Existing bookmark updated", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == RUSSIAN)
+								Toast.makeText(getApplicationContext(),	"Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == SPANISH)
+								Toast.makeText(getApplicationContext(),	"Marcador existente actualizado", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == FRENCH)
+								Toast.makeText(getApplicationContext(),	"Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
+							else
+								Toast.makeText(getApplicationContext(),	"הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
+						}
+						else
+						{
+							Bookmarks += "," + strBookmark;
+							if(MyLanguage == ENGLISH)
+								Toast.makeText(getApplicationContext(),	"New bookmark created", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == RUSSIAN)
+								Toast.makeText(getApplicationContext(),	"Создана новая закладка", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == SPANISH)
+								Toast.makeText(getApplicationContext(),	"Nuevo marcador creado", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == FRENCH)
+								Toast.makeText(getApplicationContext(),	"Nouveau signet créé", Toast.LENGTH_SHORT).show();
+							else
+								Toast.makeText(getApplicationContext(),	"סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
+						}
+						shPrefEditor.putString("Bookmarks", Bookmarks);
+						shPrefEditor.commit();
+						bookmarkDialog.dismiss();
+					}
+				});
+
+				fillChaptersNames();
+				BookmarkName.setText(chaptersNames[book_chapter[0]][book_chapter[1]]);
+
+				addItemsOnSpinner();
+
+				spinner1.setOnItemSelectedListener(new OnItemSelectedListener()
+				{
+					boolean first=true;
+					public void onItemSelected(AdapterView<?> parent, View view, int pos,long id)
+					{
+						if (first==false)
+							BookmarkName.setText(parent.getItemAtPosition(pos).toString());
+						first = false;
+					}
+
+					public void onNothingSelected(AdapterView<?> arg0)
+					{
+						// do nothing
+					}
+				});
+
+				bookmarkDialog.show();
+			}
+		});
 
 		webview = (WebView) findViewById(R.id.webView1);
 		WebSettings webSettings = webview.getSettings();
@@ -591,6 +697,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			{
 				lnrFindOptions.setVisibility(View.GONE);
 				book_chapter = extras.getIntArray("book_chapter");
+				TextView nameBook= findViewById(R.id.bookname);
+				if(convertBookIdToName(book_chapter[0]).equals("לא ידוע"))
+					nameBook.setText(mPrefs.getString("book_name","לא ידוע"));
+				else {
+					shPrefEditor.putString("book_name", convertBookIdToName(book_chapter[0]));
+					nameBook.setText(convertBookIdToName(book_chapter[0]));
+				}
+
 				fromBookmarks = extras.getInt("fromBookmarks");
 				if(fromBookmarks == 1)/*came from bookmarks*/
 				{
@@ -1079,15 +1193,18 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				break;
 
 			case R.id.ibNextPage:
-				webview.pageDown(false);
+				//webview.pageDown(false);
+				webview.setScrollY(webview.getScrollY()+970);
 				break;
 
 			case R.id.ibPreviousPage:
-				webview.pageUp(false);
+				//webview.pageUp(false);
+				webview.setScrollY(webview.getScrollY()-970);
 				break;
 
 			case R.id.ibFindNext:
 				webview.findNext(true);
+
 
 				break;
 
@@ -1111,104 +1228,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			case R.id.action_search:
 				innerSearch();
 				break;
-			case R.id.action_add_bookmark:
-				// custom dialog
-				bookmarkDialog = new Dialog(context);
-				if(MyLanguage == ENGLISH)
-					bookmarkDialog.setContentView(R.layout.add_bookmark_english);
-				else if(MyLanguage == RUSSIAN)
-					bookmarkDialog.setContentView(R.layout.add_bookmark_russian);
-				else if(MyLanguage == SPANISH)
-					bookmarkDialog.setContentView(R.layout.add_bookmark_spanish);
-				else if(MyLanguage == FRENCH)
-					bookmarkDialog.setContentView(R.layout.add_bookmark_french);
-				else
-					bookmarkDialog.setContentView(R.layout.add_bookmark);
-				bookmarkDialog.setTitle("הוסף סימניה");
 
-				Button dialogButton = (Button) bookmarkDialog.findViewById(R.id.dialogButtonOK);
-				spinner1 = (Spinner) bookmarkDialog.findViewById(R.id.spinner1);
-				BookmarkName = (EditText) bookmarkDialog.findViewById(R.id.editTextBookmarkName);
-
-				// if button is clicked, close the custom dialog
-				dialogButton.setOnClickListener(new OnClickListener()
-				{
-					@Override
-					public void onClick(View v)
-					{
-						int index = 0, index_end = 0;
-						String bookmarkText = BookmarkName.getText().toString();
-						bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
-						/*		      bookmark name			book					chapter						scroll							fontSize*/
-						strBookmark = bookmarkText + "," + book_chapter[0] + "," + book_chapter[1] + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
-
-						Bookmarks = mPrefs.getString("Bookmarks", "");
-						if((index = Bookmarks.indexOf(bookmarkText))!=-1)/*if there is already bookmark with the same name override it*/
-						{
-							index_end = index;
-							for(int i=0; i<5; i++)
-							{
-								if(Bookmarks.indexOf(",", index_end+1) != -1)
-									index_end = Bookmarks.indexOf(",", index_end + 1);
-								else/*in case that this is the last bookmark*/
-									index_end = Bookmarks.length();
-							}
-							Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
-							if(MyLanguage == ENGLISH)
-								Toast.makeText(getApplicationContext(),	"Existing bookmark updated", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == RUSSIAN)
-								Toast.makeText(getApplicationContext(),	"Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == SPANISH)
-								Toast.makeText(getApplicationContext(),	"Marcador existente actualizado", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == FRENCH)
-								Toast.makeText(getApplicationContext(),	"Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
-							else
-								Toast.makeText(getApplicationContext(),	"הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
-						}
-						else
-						{
-							Bookmarks += "," + strBookmark;
-							if(MyLanguage == ENGLISH)
-								Toast.makeText(getApplicationContext(),	"New bookmark created", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == RUSSIAN)
-								Toast.makeText(getApplicationContext(),	"Создана новая закладка", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == SPANISH)
-								Toast.makeText(getApplicationContext(),	"Nuevo marcador creado", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == FRENCH)
-								Toast.makeText(getApplicationContext(),	"Nouveau signet créé", Toast.LENGTH_SHORT).show();
-							else
-								Toast.makeText(getApplicationContext(),	"סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
-						}
-						shPrefEditor.putString("Bookmarks", Bookmarks);
-						shPrefEditor.commit();
-						bookmarkDialog.dismiss();
-					}
-				});
-
-				fillChaptersNames();
-				BookmarkName.setText(chaptersNames[book_chapter[0]][book_chapter[1]]);
-
-				addItemsOnSpinner();
-
-				spinner1.setOnItemSelectedListener(new OnItemSelectedListener()
-				{
-					boolean first=true;
-					public void onItemSelected(AdapterView<?> parent, View view, int pos,long id)
-					{
-						if (first==false)
-							BookmarkName.setText(parent.getItemAtPosition(pos).toString());
-						first = false;
-					}
-
-					public void onNothingSelected(AdapterView<?> arg0)
-					{
-						// do nothing
-					}
-				});
-
-				bookmarkDialog.show();
-
-				break;
 			case R.id.action_config:
 				showPopupMenuSettings(findViewById(R.id.action_config));
 				break;
@@ -3797,9 +3817,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		innerSearchDialog = new Dialog(context);
 		innerSearchDialog.setContentView(R.layout.inner_search);
 		innerSearchDialog.setTitle("חיפוש בפרק הנוכחי");
+		Window window = innerSearchDialog.getWindow();
+		window.setGravity(Gravity.TOP);
+		//window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+		//window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-		Button dialogButton = (Button) innerSearchDialog.findViewById(R.id.dialogButtonOK);
-		TextToSearch = (EditText) innerSearchDialog.findViewById(R.id.editTextTextToSearch );
+
+		ImageView dialogButton =  innerSearchDialog.findViewById(R.id.goSearch);
+		TextToSearch = (EditText) innerSearchDialog.findViewById(R.id.title );
 
 		// if button is clicked
 		dialogButton.setOnClickListener(new OnClickListener()

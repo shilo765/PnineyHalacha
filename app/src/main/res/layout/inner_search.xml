@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_root"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00970606"
     android:orientation="vertical"
-    android:padding="10dp" >
+    >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+
+    <RelativeLayout
+        android:id="@+id/editTextTextToSearch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/include"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="טקסט לחיפוש"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:background="#970606">
 
         <EditText
-            android:id="@+id/editTextTextToSearch"
+            android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left" />
+            android:layout_height="43dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/w_r_rec"
+            android:gravity="start"
+            android:hint="טקסט לחיפוש"
+            android:inputType="textPersonName"
+            android:paddingTop="8dp"
+            android:paddingRight="50dp"
+            android:textAlignment="viewStart" />
 
-        <Button
-            android:id="@+id/dialogButtonOK"
+        <ImageView
+            android:id="@+id/goSearch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:text=" אישור " />
-    </LinearLayout>
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="12dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+
+
+            android:src="@drawable/search" />
+    </RelativeLayout>
+
 </RelativeLayout>
