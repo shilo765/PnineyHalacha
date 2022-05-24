@@ -26,6 +26,21 @@ public class About_p extends Activity
 	private static final int SPANISH = 3;
 	private static final int FRENCH = 4;
 	@Override
+	public void onBackPressed() {
+		try
+		{
+			Class ourClass = null;
+			Intent ourIntent;
+			ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+			ourIntent = new Intent(About_p.this, ourClass);
+			startActivity(ourIntent);
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);

@@ -35,6 +35,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -216,6 +217,24 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		}
 
 	}//onCreate
+
+	@Override
+	public void onBackPressed() {
+		Class ourClass = null;
+		Intent ourIntent = null;
+		try {
+			ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+			//book_chapter[0]
+
+			shPrefEditor.putInt("expList",book_chapter[0]);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		ourIntent = new Intent(textMain.this, ourClass);
+		ourIntent.putExtra("homePage", false);
+		ourIntent.putExtra("exp",book_chapter[0]);
+		startActivity(ourIntent);
+	}
 	public void loadWebview(String path, WebView webview)
 	{
 		final ProgressDialog downloadWait = ProgressDialog.show(textMain.this, "", "please wait");
@@ -1031,19 +1050,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		return true;
 	}//onCreateOptionsMenu
 
-	public void onBackPressed()
-	{
-		if(fullScreenFlag == 1)
-		{
-			fullScreenFlag = 0;
-			getSupportActionBar().show();
-			lnrOptions.setVisibility(View.VISIBLE);
-		}
-		else
-		{
-			super.onBackPressed();
-		}
-	}
+
 
 	public void onConfigurationChanged(Configuration newConfig)
 	{
@@ -1422,6 +1429,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		ArrayList<String> sections = new ArrayList<String>();
 		ArrayList<String> sections2 = new ArrayList<String>();
 		fileName = getClearUrl();
+
+
 		String[] splitString = fileName.split("/");
 
 		for(int i=1; i<=lastChapter[book_chapter[0]]; i++) {
@@ -1465,7 +1474,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 							is = getAssets().open(fileNameOnly.split("_")[0]+"_"+i+".html");
 							break;
 					}
-
 				System.out.println(fileNameOnly.split("_")[0]+"_"+i);
 				int size = is.available();
 				byte[] buffer = new byte[size];
@@ -3818,6 +3826,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		innerSearchDialog.setContentView(R.layout.inner_search);
 		innerSearchDialog.setTitle("חיפוש בפרק הנוכחי");
 		Window window = innerSearchDialog.getWindow();
+
 		window.setGravity(Gravity.TOP);
 		//window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 		//window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -3825,6 +3834,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		ImageView dialogButton =  innerSearchDialog.findViewById(R.id.goSearch);
 		TextToSearch = (EditText) innerSearchDialog.findViewById(R.id.title );
+		ImageView clearBtn = innerSearchDialog.findViewById(R.id.clear);
 
 		// if button is clicked
 		dialogButton.setOnClickListener(new OnClickListener()
@@ -3852,6 +3862,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				{
 					webview.findAllAsync(/*"כל"*/innerSearchText);
 				}
+			}
+		});
+		clearBtn.setOnClickListener(new View.OnClickListener() {
+			@SuppressLint("NewApi")
+			@Override
+			public void onClick(View v) {
+				TextToSearch.setText("");
 			}
 		});
 		innerSearchDialog.show();

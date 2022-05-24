@@ -44,7 +44,21 @@ public class BookmarkActivity extends Activity
 	ArrayAdapter  adapter;
 	SharedPreferences.Editor shPrefEditor;
 	Button buttonDeleteAll;
-	
+	@Override
+	public void onBackPressed() {
+		try
+		{
+			Class ourClass = null;
+			Intent ourIntent;
+			ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+			ourIntent = new Intent(BookmarkActivity.this, ourClass);
+			startActivity(ourIntent);
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{

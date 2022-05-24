@@ -144,7 +144,7 @@
 				app:srcCompat="@drawable/es_b_3" />
 
 			<ImageView
-				android:id="@+id/too_books"
+				android:id="@+id/to_py"
 				android:layout_width="70dp"
 				android:layout_height="match_parent"
 				android:scaleX="0.8"

@@ -1,5 +1,8 @@
 package com.rafraph.pnineyHalachaHashalem;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -13,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -263,7 +267,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 
 
 				}
-				catch (ClassNotFoundException e)
+				catch (ClassNotFoundException | FileNotFoundException e)
 				{
 					e.printStackTrace();
 				}
@@ -374,7 +378,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 
 
 				}
-				catch (ClassNotFoundException e)
+				catch (ClassNotFoundException | FileNotFoundException e)
 				{
 					e.printStackTrace();
 				}
@@ -420,27 +424,28 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 		return "";
 	}
 
-	private void findAllHeaders(Intent ourIntent)
-	{
+	private void findAllHeaders(Intent ourIntent) throws FileNotFoundException {
 		String prefix, a;
 		int j;
 		ArrayList<String> sections = new ArrayList<String>();
 		ArrayList<String> sections2 = new ArrayList<String>();
-		if(bookId!=6)
-		fileName = "file:///android_asset/"+bookName+"_1.html";
-		else
-		fileName = "file:///android_asset/"+bookName+"_20.html";
-		prefix = "file:///android_asset/";
-		fileNameOnly = fileName.substring(prefix.length());
-		fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
+
 
 		for(int i=1; i<=lastChap; i++) {
+			sections = new ArrayList<String>();
+			if(bookId!=6)
+				fileName = bookName+"_"+i+".html";
+			else
+				fileName = bookName+"_"+(i+19)+".html";
+
+			prefix = "file:///android_asset/";
+			//fileNameOnly = fileName.substring(prefix.length());
+			//fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
 			try {
 				InputStream is;
-				if(bookId==6)
-					is = _context.getAssets().open(fileNameOnly+(i+19)+".html");
-				else
-					is = _context.getAssets().open(fileNameOnly+i+".html");
+
+				is = _context.getAssets().open(fileName);
+
 				int size = is.available();
 				byte[] buffer = new byte[size];
 				is.read(buffer);
@@ -470,6 +475,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 				name = "sections_"+(i+19);
 				else
 				name = "sections_"+i;
+
+
 
 				// Creating a new local copy of the current list.
 				ArrayList<String> newList = new ArrayList<>(sections);

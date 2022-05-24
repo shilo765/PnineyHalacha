@@ -23,6 +23,21 @@ public class About extends Activity implements View.OnClickListener
 	SharedPreferences.Editor shPrefEditor;
 	public static final String PREFS_NAME = "MyPrefsFile";
 	@Override
+	public void onBackPressed() {
+		try
+		{
+			Class ourClass = null;
+			Intent ourIntent;
+			ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+			ourIntent = new Intent(About.this, ourClass);
+			startActivity(ourIntent);
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);

@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -19,7 +18,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -45,12 +43,20 @@ public class HomePage extends Activity {
     public Dialog acronymsDialog;
     String acronymsText;
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
         context = this;
         mPrefs = getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();
+        //shPrefEditor.putBoolean("try",true);
         MyLanguage = mPrefs.getInt("MyLanguage", -1);
         Bundle extras = getIntent().getExtras();
 
@@ -105,8 +111,8 @@ public class HomePage extends Activity {
         catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        ImageView too_books= (ImageView) findViewById(R.id.too_books);
-        ImageView too_py= (ImageView) findViewById(R.id.too_py);
+        ImageView too_books= (ImageView) findViewById(R.id.too_main);
+        ImageView too_py= (ImageView) findViewById(R.id.to_py);
         ImageView about_ph= (ImageView) findViewById(R.id.about_p);
         ImageView searchAll= (ImageView) findViewById(R.id.searchAll);
         ImageView mymarks= (ImageView) findViewById(R.id.my_marks);
@@ -169,14 +175,13 @@ public class HomePage extends Activity {
                 }
                 else {/*this is the default*/
                     popupMenu.getMenu().add(0,0,0,"הגדרות");
-                    popupMenu.getMenu().add(0,1,0,"חיפוש");
                     popupMenu.getMenu().add(0,2,0,"ספרים");
                     popupMenu.getMenu().add(0,3,0,"לימוד יומי");
+                    popupMenu.getMenu().add(0,1,0,"חיפוש");
                     popupMenu.getMenu().add(0,4,0,"משוב");
                     popupMenu.getMenu().add(0,5,0,"רכישת ספרים");
                     popupMenu.getMenu().add(0,6,0,"שאל את הרב");
                     popupMenu.getMenu().add(0,7,0,"ראשי תיבות");
-                    popupMenu.getMenu().add(0,8,0,"הסכמות");
                     //booksDownload configHeaders[6] = "ספרים להורדה";
                     popupMenu.getMenu().add(0,9,0,"אודות");
                 }
@@ -203,17 +208,7 @@ public class HomePage extends Activity {
                                 startActivity(ourIntent);
                                 break;
 
-                            case 1:/*search in all books*/
-                                try {
-                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
-                                } catch (ClassNotFoundException e) {
-                                    e.printStackTrace();
-                                }
-                                ourIntent = new Intent(HomePage.this, ourClass);
-                                startActivity(ourIntent);
-
-                                break;
-                            case 2:/*to books*/
+                            case 1:/*to books*/
                                 try {
                                     ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
                                 } catch (ClassNotFoundException e) {
@@ -224,7 +219,7 @@ public class HomePage extends Activity {
                                 startActivity(ourIntent);
                                 break;
 
-                            case 3:/*pninaYomit*/
+                            case 2:/*pninaYomit*/
                                 try {
                                     ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
                                 } catch (ClassNotFoundException e) {
@@ -233,7 +228,23 @@ public class HomePage extends Activity {
                                 ourIntent = new Intent(HomePage.this, ourClass);
                                 startActivity(ourIntent);
                                 break;
-                            case 4:/*feedback*/
+
+                            case 3:/*search in all books*/
+                                try {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                ourIntent = new Intent(HomePage.this, ourClass);
+                                startActivity(ourIntent);
+
+                                break;
+
+                            case 4:/*acronyms*/
+                                acronymsDecode();
+                                break;
+
+                            case 5:/*feedback*/
                                 try
                                 {
                                     ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
@@ -245,24 +256,22 @@ public class HomePage extends Activity {
                                     e.printStackTrace();
                                 }
                                 break;
-                            case 5:/*buy books*/
+                            case 6:/*buy books*/
                                 intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setData(Uri.parse("https://shop.yhb.org.il/"));
                                 startActivity(intent);
                                 break;
 
-                            case 6:/*ask the rav*/
+                            case 7:/*ask the rav*/
                                 intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
                                 startActivity(intent);
                                 break;
-                            case 7:/*acronyms*/
-                                acronymsDecode();
-                            break;
-                            case 8:/*hascamot*/
-                                hascamotDialog();
-                                break;
-                            case 9:/*about*/
+
+                            //case 8:/*hascamot*/
+                             //   hascamotDialog();
+                              //  break;
+                            case 8:/*about*/
                                 try
                                 {
                                     ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");

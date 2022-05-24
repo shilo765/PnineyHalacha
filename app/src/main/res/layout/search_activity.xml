@@ -151,6 +151,14 @@
 		android:text="TextView"
 		android:visibility="gone" />
 
+	<TextView
+		android:id="@+id/no_found"
+		android:layout_width="323dp"
+		android:layout_height="wrap_content"
+
+		android:text="לא נמצאו תוצאות"
+		android:textSize="30dp"
+		android:visibility="gone"/>
 	<ListView
 		android:id="@+id/list2"
 		android:layout_width="match_parent"
@@ -171,7 +179,9 @@
 		android:divider="#FFF7EC"
 		android:dividerHeight="2px"
 		>
+
 	</ListView>
+
 
 
 </LinearLayout>

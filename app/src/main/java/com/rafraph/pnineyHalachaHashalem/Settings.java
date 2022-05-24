@@ -1,5 +1,6 @@
 package com.rafraph.pnineyHalachaHashalem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -19,7 +20,21 @@ public class Settings extends Activity
     private static final int RUSSIAN = 2;
     private static final int SPANISH = 3;
     private static final int FRENCH = 4;
-
+	@Override
+	public void onBackPressed() {
+		try
+		{
+			Class ourClass = null;
+			Intent ourIntent;
+			ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+			ourIntent = new Intent(Settings.this, ourClass);
+			startActivity(ourIntent);
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{

@@ -12,11 +12,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,7 +36,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -128,6 +127,7 @@ public class MainActivity extends AppCompatActivity
 	private static final int SPANISH = 3;
 	private static final int FRENCH = 4;
 	public  static  int pop=0;
+	public static int nowExp=-1;
 	private SeekBar seekbar;
 	private static int heS=0,heE=23,enS=24,enE=31,esS=32,esE=40,ruS=41,ruE=51,frS=52,frE=60;
 	private TextView cb;
@@ -160,10 +160,33 @@ public class MainActivity extends AppCompatActivity
 	//private StorageReference storageRef;
 	//private FirebaseStorage storage;
 	//private FirebaseAuth mAuth;
-
+	@Override
+	public void onBackPressed() {
+		if(nowExp==-1) {
+			try {
+				Class ourClass = null;
+				Intent ourIntent;
+				ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+				ourIntent = new Intent(MainActivity.this, ourClass);
+				startActivity(ourIntent);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			expListView.collapseGroup(nowExp);
+			shPrefEditor.putInt("expList",-1);
+			System.out.println(mPrefs.getInt("expList",-1));
+			expListView.setSelection(0);
+			nowExp=-1;
+		}
+	}
+	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 //		if (mPrefs.getInt("BlackBackground", 0)==0)
@@ -363,6 +386,10 @@ public class MainActivity extends AppCompatActivity
 
 		// setting list adapter
 		expListView.setAdapter(listAdapter);
+		expListView.setSelected(true);
+
+		//.ex
+
 
 
 
@@ -384,6 +411,37 @@ public class MainActivity extends AppCompatActivity
 			listAdapter.setTextColor(Color.BLACK);//to set the list text color
 			expListView.setAdapter(listAdapter);//to set the list text color
 		}
+		Bundle extras = getIntent().getExtras();
+		int pos=extras.getInt("exp",-1);
+		if(pos!=-1) {
+			expListView.expandGroup(pos);
+			nowExp = pos;
+			expListView.setSelection(pos);
+
+		}
+		expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+			@Override
+			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+				if(nowExp==-1)
+						nowExp=groupPosition;
+				else
+				{
+					if (nowExp==groupPosition) {
+						expListView.collapseGroup(nowExp);
+						nowExp=-1;
+					}
+					else
+						{
+					expListView.collapseGroup(nowExp);
+					nowExp=groupPosition;
+					expListView.expandGroup(groupPosition);}
+					//expListView.setScrollY(400);
+					return true;
+				}
+
+				return false;
+			}
+		});
 		// Listview on child click listener
 		expListView.setOnChildClickListener(new OnChildClickListener()
 		{
@@ -404,6 +462,7 @@ public class MainActivity extends AppCompatActivity
 
 						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
 						Intent ourIntent = new Intent(MainActivity.this, ourClass);
+
 						int[] book_chapter = new int[2];
 						book_chapter[0] = listDataHeader.indexOf(listDisplay.get(groupPosition));
 						book_chapter[1] = childPosition;
@@ -426,7 +485,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			languageDialog(context,0);
 		}
-		Bundle extras = getIntent().getExtras();
+		 extras = getIntent().getExtras();
 		 HomePage = extras.getBoolean("homePage", false);
 		if(HomePage)
 			languageDialog(context,1);
@@ -2308,7 +2367,7 @@ private void initializeSeekBar()
 		ImageView dialog_x = (ImageView) languageDialog.findViewById(R.id.dialog_x);
 		ImageView dialog_x2 = (ImageView) languageDialog.findViewById(R.id.dialog_x2);
 		//ImageView r_imv=(ImageView) languageDialog.findViewById(R.id.im_r);
-		ImageView r_imv_down = (ImageView) languageDialog.findViewById(R.id.too_books);
+		ImageView r_imv_down = (ImageView) languageDialog.findViewById(R.id.to_py);
 		//ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
 		ImageView es_imv_down = (ImageView) languageDialog.findViewById(R.id.im_es_down);
 		//ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);

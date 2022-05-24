@@ -106,7 +106,18 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public IBinder onBind(Intent intent) {
         return iBinder;
     }
-
+    public int getSection()
+    {
+        return section;
+    }
+    public int getChapter()
+    {
+        return chapter;
+    }
+    public int getBook()
+    {
+        return book;
+    }
     @Override
     public void onCreate() {
         super.onCreate();

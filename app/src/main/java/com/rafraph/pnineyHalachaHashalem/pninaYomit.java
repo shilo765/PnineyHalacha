@@ -45,6 +45,21 @@ public class pninaYomit extends Activity {
     public boolean notPress=false;
     public static int scrool=0;
     @Override
+    public void onBackPressed() {
+        try
+        {
+            Class ourClass = null;
+            Intent ourIntent;
+            ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+            ourIntent = new Intent(pninaYomit.this, ourClass);
+            startActivity(ourIntent);
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pnina_yomit);

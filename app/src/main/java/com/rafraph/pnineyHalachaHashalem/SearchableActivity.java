@@ -63,7 +63,21 @@ public class SearchableActivity extends Activity
 	public int i = 0;
 	public String hebCharacter = "אבגדהוזחטיכלמנסעפצקרשתםןץףך -'\"";
 	public boolean validQuery = false;
-
+	@Override
+	public void onBackPressed() {
+		try
+		{
+			Class ourClass = null;
+			Intent ourIntent;
+			ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+			ourIntent = new Intent(SearchableActivity.this, ourClass);
+			startActivity(ourIntent);
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
