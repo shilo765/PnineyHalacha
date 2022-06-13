@@ -100,7 +100,7 @@ public class BookmarkActivity extends Activity
 			textView.setText("Bookmarks");
 		if(MyLanguage==RUSSIAN)
 			textView.setText("Закладки");
-		if(MyLanguage==HEBREW)
+		if(MyLanguage==SPANISH)
 			textView.setText("Marcadores");
 
 		Bookmarks = mPrefs.getString("Bookmarks", "");

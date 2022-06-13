@@ -62,7 +62,7 @@ public class Feedback extends Activity implements View.OnClickListener
 		EmailContent = (EditText) findViewById(R.id.etContent);
 
 		sendEmail = (TextView) findViewById(R.id.set_note);
-		sendEmail.setOnClickListener(this);
+		//sendEmail.setOnClickListener(this);
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
 		TextView gotProblem=(TextView) findViewById(R.id.headr);
