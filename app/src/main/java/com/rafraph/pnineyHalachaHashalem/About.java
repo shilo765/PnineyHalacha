@@ -45,7 +45,7 @@ public class About extends Activity implements View.OnClickListener
 	void acronymsDecode()
 	{
 		final Context context = this;
-
+		//shilo
 		// custom dialog
 		acronymsDialog = new Dialog(context);
 		acronymsDialog.setContentView(R.layout.acronyms);
