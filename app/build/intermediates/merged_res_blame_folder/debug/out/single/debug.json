@@ -412,6 +412,10 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xhdpi\\baseline_replay_10_white_18.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\layout_text_main.xml.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\text_main.xml"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\layout_splash.xml.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\splash.xml"
     },
@@ -1024,6 +1028,10 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xhdpi\\baseline_play_circle_outline_white_24.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_searchable.xml.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\activity_searchable.xml"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_baseline_skip_previous_white_48.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-mdpi\\baseline_skip_previous_white_48.png"
     },
@@ -1122,6 +1130,10 @@
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\layout_note.xml.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\note.xml"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_switch_modes.xml.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\activity_switch_modes.xml"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_head_shaddow.png.flat",

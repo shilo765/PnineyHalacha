@@ -1489,6 +1489,8 @@ id group_popupmenu
 id grouping
 id groups
 id headr
+id hearAndReadBtn
+id hearBtn
 id hi
 id home
 id homeAsUp
@@ -1694,6 +1696,7 @@ id textView10
 id textView11
 id textView3
 id textView4
+id textView6
 id textView7
 id textView8
 id textView9
@@ -1804,7 +1807,9 @@ layout activity_audio
 layout activity_feedback
 layout activity_main
 layout activity_pnina_yomit
+layout activity_searchable
 layout activity_settings
+layout activity_switch_modes
 layout add_bookmark
 layout add_bookmark_english
 layout add_bookmark_french
@@ -1858,6 +1863,7 @@ layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout splash
 layout support_simple_spinner_dropdown_item
+layout text_main
 layout text_main_audio
 layout text_main_down
 layout tochen_actionbar_lay
