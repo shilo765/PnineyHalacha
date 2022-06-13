@@ -4,16 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -53,74 +53,90 @@ public class HomePage extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
+        downBack dd=new downBack();
+
         context = this;
         mPrefs = getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();
         //shPrefEditor.putBoolean("try",true);
         MyLanguage = mPrefs.getInt("MyLanguage", -1);
+        TextView dayliyLimud=findViewById(R.id.daily_limud);
+        TextView theBooks=findViewById(R.id.the_books);
+        TextView theMarks=findViewById(R.id.the_marks);
+        TextView theSearch=findViewById(R.id.the_search);
+        TextView theSettings=findViewById(R.id.the_settings);
+        TextView theLast=findViewById(R.id.the_last);
+        TextView theQuiz=findViewById(R.id.the_quiz);
+        TextView theAsk=findViewById(R.id.the_ask);
+        TextView bePartner=findViewById(R.id.be_partner);
+        TextView buyBooks=findViewById(R.id.buy_books);
+        if(MyLanguage==ENGLISH){
+            dayliyLimud.setText("Daily Study");
+            theBooks.setText("Books");
+            theMarks.setText("Bookmarks");
+            theSearch.setText("Search");
+            theSettings.setText("Settings");
+            theLast.setText("Last location");
+            theQuiz.setText("hebrew testing");
+            theAsk.setText("Ask the Rabbi");
+            bePartner.setText("Donations");
+            buyBooks.setText("Purchasing books");
+        }
+        if(MyLanguage==RUSSIAN)
+        {
+            dayliyLimud.setText("Ежедневное изучение");
+            theBooks.setText("Книги");
+            theMarks.setText("Закладки");
+            theSearch.setText("Поиск");
+            theSettings.setText("Настройки");
+            theLast.setText("Последние место чтения");
+            theQuiz.setText("hebrew testing ");
+            theAsk.setText("Спросить равина");
+            bePartner.setText("Пожертвования");
+            buyBooks.setText("Список книг");
+        }
+        if(MyLanguage==SPANISH)
+        {
+            dayliyLimud.setText("Estudio diario");
+            theBooks.setText("Libros");
+            theMarks.setText("Signets");
+            theSearch.setText("Búsqueda");
+            theSettings.setText("Definiciones");
+            theLast.setText("Última ubicación");
+            theQuiz.setText("hebrew testing ");
+            theAsk.setText("pregúntale al rabino");
+            bePartner.setText("Donaciones");
+            buyBooks.setText("compra de libros");
+        }
+        if(MyLanguage==FRENCH)
+        {
+            dayliyLimud.setText("étude quotidienne");
+            theBooks.setText("livres");
+            theMarks.setText("Marcadores");
+            theSearch.setText("Recherche");
+            theSettings.setText("Réglages");
+            theLast.setText("Dernier emplacement");
+            theQuiz.setText("hebrew testing ");
+            theAsk.setText("Demander au rav");
+            bePartner.setText("Devenez partenaires");
+            buyBooks.setText("Achat de livres");
+        }
         Bundle extras = getIntent().getExtras();
 
 
         PackageManager packageManager = context.getPackageManager();
         String packageName = context.getPackageName();
-        String version;
-        try
-        {
-            version = packageManager.getPackageInfo(packageName, 0).versionName;
-
-            if(mPrefs.getString("Version", "").equals("4") == false)
-            {
-                newVersion = true;
-                shPrefEditor.putString("Version", version);
-                shPrefEditor.commit();
-                newVersionDialog = new Dialog(context);
-                newVersionDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                newVersionDialog.setContentView(R.layout.new_version);
-                newVersionDialog.setTitle("גרסה " + version);
-
-                Button dialogButtonExit = (Button) newVersionDialog.findViewById(R.id.dialogButtonExit);
-                // if button is clicked
-                dialogButtonExit.setOnClickListener(new View.OnClickListener()
-                {
-                    @SuppressLint("NewApi")
-                    @Override
-                    public void onClick(View v)
-                    {
-                        newVersionDialog.dismiss();
-                    }
-                });
-                newVersionDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-
-                            Class ourClass = null;
-                            try {
-                                ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
-                            } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
-                            }
-                            Intent ourIntent = new Intent(HomePage.this, ourClass);
-                            ourIntent.putExtra("homePage", false);
-                            startActivity(ourIntent);
-
-                    }
-                });
-                newVersionDialog.show();
-            }
-        }
-        catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
         ImageView too_books= (ImageView) findViewById(R.id.too_main);
         ImageView too_py= (ImageView) findViewById(R.id.to_py);
-        ImageView about_ph= (ImageView) findViewById(R.id.about_p);
+        ImageView settings= (ImageView) findViewById(R.id.settings);
         ImageView searchAll= (ImageView) findViewById(R.id.searchAll);
         ImageView mymarks= (ImageView) findViewById(R.id.my_marks);
         ImageView myLastLoc= (ImageView) findViewById(R.id.my_last_loc);
         ImageView goShop= (ImageView) findViewById(R.id.go_shop);
         ImageView askTheRav= (ImageView) findViewById(R.id.ask_the_rav);
         ImageView donate= (ImageView) findViewById(R.id.donation);
-        ImageView menu= (ImageView) findViewById(R.id.menu);
+        ImageView takeQuiz= (ImageView) findViewById(R.id.take_quiz);
+
         LinearLayout main=(LinearLayout) findViewById(R.id.main);
         LinearLayout main2=(LinearLayout) findViewById(R.id.lnrOption2);
         LinearLayout main3=(LinearLayout) findViewById(R.id.lnrOption7);
@@ -130,59 +146,77 @@ public class HomePage extends Activity {
             main2.setBackgroundColor(Color.BLACK);
             main3.setBackgroundColor(Color.BLACK);
         }
+        ImageView menu= (ImageView) findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(HomePage.this, v);
+                ContextThemeWrapper ctw = new ContextThemeWrapper(HomePage.this, R.style.CustomPopupTheme);
+                PopupMenu popupMenu = new PopupMenu(ctw, v);
                 //popupMenu.
 
                 if(MyLanguage == ENGLISH) {
-
                     popupMenu.getMenu().add(0,0,0,"Settings");
-                    popupMenu.getMenu().add(0,1,0,"About");
-                    popupMenu.getMenu().add(0,2,0,"Feedback");
-                    popupMenu.getMenu().add(0,3,0,"Explanation of search results");
-                    popupMenu.getMenu().add(0,4,0,"Acronyms");
-                    popupMenu.getMenu().add(0,5,0,"Approbations");
-                    popupMenu.getMenu().add(0,6,0,"Language / שפה");
+                    popupMenu.getMenu().add(0,1,0,"Books");
+                    popupMenu.getMenu().add(0,2,0,"Daily Study");
+                    popupMenu.getMenu().add(0,3,0,"Search");
+                    popupMenu.getMenu().add(0,4,0,"Abbreviations");
+                    popupMenu.getMenu().add(0,5,0,"Contact Us");
+                    popupMenu.getMenu().add(0,6,0,"Purchasing books");
+                    popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"About the series");
+                    popupMenu.getMenu().add(0,9,0,"About");
                 }
                 else if(MyLanguage == RUSSIAN) {
                     popupMenu.getMenu().add(0,0,0,"Настройки");
-                    popupMenu.getMenu().add(0,1,0,"Около");
-                    popupMenu.getMenu().add(0,2,0,"Обратная связь");
-                    popupMenu.getMenu().add(0,3,0,"Объяснение результатов поиска");
-                    popupMenu.getMenu().add(0,4,0,"Абревиатуры");
-                    popupMenu.getMenu().add(0,5,0,"Апробации");
-                    popupMenu.getMenu().add(0,6,0,"ЯЗЫК / שפה");
+                    popupMenu.getMenu().add(0,1,0,"Книги");
+                    popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
+                    popupMenu.getMenu().add(0,3,0,"Поиск");
+                    popupMenu.getMenu().add(0,4,0,"Сокращения");
+                    popupMenu.getMenu().add(0,5,0,"Отзыв");
+                    popupMenu.getMenu().add(0,6,0,"Список книг");
+                    popupMenu.getMenu().add(0,7,0,"Спросить равина");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"О серии книг");
+                    popupMenu.getMenu().add(0,9,0,"О приложении");
                 }
                 else if(MyLanguage == SPANISH) {
-                    popupMenu.getMenu().add(0,0,0,"Ajustes");
-                    popupMenu.getMenu().add(0,1,0,"Acerca de");
-                    popupMenu.getMenu().add(0,2,0,"Comentarios");
-                    popupMenu.getMenu().add(0,3,0,"Explicacion del resultado de la busqueda");
-                    popupMenu.getMenu().add(0,4,0,"Acronimos");
-                    popupMenu.getMenu().add(0,5,0,"Aprovaciones");
-                    popupMenu.getMenu().add(0,6,0,"Idioma / שפה");
+                    popupMenu.getMenu().add(0,0,0,"Definiciones");
+                    popupMenu.getMenu().add(0,1,0,"Libros");
+                    popupMenu.getMenu().add(0,2,0,"Estudio diario");
+                    popupMenu.getMenu().add(0,3,0,"Búsqueda");
+                    popupMenu.getMenu().add(0,4,0,"Acrónimos");
+                    popupMenu.getMenu().add(0,5,0,"retroalimentación");
+                    popupMenu.getMenu().add(0,6,0,"compra de libros");
+                    popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"en la serie");
+                    popupMenu.getMenu().add(0,9,0,"sobre");
                 }
                 else if(MyLanguage == FRENCH) {
-                    popupMenu.getMenu().add(0,0,0,"Definitions");
-                    popupMenu.getMenu().add(0,1,0,"A Propos de…");
-                    popupMenu.getMenu().add(0,2,0,"Commentaires");
-                    popupMenu.getMenu().add(0,3,0,"Explication de la recherche");
-                    popupMenu.getMenu().add(0,4,0,"Acronymes");
-                    popupMenu.getMenu().add(0,5,0,"Approbations");
-                    popupMenu.getMenu().add(0,6,0,"Langue / שפה");
+                    popupMenu.getMenu().add(0,0,0,"Réglages");
+                    popupMenu.getMenu().add(0,1,0,"livres");
+                    popupMenu.getMenu().add(0,2,0,"étude quotidienne");
+                    popupMenu.getMenu().add(0,3,0,"Recherche");
+                    popupMenu.getMenu().add(0,4,0,"Initiales");
+                    popupMenu.getMenu().add(0,5,0,"Contact Us");
+                    popupMenu.getMenu().add(0,6,0,"Achat de livres");
+                    popupMenu.getMenu().add(0,7,0,"Demander au rav");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"Sur la collection");
+                    popupMenu.getMenu().add(0,9,0,"À propos");
                 }
                 else {/*this is the default*/
                     popupMenu.getMenu().add(0,0,0,"הגדרות");
-                    popupMenu.getMenu().add(0,2,0,"ספרים");
-                    popupMenu.getMenu().add(0,3,0,"לימוד יומי");
-                    popupMenu.getMenu().add(0,1,0,"חיפוש");
-                    popupMenu.getMenu().add(0,4,0,"משוב");
-                    popupMenu.getMenu().add(0,5,0,"רכישת ספרים");
-                    popupMenu.getMenu().add(0,6,0,"שאל את הרב");
-                    popupMenu.getMenu().add(0,7,0,"ראשי תיבות");
+                    popupMenu.getMenu().add(0,1,0,"ספרים");
+                    popupMenu.getMenu().add(0,2,0,"לימוד יומי");
+                    popupMenu.getMenu().add(0,3,0,"חיפוש");
+                    popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
+                    popupMenu.getMenu().add(0,5,0,"משוב");
+                    popupMenu.getMenu().add(0,6,0,"רכישת ספרים");
+                    popupMenu.getMenu().add(0,7,0,"שאל את הרב");
                     //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"על הסדרה");
                     popupMenu.getMenu().add(0,9,0,"אודות");
                 }
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
@@ -267,11 +301,21 @@ public class HomePage extends Activity {
                                 intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
                                 startActivity(intent);
                                 break;
-
+                            case 8:/*about pninei*/
+                                try
+                                {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About_p");
+                                    ourIntent = new Intent(HomePage.this, ourClass);
+                                    startActivity(ourIntent);
+                                }
+                                catch (ClassNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
                             //case 8:/*hascamot*/
                              //   hascamotDialog();
                               //  break;
-                            case 8:/*about*/
+                            case 9:/*about*/
                                 try
                                 {
                                     ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
@@ -316,16 +360,17 @@ public class HomePage extends Activity {
                 startActivity(ourIntent);
             }
         });
-        about_ph.setOnClickListener(new View.OnClickListener() {
+        settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Class ourClass = null;
                 try {
-                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About_p");
+                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
                 Intent ourIntent = new Intent(HomePage.this, ourClass);
+                ourIntent.putExtra("homePage", true);
                 startActivity(ourIntent);
             }
         });
@@ -386,6 +431,14 @@ public class HomePage extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
+                startActivity(intent);
+            }
+        });
+        takeQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://test.yhb.org.il/#/login"));
                 startActivity(intent);
             }
         });

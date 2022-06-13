@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -233,59 +234,77 @@ public class MainActivity extends AppCompatActivity
 			}
 		});
 		ImageView menu= (ImageView) findViewById(R.id.menu);
-
 		menu.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				PopupMenu popupMenu = new PopupMenu(MainActivity.this, v);
+				ContextThemeWrapper ctw = new ContextThemeWrapper(MainActivity.this, R.style.CustomPopupTheme);
+				PopupMenu popupMenu = new PopupMenu(ctw, v);
 				//popupMenu.
 
 				if(MyLanguage == ENGLISH) {
-
 					popupMenu.getMenu().add(0,0,0,"Settings");
-					popupMenu.getMenu().add(0,1,0,"About");
-					popupMenu.getMenu().add(0,2,0,"Feedback");
-					popupMenu.getMenu().add(0,3,0,"Explanation of search results");
-					popupMenu.getMenu().add(0,4,0,"Acronyms");
-					popupMenu.getMenu().add(0,5,0,"Approbations");
-					popupMenu.getMenu().add(0,6,0,"Language / שפה");
+					popupMenu.getMenu().add(0,1,0,"Books");
+					popupMenu.getMenu().add(0,2,0,"Daily Study");
+					popupMenu.getMenu().add(0,3,0,"Search");
+					popupMenu.getMenu().add(0,4,0,"Abbreviations");
+					popupMenu.getMenu().add(0,5,0,"Contact Us");
+					popupMenu.getMenu().add(0,6,0,"Purchasing books");
+					popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"About the series");
+					popupMenu.getMenu().add(0,9,0,"About");
 				}
 				else if(MyLanguage == RUSSIAN) {
 					popupMenu.getMenu().add(0,0,0,"Настройки");
-					popupMenu.getMenu().add(0,1,0,"Около");
-					popupMenu.getMenu().add(0,2,0,"Обратная связь");
-					popupMenu.getMenu().add(0,3,0,"Объяснение результатов поиска");
-					popupMenu.getMenu().add(0,4,0,"Абревиатуры");
-					popupMenu.getMenu().add(0,5,0,"Апробации");
-					popupMenu.getMenu().add(0,6,0,"ЯЗЫК / שפה");
+					popupMenu.getMenu().add(0,1,0,"Книги");
+					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
+					popupMenu.getMenu().add(0,3,0,"Поиск");
+					popupMenu.getMenu().add(0,4,0,"Сокращения");
+					popupMenu.getMenu().add(0,5,0,"Отзыв");
+					popupMenu.getMenu().add(0,6,0,"Список книг");
+					popupMenu.getMenu().add(0,7,0,"Спросить равина");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"О серии книг");
+					popupMenu.getMenu().add(0,9,0,"О приложении");
 				}
 				else if(MyLanguage == SPANISH) {
-					popupMenu.getMenu().add(0,0,0,"Ajustes");
-					popupMenu.getMenu().add(0,1,0,"Acerca de");
-					popupMenu.getMenu().add(0,2,0,"Comentarios");
-					popupMenu.getMenu().add(0,3,0,"Explicacion del resultado de la busqueda");
-					popupMenu.getMenu().add(0,4,0,"Acronimos");
-					popupMenu.getMenu().add(0,5,0,"Aprovaciones");
-					popupMenu.getMenu().add(0,6,0,"Idioma / שפה");
+					popupMenu.getMenu().add(0,0,0,"Definiciones");
+					popupMenu.getMenu().add(0,1,0,"Libros");
+					popupMenu.getMenu().add(0,2,0,"Estudio diario");
+					popupMenu.getMenu().add(0,3,0,"Búsqueda");
+					popupMenu.getMenu().add(0,4,0,"Acrónimos");
+					popupMenu.getMenu().add(0,5,0,"retroalimentación");
+					popupMenu.getMenu().add(0,6,0,"compra de libros");
+					popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"en la serie");
+					popupMenu.getMenu().add(0,9,0,"sobre");
 				}
 				else if(MyLanguage == FRENCH) {
-					popupMenu.getMenu().add(0,0,0,"Definitions");
-					popupMenu.getMenu().add(0,1,0,"A Propos de…");
-					popupMenu.getMenu().add(0,2,0,"Commentaires");
-					popupMenu.getMenu().add(0,3,0,"Explication de la recherche");
-					popupMenu.getMenu().add(0,4,0,"Acronymes");
-					popupMenu.getMenu().add(0,5,0,"Approbations");
-					popupMenu.getMenu().add(0,6,0,"Langue / שפה");
+					popupMenu.getMenu().add(0,0,0,"Réglages");
+					popupMenu.getMenu().add(0,1,0,"livres");
+					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
+					popupMenu.getMenu().add(0,3,0,"Recherche");
+					popupMenu.getMenu().add(0,4,0,"Initiales");
+					popupMenu.getMenu().add(0,5,0,"Contact Us");
+					popupMenu.getMenu().add(0,6,0,"Achat de livres");
+					popupMenu.getMenu().add(0,7,0,"Demander au rav");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"Sur la collection");
+					popupMenu.getMenu().add(0,9,0,"À propos");
 				}
 				else {/*this is the default*/
 					popupMenu.getMenu().add(0,0,0,"הגדרות");
-					popupMenu.getMenu().add(0,1,0,"אודות");
-					popupMenu.getMenu().add(0,2,0,"משוב");
-					popupMenu.getMenu().add(0,3,0,"הסבר על החיפוש");
+					popupMenu.getMenu().add(0,1,0,"ספרים");
+					popupMenu.getMenu().add(0,2,0,"לימוד יומי");
+					popupMenu.getMenu().add(0,3,0,"חיפוש");
 					popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
-					popupMenu.getMenu().add(0,5,0,"הסכמות");
+					popupMenu.getMenu().add(0,5,0,"משוב");
+					popupMenu.getMenu().add(0,6,0,"רכישת ספרים");
+					popupMenu.getMenu().add(0,7,0,"שאל את הרב");
 					//booksDownload configHeaders[6] = "ספרים להורדה";
-					popupMenu.getMenu().add(0,6,0,"Language / שפה");
+					popupMenu.getMenu().add(0,8,0,"על הסדרה");
+					popupMenu.getMenu().add(0,9,0,"אודות");
 				}
 				popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
 				{
@@ -295,26 +314,58 @@ public class MainActivity extends AppCompatActivity
 					{
 						Class ourClass = null;
 						Intent ourIntent;
+						Intent intent;
 						switch (item.getItemId())
 						{
 							case 0:/*settings*/
-								languageDialog(context,1);
-								break;
 
-							case 1:/*about*/
-								try
-								{
-									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
-									ourIntent = new Intent(MainActivity.this, ourClass);
-									startActivity(ourIntent);
-								}
-								catch (ClassNotFoundException e)
-								{
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+								} catch (ClassNotFoundException e) {
 									e.printStackTrace();
 								}
+								ourIntent = new Intent(MainActivity.this, ourClass);
+								ourIntent.putExtra("homePage", true);
+								startActivity(ourIntent);
+								break;
+
+							case 1:/*to books*/
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(MainActivity.this, ourClass);
+								ourIntent.putExtra("homePage", false);
+								startActivity(ourIntent);
+								break;
+
+							case 2:/*pninaYomit*/
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(MainActivity.this, ourClass);
+								startActivity(ourIntent);
+								break;
+
+							case 3:/*search in all books*/
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(MainActivity.this, ourClass);
+								startActivity(ourIntent);
 
 								break;
-							case 2:/*Feedback*/
+
+							case 4:/*acronyms*/
+								acronymsDecode();
+								break;
+
+							case 5:/*feedback*/
 								try
 								{
 									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
@@ -326,10 +377,21 @@ public class MainActivity extends AppCompatActivity
 									e.printStackTrace();
 								}
 								break;
-							case 3:/*Explanation for Search*/
+							case 6:/*buy books*/
+								intent = new Intent(Intent.ACTION_VIEW);
+								intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+								startActivity(intent);
+								break;
+
+							case 7:/*ask the rav*/
+								intent = new Intent(Intent.ACTION_VIEW);
+								intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
+								startActivity(intent);
+								break;
+							case 8:/*about pninei*/
 								try
 								{
-									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About_p");
 									ourIntent = new Intent(MainActivity.this, ourClass);
 									startActivity(ourIntent);
 								}
@@ -337,17 +399,20 @@ public class MainActivity extends AppCompatActivity
 								{
 									e.printStackTrace();
 								}
-								break;
-							case 4:/*acronyms*/
-
-
-								break;
-
-							case 5:/*hascamot*/
-
-								break;
-							case 6:/*language*/
-								;
+								//case 8:/*hascamot*/
+								//   hascamotDialog();
+								//  break;
+							case 9:/*about*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+									ourIntent = new Intent(MainActivity.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
 								break;
 
 
@@ -2313,6 +2378,53 @@ private void initializeSeekBar()
 		if(firstLang==0) {
 			languageDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 			languageDialog.setContentView(R.layout.language);
+			TextView welcome =languageDialog.findViewById(R.id.chooseTochen);
+			TextView pickBooks =languageDialog.findViewById(R.id.pickBooks);
+			switch (Locale.getDefault().getLanguage()) {
+				case "en":
+					MyLanguage = ENGLISH;
+					welcome.setText("Welcome to the \"Peninei Halakha\" App");
+					pickBooks.setText("Select the desired book language to download to your device:");
+					HneedPr="Need permission";
+					Hmassage="This permission is required to download the books";
+					Hconfirm="Confirmation";
+					Hcancel="cancelation";
+
+					break;
+				case "es":
+					MyLanguage = SPANISH;
+					welcome.setText("Bienvenido a la aplicación Pninei Halaja");
+					pickBooks.setText("Seleccione el idioma del libro deseado para descargarlo en su dispositivo:");
+					HneedPr="Necesito permiso";
+					Hmassage="Este permiso es necesario para descargar los libros.";
+					Hconfirm="Confirmación";
+					Hcancel="cancelación";
+					EnSureDel="books Deleted";
+					break;
+				case "ru":
+					MyLanguage = RUSSIAN;
+					welcome.setText("Добро пожаловать в приложение \"Жемчужины Галахи\"");
+					pickBooks.setText("Выберите язык книг для загрузки на Ваше устройство:");
+					HneedPr="Требуется разрешение";
+					Hmassage="Разрешить загрузку книг";
+					Hconfirm="Разрешение";
+					Hcancel="Отмена";
+				case "fr":
+					MyLanguage = FRENCH;
+					welcome.setText("Welcome to the \"Peninei Halakha\" App");
+					pickBooks.setText("Select the desired book language to download to your device:");
+					HneedPr="Nécessite une autorisation";
+					Hmassage="Cette autorisation est nécessaire pour le téléchargement des livres";
+					Hconfirm="Confirmation ";
+					Hcancel="Annulation";
+					break;
+				default:
+					MyLanguage = HEBREW;
+					break;
+			}
+			shPrefEditor.putInt("MyLanguage", MyLanguage);
+			shPrefEditor.commit();
+
 		}
 		else
 		{
@@ -2371,7 +2483,7 @@ private void initializeSeekBar()
 		//ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
 		ImageView es_imv_down = (ImageView) languageDialog.findViewById(R.id.im_es_down);
 		//ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
-		ImageView en_imv_down = (ImageView) languageDialog.findViewById(R.id.about_p);
+		ImageView en_imv_down = (ImageView) languageDialog.findViewById(R.id.settings);
 		//ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
 		ImageView f_imv_down = (ImageView) languageDialog.findViewById(R.id.im_f_down);
 		if(firstLang==1)
@@ -2412,16 +2524,55 @@ private void initializeSeekBar()
 			cb 		= (TextView) languageDialog.findViewById(R.id.textSizeExm);
 			cb.setTextSize(mPrefs.getInt("fontSize",20));
 			initializeSeekBar();
+			TextView langOf=languageDialog.findViewById(R.id.langof);
+			TextView chooseTochenLang=languageDialog.findViewById(R.id.chooseTochen);
+			TextView chooseSize=languageDialog.findViewById(R.id.chooseSize);
+			TextView exm=languageDialog.findViewById(R.id.textSizeExm);
+			TextView blackScreen=languageDialog.findViewById(R.id.blackScreen);
+			TextView lastLoc=languageDialog.findViewById(R.id.lastLocation);
 			if (MyLanguage == HEBREW)
 				h_imv.setImageResource(R.drawable.h_b_2);
 			else if (MyLanguage == RUSSIAN)
+			{
 				r_imv.setImageResource(R.drawable.r_b_2);
+				langOf.setText("Язык приложения");
+				chooseTochenLang.setText("Выбор языка книг");
+				chooseSize.setText("Выбрать размер текста");
+				exm.setText("Жемчужины Галахи");
+				blackScreen.setText("Темная тема");
+				lastLoc.setText("При загрузке приложения возвращаться на последнее место чтения");
+			}
 			else if (MyLanguage == SPANISH)
+			{
 				es_imv.setImageResource(R.drawable.es_b_2);
+				langOf.setText("El idioma de la aplicación");
+				chooseTochenLang.setText("Selección del contenido de los idiomas en los libros.");
+				chooseSize.setText("Establecer tamaño de texto");
+				exm.setText("Pninei Halaja");
+				blackScreen.setText("Oscurecimiento de pantalla");
+				lastLoc.setText("Al abrir la aplicación, salta a la última ubicación");
+			}
 			else if (MyLanguage == FRENCH)
+			{
 				f_imv.setImageResource(R.drawable.f_b_2);
+				langOf.setText("Language de l'appplication");
+				chooseTochenLang.setText("Selection du contenu des langues des livres");
+				chooseSize.setText("Définir la taille du texte");
+				exm.setText("Pninei Halakha");
+				blackScreen.setText("Assombrir l'écran");
+				lastLoc.setText("À l'ouverture de l'application, passez directement au dernier emplacement visité");
+
+			}
 			else if (MyLanguage == ENGLISH)
+			{
 				en_imv.setImageResource(R.drawable.en_b_2);
+				langOf.setText("language of the application");
+				chooseTochenLang.setText("Selecting the content of the languages in the books");
+				chooseSize.setText("Set text size");
+				exm.setText("Pninei Halakha");
+				blackScreen.setText("Darken Screen");
+				lastLoc.setText("When opening the app, skip to the last location");
+			}
 			shPrefEditor.putInt("MyLanguage", MyLanguage);
 			shPrefEditor.commit();
 			im_black_screen.setOnClickListener(new OnClickListener() {
@@ -2469,6 +2620,12 @@ private void initializeSeekBar()
 				es_imv.setImageResource(R.drawable.es_b_1);
 				en_imv.setImageResource(R.drawable.en_b_1);
 				f_imv.setImageResource(R.drawable.f_b_1);
+				langOf.setText("שפת האפליקציה");
+				chooseTochenLang.setText("בחירת תוכן השפות בספרים");
+				chooseSize.setText("קביעת גודל טקסט");
+				exm.setText("פניני הלכה");
+				blackScreen.setText("החשכת מסך");
+				lastLoc.setText("בפתיחת האפליקציה דלג למיקום אחרון");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
 			}
@@ -2482,6 +2639,12 @@ private void initializeSeekBar()
 				es_imv.setImageResource(R.drawable.es_b_1);
 				en_imv.setImageResource(R.drawable.en_b_1);
 				f_imv.setImageResource(R.drawable.f_b_1);
+				langOf.setText("Язык приложения");
+				chooseTochenLang.setText("Выбор языка книг");
+				chooseSize.setText("Выбрать размер текста");
+				exm.setText("Жемчужины Галахи");
+				blackScreen.setText("Темная тема");
+				lastLoc.setText("При загрузке приложения возвращаться на последнее место чтения");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
 
@@ -2496,6 +2659,12 @@ private void initializeSeekBar()
 				es_imv.setImageResource(R.drawable.es_b_2);
 				en_imv.setImageResource(R.drawable.en_b_1);
 				f_imv.setImageResource(R.drawable.f_b_1);
+				langOf.setText("El idioma de la aplicación");
+				chooseTochenLang.setText("Selección del contenido de los idiomas en los libros.");
+				chooseSize.setText("Establecer tamaño de texto");
+				exm.setText("Pninei Halaja");
+				blackScreen.setText("Oscurecimiento de pantalla");
+				lastLoc.setText("Al abrir la aplicación, salta a la última ubicación");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
 			}
@@ -2509,6 +2678,12 @@ private void initializeSeekBar()
 				es_imv.setImageResource(R.drawable.es_b_1);
 				en_imv.setImageResource(R.drawable.en_b_2);
 				f_imv.setImageResource(R.drawable.f_b_1);
+				langOf.setText("language of the application");
+				chooseTochenLang.setText("Selecting the content of the languages in the books");
+				chooseSize.setText("Set text size");
+				exm.setText("Pninei Halakha");
+				blackScreen.setText("Darken Screen");
+				lastLoc.setText("When opening the app, skip to the last location");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
 			}
@@ -2522,6 +2697,12 @@ private void initializeSeekBar()
 				es_imv.setImageResource(R.drawable.es_b_1);
 				en_imv.setImageResource(R.drawable.en_b_1);
 				f_imv.setImageResource(R.drawable.f_b_2);
+				langOf.setText("Language de l'appplication");
+				chooseTochenLang.setText("Selection du contenu des langues des livres");
+				chooseSize.setText("Définir la taille du texte");
+				exm.setText("Pninei Halakha");
+				blackScreen.setText("Assombrir l'écran");
+				lastLoc.setText("À l'ouverture de l'application, passez directement au dernier emplacement visité");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
 			}

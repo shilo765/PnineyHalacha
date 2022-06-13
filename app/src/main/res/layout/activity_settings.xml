@@ -7,7 +7,7 @@
 	android:layout_height="wrap_content"
 	android:background="#FFFFFF"
 	android:orientation="vertical"
-	android:padding="10dp">
+	>
 
 	<LinearLayout
 		android:id="@+id/main"
@@ -40,7 +40,7 @@
 
 		<TextView
 			android:id="@+id/langof"
-			android:layout_width="347dp"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="right"
 			android:scaleX="0.7"
@@ -152,7 +152,7 @@
 				app:srcCompat="@drawable/r_b_3" />
 
 			<ImageView
-				android:id="@+id/about_p"
+				android:id="@+id/settings"
 				android:layout_width="70dp"
 				android:layout_height="wrap_content"
 				android:scaleX="0.8"
@@ -172,7 +172,7 @@
 
 		<TextView
 			android:id="@+id/chooseSize"
-			android:layout_width="344dp"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="right"
 			android:scaleX="0.7"
@@ -263,7 +263,7 @@
 			<TextView
 				android:id="@+id/lastLocation"
 				android:layout_width="201dp"
-				android:layout_height="65dp"
+				android:layout_height="wrap_content"
 				android:layout_gravity="right"
 				android:layout_marginTop="10dp"
 				android:scaleX="0.7"

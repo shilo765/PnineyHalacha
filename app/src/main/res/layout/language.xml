@@ -62,7 +62,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView18"
+            android:id="@+id/pickBooks"
             android:layout_width="382dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -82,7 +82,7 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/about_p"
+                android:id="@+id/settings"
                 android:layout_width="70dp"
                 android:layout_height="126dp"
                 android:scaleX="0.8"

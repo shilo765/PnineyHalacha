@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tooBooks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -102,7 +103,8 @@
         android:layout_width="match_parent"
         android:layout_height="77dp"
         android:background="#970606"
-        android:gravity="center">
+        android:gravity="center"
+        android:paddingBottom="40dp">
 
         <ImageButton
             android:id="@+id/ibNextPage"
@@ -138,7 +140,7 @@
             android:src="@drawable/ic_action_previous_item" />
 
         <ImageButton
-            android:id="@+id/bSendEmail"
+            android:id="@+id/set_note"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:background="#00FFFFFF"
@@ -159,23 +161,6 @@
             android:background="#00FFFFFF"
             android:contentDescription="@string/Chapters"
             android:src="@drawable/auto_scrool" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:id="@+id/lnrFindOptions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center" >
-
-        <ImageButton
-            android:id="@+id/ibFindNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:background="#970606"
-            android:contentDescription="@string/NextPage"
-            android:src="@drawable/ic_action_down" />
 
         <ImageButton
             android:id="@+id/ibFindPrevious"
@@ -184,7 +169,31 @@
             android:layout_weight="0.5"
             android:background="#970606"
             android:contentDescription="@string/PreviousPage"
-            android:src="@drawable/ic_action_up" />
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_action_up"
+            tools:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrFindOptions"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/ibFindNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="#970606"
+            android:contentDescription="@string/NextPage"
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_action_down"
+            android:visibility="gone" />
+
     </LinearLayout>
 
 </RelativeLayout>

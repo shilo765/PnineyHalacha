@@ -63,57 +63,29 @@
                 android:tag="4" />
         </RelativeLayout>
 
+
         <LinearLayout
             android:id="@+id/lnrOption7"
             android:layout_width="match_parent"
-            android:layout_height="179dp"
-            android:layout_marginTop="70dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_height="120dp"
 
             android:background="#ffffff"
-            android:gravity="center">
+
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:paddingRight="50dp">
 
             <RelativeLayout
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp">
+                android:layout_marginStart="50dp">
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:id="@+id/daily_limud"
+                    android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:layout_marginTop="115dp"
-                    android:layout_marginRight="15dp"
-                    android:text="חיפוש"
-                    android:textColor="#970606"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
-
-
-                <ImageView
-                    android:id="@+id/searchAll"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-
-                    android:scaleX="0.6"
-                    android:scaleY="0.6"
-                    android:src="@drawable/ic_search_all" />
-
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="115dp"
+                    android:layout_marginTop="83dp"
+                    android:gravity="center"
 
                     android:text="לימוד יומי"
                     android:textColor="#970606"
@@ -126,24 +98,27 @@
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
 
-                    android:scaleX="0.6"
-                    android:scaleY="0.6"
+                    android:scaleX="0.5"
+                    android:scaleY="0.5"
                     android:src="@drawable/ic_too_py" />
 
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="70dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp">
 
                 <TextView
-                    android:layout_width="50dp"
+                    android:id="@+id/the_books"
+                    android:layout_width="match_parent"
                     android:layout_height="20dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="115dp"
+                    android:layout_marginTop="83dp"
+                    android:gravity="center"
                     android:text="ספרים"
                     android:textColor="#970606"
                     android:textSize="14dp"
@@ -152,11 +127,13 @@
 
                 <ImageView
                     android:id="@+id/too_main"
-                    android:layout_width="70dp"
+                    android:layout_width="80dp"
                     android:layout_height="match_parent"
 
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:scaleX="0.65"
+                    android:scaleY="0.65"
                     android:src="@drawable/ic_too_books" />
 
 
@@ -164,86 +141,29 @@
 
         </LinearLayout>
 
-
         <LinearLayout
-            android:id="@+id/lnrOption2"
+            android:id="@+id/lnrOption9"
             android:layout_width="match_parent"
-            android:layout_height="179dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_height="120dp"
+
             android:background="#ffffff"
-            android:gravity="center">
+
+            android:gravity="center"
+            android:paddingRight="50dp">
 
             <RelativeLayout
-                android:layout_width="70dp"
+                android:layout_width="90dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp">
 
                 <TextView
-                    android:layout_width="120dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="115dp"
-
-                    android:text="על הסדרה"
-                    android:textColor="#970606"
-                    android:textSize="14dp"
-                    android:textStyle="bold" />
-
-
-                <ImageView
-                    android:id="@+id/about_p"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-
-                    android:scaleX="0.6"
-                    android:scaleY="0.6"
-                    android:src="@drawable/ic_about_p" />
-
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="115dp"
-
-                    android:text="מיקום אחרון"
-                    android:textColor="#970606"
-                    android:textSize="12dp"
-                    android:textStyle="bold" />
-
-
-                <ImageView
-                    android:id="@+id/my_last_loc"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-
-                    android:scaleX="0.6"
-                    android:scaleY="0.6"
-                    android:src="@drawable/ic_last_loc" />
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp">
-
-                <TextView
-                    android:layout_width="50dp"
+                    android:id="@+id/the_marks"
+                    android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="115dp"
+                    android:layout_marginTop="83dp"
+                    android:gravity="center"
                     android:text="סימניות"
                     android:textColor="#970606"
                     android:textSize="14dp"
@@ -252,60 +172,294 @@
 
                 <ImageView
                     android:id="@+id/my_marks"
-                    android:layout_width="70dp"
+                    android:layout_width="90dp"
                     android:layout_height="match_parent"
-
-                    android:scaleX="0.6"
-                    android:scaleY="0.6"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:foregroundGravity=""
+                    android:scaleX="0.5"
+                    android:scaleY="0.5"
                     android:src="@drawable/ic_my_marks" />
 
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp">
+
+                <TextView
+                    android:id="@+id/the_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="83dp"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center"
+                    android:text="חיפוש"
+                    android:textColor="#970606"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+
+                <ImageView
+                    android:id="@+id/searchAll"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+
+                    android:scaleX="0.5"
+                    android:scaleY="0.5"
+                    android:src="@drawable/ic_search_all" />
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnrOption2"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+
+
+            android:background="#ffffff"
+            android:gravity="center"
+            android:paddingRight="50dp">
+
+            <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:id="@+id/the_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="83dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="הגדרות"
+                    android:textColor="#970606"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+
+                <ImageView
+                    android:id="@+id/settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="95dp"
+                    android:scaleX="0.5"
+                    android:scaleY="0.5"
+                    android:src="@drawable/ic_setting_vec" />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp">
+
+                <TextView
+                    android:id="@+id/the_last"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="83dp"
+                    android:gravity="center"
+
+                    android:text="מיקום אחרון"
+                    android:textColor="#970606"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+
+                <ImageView
+                    android:id="@+id/my_last_loc"
+                    android:layout_width="90dp"
+                    android:layout_height="94dp"
+
+                    android:scaleX="0.6"
+                    android:scaleY="0.5"
+                    android:src="@drawable/ic_last_loc" />
+
+
+            </RelativeLayout>
+
+
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/down_layer"
             android:layout_width="match_parent"
             android:layout_height="400dp">
 
+
             <LinearLayout
-                android:id="@+id/lnrOption8"
+                android:id="@+id/lnrOption10"
                 android:layout_width="match_parent"
-                android:layout_height="289dp"
-                android:background="#FFF7EC"
-                android:gravity="center">
+                android:layout_height="wrap_content"
 
-                <ImageView
-                    android:id="@+id/donation"
-                    android:layout_width="74dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="120dp"
-                    android:scaleX="0.7"
-                    android:scaleY="0.7"
-                    android:src="@drawable/donation" />
+                android:background="#ffffff"
 
-                <ImageView
-                    android:id="@+id/ask_the_rav"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginLeft="50dp"
-                    android:paddingBottom="100dp"
-                    android:scaleX="0.7"
-                    android:scaleY="0.7"
-                    android:src="@drawable/ask_the_rav"
-                    android:tag="4" />
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:paddingRight="40dp">
 
-                <ImageView
-                    android:id="@+id/go_shop"
-                    android:layout_width="70dp"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginLeft="50dp"
-                    android:paddingBottom="70dp"
-                    android:scaleX="1.1"
-                    android:scaleY="1.1"
-                    android:src="@drawable/go_shop" />
+                    android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp">
+
+
+                    <TextView
+                        android:id="@+id/the_ask"
+                        android:layout_width="98dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="73dp"
+                        android:layout_marginRight="15dp"
+                        android:text="שאל את הרב"
+                        android:textColor="#970606"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/ask_the_rav"
+                        android:layout_width="57dp"
+                        android:layout_height="85dp"
+
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:scaleX="0.6"
+                        android:scaleY="0.6"
+                        android:src="@drawable/ic_ask_the_rav" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp">
+
+
+                    <TextView
+                        android:id="@+id/the_quiz"
+                        android:layout_width="98dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="73dp"
+                        android:layout_marginRight="15dp"
+                        android:text="בחן/י את עצמך"
+                        android:textColor="#970606"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/take_quiz"
+                        android:layout_width="63dp"
+                        android:layout_height="82dp"
+
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:scaleX="0.6"
+                        android:scaleY="0.6"
+                        android:src="@drawable/ic_quiz" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnrOption11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="125dp"
+                android:background="#ffffff"
+
+                android:gravity="center"
+                android:paddingRight="40dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginLeft="60dp">
+
+
+                    <TextView
+                        android:id="@+id/be_partner"
+                        android:layout_width="98dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="73dp"
+                        android:layout_marginEnd="35dp"
+                        android:layout_marginRight="35dp"
+                        android:text="היו שותפים"
+                        android:textColor="#970606"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/donation"
+                        android:layout_width="97dp"
+                        android:layout_height="80dp"
+                        android:layout_marginStart="35dp"
+                        android:layout_marginLeft="35dp"
+                        android:scaleX="0.4"
+                        android:scaleY="0.4"
+                        android:src="@drawable/ic_go_donate" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="137dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp">
+
+
+                    <TextView
+                        android:id="@+id/buy_books"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="73dp"
+                        android:layout_marginRight="15dp"
+                        android:gravity="left"
+                        android:text="רכישת ספרים"
+                        android:textColor="#970606"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/go_shop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="83dp"
+
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:paddingLeft="10dp"
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"
+                        android:src="@drawable/ic_go_shop" />
+
+
+                </RelativeLayout>
+
 
             </LinearLayout>
 
@@ -321,7 +475,6 @@
                 android:tag="4" />
         </RelativeLayout>
     </LinearLayout>
-
 
 
 </RelativeLayout>

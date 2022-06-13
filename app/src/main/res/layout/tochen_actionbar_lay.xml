@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="90dp"
     android:background="#FFFFFFFF">
+
+    <ImageButton
+        android:id="@+id/ibFindNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:background="#970606"
+        android:contentDescription="@string/NextPage"
+        android:paddingLeft="30dp"
+        android:paddingTop="60dp"
+        android:src="@drawable/ic_action_up" />
+    <ImageButton
+    android:id="@+id/ibFindPrevious"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="0.5"
+    android:background="#970606"
+    android:contentDescription="@string/NextPage"
+    android:paddingTop="60dp"
+    android:src="@drawable/ic_action_down" />
+
     <LinearLayout
         android:id="@+id/lnrOption3"
         android:layout_width="match_parent"
@@ -10,13 +31,25 @@
         android:background="#FFF7EC"
         android:gravity="center">
 
+        <ImageButton
+            android:id="@+id/auto_scrool"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="90dp"
+            android:background="#00FFFFFF"
+
+
+            android:contentDescription="@string/Chapters"
+            android:src="@drawable/auto_scrool" />
+
         <ImageView
             android:id="@+id/make_mark"
             android:layout_width="43dp"
             android:layout_height="40dp"
 
-            android:layout_marginStart="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="0dp"
 
             android:scaleX="0.6"
             android:scaleY="0.6"
@@ -25,7 +58,7 @@
 
         <ImageView
             android:id="@+id/page_search"
-            android:layout_width="46dp"
+            android:layout_width="39dp"
             android:layout_height="40dp"
 
             android:layout_marginStart="50dp"
@@ -41,8 +74,6 @@
             android:layout_width="170dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
             android:scaleX="1"
             android:scaleY="1"
             android:src="@drawable/to_main"
@@ -53,58 +84,36 @@
             android:layout_width="69dp"
             android:layout_height="40dp"
 
-            android:layout_marginStart="50dp"
+
             android:layout_marginLeft="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginRight="30dp"
-            android:paddingRight="0dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginRight="80dp"
+            android:paddingRight="20dp"
             android:scaleX="0.6"
             android:scaleY="0.6"
             android:src="@drawable/action_config"
             android:tag="4" />
-
-
-
     </LinearLayout>
-
-
-    <ImageButton
-        android:id="@+id/action_auto_scrool"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="79dp"
-        android:layout_marginRight="79dp"
-        android:background="#00FFFFFF"
-        android:icon="@drawable/ic_action_scrool"
-        android:src="@drawable/dialog_x"
-        android:text="Button" />
-
-
-
-
-
-    <ImageButton
-        android:id="@+id/ibFindPrevious"
-        android:layout_width="30dp"
+    <ImageView
+        android:id="@+id/b_chap2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="289dp"
-        android:layout_marginRight="289dp"
-        android:contentDescription="@string/PreviousPage"
-        android:src="@drawable/ic_action_up" />
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="50dp"
+        android:scaleX="800"
+        android:src="@drawable/head_shaddow"
+        android:tag="4" />
 
-    <ImageButton
-        android:id="@+id/ibFindNext"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="339dp"
-        android:layout_marginRight="339dp"
-        android:src="@drawable/ic_action_down" />
+
+
+
+
+
+
+
+
+
 
 
 </RelativeLayout>

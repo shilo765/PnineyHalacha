@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,9 +34,8 @@ import android.os.Handler;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -140,6 +140,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int BOOKS_NUMBER	= 61;
 
 
+
 	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29   30  31  32  33  34  35  36  37  38  39  40  41  42  43  44 45  46  47  48  49  50  51  52  53  54 55  56  57  58  59  60*/
 	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 10 , 13,  9, 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17, 26, 13, 8 ,17, 10, 16, 30, 10, 24  };
 	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA,R_TFILA};
@@ -149,6 +150,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int RUSSIAN = 2;
 	private static final int SPANISH = 3;
 	private static final int FRENCH = 4;
+	public boolean isNotHeb=true;
 
 	WebView webview;
 	public static int[] book_chapter = new int[2];
@@ -192,7 +194,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public int API;
 	static public boolean jumpToSectionFlag = false;
 	public File localFile;
-	public int fontSize;
+
 
 	@TargetApi(Build.VERSION_CODES.KITKAT)
 	@SuppressLint("JavascriptInterface")
@@ -320,7 +322,67 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			e.printStackTrace();
 		}
 	}
+	private void showPopupAutoScroolSettings(View v)
+	{
+		final PopupMenu popupMenu = new PopupMenu(textMain.this, v);
 
+		String configHeaders[] = new String[7];
+		if (MyLanguage == ENGLISH) {
+			configHeaders[0] = "Play";
+			configHeaders[1] = "Stop";
+			configHeaders[2] = "Set speed";
+		} else if (MyLanguage == RUSSIAN) {
+			configHeaders[0] = "Играть";
+			configHeaders[1] = "Cтоп";
+			configHeaders[2] = "Yстановить скорость";
+
+		} else if (MyLanguage == SPANISH) {
+			configHeaders[0] = "Desplazamiento automatico";
+			configHeaders[1] = "Parar";
+			configHeaders[2] = "Seleccionar velocidad";
+
+		} else if (MyLanguage == FRENCH) {
+			configHeaders[0] = "Demarrer";
+			configHeaders[1] = "Stop";
+			configHeaders[2] = "Selectionner la vitesse";
+
+		} else {/*this is the default*/
+			configHeaders[0] = "הפעל";
+			configHeaders[1] = "עצור";
+			configHeaders[2] = "קבע מהירות";
+		}
+
+		popupMenu.getMenu().add(0, 0, 0, configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
+		popupMenu.getMenu().add(0, 1, 1, configHeaders[1]);
+		popupMenu.getMenu().add(0, 2, 2, configHeaders[2]);
+
+
+
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				WebSettings webSettings = webview.getSettings();
+				webSettings.setMinimumFontSize(mPrefs.getInt("fontSize",20));
+				switch (item.getItemId()) {
+					case 0:
+						scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
+						runOnUiThread(mScrollDown);
+						break;
+					case 1:
+						scrollSpeed = -1;
+						break;
+					case 2:
+						autoScrollSpeedDialog();
+						break;
+					default:
+						break;
+				}
+				return true;
+			}
+		});
+
+		popupMenu.show();
+	}
 	private void loadActivity()
 	{
 
@@ -338,12 +400,212 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		int fromBookmarks = 0;
 		lnrOptions = (LinearLayout) findViewById(R.id.lnrOptions);
 		lnrFindOptions = (LinearLayout) findViewById(R.id.lnrFindOptions);
+		ImageView menu= (ImageView) findViewById(R.id.menu);
+		menu.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				android.support.v7.view.ContextThemeWrapper ctw = new ContextThemeWrapper(textMain.this, R.style.CustomPopupTheme);
+				PopupMenu popupMenu = new PopupMenu(ctw, v);
+				//popupMenu.
+
+				if(MyLanguage == ENGLISH) {
+					popupMenu.getMenu().add(0,0,0,"Settings");
+					popupMenu.getMenu().add(0,1,0,"Books");
+					popupMenu.getMenu().add(0,2,0,"Daily Study");
+					popupMenu.getMenu().add(0,3,0,"Search");
+					popupMenu.getMenu().add(0,4,0,"Abbreviations");
+					popupMenu.getMenu().add(0,5,0,"Contact Us");
+					popupMenu.getMenu().add(0,6,0,"Purchasing books");
+					popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"About the series");
+					popupMenu.getMenu().add(0,9,0,"About");
+				}
+				else if(MyLanguage == RUSSIAN) {
+					popupMenu.getMenu().add(0,0,0,"Настройки");
+					popupMenu.getMenu().add(0,1,0,"Книги");
+					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
+					popupMenu.getMenu().add(0,3,0,"Поиск");
+					popupMenu.getMenu().add(0,4,0,"Сокращения");
+					popupMenu.getMenu().add(0,5,0,"Отзыв");
+					popupMenu.getMenu().add(0,6,0,"Список книг");
+					popupMenu.getMenu().add(0,7,0,"Спросить равина");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"О серии книг");
+					popupMenu.getMenu().add(0,9,0,"О приложении");
+				}
+				else if(MyLanguage == SPANISH) {
+					popupMenu.getMenu().add(0,0,0,"Definiciones");
+					popupMenu.getMenu().add(0,1,0,"Libros");
+					popupMenu.getMenu().add(0,2,0,"Estudio diario");
+					popupMenu.getMenu().add(0,3,0,"Búsqueda");
+					popupMenu.getMenu().add(0,4,0,"Acrónimos");
+					popupMenu.getMenu().add(0,5,0,"retroalimentación");
+					popupMenu.getMenu().add(0,6,0,"compra de libros");
+					popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"en la serie");
+					popupMenu.getMenu().add(0,9,0,"sobre");
+				}
+				else if(MyLanguage == FRENCH) {
+					popupMenu.getMenu().add(0,0,0,"Réglages");
+					popupMenu.getMenu().add(0,1,0,"livres");
+					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
+					popupMenu.getMenu().add(0,3,0,"Recherche");
+					popupMenu.getMenu().add(0,4,0,"Initiales");
+					popupMenu.getMenu().add(0,5,0,"Contact Us");
+					popupMenu.getMenu().add(0,6,0,"Achat de livres");
+					popupMenu.getMenu().add(0,7,0,"Demander au rav");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"Sur la collection");
+					popupMenu.getMenu().add(0,9,0,"À propos");
+				}
+				else {/*this is the default*/
+					popupMenu.getMenu().add(0,0,0,"הגדרות");
+					popupMenu.getMenu().add(0,1,0,"ספרים");
+					popupMenu.getMenu().add(0,2,0,"לימוד יומי");
+					popupMenu.getMenu().add(0,3,0,"חיפוש");
+					popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
+					popupMenu.getMenu().add(0,5,0,"משוב");
+					popupMenu.getMenu().add(0,6,0,"רכישת ספרים");
+					popupMenu.getMenu().add(0,7,0,"שאל את הרב");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"על הסדרה");
+					popupMenu.getMenu().add(0,9,0,"אודות");
+				}
+				popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+				{
+
+					@Override
+					public boolean onMenuItemClick(MenuItem item)
+					{
+						Class ourClass = null;
+						Intent ourIntent;
+						Intent intent;
+						switch (item.getItemId())
+						{
+							case 0:/*settings*/
+
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(textMain.this, ourClass);
+								ourIntent.putExtra("homePage", true);
+								startActivity(ourIntent);
+								break;
+
+							case 1:/*to books*/
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(textMain.this, ourClass);
+								ourIntent.putExtra("homePage", false);
+								startActivity(ourIntent);
+								break;
+
+							case 2:/*pninaYomit*/
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(textMain.this, ourClass);
+								startActivity(ourIntent);
+								break;
+
+							case 3:/*search in all books*/
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(textMain.this, ourClass);
+								startActivity(ourIntent);
+
+								break;
+
+							case 4:/*acronyms*/
+								acronymsDecode();
+								break;
+
+							case 5:/*feedback*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+									ourIntent = new Intent(textMain.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+							case 6:/*buy books*/
+								intent = new Intent(Intent.ACTION_VIEW);
+								intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+								startActivity(intent);
+								break;
+
+							case 7:/*ask the rav*/
+								intent = new Intent(Intent.ACTION_VIEW);
+								intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
+								startActivity(intent);
+								break;
+							case 8:/*about pninei*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About_p");
+									ourIntent = new Intent(textMain.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								//case 8:/*hascamot*/
+								//   hascamotDialog();
+								//  break;
+							case 9:/*about*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+									ourIntent = new Intent(textMain.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+
+
+							default:
+								break;
+						}
+						return true;
+					}
+				});
+
+				popupMenu.show();
+			}
+		});
 		final Context context = this;
 		ImageView searchPage=findViewById(R.id.page_search);
 		searchPage.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				innerSearch();
+			}
+		});
+		ImageView scroll=findViewById(R.id.auto_scrool);
+		scroll.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showPopupAutoScroolSettings(findViewById(R.id.auto_scrool));
 			}
 		});
 		ImageView addMark=findViewById(R.id.make_mark);
@@ -377,7 +639,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						String bookmarkText = BookmarkName.getText().toString();
 						bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
 						/*		      bookmark name			book					chapter						scroll							fontSize*/
-						strBookmark = bookmarkText + "," + book_chapter[0] + "," + book_chapter[1] + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
+						strBookmark = bookmarkText + "," + book_chapter[0] + "," + book_chapter[1] + "," + webview.getScrollY() + "," + mPrefs.getInt("fontSize",20)/*(webview.getScale()*100)*/;
 
 						Bookmarks = mPrefs.getString("Bookmarks", "");
 						if((index = Bookmarks.indexOf(bookmarkText))!=-1)/*if there is already bookmark with the same name override it*/
@@ -464,7 +726,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		webview.setWebViewClient(new MyWebViewClient());
 
 		bParagraphs    = (ImageButton) findViewById(R.id.b_chap);
-		bSwitchModes = (ImageButton) findViewById(R.id.bSendEmail);
+		bSwitchModes = (ImageButton) findViewById(R.id.set_note);
 		bNext_sec      = (ImageButton) findViewById(R.id.ibNext);
 		bPrevious_sec  = (ImageButton) findViewById(R.id.ibPrevious);
 		bNext_page     = (ImageButton) findViewById(R.id.ibNextPage);
@@ -551,7 +813,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				}
 
 				webviewNote.loadData(content, "text/html; charset=utf-8", "UTF-8");
-				webSettingsNote.setDefaultFontSize(fontSize);
+				webSettingsNote.setDefaultFontSize(mPrefs.getInt("fontSize",20));
 				dialog.show();
 
 				dialog.setOnCancelListener(new DialogInterface.OnCancelListener()
@@ -589,7 +851,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						//ourIntent.putExtra("webLink", localFile.getPath());
 						ourIntent.putExtra("scroolY", webview.getScrollY());
 						ourIntent.putExtra("hearAndRead", false);
-						ourIntent.putExtra("fontSize", fontSize);
+
 						findAllHeaders(ourIntent);
 						startActivity(ourIntent);
 					}
@@ -647,7 +909,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				findBookAndChapter();
 
 				//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
-				loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
+				if(isNotHeb)
+					loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
 
 
 				System.out.println(query);
@@ -752,10 +1015,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				}
 			}
 		}
-		fontSize = mPrefs.getInt("fontSize", 20);
-		if(fontSize > 50)
-			fontSize = 20;
-		webSettings.setDefaultFontSize(fontSize);
+
+		webSettings.setMinimumFontSize(mPrefs.getInt("fontSize",20));
 
 		if(book_chapter[1] == lastChapter[book_chapter[0]])
 			bNext_sec.setEnabled(false);
@@ -972,7 +1233,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		shPrefEditor.putInt("book", book_chapter[0]);
 		shPrefEditor.putInt("chapter", book_chapter[1]);
 		shPrefEditor.putInt("scrollY", scrollY);
-		shPrefEditor.putInt("fontSize", fontSize);
+
 
 		shPrefEditor.commit();
 	}//onPaused
@@ -1126,7 +1387,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				showPopupMenu(view);
 				break;
 
-			case R.id.bSendEmail:
+			case R.id.set_note:
 				boolean enterForIf=false;
 				for (int i: haveAudio)
 				if(i==book_chapter[0]){
@@ -1149,7 +1410,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					ourIntent.putExtra("hearAndRead", true);
 					ourIntent.putExtra("MyLanguage", MyLanguage);
 					ourIntent.putExtra("scroolY", webview.getScrollY());
-					ourIntent.putExtra("fontSize", fontSize);
+
 					findAllHeaders(ourIntent);
 					startActivity(ourIntent);
 				}
@@ -1174,7 +1435,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					bPrevious_sec.setEnabled(true);
 				ChangeChapter = true;
 
-				shPrefEditor.putInt("fontSize", fontSize);/*in order to keep the fontSize when moving to next chapter*/
+				/*in order to keep the fontSize when moving to next chapter*/
 
 				break;
 
@@ -1196,7 +1457,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					bNext_sec.setEnabled(true);
 				ChangeChapter = true;
 
-				shPrefEditor.putInt("fontSize", fontSize);/*in order to keep the fontSize when moving to next chapter*/
+
 				break;
 
 			case R.id.ibNextPage:
@@ -2766,7 +3027,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			public boolean onMenuItemClick(MenuItem item)
 			{
 				WebSettings webSettings = webview.getSettings();
-				fontSize = webSettings.getDefaultFontSize();
+				webSettings.setMinimumFontSize(mPrefs.getInt("fontSize",20));
 				switch (item.getItemId())
 				{
 					case 0:/*settings*/
@@ -2822,88 +3083,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						acronymsDecode();
 						break;
 					case 5:/*increase text*/
-						if(fontSize <= 47) {
-							fontSize += 3;
-							webSettings.setDefaultFontSize(fontSize);
-							shPrefEditor.putInt("fontSize", fontSize);
-							shPrefEditor.commit();
-							switch (MyLanguage){
-								case ENGLISH:
-									Toast.makeText(getApplicationContext(),	"Font size - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case RUSSIAN:
-									Toast.makeText(getApplicationContext(),	"Размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case SPANISH:
-									Toast.makeText(getApplicationContext(),	"Tamaño de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case FRENCH:
-									Toast.makeText(getApplicationContext(),	"Taille de police - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								default:
-									Toast.makeText(getApplicationContext(),	"גודל גופן - "+fontSize, Toast.LENGTH_SHORT).show();
-							}
-						}
-						else{
-							switch (MyLanguage){
-								case ENGLISH:
-									Toast.makeText(getApplicationContext(),	"Maximum font size - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case RUSSIAN:
-									Toast.makeText(getApplicationContext(),	"Максимальный размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case SPANISH:
-									Toast.makeText(getApplicationContext(),	"Tamaño máximo de la fuente - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case FRENCH:
-									Toast.makeText(getApplicationContext(),	"Taille maximale de la police - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								default:
-									Toast.makeText(getApplicationContext(),	"גודל גופן מקסימלי", Toast.LENGTH_SHORT).show();
-							}
-						}
+
 						break;
 					case 6:/*decrease text*/
-						if(fontSize >= 10 ) {
-							fontSize -= 3;
-							webSettings.setDefaultFontSize(fontSize);
-							shPrefEditor.putInt("fontSize", fontSize);
-							shPrefEditor.commit();
-							switch (MyLanguage){
-								case ENGLISH:
-									Toast.makeText(getApplicationContext(),	"Font size - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case RUSSIAN:
-									Toast.makeText(getApplicationContext(),	"Размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case SPANISH:
-									Toast.makeText(getApplicationContext(),	"Tamaño de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case FRENCH:
-									Toast.makeText(getApplicationContext(),	"Taille de police - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								default:
-									Toast.makeText(getApplicationContext(),	"גודל גופן - "+fontSize, Toast.LENGTH_SHORT).show();
-							}
-						}
-						else{
-							switch (MyLanguage){
-								case ENGLISH:
-									Toast.makeText(getApplicationContext(),	"Minimum font size - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case RUSSIAN:
-									Toast.makeText(getApplicationContext(),	"Минимальный размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case SPANISH:
-									Toast.makeText(getApplicationContext(),	"Tamaño mínimo de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case FRENCH:
-									Toast.makeText(getApplicationContext(),	"Taille de police minimale - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								default:
-									Toast.makeText(getApplicationContext(),	"גודל גופן מינימלי", Toast.LENGTH_SHORT).show();
-							}
-						}
+
 						break;
 					default:
 						break;
@@ -2925,12 +3108,12 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			super.onPageFinished(view, url);
 			String strToastSearch;
 			WebSettings webSettings = webview.getSettings();
+			webSettings.setMinimumFontSize(mPrefs.getInt("fontSize",20));
 
 			if(firstTime == true || ChangeChapter == true)
 			{
 				firstTime = false;
 
-				webSettings.setDefaultFontSize(fontSize);
 
 				if(cameFromSearch == true)
 				{
@@ -2983,30 +3166,34 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public void findBookAndChapter()
 	{
 		String bookAndChapter;
-
-		int length= searchPosition.lastIndexOf("#");
-		if(length == -1)/*it means that all the results are in notes*/
+		System.out.println(searchPosition);
+		if(searchPosition.charAt(19)=='0'||searchPosition.charAt(18)=='0')
 		{
-			length = searchPosition.lastIndexOf(":");
-			noteStr = searchPosition.substring(length+1,searchPosition.length());
-			searchPosition = searchPosition.substring(0, length);
-			bookAndChapter = searchPosition;
+			loadWebview((searchPosition.split(":")[0]),webview);
+			isNotHeb=false;
 		}
-		else
-		{
-			length= searchPosition.lastIndexOf("#");
-			bookAndChapter = searchPosition.substring(0, length);
-		}
+			int length = searchPosition.lastIndexOf("#");
+			if (length == -1)/*it means that all the results are in notes*/ {
 
-		book_chapter = new int[2];
-		for (int i=0; i<=BOOKS_HEB_NUMBER; i++)
-			for (int j=1; j<=lastChapter[i]; j++)
-				if(bookAndChapter.equals(chaptersFiles[i][j]))
-				{
-					book_chapter[0] = i;
-					book_chapter[1] = j;
-					return;
-				}
+				length = searchPosition.lastIndexOf(":");
+				noteStr = searchPosition.substring(length + 1, searchPosition.length());
+				searchPosition = searchPosition.substring(0, length);
+
+				bookAndChapter = searchPosition;
+			} else {
+				length = searchPosition.lastIndexOf("#");
+				bookAndChapter = searchPosition.substring(0, length);
+			}
+
+			book_chapter = new int[2];
+			for (int i = 0; i <= BOOKS_HEB_NUMBER; i++)
+				for (int j = 1; j <= lastChapter[i]; j++)
+					if (bookAndChapter.equals(chaptersFiles[i][j])) {
+						book_chapter[0] = i;
+						book_chapter[1] = j;
+						return;
+					}
+
 	}
 
 	public String convertAnchorIdToSection(int Id)

@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
@@ -19,6 +20,7 @@ import android.os.IBinder;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.format.Time;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -170,7 +172,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public EditText TextToSearch, BookmarkName, TextToDecode;
     public Spinner spinnerAddMark, spinnerAutoScroll;
     public String strBookmark, Bookmarks;
-    public int fontSize = 18;
+    public int fontSize = 20;
     public LayoutInflater inf;
     public View infView;
     public RelativeLayout rl;
@@ -180,7 +182,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public int lastScrool = 0;
     public int lastChap=1;
     public int scrollPos=0;
-    public Boolean move_next=false;
+    public Boolean finishLoad=false;
+    public static String head;
 
     void ParseTheDoc()
     {
@@ -284,6 +287,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         shPrefEditor = mPrefs.edit();
         rotateState=mPrefs.getInt("rotate",-1);
         MyLanguage = mPrefs.getInt("MyLanguage", 0);
+        fontSize =mPrefs.getInt("fontSize",20);
 
         //if u wont rotate modecheck if(rotateState==getResources().getConfiguration().orientation)
         if (true) {
@@ -323,9 +327,17 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     webSettings.setBuiltInZoomControls(true);
                 webview.requestFocusFromTouch();
                 webview.getSettings().setAllowFileAccess(true);
+                finishLoad=false;
                 webLink = getIntent().getStringExtra("webLink");
-
+                getIntent().putExtra("WebLink",webLink);
                 webview.loadUrl(webLink);
+                webview.setWebViewClient(new WebViewClient() {
+
+                    public void onPageFinished(WebView view, String url) {
+                        // do your stuff here
+                        finishLoad=true;
+                    }
+                });
 
                 webview.setY(80);
                 BlackBackground = mPrefs.getInt("BlackBackground", 0);
@@ -408,6 +420,13 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     }
                 }, "audio");
                 createActionBar();
+//                ImageView scroll=findViewById(R.id.auto_scrool);
+//                scroll.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        autoScrollSpeedDialog();
+//                    }
+//                });
             }
 
             firstCall = true;
@@ -422,7 +441,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
             if (hearAndRead) {
                 scrollPos = getIntent().getIntExtra("scroolY", 0);
-                fontSize = extras.getInt("fontSize");
+                fontSize = mPrefs.getInt("fontSize",20);
                 webSettings.setMinimumFontSize(fontSize);
 
             }
@@ -535,6 +554,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             });
             buttonNext = (ImageButton) findViewById(R.id.media_next);
             buttonPrevious = (ImageButton) findViewById(R.id.media_prev);
+            head = ((TextView) findViewById(R.id.playerInfo)).getText().toString();
             initializeSeekBar();
             while (playing == 1) {
                 try {
@@ -585,7 +605,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     {
         if (hearAndRead) {
 
-              if(lastChap!=chapter){
+              if(lastChap!=chapter&&finishLoad){
                 lastScrool=webview.getScrollY();
                 webview.loadUrl(webLink.substring(0, webLink.lastIndexOf('_')) + "_" + (chapter) + ".html");
                 webview.setWebViewClient(new WebViewClient(){
@@ -637,60 +657,78 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         final ImageButton searchBtnUp = infView.findViewById(R.id.ibFindPrevious);
         final ImageView addBookMark = infView.findViewById(R.id.make_mark);
 
-        final ImageView menu = infView.findViewById(R.id.menu);
-
+        ImageView menu= (ImageView) findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(myAudio.this, v);
+                ContextThemeWrapper ctw = new ContextThemeWrapper(myAudio.this, R.style.CustomPopupTheme);
+                PopupMenu popupMenu = new PopupMenu(ctw, v);
                 //popupMenu.
 
                 if(MyLanguage == ENGLISH) {
-
                     popupMenu.getMenu().add(0,0,0,"Settings");
-                    popupMenu.getMenu().add(0,1,0,"About");
-                    popupMenu.getMenu().add(0,2,0,"Feedback");
-                    popupMenu.getMenu().add(0,3,0,"Explanation of search results");
-                    popupMenu.getMenu().add(0,4,0,"Acronyms");
-                    popupMenu.getMenu().add(0,5,0,"Approbations");
-                    popupMenu.getMenu().add(0,6,0,"Language / שפה");
+                    popupMenu.getMenu().add(0,1,0,"Books");
+                    popupMenu.getMenu().add(0,2,0,"Daily Study");
+                    popupMenu.getMenu().add(0,3,0,"Search");
+                    popupMenu.getMenu().add(0,4,0,"Abbreviations");
+                    popupMenu.getMenu().add(0,5,0,"Contact Us");
+                    popupMenu.getMenu().add(0,6,0,"Purchasing books");
+                    popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"About the series");
+                    popupMenu.getMenu().add(0,9,0,"About");
                 }
                 else if(MyLanguage == RUSSIAN) {
                     popupMenu.getMenu().add(0,0,0,"Настройки");
-                    popupMenu.getMenu().add(0,1,0,"Около");
-                    popupMenu.getMenu().add(0,2,0,"Обратная связь");
-                    popupMenu.getMenu().add(0,3,0,"Объяснение результатов поиска");
-                    popupMenu.getMenu().add(0,4,0,"Абревиатуры");
-                    popupMenu.getMenu().add(0,5,0,"Апробации");
-                    popupMenu.getMenu().add(0,6,0,"ЯЗЫК / שפה");
+                    popupMenu.getMenu().add(0,1,0,"Книги");
+                    popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
+                    popupMenu.getMenu().add(0,3,0,"Поиск");
+                    popupMenu.getMenu().add(0,4,0,"Сокращения");
+                    popupMenu.getMenu().add(0,5,0,"Отзыв");
+                    popupMenu.getMenu().add(0,6,0,"Список книг");
+                    popupMenu.getMenu().add(0,7,0,"Спросить равина");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"О серии книг");
+                    popupMenu.getMenu().add(0,9,0,"О приложении");
                 }
                 else if(MyLanguage == SPANISH) {
-                    popupMenu.getMenu().add(0,0,0,"Ajustes");
-                    popupMenu.getMenu().add(0,1,0,"Acerca de");
-                    popupMenu.getMenu().add(0,2,0,"Comentarios");
-                    popupMenu.getMenu().add(0,3,0,"Explicacion del resultado de la busqueda");
-                    popupMenu.getMenu().add(0,4,0,"Acronimos");
-                    popupMenu.getMenu().add(0,5,0,"Aprovaciones");
-                    popupMenu.getMenu().add(0,6,0,"Idioma / שפה");
+                    popupMenu.getMenu().add(0,0,0,"Definiciones");
+                    popupMenu.getMenu().add(0,1,0,"Libros");
+                    popupMenu.getMenu().add(0,2,0,"Estudio diario");
+                    popupMenu.getMenu().add(0,3,0,"Búsqueda");
+                    popupMenu.getMenu().add(0,4,0,"Acrónimos");
+                    popupMenu.getMenu().add(0,5,0,"retroalimentación");
+                    popupMenu.getMenu().add(0,6,0,"compra de libros");
+                    popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"en la serie");
+                    popupMenu.getMenu().add(0,9,0,"sobre");
                 }
                 else if(MyLanguage == FRENCH) {
-                    popupMenu.getMenu().add(0,0,0,"Definitions");
-                    popupMenu.getMenu().add(0,1,0,"A Propos de…");
-                    popupMenu.getMenu().add(0,2,0,"Commentaires");
-                    popupMenu.getMenu().add(0,3,0,"Explication de la recherche");
-                    popupMenu.getMenu().add(0,4,0,"Acronymes");
-                    popupMenu.getMenu().add(0,5,0,"Approbations");
-                    popupMenu.getMenu().add(0,6,0,"Langue / שפה");
+                    popupMenu.getMenu().add(0,0,0,"Réglages");
+                    popupMenu.getMenu().add(0,1,0,"livres");
+                    popupMenu.getMenu().add(0,2,0,"étude quotidienne");
+                    popupMenu.getMenu().add(0,3,0,"Recherche");
+                    popupMenu.getMenu().add(0,4,0,"Initiales");
+                    popupMenu.getMenu().add(0,5,0,"Contact Us");
+                    popupMenu.getMenu().add(0,6,0,"Achat de livres");
+                    popupMenu.getMenu().add(0,7,0,"Demander au rav");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"Sur la collection");
+                    popupMenu.getMenu().add(0,9,0,"À propos");
                 }
                 else {/*this is the default*/
                     popupMenu.getMenu().add(0,0,0,"הגדרות");
-                    popupMenu.getMenu().add(0,1,0,"אודות");
-                    popupMenu.getMenu().add(0,2,0,"משוב");
-                    popupMenu.getMenu().add(0,3,0,"הסבר על החיפוש");
+                    popupMenu.getMenu().add(0,1,0,"ספרים");
+                    popupMenu.getMenu().add(0,2,0,"לימוד יומי");
+                    popupMenu.getMenu().add(0,3,0,"חיפוש");
                     popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
-                    popupMenu.getMenu().add(0,5,0,"הסכמות");
+                    popupMenu.getMenu().add(0,5,0,"משוב");
+                    popupMenu.getMenu().add(0,6,0,"רכישת ספרים");
+                    popupMenu.getMenu().add(0,7,0,"שאל את הרב");
                     //booksDownload configHeaders[6] = "ספרים להורדה";
-                    popupMenu.getMenu().add(0,6,0,"Language / שפה");
+                    popupMenu.getMenu().add(0,8,0,"על הסדרה");
+                    popupMenu.getMenu().add(0,9,0,"אודות");
                 }
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
                 {
@@ -700,6 +738,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     {
                         Class ourClass = null;
                         Intent ourIntent;
+                        Intent intent;
                         switch (item.getItemId())
                         {
                             case 0:/*settings*/
@@ -714,20 +753,43 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                                 startActivity(ourIntent);
                                 break;
 
-                            case 1:/*about*/
-                                try
-                                {
-                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
-                                    ourIntent = new Intent(myAudio.this, ourClass);
-                                    startActivity(ourIntent);
-                                }
-                                catch (ClassNotFoundException e)
-                                {
+                            case 1:/*to books*/
+                                try {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+                                } catch (ClassNotFoundException e) {
                                     e.printStackTrace();
                                 }
+                                ourIntent = new Intent(myAudio.this, ourClass);
+                                ourIntent.putExtra("homePage", false);
+                                startActivity(ourIntent);
+                                break;
+
+                            case 2:/*pninaYomit*/
+                                try {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                ourIntent = new Intent(myAudio.this, ourClass);
+                                startActivity(ourIntent);
+                                break;
+
+                            case 3:/*search in all books*/
+                                try {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                ourIntent = new Intent(myAudio.this, ourClass);
+                                startActivity(ourIntent);
 
                                 break;
-                            case 2:/*Feedback*/
+
+                            case 4:/*acronyms*/
+                                acronymsDecode();
+                                break;
+
+                            case 5:/*feedback*/
                                 try
                                 {
                                     ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
@@ -739,10 +801,21 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                                     e.printStackTrace();
                                 }
                                 break;
-                            case 3:/*Explanation for Search*/
+                            case 6:/*buy books*/
+                                intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+                                startActivity(intent);
+                                break;
+
+                            case 7:/*ask the rav*/
+                                intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
+                                startActivity(intent);
+                                break;
+                            case 8:/*about pninei*/
                                 try
                                 {
-                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About_p");
                                     ourIntent = new Intent(myAudio.this, ourClass);
                                     startActivity(ourIntent);
                                 }
@@ -750,17 +823,20 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                                 {
                                     e.printStackTrace();
                                 }
-                                break;
-                            case 4:/*acronyms*/
-
-
-                                break;
-
-                            case 5:/*hascamot*/
-
-                                break;
-                            case 6:/*language*/
-                                ;
+                                //case 8:/*hascamot*/
+                                //   hascamotDialog();
+                                //  break;
+                            case 9:/*about*/
+                                try
+                                {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+                                    ourIntent = new Intent(myAudio.this, ourClass);
+                                    startActivity(ourIntent);
+                                }
+                                catch (ClassNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
                                 break;
 
 
@@ -775,18 +851,19 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             }
         });
 
-        final ImageButton scrollBtn = infView.findViewById(R.id.action_auto_scrool);
+        final ImageButton scrollBtn =  infView.findViewById(R.id.auto_scrool);
         final ImageView toMain = infView.findViewById(R.id.too_main);
+
         //searchBtn.setVisibility(View.GONE);
         //addBookMark.setVisibility(View.GONE);
         //config.setVisibility(View.GONE);
-        scrollBtn.setVisibility(View.GONE);
+        //scrollBtn.setVisibility(View.GONE);
         searchBtnDown.setVisibility(View.GONE);
         searchBtnUp.setVisibility(View.GONE);
 
         scrollBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showPopupAutoScroolSettings(findViewById(R.id.action_auto_scrool));
+                showPopupAutoScroolSettings(findViewById(R.id.auto_scrool));
             }
         });
         toMain.setOnClickListener(new View.OnClickListener() {
@@ -1008,7 +1085,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 WebSettings webSettings = webview.getSettings();
-                fontSize = webSettings.getDefaultFontSize();
+                fontSize = mPrefs.getInt("fontSize",20);
                 switch (item.getItemId()) {
                     case 0:
                         scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
@@ -1136,7 +1213,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             public boolean onMenuItemClick(MenuItem item)
             {
                 WebSettings webSettings = webview.getSettings();
-                fontSize = webSettings.getDefaultFontSize();
+                fontSize = mPrefs.getInt("fontSize",20);;
                 switch (item.getItemId()) {
                     case 0:/*settings*/
                         try {
@@ -1380,6 +1457,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
                 innerSearchDialog.dismiss();
                 //lnrFindOptions.setVisibility(View.VISIBLE);
+
                 if (API < 16) {
                     int a = webview.findAll(/*"כל"*/innerSearchText);
                     /*to highlight the searched text*/

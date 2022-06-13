@@ -1,23 +1,29 @@
 package com.rafraph.pnineyHalachaHashalem;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +32,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 
 public class pninaYomit extends Activity {
@@ -44,6 +52,84 @@ public class pninaYomit extends Activity {
     private String[] pickerValsH,pickerValsM;
     public boolean notPress=false;
     public static int scrool=0;
+    public static String set="",noteSet="",setRemind="",remindCancel="";
+    public Dialog acronymsDialog;
+    public EditText TextToDecode;
+    String acronymsText;
+    void acronymsDecode()
+    {
+        final Context context = this;
+
+        // custom dialog
+        acronymsDialog = new Dialog(context);
+        acronymsDialog.setContentView(R.layout.acronyms);
+        acronymsDialog.setTitle("פענוח ראשי תיבות");
+
+        Button dialogButtonExit = (Button) acronymsDialog.findViewById(R.id.dialogButtonExit);
+        Button dialogButtonDecode = (Button) acronymsDialog.findViewById(R.id.dialogButtonDecode);
+        final TextView decodedText = (TextView) acronymsDialog.findViewById(R.id.textViewDecodedText);
+        //final byte[] buffer;
+        //final int size;
+
+        TextToDecode = (EditText) acronymsDialog.findViewById(R.id.editTextAcronyms );
+
+        // if button is clicked
+        dialogButtonExit.setOnClickListener(new View.OnClickListener()
+        {
+            @SuppressLint("NewApi")
+            @Override
+            public void onClick(View v)
+            {
+                acronymsDialog.dismiss();
+            }
+        });
+
+        dialogButtonDecode.setOnClickListener(new View.OnClickListener()
+        {
+            @SuppressLint("NewApi")
+            @Override
+            public void onClick(View v)
+            {
+                acronymsText = "\r\n" + /*"י\"א" */TextToDecode.getText().toString() + " - ";
+                acronymsText = acronymsText.replace("\"", "");
+                acronymsText = acronymsText.replace("'", "");
+                InputStream is;
+                String r="לא נמצאו תוצאות";
+                int index=0, index_end=0, first=1;
+                try
+                {
+                    is = getAssets().open("acronyms.txt");
+                    int size = is.available();
+                    byte[] buffer = new byte[size];
+                    is.read(buffer);
+                    is.close();
+                    String strText  = new String(buffer);
+
+                    while (strText.indexOf(acronymsText, index_end) != -1)
+                    {
+                        index = strText.indexOf(acronymsText, index);
+                        index = strText.indexOf("-", index+1) + 2;
+                        index_end = strText.indexOf("\r\n", index);
+                        if(first==1)
+                        {
+                            r = strText.substring (index, index_end);
+                            first=0;
+                        }
+                        else
+                            r += ", " + strText.substring (index, index_end);
+                    }
+                }
+                catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                decodedText.setText(TextToDecode.getText().toString() + " - " + r);
+
+            }
+        });
+        acronymsDialog.show();
+    }
     @Override
     public void onBackPressed() {
         try
@@ -91,18 +177,38 @@ public class pninaYomit extends Activity {
         {
             case ENGLISH:
                 webview.loadUrl("https://ph.yhb.org.il/pninayomit-en/");
+                set="Set";
+                noteSet="The reminder was set up successfully";
+                setRemind="Set a reminder";
+                remindCancel="Reminder canceled";
                 break;
             case RUSSIAN:
                 webview.loadUrl("https://ph.yhb.org.il/pninayomit-ru/");
+                set="Постоянно";
+                noteSet="Напоминание установлено";
+                setRemind="Установить напоминание";
+                remindCancel="Удалить напоминание";
                 break;
             case FRENCH:
                 webview.loadUrl("https://ph.yhb.org.il/pninayomit-fr/");
+                set="Valider ";
+                noteSet="Le rappel a été correctement programmé";
+                setRemind="Programmer un rappel ";
+                remindCancel="Le rappel a été correctement annulé";
                 break;
             case SPANISH:
                 webview.loadUrl("https://ph.yhb.org.il/pninayomit-es/");
+                set="arreglar";
+                noteSet="El recordatorio se configuró correctamente.";
+                setRemind="Establecer un recordatorio";
+                remindCancel="Recordatorio cancelado";
                 break;
             case HEBREW:
                 webview.loadUrl("https://ph.yhb.org.il/pninayomit/");
+                set="קבע";
+                noteSet="קבע תזכורת";
+                setRemind="תזכורת הוגדרה";
+                remindCancel="תזכורת בוטלה";
                 break;
         }
 
@@ -130,55 +236,74 @@ public class pninaYomit extends Activity {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(pninaYomit.this, v);
+                ContextThemeWrapper ctw = new ContextThemeWrapper(pninaYomit.this, R.style.CustomPopupTheme);
+                PopupMenu popupMenu = new PopupMenu(ctw, v);
                 //popupMenu.
 
                 if(MyLanguage == ENGLISH) {
-
                     popupMenu.getMenu().add(0,0,0,"Settings");
-                    popupMenu.getMenu().add(0,1,0,"About");
-                    popupMenu.getMenu().add(0,2,0,"Feedback");
-                    popupMenu.getMenu().add(0,3,0,"Explanation of search results");
-                    popupMenu.getMenu().add(0,4,0,"Acronyms");
-                    popupMenu.getMenu().add(0,5,0,"Approbations");
-                    popupMenu.getMenu().add(0,6,0,"Language / שפה");
+                    popupMenu.getMenu().add(0,1,0,"Books");
+                    popupMenu.getMenu().add(0,2,0,"Daily Study");
+                    popupMenu.getMenu().add(0,3,0,"Search");
+                    popupMenu.getMenu().add(0,4,0,"Abbreviations");
+                    popupMenu.getMenu().add(0,5,0,"Contact Us");
+                    popupMenu.getMenu().add(0,6,0,"Purchasing books");
+                    popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"About the series");
+                    popupMenu.getMenu().add(0,9,0,"About");
                 }
                 else if(MyLanguage == RUSSIAN) {
                     popupMenu.getMenu().add(0,0,0,"Настройки");
-                    popupMenu.getMenu().add(0,1,0,"Около");
-                    popupMenu.getMenu().add(0,2,0,"Обратная связь");
-                    popupMenu.getMenu().add(0,3,0,"Объяснение результатов поиска");
-                    popupMenu.getMenu().add(0,4,0,"Абревиатуры");
-                    popupMenu.getMenu().add(0,5,0,"Апробации");
-                    popupMenu.getMenu().add(0,6,0,"ЯЗЫК / שפה");
+                    popupMenu.getMenu().add(0,1,0,"Книги");
+                    popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
+                    popupMenu.getMenu().add(0,3,0,"Поиск");
+                    popupMenu.getMenu().add(0,4,0,"Сокращения");
+                    popupMenu.getMenu().add(0,5,0,"Отзыв");
+                    popupMenu.getMenu().add(0,6,0,"Список книг");
+                    popupMenu.getMenu().add(0,7,0,"Спросить равина");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"О серии книг");
+                    popupMenu.getMenu().add(0,9,0,"О приложении");
                 }
                 else if(MyLanguage == SPANISH) {
-                    popupMenu.getMenu().add(0,0,0,"Ajustes");
-                    popupMenu.getMenu().add(0,1,0,"Acerca de");
-                    popupMenu.getMenu().add(0,2,0,"Comentarios");
-                    popupMenu.getMenu().add(0,3,0,"Explicacion del resultado de la busqueda");
-                    popupMenu.getMenu().add(0,4,0,"Acronimos");
-                    popupMenu.getMenu().add(0,5,0,"Aprovaciones");
-                    popupMenu.getMenu().add(0,6,0,"Idioma / שפה");
+                    popupMenu.getMenu().add(0,0,0,"Definiciones");
+                    popupMenu.getMenu().add(0,1,0,"Libros");
+                    popupMenu.getMenu().add(0,2,0,"Estudio diario");
+                    popupMenu.getMenu().add(0,3,0,"Búsqueda");
+                    popupMenu.getMenu().add(0,4,0,"Acrónimos");
+                    popupMenu.getMenu().add(0,5,0,"retroalimentación");
+                    popupMenu.getMenu().add(0,6,0,"compra de libros");
+                    popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"en la serie");
+                    popupMenu.getMenu().add(0,9,0,"sobre");
                 }
                 else if(MyLanguage == FRENCH) {
-                    popupMenu.getMenu().add(0,0,0,"Definitions");
-                    popupMenu.getMenu().add(0,1,0,"A Propos de…");
-                    popupMenu.getMenu().add(0,2,0,"Commentaires");
-                    popupMenu.getMenu().add(0,3,0,"Explication de la recherche");
-                    popupMenu.getMenu().add(0,4,0,"Acronymes");
-                    popupMenu.getMenu().add(0,5,0,"Approbations");
-                    popupMenu.getMenu().add(0,6,0,"Langue / שפה");
+                    popupMenu.getMenu().add(0,0,0,"Réglages");
+                    popupMenu.getMenu().add(0,1,0,"livres");
+                    popupMenu.getMenu().add(0,2,0,"étude quotidienne");
+                    popupMenu.getMenu().add(0,3,0,"Recherche");
+                    popupMenu.getMenu().add(0,4,0,"Initiales");
+                    popupMenu.getMenu().add(0,5,0,"Contact Us");
+                    popupMenu.getMenu().add(0,6,0,"Achat de livres");
+                    popupMenu.getMenu().add(0,7,0,"Demander au rav");
+                    //booksDownload configHeaders[6] = "ספרים להורדה";
+                    popupMenu.getMenu().add(0,8,0,"Sur la collection");
+                    popupMenu.getMenu().add(0,9,0,"À propos");
                 }
                 else {/*this is the default*/
                     popupMenu.getMenu().add(0,0,0,"הגדרות");
-                    popupMenu.getMenu().add(0,1,0,"אודות");
-                    popupMenu.getMenu().add(0,2,0,"משוב");
-                    popupMenu.getMenu().add(0,3,0,"הסבר על החיפוש");
+                    popupMenu.getMenu().add(0,1,0,"ספרים");
+                    popupMenu.getMenu().add(0,2,0,"לימוד יומי");
+                    popupMenu.getMenu().add(0,3,0,"חיפוש");
                     popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
-                    popupMenu.getMenu().add(0,5,0,"הסכמות");
+                    popupMenu.getMenu().add(0,5,0,"משוב");
+                    popupMenu.getMenu().add(0,6,0,"רכישת ספרים");
+                    popupMenu.getMenu().add(0,7,0,"שאל את הרב");
                     //booksDownload configHeaders[6] = "ספרים להורדה";
-                    popupMenu.getMenu().add(0,6,0,"Language / שפה");
+                    popupMenu.getMenu().add(0,8,0,"על הסדרה");
+                    popupMenu.getMenu().add(0,9,0,"אודות");
                 }
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
                 {
@@ -188,6 +313,7 @@ public class pninaYomit extends Activity {
                     {
                         Class ourClass = null;
                         Intent ourIntent;
+                        Intent intent;
                         switch (item.getItemId())
                         {
                             case 0:/*settings*/
@@ -202,20 +328,43 @@ public class pninaYomit extends Activity {
                                 startActivity(ourIntent);
                                 break;
 
-                            case 1:/*about*/
-                                try
-                                {
-                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
-                                    ourIntent = new Intent(pninaYomit.this, ourClass);
-                                    startActivity(ourIntent);
-                                }
-                                catch (ClassNotFoundException e)
-                                {
+                            case 1:/*to books*/
+                                try {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+                                } catch (ClassNotFoundException e) {
                                     e.printStackTrace();
                                 }
+                                ourIntent = new Intent(pninaYomit.this, ourClass);
+                                ourIntent.putExtra("homePage", false);
+                                startActivity(ourIntent);
+                                break;
+
+                            case 2:/*pninaYomit*/
+                                try {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                ourIntent = new Intent(pninaYomit.this, ourClass);
+                                startActivity(ourIntent);
+                                break;
+
+                            case 3:/*search in all books*/
+                                try {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                ourIntent = new Intent(pninaYomit.this, ourClass);
+                                startActivity(ourIntent);
 
                                 break;
-                            case 2:/*Feedback*/
+
+                            case 4:/*acronyms*/
+                                acronymsDecode();
+                                break;
+
+                            case 5:/*feedback*/
                                 try
                                 {
                                     ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
@@ -227,10 +376,21 @@ public class pninaYomit extends Activity {
                                     e.printStackTrace();
                                 }
                                 break;
-                            case 3:/*Explanation for Search*/
+                            case 6:/*buy books*/
+                                intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+                                startActivity(intent);
+                                break;
+
+                            case 7:/*ask the rav*/
+                                intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
+                                startActivity(intent);
+                                break;
+                            case 8:/*about pninei*/
                                 try
                                 {
-                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About_p");
                                     ourIntent = new Intent(pninaYomit.this, ourClass);
                                     startActivity(ourIntent);
                                 }
@@ -238,17 +398,20 @@ public class pninaYomit extends Activity {
                                 {
                                     e.printStackTrace();
                                 }
-                                break;
-                            case 4:/*acronyms*/
-
-
-                                break;
-
-                            case 5:/*hascamot*/
-
-                                break;
-                            case 6:/*language*/
-                                ;
+                                //case 8:/*hascamot*/
+                                //   hascamotDialog();
+                                //  break;
+                            case 9:/*about*/
+                                try
+                                {
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+                                    ourIntent = new Intent(pninaYomit.this, ourClass);
+                                    startActivity(ourIntent);
+                                }
+                                catch (ClassNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
                                 break;
 
 
@@ -264,7 +427,7 @@ public class pninaYomit extends Activity {
         });
         createNotiChannel();
         refresh(10);
-        TextView img=(TextView) findViewById(R.id.bSendEmail);
+        TextView img=(TextView) findViewById(R.id.set_note);
         ImageView deleteR=(ImageView) findViewById(R.id.deleteReminder);
         etH=(NumberPicker) findViewById(R.id.etH);
         etM=(NumberPicker) findViewById(R.id.etM);
@@ -322,7 +485,7 @@ public class pninaYomit extends Activity {
                 if(!notPress) {
                    // img.setBackgroundResource(R.drawable.h_set_remainder);
                     img.setPadding(0,0,150,0);
-                    img.setText("קבע");
+                    img.setText(set);
                     l.setBackgroundColor(Color.parseColor("#970606"));
                     etH.setVisibility(View.VISIBLE);
                     Sep.setVisibility(View.VISIBLE);
@@ -346,7 +509,7 @@ public class pninaYomit extends Activity {
                     penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
                     alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
                     alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
-                    Toast.makeText(getApplicationContext(), "התראה הוגדרה בהצלחה!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), noteSet, Toast.LENGTH_SHORT).show();
                         shPrefEditor.putInt("PYnote",hour );
                         shPrefEditor.putInt("PYnote2",mins);
                         shPrefEditor.commit();
@@ -376,13 +539,13 @@ public class pninaYomit extends Activity {
             @Override
             public void onClick(View v) {
                 alarm.cancel(penNotu);
-                Toast.makeText(getApplicationContext(), "ההתראה בוטלה", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), remindCancel, Toast.LENGTH_SHORT).show();
                 etH.setVisibility(View.INVISIBLE);
                 Sep.setVisibility(View.INVISIBLE);
                 img.setPadding(0,0,85,0);
                 shPrefEditor.putInt("PYnote",-1 );
                 shPrefEditor.commit();
-                img.setText("קבע תזכורת");
+                img.setText(setRemind);
                 etM.setVisibility(View.INVISIBLE);
                 l.setBackgroundColor(Color.parseColor("#fefef2"));
                 //img.setBackgroundResource(R.drawable.h_set_remainder);
