@@ -94,17 +94,17 @@
     <WebView
         android:id="@+id/webView1"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:layout_marginTop="2dp" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="77dp" />
 
     <LinearLayout
-        android:layout_alignParentBottom="true"
         android:id="@+id/lnrOptions"
         android:layout_width="match_parent"
         android:layout_height="77dp"
+        android:layout_alignParentBottom="true"
         android:background="#970606"
-        android:gravity="center"
-        android:paddingBottom="40dp">
+        android:gravity="center">
 
         <ImageButton
             android:id="@+id/ibNextPage"
@@ -161,7 +161,17 @@
             android:background="#00FFFFFF"
             android:contentDescription="@string/Chapters"
             android:src="@drawable/auto_scrool" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/lnrFindOptions"
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:visibility="gone"
+        android:tag="gone"
+        tools:visibility="gone">
         <ImageButton
             android:id="@+id/ibFindPrevious"
             android:layout_width="wrap_content"
@@ -171,17 +181,7 @@
             android:contentDescription="@string/PreviousPage"
             android:paddingTop="10dp"
             android:src="@drawable/ic_action_up"
-            tools:visibility="gone" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lnrFindOptions"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:visibility="gone"
-        tools:visibility="gone">
+             />
 
         <ImageButton
             android:id="@+id/ibFindNext"
@@ -192,7 +192,7 @@
             android:contentDescription="@string/NextPage"
             android:paddingTop="10dp"
             android:src="@drawable/ic_action_down"
-            android:visibility="gone" />
+            />
 
     </LinearLayout>
 

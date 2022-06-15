@@ -48,8 +48,8 @@ com/rafraph/pnineyHalachaHashalem/databinding/AddBookmarkSpanishBinding.java
 com/rafraph/pnineyHalachaHashalem/myAudio.java
  com.rafraph.pnineyHalachaHashalem.myAudio
  com.rafraph.pnineyHalachaHashalem.myAudio$1
+ com.rafraph.pnineyHalachaHashalem.myAudio$1$1
  com.rafraph.pnineyHalachaHashalem.myAudio$10
- com.rafraph.pnineyHalachaHashalem.myAudio$10$1
  com.rafraph.pnineyHalachaHashalem.myAudio$11
  com.rafraph.pnineyHalachaHashalem.myAudio$12
  com.rafraph.pnineyHalachaHashalem.myAudio$13
@@ -73,10 +73,10 @@ com/rafraph/pnineyHalachaHashalem/myAudio.java
  com.rafraph.pnineyHalachaHashalem.myAudio$28
  com.rafraph.pnineyHalachaHashalem.myAudio$29
  com.rafraph.pnineyHalachaHashalem.myAudio$3
- com.rafraph.pnineyHalachaHashalem.myAudio$3$1
  com.rafraph.pnineyHalachaHashalem.myAudio$30
  com.rafraph.pnineyHalachaHashalem.myAudio$31
  com.rafraph.pnineyHalachaHashalem.myAudio$4
+ com.rafraph.pnineyHalachaHashalem.myAudio$4$1
  com.rafraph.pnineyHalachaHashalem.myAudio$5
  com.rafraph.pnineyHalachaHashalem.myAudio$6
  com.rafraph.pnineyHalachaHashalem.myAudio$7
@@ -171,6 +171,7 @@ com/rafraph/pnineyHalachaHashalem/textMain.java
  com.rafraph.pnineyHalachaHashalem.textMain$19
  com.rafraph.pnineyHalachaHashalem.textMain$2
  com.rafraph.pnineyHalachaHashalem.textMain$2$1
+ com.rafraph.pnineyHalachaHashalem.textMain$2$1$1
  com.rafraph.pnineyHalachaHashalem.textMain$20
  com.rafraph.pnineyHalachaHashalem.textMain$21
  com.rafraph.pnineyHalachaHashalem.textMain$22
@@ -242,6 +243,8 @@ com/rafraph/pnineyHalachaHashalem/MainActivity.java
  com.rafraph.pnineyHalachaHashalem.MainActivity$23
  com.rafraph.pnineyHalachaHashalem.MainActivity$24
  com.rafraph.pnineyHalachaHashalem.MainActivity$25
+ com.rafraph.pnineyHalachaHashalem.MainActivity$25$1
+ com.rafraph.pnineyHalachaHashalem.MainActivity$25$1$1
  com.rafraph.pnineyHalachaHashalem.MainActivity$26
  com.rafraph.pnineyHalachaHashalem.MainActivity$26$1
  com.rafraph.pnineyHalachaHashalem.MainActivity$26$1$1
@@ -252,10 +255,7 @@ com/rafraph/pnineyHalachaHashalem/MainActivity.java
  com.rafraph.pnineyHalachaHashalem.MainActivity$28$1
  com.rafraph.pnineyHalachaHashalem.MainActivity$28$1$1
  com.rafraph.pnineyHalachaHashalem.MainActivity$29
- com.rafraph.pnineyHalachaHashalem.MainActivity$29$1
- com.rafraph.pnineyHalachaHashalem.MainActivity$29$1$1
  com.rafraph.pnineyHalachaHashalem.MainActivity$3
- com.rafraph.pnineyHalachaHashalem.MainActivity$30
  com.rafraph.pnineyHalachaHashalem.MainActivity$4
  com.rafraph.pnineyHalachaHashalem.MainActivity$5
  com.rafraph.pnineyHalachaHashalem.MainActivity$6

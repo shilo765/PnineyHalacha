@@ -51,6 +51,7 @@ public class Splash extends Activity{
 					break;
 				case "ru":
 					MyLanguage = RUSSIAN;
+					break;
 				case "fr":
 					MyLanguage = FRENCH;
 					break;

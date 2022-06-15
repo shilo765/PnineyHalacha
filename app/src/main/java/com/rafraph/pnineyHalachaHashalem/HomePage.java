@@ -140,11 +140,17 @@ public class HomePage extends Activity {
         LinearLayout main=(LinearLayout) findViewById(R.id.main);
         LinearLayout main2=(LinearLayout) findViewById(R.id.lnrOption2);
         LinearLayout main3=(LinearLayout) findViewById(R.id.lnrOption7);
+        LinearLayout main4=(LinearLayout) findViewById(R.id.lnrOption9);
+        LinearLayout main5=(LinearLayout) findViewById(R.id.lnrOption10);
+        LinearLayout main6=(LinearLayout) findViewById(R.id.lnrOption11);
         if (mPrefs.getInt("BlackBackground", 0)==1)
         {
             main.setBackgroundColor(Color.BLACK);
             main2.setBackgroundColor(Color.BLACK);
             main3.setBackgroundColor(Color.BLACK);
+            main4.setBackgroundColor(Color.BLACK);
+            main5.setBackgroundColor(Color.BLACK);
+            main6.setBackgroundColor(Color.BLACK);
         }
         ImageView menu= (ImageView) findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
@@ -314,7 +320,7 @@ public class HomePage extends Activity {
                                 }
                             //case 8:/*hascamot*/
                              //   hascamotDialog();
-                              //  break;
+                                break;
                             case 9:/*about*/
                                 try
                                 {

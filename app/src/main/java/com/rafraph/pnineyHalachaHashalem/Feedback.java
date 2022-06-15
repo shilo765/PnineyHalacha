@@ -61,8 +61,8 @@ public class Feedback extends Activity implements View.OnClickListener
 		EmailHeader = (EditText) findViewById(R.id.last_search);
 		EmailContent = (EditText) findViewById(R.id.etContent);
 
-		sendEmail = (TextView) findViewById(R.id.set_note);
-		//sendEmail.setOnClickListener(this);
+		sendEmail = (TextView) findViewById(R.id.send_feedback);
+		sendEmail.setOnClickListener(this);
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
 		TextView gotProblem=(TextView) findViewById(R.id.headr);
@@ -424,20 +424,7 @@ public class Feedback extends Activity implements View.OnClickListener
 		{
 		case R.id.set_note:
 			//String emailaddress[] = { "janer.solutions@gmail.com" };
-			String emailaddress[] = { "shilob@yhb.org.il" };
-			String header;
-			String message;
 
-			header = EmailHeader.getText().toString();
-			header = "לגבי \"פניני הלכה\": " + EmailHeader.getText().toString();
-			message = EmailContent.getText().toString();
-
-			Intent emailIntent = new Intent (android.content.Intent.ACTION_SEND);
-			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, emailaddress);
-			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, header);
-			emailIntent.setType("plain/text");
-			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
-			startActivity(emailIntent);
 			break;
 			
 		case R.id.bContentFix:

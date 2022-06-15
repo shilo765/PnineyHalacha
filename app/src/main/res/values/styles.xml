@@ -6,6 +6,7 @@
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <item name="android:itemBackground">#445245</item>
+
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -32,6 +33,7 @@
     <style name="CustomPopupTheme" parent="ThemeOverlay.AppCompat.Dark">
         <!-- if using android.widget.PopupMenu -->
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:textColor"> #000000</item>
         <!-- if using android.support.v7.widget.PopupMenu -->
         <item name="popupMenuStyle">@style/PopupMenu</item>
     </style>

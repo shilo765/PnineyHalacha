@@ -3827,6 +3827,7 @@
         <item>"x0.75"</item>
     </string-array><string name="title_activity_audio">Audio</string><string name="title_activity_sim">sim</string><string name="first_fragment_label">First Fragment</string><string name="second_fragment_label">Second Fragment</string><string name="next">Next</string><string name="previous">Previous</string><string name="hello_first_fragment">Hello first fragment</string><string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string><string name="hello_blank_fragment">Hello blank fragment</string><string name="title_activity_switch_modes">switchModes</string><string name="title_activity_pnina_yomit">pnina_yomit</string></file><file path="C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\res\values\styles.xml" qualifiers=""><style name="AppBaseTheme" parent="android:Theme.Light">
         <item name="android:itemBackground">#445245</item>
+
         
     </style><style name="AppTheme" parent="AppBaseTheme">
         <item name="android:itemBackground">#445245</item>
@@ -3846,6 +3847,7 @@
     </style><style name="CustomPopupTheme" parent="ThemeOverlay.AppCompat.Dark">
         
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:textColor"> #000000</item>
         
         <item name="popupMenuStyle">@style/PopupMenu</item>
     </style></file><file path="C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\res\values\themes.xml" qualifiers=""><style name="MySuperTheme" parent="@style/Theme.AppCompat.Light">

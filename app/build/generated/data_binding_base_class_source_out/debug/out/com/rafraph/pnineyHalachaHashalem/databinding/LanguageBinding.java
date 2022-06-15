@@ -29,9 +29,6 @@ public final class LanguageBinding implements ViewBinding {
   public final ImageView dialogX;
 
   @NonNull
-  public final ImageView dialogX2;
-
-  @NonNull
   public final ImageView imEsDown;
 
   @NonNull
@@ -71,16 +68,15 @@ public final class LanguageBinding implements ViewBinding {
   public final ImageView tooPy;
 
   private LanguageBinding(@NonNull RelativeLayout rootView, @NonNull TextView chooseTochen,
-      @NonNull ImageView dialogX, @NonNull ImageView dialogX2, @NonNull ImageView imEsDown,
-      @NonNull ImageView imFDown, @NonNull RelativeLayout layoutRoot,
-      @NonNull LinearLayout lnrOption2, @NonNull LinearLayout lnrOption3,
-      @NonNull LinearLayout lnrOption4, @NonNull LinearLayout lnrOption5,
-      @NonNull LinearLayout lnrOptions, @NonNull TextView pickBooks, @NonNull RadioGroup radios,
-      @NonNull ImageView settings, @NonNull ImageView toPy, @NonNull ImageView tooPy) {
+      @NonNull ImageView dialogX, @NonNull ImageView imEsDown, @NonNull ImageView imFDown,
+      @NonNull RelativeLayout layoutRoot, @NonNull LinearLayout lnrOption2,
+      @NonNull LinearLayout lnrOption3, @NonNull LinearLayout lnrOption4,
+      @NonNull LinearLayout lnrOption5, @NonNull LinearLayout lnrOptions,
+      @NonNull TextView pickBooks, @NonNull RadioGroup radios, @NonNull ImageView settings,
+      @NonNull ImageView toPy, @NonNull ImageView tooPy) {
     this.rootView = rootView;
     this.chooseTochen = chooseTochen;
     this.dialogX = dialogX;
-    this.dialogX2 = dialogX2;
     this.imEsDown = imEsDown;
     this.imFDown = imFDown;
     this.layoutRoot = layoutRoot;
@@ -132,12 +128,6 @@ public final class LanguageBinding implements ViewBinding {
       id = R.id.dialog_x;
       ImageView dialogX = ViewBindings.findChildViewById(rootView, id);
       if (dialogX == null) {
-        break missingId;
-      }
-
-      id = R.id.dialog_x2;
-      ImageView dialogX2 = ViewBindings.findChildViewById(rootView, id);
-      if (dialogX2 == null) {
         break missingId;
       }
 
@@ -215,8 +205,8 @@ public final class LanguageBinding implements ViewBinding {
         break missingId;
       }
 
-      return new LanguageBinding((RelativeLayout) rootView, chooseTochen, dialogX, dialogX2,
-          imEsDown, imFDown, layoutRoot, lnrOption2, lnrOption3, lnrOption4, lnrOption5, lnrOptions,
+      return new LanguageBinding((RelativeLayout) rootView, chooseTochen, dialogX, imEsDown,
+          imFDown, layoutRoot, lnrOption2, lnrOption3, lnrOption4, lnrOption5, lnrOptions,
           pickBooks, radios, settings, toPy, tooPy);
     }
     String missingId = rootView.getResources().getResourceName(id);

@@ -234,6 +234,7 @@ public class MainActivity extends AppCompatActivity
 			}
 		});
 		ImageView menu= (ImageView) findViewById(R.id.menu);
+
 		menu.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -2409,6 +2410,7 @@ private void initializeSeekBar()
 					Hmassage="Разрешить загрузку книг";
 					Hconfirm="Разрешение";
 					Hcancel="Отмена";
+					break;
 				case "fr":
 					MyLanguage = FRENCH;
 					welcome.setText("Welcome to the \"Peninei Halakha\" App");
@@ -2477,7 +2479,7 @@ private void initializeSeekBar()
 		//ImageView h_imv=(ImageView) languageDialog.findViewById(R.id.im_h);
 		ImageView h_imv_down = (ImageView) languageDialog.findViewById(R.id.too_py);
 		ImageView dialog_x = (ImageView) languageDialog.findViewById(R.id.dialog_x);
-		ImageView dialog_x2 = (ImageView) languageDialog.findViewById(R.id.dialog_x2);
+		//ImageView dialog_x2 = (ImageView) languageDialog.findViewById(R.id.dialog_x2);
 		//ImageView r_imv=(ImageView) languageDialog.findViewById(R.id.im_r);
 		ImageView r_imv_down = (ImageView) languageDialog.findViewById(R.id.to_py);
 		//ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
@@ -2788,38 +2790,7 @@ private void initializeSeekBar()
 			}
 		});
 		if(firstLang==0) {
-			dialog_x2.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					shPrefEditor.putInt("MyLanguage", MyLanguage);
-					shPrefEditor.commit();
-					changeL = true;
 
-					if (firstLang == 1)
-						if (HomePage) {
-							Class ourClass = null;
-							try {
-								ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
-							} catch (ClassNotFoundException e) {
-								e.printStackTrace();
-							}
-							Intent ourIntent = new Intent(MainActivity.this, ourClass);
-							startActivity(ourIntent);
-						}
-						else
-						startActivity(getIntent());
-					else {
-						Class ourClass = null;
-						try {
-							ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
-						} catch (ClassNotFoundException e) {
-							e.printStackTrace();
-						}
-						Intent ourIntent = new Intent(MainActivity.this, ourClass);
-						startActivity(ourIntent);
-					}
-				}
-			});
 		}
 		h_imv_down.setOnClickListener(new OnClickListener() {
 			@Override

@@ -222,20 +222,28 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 	@Override
 	public void onBackPressed() {
-		Class ourClass = null;
-		Intent ourIntent = null;
-		try {
-			ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
-			//book_chapter[0]
-
-			shPrefEditor.putInt("expList",book_chapter[0]);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+		if(lnrFindOptions.getTag().equals("vis"))
+		{
+			lnrFindOptions.setVisibility(View.GONE);
+			lnrFindOptions.setTag("gone");
+			webview.findAllAsync("sdafsdhgfsdagfhgdszgf");
 		}
-		ourIntent = new Intent(textMain.this, ourClass);
-		ourIntent.putExtra("homePage", false);
-		ourIntent.putExtra("exp",book_chapter[0]);
-		startActivity(ourIntent);
+		else {
+			Class ourClass = null;
+			Intent ourIntent = null;
+			try {
+				ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+				//book_chapter[0]
+
+				shPrefEditor.putInt("expList", book_chapter[0]);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			ourIntent = new Intent(textMain.this, ourClass);
+			ourIntent.putExtra("homePage", false);
+			ourIntent.putExtra("exp", book_chapter[0]);
+			startActivity(ourIntent);
+		}
 	}
 	public void loadWebview(String path, WebView webview)
 	{
@@ -269,6 +277,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 										break;
 								}
 								webview.loadUrl(path);webview.loadUrl(path);
+								webview.setWebViewClient(new WebViewClient() {
+									public void onPageFinished(WebView view, String url) {
+										webview.loadUrl(
+												"javascript:document.body.style.setProperty(\"color\", \"white\");"
+										);
+									}
+								});
+
 							}
 
 						}
@@ -917,6 +933,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				//String s=query.split("l")[2];
 				scrollY = 0;
 				lnrFindOptions.setVisibility(View.VISIBLE);
+				lnrFindOptions.setTag("vis");
 				webview.findAllAsync(" "+query+" ");
 				webview.setFindListener(new WebView.FindListener() {
 
@@ -978,6 +995,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			else
 			{
 				lnrFindOptions.setVisibility(View.GONE);
+				lnrFindOptions.setTag("gone");
 				book_chapter = extras.getIntArray("book_chapter");
 				TextView nameBook= findViewById(R.id.bookname);
 				if(convertBookIdToName(book_chapter[0]).equals("לא ידוע"))
@@ -4034,6 +4052,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 				innerSearchDialog.dismiss();
 				lnrFindOptions.setVisibility(View.VISIBLE);
+				lnrFindOptions.setTag("vis");
 				if(API < 16)
 				{
 					int a=webview.findAll(/*"כל"*/innerSearchText);
