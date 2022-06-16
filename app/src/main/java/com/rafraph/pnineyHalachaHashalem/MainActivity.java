@@ -198,6 +198,8 @@ public class MainActivity extends AppCompatActivity
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
 		StartInLastLocation = mPrefs.getInt("StartInLastLocation", 1);
 		MyLanguage = mPrefs.getInt("MyLanguage", -1);
+
+
 		//storage = FirebaseStorage.getInstance();
 		// Create a storage reference from our app
 		//StorageReference storageRef = storage.getReference();
@@ -215,7 +217,15 @@ public class MainActivity extends AppCompatActivity
 			for (int i = heS; i <= heE; i++)
 				listDisplay.add(listDataHeader.get(i));
 		}
-		ImageView toMain= (ImageView) findViewById(R.id.b_chap);
+		ImageView toMain= (ImageView) findViewById(R.id.to_main);
+		if(MyLanguage==ENGLISH)
+			toMain.setImageResource(R.drawable.to_main_e);
+		if(MyLanguage==RUSSIAN)
+			toMain.setImageResource(R.drawable.to_main_r);
+		if(MyLanguage==SPANISH)
+			toMain.setImageResource(R.drawable.to_main_s);
+		if(MyLanguage==FRENCH)
+			toMain.setImageResource(R.drawable.to_main_f);
 		toMain.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -623,32 +633,6 @@ public class MainActivity extends AppCompatActivity
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		// TODO Auto-generated method stub
-		switch (item.getItemId())
-		{
-			case R.id.action_search:
-				onSearchRequested();
-				break;
-			case R.id.action_bookmarks:
-				try
-				{
-					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.BookmarkActivity");
-					Intent ourIntent = new Intent(MainActivity.this, ourClass);
-					startActivity(ourIntent);
-				}
-				catch (ClassNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				break;
-			case R.id.action_place:
-				goToLastLocation();
-				break;
-			case R.id.action_config:
-				showPopupMenuSettings(findViewById(R.id.action_config));
-				break;
-			default:
-				break;
-		}
 
 		return true;
 		//return super.onOptionsItemSelected(item);

@@ -294,7 +294,7 @@ public class SearchHelp extends Activity {
 
 		}
 		makeKeys();
-		ImageView tooHome= (ImageView) findViewById(R.id.b_chap);
+		ImageView tooHome= (ImageView) findViewById(R.id.to_main);
 
 		ImageView goSearch= (ImageView) findViewById(R.id.goSearch);
 		TextView searchNow= (TextView) findViewById(R.id.search_now);
@@ -302,7 +302,16 @@ public class SearchHelp extends Activity {
 		bookFound= (TextView) findViewById(R.id.no_found);
 		EditText searchText= (EditText) findViewById(R.id.title);
 		TextView lastSearch= (TextView) findViewById(R.id.last_search);
-		ImageView toMain= (ImageView) findViewById(R.id.b_chap);
+		ImageView toMain= (ImageView) findViewById(R.id.to_main);
+
+		if(MyLanguage==ENGLISH)
+			toMain.setImageResource(R.drawable.to_main_e);
+		if(MyLanguage==RUSSIAN)
+			toMain.setImageResource(R.drawable.to_main_r);
+		if(MyLanguage==SPANISH)
+			toMain.setImageResource(R.drawable.to_main_s);
+		if(MyLanguage==FRENCH)
+			toMain.setImageResource(R.drawable.to_main_f);
 		searchListView2 = (ListView) findViewById(R.id.list2);
 		searchListView2.setVisibility(View.GONE);
 		toMain.setOnClickListener(new View.OnClickListener() {
@@ -961,18 +970,22 @@ public class SearchHelp extends Activity {
 
 				//unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/en.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks");
 		final File folder = new File(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks");
+		if(folder.exists())
 		for (final File fileEntry : folder.listFiles()) {
 				stcakFiles.add(fileEntry);
 		}
 		final File folder2 = new File(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks");
+		if(folder2.exists())
 		for (final File fileEntry : folder2.listFiles()) {
 			stcakFiles.add(fileEntry);
 		}
 	final File folder3 = new File(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks");
+		if(folder3.exists())
 		for (final File fileEntry : folder3.listFiles()) {
 		stcakFiles.add(fileEntry);
 	}
 		final File folder4 = new File(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks");
+		if(folder4.exists())
 		for (final File fileEntry : folder4.listFiles()) {
 			stcakFiles.add(fileEntry);
 		}

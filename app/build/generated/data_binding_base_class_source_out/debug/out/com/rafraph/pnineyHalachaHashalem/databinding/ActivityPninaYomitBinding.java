@@ -24,9 +24,6 @@ public final class ActivityPninaYomitBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
-  public final ImageView bChap;
-
-  @NonNull
   public final ImageView bChap2;
 
   @NonNull
@@ -54,18 +51,20 @@ public final class ActivityPninaYomitBinding implements ViewBinding {
   public final TextView setNote;
 
   @NonNull
+  public final ImageView toMain;
+
+  @NonNull
   public final LinearLayout tooBooks;
 
   @NonNull
   public final WebView webView1;
 
-  private ActivityPninaYomitBinding(@NonNull LinearLayout rootView, @NonNull ImageView bChap,
-      @NonNull ImageView bChap2, @NonNull ImageButton deleteReminder, @NonNull NumberPicker etH,
-      @NonNull NumberPicker etM, @NonNull LinearLayout lnrOption3, @NonNull LinearLayout lnrOptions,
-      @NonNull ImageView menu, @NonNull ImageButton sep, @NonNull TextView setNote,
+  private ActivityPninaYomitBinding(@NonNull LinearLayout rootView, @NonNull ImageView bChap2,
+      @NonNull ImageButton deleteReminder, @NonNull NumberPicker etH, @NonNull NumberPicker etM,
+      @NonNull LinearLayout lnrOption3, @NonNull LinearLayout lnrOptions, @NonNull ImageView menu,
+      @NonNull ImageButton sep, @NonNull TextView setNote, @NonNull ImageView toMain,
       @NonNull LinearLayout tooBooks, @NonNull WebView webView1) {
     this.rootView = rootView;
-    this.bChap = bChap;
     this.bChap2 = bChap2;
     this.deleteReminder = deleteReminder;
     this.etH = etH;
@@ -75,6 +74,7 @@ public final class ActivityPninaYomitBinding implements ViewBinding {
     this.menu = menu;
     this.sep = sep;
     this.setNote = setNote;
+    this.toMain = toMain;
     this.tooBooks = tooBooks;
     this.webView1 = webView1;
   }
@@ -106,12 +106,6 @@ public final class ActivityPninaYomitBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.b_chap;
-      ImageView bChap = ViewBindings.findChildViewById(rootView, id);
-      if (bChap == null) {
-        break missingId;
-      }
-
       id = R.id.b_chap2;
       ImageView bChap2 = ViewBindings.findChildViewById(rootView, id);
       if (bChap2 == null) {
@@ -166,6 +160,12 @@ public final class ActivityPninaYomitBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.to_main;
+      ImageView toMain = ViewBindings.findChildViewById(rootView, id);
+      if (toMain == null) {
+        break missingId;
+      }
+
       LinearLayout tooBooks = (LinearLayout) rootView;
 
       id = R.id.webView1;
@@ -174,8 +174,8 @@ public final class ActivityPninaYomitBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityPninaYomitBinding((LinearLayout) rootView, bChap, bChap2, deleteReminder,
-          etH, etM, lnrOption3, lnrOptions, menu, sep, setNote, tooBooks, webView1);
+      return new ActivityPninaYomitBinding((LinearLayout) rootView, bChap2, deleteReminder, etH,
+          etM, lnrOption3, lnrOptions, menu, sep, setNote, toMain, tooBooks, webView1);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

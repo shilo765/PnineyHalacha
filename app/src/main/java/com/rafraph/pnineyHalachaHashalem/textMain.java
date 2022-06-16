@@ -279,6 +279,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 								webview.loadUrl(path);webview.loadUrl(path);
 								webview.setWebViewClient(new WebViewClient() {
 									public void onPageFinished(WebView view, String url) {
+										if (BlackBackground==1)
 										webview.loadUrl(
 												"javascript:document.body.style.setProperty(\"color\", \"white\");"
 										);
@@ -406,6 +407,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		shPrefEditor = mPrefs.edit();
 
 		MyLanguage = mPrefs.getInt("MyLanguage", 0);
+
+
 
 
 		setContentView(R.layout.text_main_down);
@@ -741,7 +744,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		webview.setWebViewClient(new MyWebViewClient());
 
-		bParagraphs    = (ImageButton) findViewById(R.id.b_chap);
+		bParagraphs    = (ImageButton) findViewById(R.id.to_main);
 		bSwitchModes = (ImageButton) findViewById(R.id.set_note);
 		bNext_sec      = (ImageButton) findViewById(R.id.ibNext);
 		bPrevious_sec  = (ImageButton) findViewById(R.id.ibPrevious);
@@ -752,6 +755,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		bFindNext      = (ImageButton) findViewById(R.id.ibFindNext);
 		bFindPrevious  = (ImageButton) findViewById(R.id.ibFindPrevious);
 		ImageView toMain = (ImageView) findViewById(R.id.too_main);
+		if(MyLanguage==ENGLISH)
+			toMain.setImageResource(R.drawable.to_main_e);
+		if(MyLanguage==RUSSIAN)
+			toMain.setImageResource(R.drawable.to_main_r);
+		if(MyLanguage==SPANISH)
+			toMain.setImageResource(R.drawable.to_main_s);
+		if(MyLanguage==FRENCH)
+			toMain.setImageResource(R.drawable.to_main_f);
 		toMain.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -1270,7 +1281,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		if(BlackBackground == 1)
 		{
 			textActionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-			inflater.inflate(R.menu.actionbar_textmain_black, menu);
 
 			webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left\"); y[0].style.display = 'none';} myFunction(); ");
 			webview.setBackgroundColor(0xFFFFFF);//black
@@ -1296,7 +1306,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 
 		} else {
-			inflater.inflate(R.menu.actionbar_textmain, menu);
+
 			textActionBar.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 			webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"black\";} myFunction(); ");
 			webview.setBackgroundColor(0x000000);//white
@@ -1315,17 +1325,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		}
 
-		MenuInflater DownMenu = getMenuInflater();
-		if(MyLanguage == ENGLISH)
-			DownMenu.inflate(R.menu.down_menu_english, menu);
-		else if(MyLanguage == RUSSIAN)
-			DownMenu.inflate(R.menu.down_menu_russian, menu);
-		else if(MyLanguage == SPANISH)
-			DownMenu.inflate(R.menu.down_menu_spanish, menu);
-		else if(MyLanguage == FRENCH)
-			DownMenu.inflate(R.menu.down_menu_french, menu);
-		else
-			DownMenu.inflate(R.menu.down_menu, menu);
+
 		return true;
 	}//onCreateOptionsMenu
 
@@ -1400,7 +1400,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		switch(view.getId())
 		{
-			case R.id.b_chap:
+			case R.id.to_main:
 				findHeaders();
 				showPopupMenu(view);
 				break;
@@ -1506,34 +1506,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		final Context context = this;
 
 		// TODO Auto-generated method stub
-		switch (item.getItemId())
-		{
-			case R.id.action_search:
-				innerSearch();
-				break;
 
-			case R.id.action_config:
-				showPopupMenuSettings(findViewById(R.id.action_config));
-				break;
-
-			case R.id.play:
-				scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
-				runOnUiThread(mScrollDown);
-				break;
-
-			case R.id.stop:
-				scrollSpeed = -1;
-				break;
-
-			case R.id.autoScrollSpeed:
-				autoScrollSpeedDialog();
-				break;
-			default:
-				break;
-		}
 
 		return true;
 		//return super.onOptionsItemSelected(item);

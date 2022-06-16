@@ -23,9 +23,6 @@ public final class SearchActivityBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
-  public final ImageView bChap;
-
-  @NonNull
   public final ImageView bChap2;
 
   @NonNull
@@ -79,16 +76,17 @@ public final class SearchActivityBinding implements ViewBinding {
   @NonNull
   public final EditText title;
 
-  private SearchActivityBinding(@NonNull LinearLayout rootView, @NonNull ImageView bChap,
-      @NonNull ImageView bChap2, @NonNull ImageView goSearch, @NonNull TextView headr,
-      @NonNull TextView lastSearch, @NonNull ListView list, @NonNull ListView list2,
-      @NonNull LinearLayout lnrOption3, @NonNull LinearLayout lnrOptions,
-      @NonNull LinearLayout main, @NonNull ImageView menu, @NonNull TextView noFound,
-      @NonNull TextView searchNow, @NonNull TextView textView10, @NonNull TextView textView11,
-      @NonNull TextView textView7, @NonNull TextView textView8, @NonNull TextView textView9,
-      @NonNull EditText title) {
+  @NonNull
+  public final ImageView toMain;
+
+  private SearchActivityBinding(@NonNull LinearLayout rootView, @NonNull ImageView bChap2,
+      @NonNull ImageView goSearch, @NonNull TextView headr, @NonNull TextView lastSearch,
+      @NonNull ListView list, @NonNull ListView list2, @NonNull LinearLayout lnrOption3,
+      @NonNull LinearLayout lnrOptions, @NonNull LinearLayout main, @NonNull ImageView menu,
+      @NonNull TextView noFound, @NonNull TextView searchNow, @NonNull TextView textView10,
+      @NonNull TextView textView11, @NonNull TextView textView7, @NonNull TextView textView8,
+      @NonNull TextView textView9, @NonNull EditText title, @NonNull ImageView toMain) {
     this.rootView = rootView;
-    this.bChap = bChap;
     this.bChap2 = bChap2;
     this.goSearch = goSearch;
     this.headr = headr;
@@ -107,6 +105,7 @@ public final class SearchActivityBinding implements ViewBinding {
     this.textView8 = textView8;
     this.textView9 = textView9;
     this.title = title;
+    this.toMain = toMain;
   }
 
   @Override
@@ -136,12 +135,6 @@ public final class SearchActivityBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.b_chap;
-      ImageView bChap = ViewBindings.findChildViewById(rootView, id);
-      if (bChap == null) {
-        break missingId;
-      }
-
       id = R.id.b_chap2;
       ImageView bChap2 = ViewBindings.findChildViewById(rootView, id);
       if (bChap2 == null) {
@@ -246,9 +239,15 @@ public final class SearchActivityBinding implements ViewBinding {
         break missingId;
       }
 
-      return new SearchActivityBinding((LinearLayout) rootView, bChap, bChap2, goSearch, headr,
-          lastSearch, list, list2, lnrOption3, lnrOptions, main, menu, noFound, searchNow,
-          textView10, textView11, textView7, textView8, textView9, title);
+      id = R.id.to_main;
+      ImageView toMain = ViewBindings.findChildViewById(rootView, id);
+      if (toMain == null) {
+        break missingId;
+      }
+
+      return new SearchActivityBinding((LinearLayout) rootView, bChap2, goSearch, headr, lastSearch,
+          list, list2, lnrOption3, lnrOptions, main, menu, noFound, searchNow, textView10,
+          textView11, textView7, textView8, textView9, title, toMain);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

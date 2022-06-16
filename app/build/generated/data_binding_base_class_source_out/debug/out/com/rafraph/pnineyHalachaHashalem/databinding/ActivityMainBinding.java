@@ -22,9 +22,6 @@ public final class ActivityMainBinding implements ViewBinding {
   private final RelativeLayout rootView;
 
   @NonNull
-  public final ImageView bChap;
-
-  @NonNull
   public final ImageView bChap2;
 
   @NonNull
@@ -39,16 +36,19 @@ public final class ActivityMainBinding implements ViewBinding {
   @NonNull
   public final ImageView menu;
 
-  private ActivityMainBinding(@NonNull RelativeLayout rootView, @NonNull ImageView bChap,
-      @NonNull ImageView bChap2, @NonNull RelativeLayout content, @NonNull LinearLayout lnrOption3,
-      @NonNull ExpandableListView lvExp, @NonNull ImageView menu) {
+  @NonNull
+  public final ImageView toMain;
+
+  private ActivityMainBinding(@NonNull RelativeLayout rootView, @NonNull ImageView bChap2,
+      @NonNull RelativeLayout content, @NonNull LinearLayout lnrOption3,
+      @NonNull ExpandableListView lvExp, @NonNull ImageView menu, @NonNull ImageView toMain) {
     this.rootView = rootView;
-    this.bChap = bChap;
     this.bChap2 = bChap2;
     this.content = content;
     this.lnrOption3 = lnrOption3;
     this.lvExp = lvExp;
     this.menu = menu;
+    this.toMain = toMain;
   }
 
   @Override
@@ -78,12 +78,6 @@ public final class ActivityMainBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.b_chap;
-      ImageView bChap = ViewBindings.findChildViewById(rootView, id);
-      if (bChap == null) {
-        break missingId;
-      }
-
       id = R.id.b_chap2;
       ImageView bChap2 = ViewBindings.findChildViewById(rootView, id);
       if (bChap2 == null) {
@@ -114,8 +108,14 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityMainBinding((RelativeLayout) rootView, bChap, bChap2, content, lnrOption3,
-          lvExp, menu);
+      id = R.id.to_main;
+      ImageView toMain = ViewBindings.findChildViewById(rootView, id);
+      if (toMain == null) {
+        break missingId;
+      }
+
+      return new ActivityMainBinding((RelativeLayout) rootView, bChap2, content, lnrOption3, lvExp,
+          menu, toMain);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

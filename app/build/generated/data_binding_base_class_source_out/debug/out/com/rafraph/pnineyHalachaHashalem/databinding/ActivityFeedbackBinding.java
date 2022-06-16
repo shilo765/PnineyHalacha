@@ -23,9 +23,6 @@ public final class ActivityFeedbackBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
-  public final ImageView bChap;
-
-  @NonNull
   public final ImageView bChap2;
 
   @NonNull
@@ -55,13 +52,15 @@ public final class ActivityFeedbackBinding implements ViewBinding {
   @NonNull
   public final EditText title;
 
-  private ActivityFeedbackBinding(@NonNull LinearLayout rootView, @NonNull ImageView bChap,
-      @NonNull ImageView bChap2, @NonNull Button bContentFix, @NonNull EditText etContent,
-      @NonNull TextView headr, @NonNull EditText lastSearch, @NonNull LinearLayout lnrOption3,
-      @NonNull LinearLayout main, @NonNull ImageView menu, @NonNull TextView sendFeedback,
-      @NonNull EditText title) {
+  @NonNull
+  public final ImageView toMain;
+
+  private ActivityFeedbackBinding(@NonNull LinearLayout rootView, @NonNull ImageView bChap2,
+      @NonNull Button bContentFix, @NonNull EditText etContent, @NonNull TextView headr,
+      @NonNull EditText lastSearch, @NonNull LinearLayout lnrOption3, @NonNull LinearLayout main,
+      @NonNull ImageView menu, @NonNull TextView sendFeedback, @NonNull EditText title,
+      @NonNull ImageView toMain) {
     this.rootView = rootView;
-    this.bChap = bChap;
     this.bChap2 = bChap2;
     this.bContentFix = bContentFix;
     this.etContent = etContent;
@@ -72,6 +71,7 @@ public final class ActivityFeedbackBinding implements ViewBinding {
     this.menu = menu;
     this.sendFeedback = sendFeedback;
     this.title = title;
+    this.toMain = toMain;
   }
 
   @Override
@@ -101,12 +101,6 @@ public final class ActivityFeedbackBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.b_chap;
-      ImageView bChap = ViewBindings.findChildViewById(rootView, id);
-      if (bChap == null) {
-        break missingId;
-      }
-
       id = R.id.b_chap2;
       ImageView bChap2 = ViewBindings.findChildViewById(rootView, id);
       if (bChap2 == null) {
@@ -163,8 +157,14 @@ public final class ActivityFeedbackBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityFeedbackBinding((LinearLayout) rootView, bChap, bChap2, bContentFix,
-          etContent, headr, lastSearch, lnrOption3, main, menu, sendFeedback, title);
+      id = R.id.to_main;
+      ImageView toMain = ViewBindings.findChildViewById(rootView, id);
+      if (toMain == null) {
+        break missingId;
+      }
+
+      return new ActivityFeedbackBinding((LinearLayout) rootView, bChap2, bContentFix, etContent,
+          headr, lastSearch, lnrOption3, main, menu, sendFeedback, title, toMain);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

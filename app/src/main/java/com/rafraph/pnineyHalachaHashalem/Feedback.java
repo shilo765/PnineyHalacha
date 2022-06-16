@@ -62,7 +62,7 @@ public class Feedback extends Activity implements View.OnClickListener
 		EmailContent = (EditText) findViewById(R.id.etContent);
 
 		sendEmail = (TextView) findViewById(R.id.send_feedback);
-		sendEmail.setOnClickListener(this);
+		//sendEmail.setOnClickListener(this);
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
 		TextView gotProblem=(TextView) findViewById(R.id.headr);
@@ -70,6 +70,25 @@ public class Feedback extends Activity implements View.OnClickListener
 		EditText edTitle=(EditText) findViewById(R.id.title);
 		EditText etcontact=(EditText) findViewById(R.id.etContent);
 		TextView sendFeed=(TextView) findViewById(R.id.send_feedback);
+		sendFeed.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String emailaddress[] = { "shilob@yhb.org.il" };
+				String header;
+				String message;
+
+				header = EmailHeader.getText().toString();
+				header = "לגבי \"פניני הלכה\": " + EmailHeader.getText().toString();
+				message = EmailContent.getText().toString();
+
+				Intent emailIntent = new Intent (android.content.Intent.ACTION_SEND);
+				emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, emailaddress);
+				emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, header);
+				emailIntent.setType("plain/text");
+				emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
+				startActivity(emailIntent);
+			}
+		});
 		TextView contactFix=(TextView) findViewById(R.id.bContentFix);
 		//LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption2);
 		//	LinearLayout main3=(LinearLayout) findViewById(R.id.lnrOption3);
@@ -77,6 +96,33 @@ public class Feedback extends Activity implements View.OnClickListener
 		//	LinearLayout main5=(LinearLayout) findViewById(R.id.lnrOption8);
 		LinearLayout main=(LinearLayout) findViewById(R.id.main);
 		int MyLanguage = mPrefs.getInt("MyLanguage", 0);
+		ImageView toMain = (ImageView) findViewById(R.id.to_main);
+		if(MyLanguage==ENGLISH)
+			toMain.setImageResource(R.drawable.to_main_e);
+		if(MyLanguage==RUSSIAN)
+			toMain.setImageResource(R.drawable.to_main_r);
+		if(MyLanguage==SPANISH)
+			toMain.setImageResource(R.drawable.to_main_s);
+		if(MyLanguage==FRENCH)
+			toMain.setImageResource(R.drawable.to_main_f);
+		toMain.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try
+				{
+					Class ourClass = null;
+					Intent ourIntent;
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+					ourIntent = new Intent(Feedback.this, ourClass);
+					ourIntent.putExtra("goLast",false);
+					startActivity(ourIntent);
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
 		switch (MyLanguage)
 		{
 			case ENGLISH:
@@ -118,11 +164,11 @@ public class Feedback extends Activity implements View.OnClickListener
 		{
 			gotProblem.setTextColor(Color.WHITE);
 			edName.setTextColor(Color.WHITE);
-			edName.setBackgroundColor(Color.rgb(13,13,12));
+			edName.setBackgroundResource(R.drawable.dark_rec);
 			edTitle.setTextColor(Color.WHITE);
-			edTitle.setBackgroundColor(Color.rgb(13,13,12));
+			edTitle.setBackgroundResource(R.drawable.dark_rec);
 			etcontact.setTextColor(Color.WHITE);
-			etcontact.setBackgroundColor(Color.rgb(13,13,12));
+			etcontact.setBackgroundResource(R.drawable.dark_big_rec);
 
 			//main.setBackgroundColor(Color.BLACK);
 			main.setBackgroundColor(Color.BLACK);
@@ -327,7 +373,7 @@ public class Feedback extends Activity implements View.OnClickListener
 		});
 		Button linkForFix = (Button) findViewById(R.id.bContentFix);
 		linkForFix.setOnClickListener(this);
-		findViewById(R.id.b_chap).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.to_main).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent openMainActivity = new Intent("com.rafraph.ph_beta.MAINACTIVITY");
@@ -340,7 +386,7 @@ public class Feedback extends Activity implements View.OnClickListener
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.feedback, menu);
+
 		return true;
 	}
 	void acronymsDecode()
@@ -422,9 +468,22 @@ public class Feedback extends Activity implements View.OnClickListener
 		// TODO Auto-generated method stub
 		switch(v.getId())
 		{
-		case R.id.set_note:
+			case R.id.send_feedback:
 			//String emailaddress[] = { "janer.solutions@gmail.com" };
+			String emailaddress[] = { "shilob@yhb.org.il" };
+			String header;
+			String message;
 
+			header = EmailHeader.getText().toString();
+			header = "לגבי \"פניני הלכה\": " + EmailHeader.getText().toString();
+			message = EmailContent.getText().toString();
+
+			Intent emailIntent = new Intent (android.content.Intent.ACTION_SEND);
+			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, emailaddress);
+			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, header);
+			emailIntent.setType("plain/text");
+			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
+			startActivity(emailIntent);
 			break;
 			
 		case R.id.bContentFix:

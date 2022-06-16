@@ -214,7 +214,15 @@ public class pninaYomit extends Activity {
 
 
         scrool=webview.getScrollY();
-        ImageView toMain= (ImageView) findViewById(R.id.b_chap);
+        ImageView toMain= (ImageView) findViewById(R.id.to_main);
+        if(MyLanguage==ENGLISH)
+            toMain.setImageResource(R.drawable.to_main_e);
+        if(MyLanguage==RUSSIAN)
+            toMain.setImageResource(R.drawable.to_main_r);
+        if(MyLanguage==SPANISH)
+            toMain.setImageResource(R.drawable.to_main_s);
+        if(MyLanguage==FRENCH)
+            toMain.setImageResource(R.drawable.to_main_f);
         toMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -552,7 +560,7 @@ public class pninaYomit extends Activity {
                 notPress=false;
             }
         });
-        findViewById(R.id.b_chap).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.to_main).setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View v) {
                Class ourClass = null;

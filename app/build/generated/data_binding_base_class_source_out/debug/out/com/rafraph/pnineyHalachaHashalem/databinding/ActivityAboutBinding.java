@@ -28,9 +28,6 @@ public final class ActivityAboutBinding implements ViewBinding {
   public final TextView appName;
 
   @NonNull
-  public final ImageView bChap;
-
-  @NonNull
   public final ImageView bChap2;
 
   @NonNull
@@ -58,18 +55,19 @@ public final class ActivityAboutBinding implements ViewBinding {
   public final TextView newD;
 
   @NonNull
+  public final ImageView toMain;
+
+  @NonNull
   public final ImageView yLogo;
 
   private ActivityAboutBinding(@NonNull RelativeLayout rootView, @NonNull TextView about,
-      @NonNull TextView appName, @NonNull ImageView bChap, @NonNull ImageView bChap2,
-      @NonNull TextView editText, @NonNull TextView headr, @NonNull TextView include,
-      @NonNull ImageView jLogo, @NonNull RelativeLayout layoutRoot,
-      @NonNull LinearLayout lnrOption3, @NonNull ImageView menu, @NonNull TextView newD,
-      @NonNull ImageView yLogo) {
+      @NonNull TextView appName, @NonNull ImageView bChap2, @NonNull TextView editText,
+      @NonNull TextView headr, @NonNull TextView include, @NonNull ImageView jLogo,
+      @NonNull RelativeLayout layoutRoot, @NonNull LinearLayout lnrOption3, @NonNull ImageView menu,
+      @NonNull TextView newD, @NonNull ImageView toMain, @NonNull ImageView yLogo) {
     this.rootView = rootView;
     this.about = about;
     this.appName = appName;
-    this.bChap = bChap;
     this.bChap2 = bChap2;
     this.editText = editText;
     this.headr = headr;
@@ -79,6 +77,7 @@ public final class ActivityAboutBinding implements ViewBinding {
     this.lnrOption3 = lnrOption3;
     this.menu = menu;
     this.newD = newD;
+    this.toMain = toMain;
     this.yLogo = yLogo;
   }
 
@@ -118,12 +117,6 @@ public final class ActivityAboutBinding implements ViewBinding {
       id = R.id.appName;
       TextView appName = ViewBindings.findChildViewById(rootView, id);
       if (appName == null) {
-        break missingId;
-      }
-
-      id = R.id.b_chap;
-      ImageView bChap = ViewBindings.findChildViewById(rootView, id);
-      if (bChap == null) {
         break missingId;
       }
 
@@ -177,14 +170,20 @@ public final class ActivityAboutBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.to_main;
+      ImageView toMain = ViewBindings.findChildViewById(rootView, id);
+      if (toMain == null) {
+        break missingId;
+      }
+
       id = R.id.y_logo;
       ImageView yLogo = ViewBindings.findChildViewById(rootView, id);
       if (yLogo == null) {
         break missingId;
       }
 
-      return new ActivityAboutBinding((RelativeLayout) rootView, about, appName, bChap, bChap2,
-          editText, headr, include, jLogo, layoutRoot, lnrOption3, menu, newD, yLogo);
+      return new ActivityAboutBinding((RelativeLayout) rootView, about, appName, bChap2, editText,
+          headr, include, jLogo, layoutRoot, lnrOption3, menu, newD, toMain, yLogo);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

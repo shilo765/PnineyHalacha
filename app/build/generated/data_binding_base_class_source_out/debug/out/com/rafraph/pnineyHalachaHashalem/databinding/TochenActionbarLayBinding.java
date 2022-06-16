@@ -46,13 +46,13 @@ public final class TochenActionbarLayBinding implements ViewBinding {
   public final ImageView pageSearch;
 
   @NonNull
-  public final ImageView tooMain;
+  public final ImageView toMain;
 
   private TochenActionbarLayBinding(@NonNull RelativeLayout rootView,
       @NonNull ImageButton autoScrool, @NonNull ImageView bChap2, @NonNull ImageButton ibFindNext,
       @NonNull ImageButton ibFindPrevious, @NonNull LinearLayout lnrOption3,
       @NonNull ImageView makeMark, @NonNull ImageView menu, @NonNull ImageView pageSearch,
-      @NonNull ImageView tooMain) {
+      @NonNull ImageView toMain) {
     this.rootView = rootView;
     this.autoScrool = autoScrool;
     this.bChap2 = bChap2;
@@ -62,7 +62,7 @@ public final class TochenActionbarLayBinding implements ViewBinding {
     this.makeMark = makeMark;
     this.menu = menu;
     this.pageSearch = pageSearch;
-    this.tooMain = tooMain;
+    this.toMain = toMain;
   }
 
   @Override
@@ -140,14 +140,14 @@ public final class TochenActionbarLayBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.too_main;
-      ImageView tooMain = ViewBindings.findChildViewById(rootView, id);
-      if (tooMain == null) {
+      id = R.id.to_main;
+      ImageView toMain = ViewBindings.findChildViewById(rootView, id);
+      if (toMain == null) {
         break missingId;
       }
 
       return new TochenActionbarLayBinding((RelativeLayout) rootView, autoScrool, bChap2,
-          ibFindNext, ibFindPrevious, lnrOption3, makeMark, menu, pageSearch, tooMain);
+          ibFindNext, ibFindPrevious, lnrOption3, makeMark, menu, pageSearch, toMain);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

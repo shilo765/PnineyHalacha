@@ -32,9 +32,6 @@ public final class ActivityAudioBinding implements ViewBinding {
   public final TextView audioDuration2;
 
   @NonNull
-  public final ImageView bChap;
-
-  @NonNull
   public final ImageView bChap2;
 
   @NonNull
@@ -79,18 +76,20 @@ public final class ActivityAudioBinding implements ViewBinding {
   @NonNull
   public final SeekBar seekBar6;
 
+  @NonNull
+  public final ImageView toMain;
+
   private ActivityAudioBinding(@NonNull RelativeLayout rootView, @NonNull TextView audioDuration,
-      @NonNull TextView audioDuration2, @NonNull ImageView bChap, @NonNull ImageView bChap2,
-      @NonNull RelativeLayout content, @NonNull LinearLayout hi, @NonNull ListView listView,
-      @NonNull LinearLayout lnrOption3, @NonNull ImageButton mediaFf,
-      @NonNull ImageButton mediaNext, @NonNull ImageButton mediaPlayPause,
-      @NonNull ImageButton mediaPrev, @NonNull ImageButton mediaRew, @NonNull ImageView menu,
-      @NonNull RelativeLayout myAudio, @NonNull Spinner myspinner, @NonNull TextView playerInfo,
-      @NonNull SeekBar seekBar6) {
+      @NonNull TextView audioDuration2, @NonNull ImageView bChap2, @NonNull RelativeLayout content,
+      @NonNull LinearLayout hi, @NonNull ListView listView, @NonNull LinearLayout lnrOption3,
+      @NonNull ImageButton mediaFf, @NonNull ImageButton mediaNext,
+      @NonNull ImageButton mediaPlayPause, @NonNull ImageButton mediaPrev,
+      @NonNull ImageButton mediaRew, @NonNull ImageView menu, @NonNull RelativeLayout myAudio,
+      @NonNull Spinner myspinner, @NonNull TextView playerInfo, @NonNull SeekBar seekBar6,
+      @NonNull ImageView toMain) {
     this.rootView = rootView;
     this.audioDuration = audioDuration;
     this.audioDuration2 = audioDuration2;
-    this.bChap = bChap;
     this.bChap2 = bChap2;
     this.content = content;
     this.hi = hi;
@@ -106,6 +105,7 @@ public final class ActivityAudioBinding implements ViewBinding {
     this.myspinner = myspinner;
     this.playerInfo = playerInfo;
     this.seekBar6 = seekBar6;
+    this.toMain = toMain;
   }
 
   @Override
@@ -144,12 +144,6 @@ public final class ActivityAudioBinding implements ViewBinding {
       id = R.id.audioDuration2;
       TextView audioDuration2 = ViewBindings.findChildViewById(rootView, id);
       if (audioDuration2 == null) {
-        break missingId;
-      }
-
-      id = R.id.b_chap;
-      ImageView bChap = ViewBindings.findChildViewById(rootView, id);
-      if (bChap == null) {
         break missingId;
       }
 
@@ -239,9 +233,15 @@ public final class ActivityAudioBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.to_main;
+      ImageView toMain = ViewBindings.findChildViewById(rootView, id);
+      if (toMain == null) {
+        break missingId;
+      }
+
       return new ActivityAudioBinding((RelativeLayout) rootView, audioDuration, audioDuration2,
-          bChap, bChap2, content, hi, listView, lnrOption3, mediaFf, mediaNext, mediaPlayPause,
-          mediaPrev, mediaRew, menu, myAudio, myspinner, playerInfo, seekBar6);
+          bChap2, content, hi, listView, lnrOption3, mediaFf, mediaNext, mediaPlayPause, mediaPrev,
+          mediaRew, menu, myAudio, myspinner, playerInfo, seekBar6, toMain);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

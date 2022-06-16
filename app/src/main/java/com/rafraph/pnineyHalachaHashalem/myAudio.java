@@ -296,8 +296,35 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             //PRAPRE TO READ AND LISTEN VIEW
             if (hearAndRead)
                 setContentView(R.layout.text_main_audio);
-            else
+            else {
                 setContentView(R.layout.activity_audio);
+                ImageView toMain2 = (ImageView) findViewById(R.id.to_main);
+                if(MyLanguage==ENGLISH)
+                    toMain2.setImageResource(R.drawable.to_main_e);
+                if(MyLanguage==RUSSIAN)
+                    toMain2.setImageResource(R.drawable.to_main_r);
+                if(MyLanguage==SPANISH)
+                    toMain2.setImageResource(R.drawable.to_main_s);
+                if(MyLanguage==FRENCH)
+                    toMain2.setImageResource(R.drawable.to_main_f);
+                toMain2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        if(playing==0)
+                            playPause(view);
+                        playPause(view);
+                        playPause(v);
+                        Class ourClass = null;
+                        try {
+                            ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        Intent ourIntent = new Intent(myAudio.this, ourClass);
+                        ourIntent.putExtra("goLast", true);
+                        startActivity(ourIntent);
+                    }
+                });
+            }
             mPrefs = getSharedPreferences(PREFS_NAME, 0);
             shPrefEditor = mPrefs.edit();
             ImageView menu= (ImageView) findViewById(R.id.menu);
@@ -379,6 +406,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         @Override
                         public boolean onMenuItemClick(MenuItem item)
                         {
+                            if(playing==0)
+                                playPause(view);
+                            playPause(view);
                             Class ourClass = null;
                             Intent ourIntent;
                             Intent intent;
@@ -855,8 +885,15 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
 
         final ImageButton scrollBtn =  infView.findViewById(R.id.auto_scrool);
-        final ImageView toMain = infView.findViewById(R.id.too_main);
-
+        final ImageView toMain = infView.findViewById(R.id.to_main);
+        if(MyLanguage==ENGLISH)
+            toMain.setImageResource(R.drawable.to_main_e);
+        if(MyLanguage==RUSSIAN)
+            toMain.setImageResource(R.drawable.to_main_r);
+        if(MyLanguage==SPANISH)
+            toMain.setImageResource(R.drawable.to_main_s);
+        if(MyLanguage==FRENCH)
+            toMain.setImageResource(R.drawable.to_main_f);
         //searchBtn.setVisibility(View.GONE);
         //addBookMark.setVisibility(View.GONE);
         //config.setVisibility(View.GONE);
@@ -871,7 +908,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         });
         toMain.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                if(playing==0)
+                    playPause(view);
+                playPause(view);
                 playPause(v);
                 Class ourClass = null;
                 try {

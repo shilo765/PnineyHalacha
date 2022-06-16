@@ -37,9 +37,9 @@ public class downBack extends Activity {
         private static void unzip(String zipFile, String location) {
             try {
                 File f = new File(location);
-                if (!f.isDirectory()) {
-                    f.mkdirs();
-                }
+//                if (!f.isDirectory()) {
+//                    f.mkdirs();
+//                }
                 ZipInputStream zin = new ZipInputStream(new FileInputStream(zipFile));
                 try {
                     ZipEntry ze = null;

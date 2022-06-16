@@ -26,9 +26,6 @@ public final class TextMainDownBinding implements ViewBinding {
   public final ImageButton autoScrool;
 
   @NonNull
-  public final ImageButton bChap;
-
-  @NonNull
   public final TextView bookname;
 
   @NonNull
@@ -71,6 +68,9 @@ public final class TextMainDownBinding implements ViewBinding {
   public final ImageButton setNote;
 
   @NonNull
+  public final ImageButton toMain;
+
+  @NonNull
   public final LinearLayout tooBooks;
 
   @NonNull
@@ -80,17 +80,16 @@ public final class TextMainDownBinding implements ViewBinding {
   public final WebView webView1;
 
   private TextMainDownBinding(@NonNull LinearLayout rootView, @NonNull ImageButton autoScrool,
-      @NonNull ImageButton bChap, @NonNull TextView bookname, @NonNull ImageButton ibFindNext,
+      @NonNull TextView bookname, @NonNull ImageButton ibFindNext,
       @NonNull ImageButton ibFindPrevious, @NonNull ImageButton ibNext,
       @NonNull ImageButton ibNextPage, @NonNull ImageButton ibPrevious,
       @NonNull ImageButton ibPreviousPage, @NonNull LinearLayout lnrFindOptions,
       @NonNull LinearLayout lnrOption3, @NonNull LinearLayout lnrOptions,
       @NonNull ImageView makeMark, @NonNull ImageView menu, @NonNull ImageView pageSearch,
-      @NonNull ImageButton setNote, @NonNull LinearLayout tooBooks, @NonNull ImageView tooMain,
-      @NonNull WebView webView1) {
+      @NonNull ImageButton setNote, @NonNull ImageButton toMain, @NonNull LinearLayout tooBooks,
+      @NonNull ImageView tooMain, @NonNull WebView webView1) {
     this.rootView = rootView;
     this.autoScrool = autoScrool;
-    this.bChap = bChap;
     this.bookname = bookname;
     this.ibFindNext = ibFindNext;
     this.ibFindPrevious = ibFindPrevious;
@@ -105,6 +104,7 @@ public final class TextMainDownBinding implements ViewBinding {
     this.menu = menu;
     this.pageSearch = pageSearch;
     this.setNote = setNote;
+    this.toMain = toMain;
     this.tooBooks = tooBooks;
     this.tooMain = tooMain;
     this.webView1 = webView1;
@@ -140,12 +140,6 @@ public final class TextMainDownBinding implements ViewBinding {
       id = R.id.auto_scrool;
       ImageButton autoScrool = ViewBindings.findChildViewById(rootView, id);
       if (autoScrool == null) {
-        break missingId;
-      }
-
-      id = R.id.b_chap;
-      ImageButton bChap = ViewBindings.findChildViewById(rootView, id);
-      if (bChap == null) {
         break missingId;
       }
 
@@ -233,6 +227,12 @@ public final class TextMainDownBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.to_main;
+      ImageButton toMain = ViewBindings.findChildViewById(rootView, id);
+      if (toMain == null) {
+        break missingId;
+      }
+
       LinearLayout tooBooks = (LinearLayout) rootView;
 
       id = R.id.too_main;
@@ -247,10 +247,10 @@ public final class TextMainDownBinding implements ViewBinding {
         break missingId;
       }
 
-      return new TextMainDownBinding((LinearLayout) rootView, autoScrool, bChap, bookname,
-          ibFindNext, ibFindPrevious, ibNext, ibNextPage, ibPrevious, ibPreviousPage,
-          lnrFindOptions, lnrOption3, lnrOptions, makeMark, menu, pageSearch, setNote, tooBooks,
-          tooMain, webView1);
+      return new TextMainDownBinding((LinearLayout) rootView, autoScrool, bookname, ibFindNext,
+          ibFindPrevious, ibNext, ibNextPage, ibPrevious, ibPreviousPage, lnrFindOptions,
+          lnrOption3, lnrOptions, makeMark, menu, pageSearch, setNote, toMain, tooBooks, tooMain,
+          webView1);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

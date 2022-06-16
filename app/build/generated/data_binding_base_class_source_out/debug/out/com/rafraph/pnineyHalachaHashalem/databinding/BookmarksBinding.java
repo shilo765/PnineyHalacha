@@ -25,9 +25,6 @@ public final class BookmarksBinding implements ViewBinding {
   public final ListView Bookmarkslist;
 
   @NonNull
-  public final ImageView bChap;
-
-  @NonNull
   public final ImageView bChap2;
 
   @NonNull
@@ -42,17 +39,20 @@ public final class BookmarksBinding implements ViewBinding {
   @NonNull
   public final ImageView menu;
 
+  @NonNull
+  public final ImageView toMain;
+
   private BookmarksBinding(@NonNull LinearLayout rootView, @NonNull ListView Bookmarkslist,
-      @NonNull ImageView bChap, @NonNull ImageView bChap2, @NonNull Button buttonDeleteAll,
-      @NonNull LinearLayout lnrOption3, @NonNull LinearLayout main, @NonNull ImageView menu) {
+      @NonNull ImageView bChap2, @NonNull Button buttonDeleteAll, @NonNull LinearLayout lnrOption3,
+      @NonNull LinearLayout main, @NonNull ImageView menu, @NonNull ImageView toMain) {
     this.rootView = rootView;
     this.Bookmarkslist = Bookmarkslist;
-    this.bChap = bChap;
     this.bChap2 = bChap2;
     this.buttonDeleteAll = buttonDeleteAll;
     this.lnrOption3 = lnrOption3;
     this.main = main;
     this.menu = menu;
+    this.toMain = toMain;
   }
 
   @Override
@@ -88,12 +88,6 @@ public final class BookmarksBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.b_chap;
-      ImageView bChap = ViewBindings.findChildViewById(rootView, id);
-      if (bChap == null) {
-        break missingId;
-      }
-
       id = R.id.b_chap2;
       ImageView bChap2 = ViewBindings.findChildViewById(rootView, id);
       if (bChap2 == null) {
@@ -120,8 +114,14 @@ public final class BookmarksBinding implements ViewBinding {
         break missingId;
       }
 
-      return new BookmarksBinding((LinearLayout) rootView, Bookmarkslist, bChap, bChap2,
-          buttonDeleteAll, lnrOption3, main, menu);
+      id = R.id.to_main;
+      ImageView toMain = ViewBindings.findChildViewById(rootView, id);
+      if (toMain == null) {
+        break missingId;
+      }
+
+      return new BookmarksBinding((LinearLayout) rootView, Bookmarkslist, bChap2, buttonDeleteAll,
+          lnrOption3, main, menu, toMain);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

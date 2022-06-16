@@ -145,8 +145,18 @@ public class About extends Activity implements View.OnClickListener
 		TextView newV=(TextView) findViewById(R.id.headr);
 		TextView newD=(TextView) findViewById(R.id.newD);
 		TextView editText=(TextView) findViewById(R.id.editText);
-		ImageView img=findViewById(R.id.b_chap);
+		ImageView img=findViewById(R.id.to_main);
 		int MyLanguage = mPrefs.getInt("MyLanguage", 0);
+
+		ImageView toMain = (ImageView) findViewById(R.id.to_main);
+		if(MyLanguage==ENGLISH)
+			toMain.setImageResource(R.drawable.to_main_e);
+		if(MyLanguage==RUSSIAN)
+			toMain.setImageResource(R.drawable.to_main_r);
+		if(MyLanguage==SPANISH)
+			toMain.setImageResource(R.drawable.to_main_s);
+		if(MyLanguage==FRENCH)
+			toMain.setImageResource(R.drawable.to_main_f);
 		ImageView menu= (ImageView) findViewById(R.id.menu);
 		menu.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -444,7 +454,7 @@ public class About extends Activity implements View.OnClickListener
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.about, menu);
+
 		return true;
 	}
 	

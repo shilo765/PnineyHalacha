@@ -205,6 +205,7 @@ public class Splash extends Activity{
 							e.printStackTrace();
 						}
 						finally {
+							if(!(mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("4") == true))){
 							Class ourClass = null;
 							try {
 								ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
@@ -214,6 +215,7 @@ public class Splash extends Activity{
 							Intent ourIntent = new Intent(Splash.this, ourClass);
 							ourIntent.putExtra("goLast", true);
 							startActivity(ourIntent);
+							}
 						}
 					}
 				};

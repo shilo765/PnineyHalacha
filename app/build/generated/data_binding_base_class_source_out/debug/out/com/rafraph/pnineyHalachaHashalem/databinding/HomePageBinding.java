@@ -25,9 +25,6 @@ public final class HomePageBinding implements ViewBinding {
   public final ImageView askTheRav;
 
   @NonNull
-  public final ImageView bChap;
-
-  @NonNull
   public final ImageView bChap2;
 
   @NonNull
@@ -115,15 +112,18 @@ public final class HomePageBinding implements ViewBinding {
   public final TextView theSettings;
 
   @NonNull
+  public final ImageView toMain;
+
+  @NonNull
   public final ImageView toPy;
 
   @NonNull
   public final ImageView tooMain;
 
   private HomePageBinding(@NonNull RelativeLayout rootView, @NonNull ImageView askTheRav,
-      @NonNull ImageView bChap, @NonNull ImageView bChap2, @NonNull ImageView bChap3,
-      @NonNull TextView bePartner, @NonNull TextView buyBooks, @NonNull TextView dailyLimud,
-      @NonNull ImageView donation, @NonNull RelativeLayout downLayer, @NonNull ImageView goShop,
+      @NonNull ImageView bChap2, @NonNull ImageView bChap3, @NonNull TextView bePartner,
+      @NonNull TextView buyBooks, @NonNull TextView dailyLimud, @NonNull ImageView donation,
+      @NonNull RelativeLayout downLayer, @NonNull ImageView goShop,
       @NonNull RelativeLayout layoutRoot, @NonNull LinearLayout lnrOption10,
       @NonNull LinearLayout lnrOption11, @NonNull LinearLayout lnrOption2,
       @NonNull LinearLayout lnrOption3, @NonNull LinearLayout lnrOption7,
@@ -132,10 +132,9 @@ public final class HomePageBinding implements ViewBinding {
       @NonNull ImageView settings, @NonNull ImageView takeQuiz, @NonNull TextView theAsk,
       @NonNull TextView theBooks, @NonNull TextView theLast, @NonNull TextView theMarks,
       @NonNull TextView theQuiz, @NonNull TextView theSearch, @NonNull TextView theSettings,
-      @NonNull ImageView toPy, @NonNull ImageView tooMain) {
+      @NonNull ImageView toMain, @NonNull ImageView toPy, @NonNull ImageView tooMain) {
     this.rootView = rootView;
     this.askTheRav = askTheRav;
-    this.bChap = bChap;
     this.bChap2 = bChap2;
     this.bChap3 = bChap3;
     this.bePartner = bePartner;
@@ -165,6 +164,7 @@ public final class HomePageBinding implements ViewBinding {
     this.theQuiz = theQuiz;
     this.theSearch = theSearch;
     this.theSettings = theSettings;
+    this.toMain = toMain;
     this.toPy = toPy;
     this.tooMain = tooMain;
   }
@@ -199,12 +199,6 @@ public final class HomePageBinding implements ViewBinding {
       id = R.id.ask_the_rav;
       ImageView askTheRav = ViewBindings.findChildViewById(rootView, id);
       if (askTheRav == null) {
-        break missingId;
-      }
-
-      id = R.id.b_chap;
-      ImageView bChap = ViewBindings.findChildViewById(rootView, id);
-      if (bChap == null) {
         break missingId;
       }
 
@@ -378,6 +372,12 @@ public final class HomePageBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.to_main;
+      ImageView toMain = ViewBindings.findChildViewById(rootView, id);
+      if (toMain == null) {
+        break missingId;
+      }
+
       id = R.id.to_py;
       ImageView toPy = ViewBindings.findChildViewById(rootView, id);
       if (toPy == null) {
@@ -390,11 +390,11 @@ public final class HomePageBinding implements ViewBinding {
         break missingId;
       }
 
-      return new HomePageBinding((RelativeLayout) rootView, askTheRav, bChap, bChap2, bChap3,
-          bePartner, buyBooks, dailyLimud, donation, downLayer, goShop, layoutRoot, lnrOption10,
-          lnrOption11, lnrOption2, lnrOption3, lnrOption7, lnrOption9, main, menu, myLastLoc,
-          myMarks, searchAll, settings, takeQuiz, theAsk, theBooks, theLast, theMarks, theQuiz,
-          theSearch, theSettings, toPy, tooMain);
+      return new HomePageBinding((RelativeLayout) rootView, askTheRav, bChap2, bChap3, bePartner,
+          buyBooks, dailyLimud, donation, downLayer, goShop, layoutRoot, lnrOption10, lnrOption11,
+          lnrOption2, lnrOption3, lnrOption7, lnrOption9, main, menu, myLastLoc, myMarks, searchAll,
+          settings, takeQuiz, theAsk, theBooks, theLast, theMarks, theQuiz, theSearch, theSettings,
+          toMain, toPy, tooMain);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

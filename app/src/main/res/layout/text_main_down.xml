@@ -147,7 +147,7 @@
             android:src="@drawable/ic_action_switches_modes" />
 
         <ImageButton
-            android:id="@+id/b_chap"
+            android:id="@+id/to_main"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:background="#00FFFFFF"

@@ -70,7 +70,9 @@ public class HomePage extends Activity {
         TextView theAsk=findViewById(R.id.the_ask);
         TextView bePartner=findViewById(R.id.be_partner);
         TextView buyBooks=findViewById(R.id.buy_books);
+        ImageView toMain= (ImageView) findViewById(R.id.to_main);
         if(MyLanguage==ENGLISH){
+            toMain.setImageResource(R.drawable.to_main_e);
             dayliyLimud.setText("Daily Study");
             theBooks.setText("Books");
             theMarks.setText("Bookmarks");
@@ -84,6 +86,7 @@ public class HomePage extends Activity {
         }
         if(MyLanguage==RUSSIAN)
         {
+            toMain.setImageResource(R.drawable.to_main_r);
             dayliyLimud.setText("Ежедневное изучение");
             theBooks.setText("Книги");
             theMarks.setText("Закладки");
@@ -97,6 +100,7 @@ public class HomePage extends Activity {
         }
         if(MyLanguage==SPANISH)
         {
+            toMain.setImageResource(R.drawable.to_main_s);
             dayliyLimud.setText("Estudio diario");
             theBooks.setText("Libros");
             theMarks.setText("Signets");
@@ -110,6 +114,7 @@ public class HomePage extends Activity {
         }
         if(MyLanguage==FRENCH)
         {
+            toMain.setImageResource(R.drawable.to_main_f);
             dayliyLimud.setText("étude quotidienne");
             theBooks.setText("livres");
             theMarks.setText("Marcadores");
@@ -143,6 +148,7 @@ public class HomePage extends Activity {
         LinearLayout main4=(LinearLayout) findViewById(R.id.lnrOption9);
         LinearLayout main5=(LinearLayout) findViewById(R.id.lnrOption10);
         LinearLayout main6=(LinearLayout) findViewById(R.id.lnrOption11);
+
         if (mPrefs.getInt("BlackBackground", 0)==1)
         {
             main.setBackgroundColor(Color.BLACK);
@@ -153,6 +159,7 @@ public class HomePage extends Activity {
             main6.setBackgroundColor(Color.BLACK);
         }
         ImageView menu= (ImageView) findViewById(R.id.menu);
+
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +168,7 @@ public class HomePage extends Activity {
                 //popupMenu.
 
                 if(MyLanguage == ENGLISH) {
+
                     popupMenu.getMenu().add(0,0,0,"Settings");
                     popupMenu.getMenu().add(0,1,0,"Books");
                     popupMenu.getMenu().add(0,2,0,"Daily Study");
@@ -174,6 +182,7 @@ public class HomePage extends Activity {
                     popupMenu.getMenu().add(0,9,0,"About");
                 }
                 else if(MyLanguage == RUSSIAN) {
+
                     popupMenu.getMenu().add(0,0,0,"Настройки");
                     popupMenu.getMenu().add(0,1,0,"Книги");
                     popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
@@ -187,6 +196,7 @@ public class HomePage extends Activity {
                     popupMenu.getMenu().add(0,9,0,"О приложении");
                 }
                 else if(MyLanguage == SPANISH) {
+                    toMain.setImageResource(R.drawable.to_main_s);
                     popupMenu.getMenu().add(0,0,0,"Definiciones");
                     popupMenu.getMenu().add(0,1,0,"Libros");
                     popupMenu.getMenu().add(0,2,0,"Estudio diario");
@@ -200,6 +210,7 @@ public class HomePage extends Activity {
                     popupMenu.getMenu().add(0,9,0,"sobre");
                 }
                 else if(MyLanguage == FRENCH) {
+
                     popupMenu.getMenu().add(0,0,0,"Réglages");
                     popupMenu.getMenu().add(0,1,0,"livres");
                     popupMenu.getMenu().add(0,2,0,"étude quotidienne");

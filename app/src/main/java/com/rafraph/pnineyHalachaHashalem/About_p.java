@@ -134,7 +134,15 @@ public class About_p extends Activity
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
 		MyLanguage = mPrefs.getInt("MyLanguage", -1);
-		ImageView toMain= (ImageView) findViewById(R.id.b_chap);
+		ImageView toMain= (ImageView) findViewById(R.id.to_main);
+		if(MyLanguage==ENGLISH)
+			toMain.setImageResource(R.drawable.to_main_e);
+		if(MyLanguage==RUSSIAN)
+			toMain.setImageResource(R.drawable.to_main_r);
+		if(MyLanguage==SPANISH)
+			toMain.setImageResource(R.drawable.to_main_s);
+		if(MyLanguage==FRENCH)
+			toMain.setImageResource(R.drawable.to_main_f);
 		TextView txt1=(TextView) findViewById(R.id.include);
 		TextView txt2=(TextView) findViewById(R.id.headr);
 		TextView txt3=(TextView) findViewById(R.id.textView3);

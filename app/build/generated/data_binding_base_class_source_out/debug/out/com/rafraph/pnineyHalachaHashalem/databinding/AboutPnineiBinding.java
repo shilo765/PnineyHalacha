@@ -22,9 +22,6 @@ public final class AboutPnineiBinding implements ViewBinding {
   private final RelativeLayout rootView;
 
   @NonNull
-  public final ImageView bChap;
-
-  @NonNull
   public final ImageView bChap2;
 
   @NonNull
@@ -57,14 +54,15 @@ public final class AboutPnineiBinding implements ViewBinding {
   @NonNull
   public final TextView textViewDecodedText;
 
-  private AboutPnineiBinding(@NonNull RelativeLayout rootView, @NonNull ImageView bChap,
-      @NonNull ImageView bChap2, @NonNull ImageView books, @NonNull TextView headr,
-      @NonNull TextView include, @NonNull RelativeLayout layoutRoot,
-      @NonNull LinearLayout lnrOption3, @NonNull ImageView menu, @NonNull ImageView rav,
-      @NonNull TextView textView3, @NonNull TextView textView4,
-      @NonNull TextView textViewDecodedText) {
+  @NonNull
+  public final ImageView toMain;
+
+  private AboutPnineiBinding(@NonNull RelativeLayout rootView, @NonNull ImageView bChap2,
+      @NonNull ImageView books, @NonNull TextView headr, @NonNull TextView include,
+      @NonNull RelativeLayout layoutRoot, @NonNull LinearLayout lnrOption3, @NonNull ImageView menu,
+      @NonNull ImageView rav, @NonNull TextView textView3, @NonNull TextView textView4,
+      @NonNull TextView textViewDecodedText, @NonNull ImageView toMain) {
     this.rootView = rootView;
-    this.bChap = bChap;
     this.bChap2 = bChap2;
     this.books = books;
     this.headr = headr;
@@ -76,6 +74,7 @@ public final class AboutPnineiBinding implements ViewBinding {
     this.textView3 = textView3;
     this.textView4 = textView4;
     this.textViewDecodedText = textViewDecodedText;
+    this.toMain = toMain;
   }
 
   @Override
@@ -105,12 +104,6 @@ public final class AboutPnineiBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.b_chap;
-      ImageView bChap = ViewBindings.findChildViewById(rootView, id);
-      if (bChap == null) {
-        break missingId;
-      }
-
       id = R.id.b_chap2;
       ImageView bChap2 = ViewBindings.findChildViewById(rootView, id);
       if (bChap2 == null) {
@@ -173,8 +166,14 @@ public final class AboutPnineiBinding implements ViewBinding {
         break missingId;
       }
 
-      return new AboutPnineiBinding((RelativeLayout) rootView, bChap, bChap2, books, headr, include,
-          layoutRoot, lnrOption3, menu, rav, textView3, textView4, textViewDecodedText);
+      id = R.id.to_main;
+      ImageView toMain = ViewBindings.findChildViewById(rootView, id);
+      if (toMain == null) {
+        break missingId;
+      }
+
+      return new AboutPnineiBinding((RelativeLayout) rootView, bChap2, books, headr, include,
+          layoutRoot, lnrOption3, menu, rav, textView3, textView4, textViewDecodedText, toMain);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -8,10 +8,12 @@ com/rafraph/pnineyHalachaHashalem/databinding/NoteBinding.java
 com/rafraph/pnineyHalachaHashalem/Feedback.java
  com.rafraph.pnineyHalachaHashalem.Feedback
  com.rafraph.pnineyHalachaHashalem.Feedback$1
- com.rafraph.pnineyHalachaHashalem.Feedback$1$1
  com.rafraph.pnineyHalachaHashalem.Feedback$2
  com.rafraph.pnineyHalachaHashalem.Feedback$3
+ com.rafraph.pnineyHalachaHashalem.Feedback$3$1
  com.rafraph.pnineyHalachaHashalem.Feedback$4
+ com.rafraph.pnineyHalachaHashalem.Feedback$5
+ com.rafraph.pnineyHalachaHashalem.Feedback$6
 com/rafraph/pnineyHalachaHashalem/databinding/SearchActivityBinding.java
  com.rafraph.pnineyHalachaHashalem.databinding.SearchActivityBinding
 com/rafraph/pnineyHalachaHashalem/databinding/ActivityMainBinding.java
@@ -48,7 +50,6 @@ com/rafraph/pnineyHalachaHashalem/databinding/AddBookmarkSpanishBinding.java
 com/rafraph/pnineyHalachaHashalem/myAudio.java
  com.rafraph.pnineyHalachaHashalem.myAudio
  com.rafraph.pnineyHalachaHashalem.myAudio$1
- com.rafraph.pnineyHalachaHashalem.myAudio$1$1
  com.rafraph.pnineyHalachaHashalem.myAudio$10
  com.rafraph.pnineyHalachaHashalem.myAudio$11
  com.rafraph.pnineyHalachaHashalem.myAudio$12
@@ -56,12 +57,13 @@ com/rafraph/pnineyHalachaHashalem/myAudio.java
  com.rafraph.pnineyHalachaHashalem.myAudio$14
  com.rafraph.pnineyHalachaHashalem.myAudio$15
  com.rafraph.pnineyHalachaHashalem.myAudio$16
- com.rafraph.pnineyHalachaHashalem.myAudio$16$1
- com.rafraph.pnineyHalachaHashalem.myAudio$16$2
  com.rafraph.pnineyHalachaHashalem.myAudio$17
+ com.rafraph.pnineyHalachaHashalem.myAudio$17$1
+ com.rafraph.pnineyHalachaHashalem.myAudio$17$2
  com.rafraph.pnineyHalachaHashalem.myAudio$18
  com.rafraph.pnineyHalachaHashalem.myAudio$19
  com.rafraph.pnineyHalachaHashalem.myAudio$2
+ com.rafraph.pnineyHalachaHashalem.myAudio$2$1
  com.rafraph.pnineyHalachaHashalem.myAudio$20
  com.rafraph.pnineyHalachaHashalem.myAudio$21
  com.rafraph.pnineyHalachaHashalem.myAudio$22
@@ -75,9 +77,10 @@ com/rafraph/pnineyHalachaHashalem/myAudio.java
  com.rafraph.pnineyHalachaHashalem.myAudio$3
  com.rafraph.pnineyHalachaHashalem.myAudio$30
  com.rafraph.pnineyHalachaHashalem.myAudio$31
+ com.rafraph.pnineyHalachaHashalem.myAudio$32
  com.rafraph.pnineyHalachaHashalem.myAudio$4
- com.rafraph.pnineyHalachaHashalem.myAudio$4$1
  com.rafraph.pnineyHalachaHashalem.myAudio$5
+ com.rafraph.pnineyHalachaHashalem.myAudio$5$1
  com.rafraph.pnineyHalachaHashalem.myAudio$6
  com.rafraph.pnineyHalachaHashalem.myAudio$7
  com.rafraph.pnineyHalachaHashalem.myAudio$8
