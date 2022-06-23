@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -116,6 +117,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private static final int FRENCH = 4;
     public boolean firstChap = true;
     float speed;
+    public static Intent broadcastIntent;
     public static String[] ToAudio={"שמע:","audio:","","",""};
     String fileName, fileNameOnly, lastFileName = null;
     public TextView duration, duration2;
@@ -178,6 +180,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public RelativeLayout rl;
     public  LinearLayout ll;
     public String acronymsText;
+    public static  ImageView scroll;
     public Date time = new Date();
     public int lastScrool = 0;
     public int lastChap=1;
@@ -528,9 +531,20 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 inf = getLayoutInflater();
                 infView = inf.inflate(R.layout.tochen_actionbar_lay, null);
                 rl = (RelativeLayout) findViewById(R.id.content);
-
                 infView.setVisibility(View.VISIBLE);
                 rl.addView(infView);
+                scroll=findViewById(R.id.auto_scrool2);
+                scroll.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        scroll.setImageResource(R.drawable.fill_auto_scroll);
+
+                        showPopupAutoScroolSettings(findViewById(R.id.auto_scrool2));
+
+
+                    }
+                });
             }
             context = this;
             ll = (LinearLayout) findViewById(R.id.hi);
@@ -658,7 +672,19 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             ArrayAdapter<CharSequence> simpleadapter = ArrayAdapter.createFromResource(this, R.array.speed_audio_array, android.R.layout.simple_list_item_1);
             simpleadapter.setDropDownViewResource((android.R.layout.simple_list_item_1));
             spinner.setAdapter(simpleadapter);
-            spinner.setSelection(4);
+            float tempSpeed=mPrefs.getFloat("audioSpeed",1f);
+            if (tempSpeed==0.75f)
+                spinner.setSelection(5);
+            if (tempSpeed==1f)
+                spinner.setSelection(4);
+            if (tempSpeed==1.25f)
+                spinner.setSelection(3);
+            if (tempSpeed==1.5f)
+                spinner.setSelection(2);
+            if (tempSpeed==1.75f)
+                spinner.setSelection(1);
+            if (tempSpeed==2f)
+                spinner.setSelection(0);
             spinner.setOnItemSelectedListener(this);
             registerAllBroadcast();
             initializeViews();
@@ -749,6 +775,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     listview.setSelected(true);
+
                     //listview.setSelection(position);
 
                     if (clickOnItemFromList == true) {
@@ -776,6 +803,14 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
                         //for (int i=0;i<txtvList.size();i++)
                         //  listview.addHeaderView(txtvList.get(i));
+                        broadcastIntent = new Intent(Broadcast_Speed);
+                        sendBroadcast(broadcastIntent);
+                        broadcastIntent = new Intent(Broadcast_Speed);
+                        int choice = spinner.getSelectedItemPosition();
+                        speed = sppedArray[choice];
+
+                        shPrefEditor.putFloat("audioSpeed", speed);
+                        shPrefEditor.commit();
                     }
 
                     //playPause(view);
@@ -789,7 +824,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             while (playing == 1) {
                 try {
                     wait(1000);
-                    Intent broadcastIntent = new Intent(Broadcast_FORWARD_10);
+                    broadcastIntent = new Intent(Broadcast_FORWARD_10);
                     //broadcastIntent.putExtra("section", section);
                     sendBroadcast(broadcastIntent);
 
@@ -803,7 +838,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             broadcastIntent = new Intent(Broadcast_Speed);
             int choice = spinner.getSelectedItemPosition();
             speed = sppedArray[choice];
-            broadcastIntent.putExtra("speed", speed);
+            shPrefEditor.putFloat("audioSpeed", speed);
+            shPrefEditor.commit();
             if (playing == 0)
                 broadcastIntent.putExtra("play", 0);
             sendBroadcast(broadcastIntent);
@@ -884,7 +920,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
 
 
-        final ImageButton scrollBtn =  infView.findViewById(R.id.auto_scrool);
+
         final ImageView toMain = infView.findViewById(R.id.to_main);
         if(MyLanguage==ENGLISH)
             toMain.setImageResource(R.drawable.to_main_e);
@@ -901,11 +937,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         searchBtnDown.setVisibility(View.GONE);
         searchBtnUp.setVisibility(View.GONE);
 
-        scrollBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                showPopupAutoScroolSettings(findViewById(R.id.auto_scrool));
-            }
-        });
+
         toMain.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(playing==0)
@@ -1089,37 +1121,33 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     private void showPopupAutoScroolSettings(View v)
     {
-        final PopupMenu popupMenu = new PopupMenu(myAudio.this, v);
+        android.support.v7.view.ContextThemeWrapper ctw = new ContextThemeWrapper(myAudio.this, R.style.CustomPopupTheme3);
+        PopupMenu popupMenu = new PopupMenu(ctw, v);
 
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                scroll.setImageResource(R.drawable.auto_scrool);
+
+            }
+        });
         String configHeaders[] = new String[7];
-        if (MyLanguage == ENGLISH) {
-            configHeaders[0] = "Play";
-            configHeaders[1] = "Stop";
-            configHeaders[2] = "Set speed";
-        } else if (MyLanguage == RUSSIAN) {
-            configHeaders[0] = "Играть";
-            configHeaders[1] = "Cтоп";
-            configHeaders[2] = "Yстановить скорость";
 
-        } else if (MyLanguage == SPANISH) {
-            configHeaders[0] = "Desplazamiento automatico";
-            configHeaders[1] = "Parar";
-            configHeaders[2] = "Seleccionar velocidad";
+        configHeaders[0] = "0";
+        configHeaders[1] = "1";
+        configHeaders[2] = "2";
+        configHeaders[3] = "3";
+        configHeaders[4] = "4";
+        configHeaders[5] = "5";
 
-        } else if (MyLanguage == FRENCH) {
-            configHeaders[0] = "Demarrer";
-            configHeaders[1] = "Stop";
-            configHeaders[2] = "Selectionner la vitesse";
-
-        } else {/*this is the default*/
-            configHeaders[0] = "הפעל";
-            configHeaders[1] = "עצור";
-            configHeaders[2] = "קבע מהירות";
-        }
 
         popupMenu.getMenu().add(0, 0, 0, configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
         popupMenu.getMenu().add(0, 1, 1, configHeaders[1]);
         popupMenu.getMenu().add(0, 2, 2, configHeaders[2]);
+        popupMenu.getMenu().add(0, 3, 3, configHeaders[3]);
+        popupMenu.getMenu().add(0, 4, 4, configHeaders[4]);
+        popupMenu.getMenu().add(0, 5, 5, configHeaders[5]);
+
 
 
 
@@ -1127,17 +1155,31 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 WebSettings webSettings = webview.getSettings();
-                fontSize = mPrefs.getInt("fontSize",20);
+                webSettings.setMinimumFontSize(mPrefs.getInt("fontSize",20));
                 switch (item.getItemId()) {
                     case 0:
-                        scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
-                        runOnUiThread(mScrollDown);
+                        scrollSpeed = -1;
+
                         break;
                     case 1:
-                        scrollSpeed = -1;
+                        scrollSpeed = 1;
+                        runOnUiThread(mScrollDown);
                         break;
                     case 2:
-                        autoScrollSpeedDialog();
+                        scrollSpeed = 2;
+                        runOnUiThread(mScrollDown);
+                        break;
+                    case 3:
+                        scrollSpeed = 3;
+                        runOnUiThread(mScrollDown);
+                        break;
+                    case 4:
+                        scrollSpeed = 4;
+                        runOnUiThread(mScrollDown);
+                        break;
+                    case 5:
+                        scrollSpeed = 5;
+                        runOnUiThread(mScrollDown);
                         break;
                     default:
                         break;
@@ -1956,6 +1998,11 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_TO_SPECIFIC_SECTION);
         broadcastIntent.putExtra("audio_id", selectedSection);
+        int choice = spinner.getSelectedItemPosition();
+        speed = sppedArray[choice];
+
+        shPrefEditor.putFloat("audioSpeed", speed);
+        shPrefEditor.commit();
         playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(selectedSection));
         section = selectedSection;
         sendBroadcast(broadcastIntent);
@@ -2201,7 +2248,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         broadcastIntent = new Intent(Broadcast_Speed);
         int choice = spinner.getSelectedItemPosition();
         speed = sppedArray[choice];
-        broadcastIntent.putExtra("speed", speed);
+        shPrefEditor.putFloat("audioSpeed", speed);
+        shPrefEditor.commit();
         if (playing == 0)
             broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
@@ -2339,7 +2387,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         broadcastIntent = new Intent(Broadcast_Speed);
         int choice = spinner.getSelectedItemPosition();
         speed = sppedArray[choice];
-        broadcastIntent.putExtra("speed", speed);
+        shPrefEditor.putFloat("audioSpeed", speed);
+        shPrefEditor.commit();
         broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
         section=playerService.getSection();
@@ -2529,11 +2578,13 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     {
         int choice = spinner.getSelectedItemPosition();
 
-        Intent broadcastIntent = new Intent(Broadcast_Speed);
-
-        broadcastIntent.putExtra("speed", sppedArray[choice]);
-        if (playing == 0)
-            broadcastIntent.putExtra("play", 0);
+        broadcastIntent = new Intent(Broadcast_Speed);
+        shPrefEditor.putFloat("audioSpeed", sppedArray[choice]);
+        shPrefEditor.commit();
+        if (playing == 0) {
+            shPrefEditor.putFloat("audioSpeed", speed);
+            shPrefEditor.commit();
+        }
         sendBroadcast(broadcastIntent);
 
     }

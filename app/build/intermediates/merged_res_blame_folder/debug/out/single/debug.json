@@ -8,12 +8,12 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\acronyms.xml"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_baseline_skip_previous_white_36.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-mdpi\\baseline_skip_previous_white_36.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_launcher.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_baseline_skip_previous_white_36.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-mdpi\\baseline_skip_previous_white_36.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_baseline_play_circle_outline_white_48.png.flat",
@@ -44,6 +44,10 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_my_marks.xml"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec7.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec7.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_ic_quiz.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_quiz.png"
     },
@@ -52,20 +56,20 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\activity_pnina_yomit.xml"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_f_b_2.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\f_b_2.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_r_rec.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\r_rec.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_baseline_forward_10_white_24.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xhdpi\\baseline_forward_10_white_24.png"
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_f_b_2.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\f_b_2.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_baseline_play_circle_outline_white_48.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxxhdpi\\baseline_play_circle_outline_white_48.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_baseline_forward_10_white_24.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xhdpi\\baseline_forward_10_white_24.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_too_py.png.flat",
@@ -76,16 +80,20 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\w_r_rec.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_hear_and_read.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\hear_and_read.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\layout_inner_search.xml.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\inner_search.xml"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_hear_and_read.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\hear_and_read.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_baseline_skip_previous_white_18.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_skip_previous_white_18.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec_10.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec_10.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_launcher.png.flat",
@@ -140,6 +148,10 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\baseline_replay_10_white_48.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_fill_auto_scroll3.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\fill_auto_scroll3.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_baseline_play_circle_outline_white_36.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\baseline_play_circle_outline_white_36.png"
     },
@@ -152,16 +164,20 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_go_donate.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_baseline_replay_10_white_24.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxxhdpi\\baseline_replay_10_white_24.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_ic_quiz.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_quiz.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_baseline_replay_10_white_24.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxxhdpi\\baseline_replay_10_white_24.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_baseline_forward_10_white_24.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\baseline_forward_10_white_24.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec8.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec8.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\layout_home_page.xml.flat",
@@ -180,12 +196,12 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\ic_too_books.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_audio_book.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\audio_book.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_ic_setting_vec.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_setting_vec.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_audio_book.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\audio_book.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_en_b_1.png.flat",
@@ -228,6 +244,10 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxxhdpi\\baseline_skip_previous_white_36.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec9.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec9.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_action_up_black.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\ic_action_up_black.png"
     },
@@ -250,6 +270,10 @@
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_baseline_skip_previous_white_18.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-mdpi\\baseline_skip_previous_white_18.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec_2.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec_2.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_baseline_replay_10_white_36.png.flat",
@@ -292,12 +316,12 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_action_view_as_list.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_my_marks.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\my_marks.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_quiz.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_quiz.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_my_marks.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\my_marks.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_baseline_replay_10_white_18.png.flat",
@@ -318,6 +342,10 @@
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_search_all.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_search_all.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec6.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec6.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_baseline_skip_previous_white_36.png.flat",
@@ -344,12 +372,12 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-mdpi\\baseline_forward_10_white_48.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_baseline_skip_next_white_36.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xhdpi\\baseline_skip_next_white_36.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-anydpi-v21_ic_last_loc.xml.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_last_loc.xml"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_baseline_skip_next_white_36.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xhdpi\\baseline_skip_next_white_36.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\navigation_nav_graph2.xml.flat",
@@ -464,6 +492,10 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_replay_10_white_18.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec4.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec4.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_baseline_skip_next_white_24.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\baseline_skip_next_white_24.png"
     },
@@ -508,8 +540,16 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-mdpi\\baseline_replay_10_white_48.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec18.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec18.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_svg_hear_and_read.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\svg_hear_and_read.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_fill_auto_scroll.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\fill_auto_scroll.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_ic_about_p.png.flat",
@@ -546,6 +586,14 @@
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_baseline_skip_previous_white_36.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\baseline_skip_previous_white_36.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_auto_scrool.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\auto_scrool.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec5.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec5.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_ic_launcher.png.flat",
@@ -608,44 +656,52 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_skip_previous_white_24.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_setting_vec.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_setting_vec.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_baseline_forward_10_white_18.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_forward_10_white_18.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_setting_vec.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_setting_vec.png"
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec19.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec19.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_baseline_skip_next_white_48.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xhdpi\\baseline_skip_next_white_48.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\layout_add_bookmark_english.xml.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\add_bookmark_english.xml"
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_go_shop.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_go_shop.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_ic_about_p.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_about_p.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_go_shop.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_go_shop.png"
-    },
-    {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_baseline_play_circle_outline_white_48.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_play_circle_outline_white_48.png"
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\layout_add_bookmark_english.xml.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\add_bookmark_english.xml"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_ic_last_loc.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_last_loc.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\layout_list_group.xml.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\list_group.xml"
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_baseline_play_circle_outline_white_48.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_play_circle_outline_white_48.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_all_search.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\all_search.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\layout_list_group.xml.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\list_group.xml"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_baseline_replay_10_white_18.png.flat",
@@ -656,20 +712,24 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\es_b_4.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_pnineyicon.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\pnineyicon.png"
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_to_main_e.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\to_main_e.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_ic_search_all.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_search_all.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_to_main_e.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\to_main_e.png"
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_pnineyicon.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\pnineyicon.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_baseline_pause_circle_outline_white_48.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxxhdpi\\baseline_pause_circle_outline_white_48.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec13.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec13.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_baseline_skip_next_white_36.png.flat",
@@ -728,6 +788,10 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_skip_previous_white_48.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec20.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec20.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_ic_go_donate.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_go_donate.png"
     },
@@ -750,6 +814,10 @@
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_new_dialog_x.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\new_dialog_x.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec12.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec12.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_baseline_forward_10_white_36.png.flat",
@@ -780,12 +848,12 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\search.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_baseline_skip_previous_white_48.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxxhdpi\\baseline_skip_previous_white_48.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_ic_setting_vec.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_setting_vec.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_baseline_skip_previous_white_48.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxxhdpi\\baseline_skip_previous_white_48.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_svg_hear_and_read.png.flat",
@@ -802,6 +870,10 @@
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_baseline_pause_circle_outline_white_48.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_pause_circle_outline_white_48.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec21.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec21.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_ic_launcher.png.flat",
@@ -844,6 +916,10 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_last_loc.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec11.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec11.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_check_fill.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\check_fill.png"
     },
@@ -876,16 +952,20 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxxhdpi\\baseline_forward_10_white_36.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec15.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec15.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_dialog_x.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\dialog_x.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_too_books.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\too_books.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_ic_go_shop.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_go_shop.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_too_books.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\too_books.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_rec_r_half_empty.png.flat",
@@ -922,6 +1002,10 @@
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_baseline_replay_10_white_48.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxxhdpi\\baseline_replay_10_white_48.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_img.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\img.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_h_b_4.png.flat",
@@ -1024,28 +1108,32 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\activity_switch_modes.xml"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_head_shaddow.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\head_shaddow.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_ic_about_p.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_about_p.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_head_shaddow.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\head_shaddow.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_action_previous_item.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\ic_action_previous_item.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_baseline_replay_10_white_48.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_replay_10_white_48.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_not_found.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_not_found.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_baseline_replay_10_white_48.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_replay_10_white_48.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_h_pnina_reminder.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\h_pnina_reminder.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec17.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec17.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\layout_about_pninei.xml.flat",
@@ -1076,12 +1164,12 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xhdpi\\baseline_forward_10_white_36.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_baseline_skip_next_white_18.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\baseline_skip_next_white_18.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_dialog_bg.xml.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xhdpi\\dialog_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_baseline_skip_next_white_18.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\baseline_skip_next_white_18.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_ic_launcher.png.flat",
@@ -1098,6 +1186,10 @@
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_ic_quiz.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_quiz.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec_14.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec_14.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_baseline_play_circle_outline_white_48.png.flat",
@@ -1144,12 +1236,16 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\es_b_1.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_action_down_black.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\ic_action_down_black.png"
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_fill_auto_scroll2.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\fill_auto_scroll2.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_setting_vec.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_setting_vec.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_ic_action_down_black.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\ic_action_down_black.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_pnineyicon.png.flat",
@@ -1228,12 +1324,12 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\ic_action_next_item_black.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_baseline_forward_10_white_48.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_forward_10_white_48.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_to_main_s.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\to_main_s.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_baseline_forward_10_white_48.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_forward_10_white_48.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_baseline_skip_next_white_18.png.flat",
@@ -1248,16 +1344,12 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-xxhdpi\\baseline_play_circle_outline_white_18.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_r_b_3.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\r_b_3.png"
-    },
-    {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable_auto_scrool.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\auto_scrool.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_ic_not_found.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_not_found.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-ldpi_r_b_3.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-ldpi\\r_b_3.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xhdpi_baseline_pause_circle_outline_white_48.png.flat",
@@ -1270,6 +1362,10 @@
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_baseline_pause_circle_outline_white_18.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\baseline_pause_circle_outline_white_18.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec_3.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec_3.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_about_p.png.flat",
@@ -1296,12 +1392,16 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable\\too_py.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_quiz.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_quiz.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_baseline_skip_next_white_48.png.flat",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-mdpi\\baseline_skip_next_white_48.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_quiz.png.flat",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_quiz.png"
+        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-hdpi_back_rec16.png.flat",
+        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\drawable-hdpi\\back_rec16.png"
     },
     {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\merged_res\\debug\\drawable-mdpi_ic_last_loc.png.flat",

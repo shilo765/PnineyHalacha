@@ -156,10 +156,11 @@
 
         <ImageButton
             android:id="@+id/auto_scrool"
-            android:layout_width="50dp"
-            android:layout_height="60dp"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/Chapters"
+            android:scaleType="centerInside"
             android:src="@drawable/auto_scrool" />
     </LinearLayout>
 

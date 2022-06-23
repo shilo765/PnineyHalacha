@@ -246,8 +246,8 @@
 124-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:119:13-36
 125            android:screenOrientation="portrait"
 125-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:121:13-49
-126            android:theme="@android:style/Theme.NoTitleBar" />
-126-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:120:13-60
+126            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+126-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:120:13-69
 127
 128        <service android:name="com.rafraph.pnineyHalachaHashalem.MediaPlayerService" />
 128-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:123:9-55

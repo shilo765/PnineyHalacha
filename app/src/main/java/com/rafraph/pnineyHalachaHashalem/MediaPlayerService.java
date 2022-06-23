@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
@@ -78,7 +79,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private Handler durationHandler = new Handler();
     Intent serviceIntent;
     boolean wasPlaying = false;
-
+    public static final String PREFS_NAME = "MyPrefsFile";
+    static SharedPreferences mPrefs;
+    SharedPreferences.Editor shPrefEditor;
     public static final String Broadcast_SERVICE_SKIP_NEXT = "com.rafraph.ph_beta.ServiceSkipNext";
     public   static float speed=1f;
     private static final int BRACHOT      	= 0;
@@ -312,6 +315,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             mediaPlayer.setDataSource(mediaUrl);
             mediaPlayer.getCurrentPosition();
             PlaybackParams playbackParams;
+            IntentFilter intentFilter = new IntentFilter(myAudio.Broadcast_Speed);
+
             playbackParams = mediaPlayer.getPlaybackParams().setSpeed(speed);
             mediaPlayer.setPlaybackParams(playbackParams);
 
@@ -446,11 +451,13 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
         public void onReceive(Context context, Intent intent) {
             //check if we can go forward at forwardTime seconds before song ends
-            float sp=intent.getFloatExtra("speed",1f);
+            mPrefs = getSharedPreferences(PREFS_NAME, 0);
+            shPrefEditor = mPrefs.edit();
+            float mesdiaSpeed=intent.getFloatExtra("speed",1f);
             int play=intent.getIntExtra("play",1);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(sp));
+//shPrefEditor.putInt("rotate", getResources().getConfiguration().orientation);
+                mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(mPrefs.getFloat("audioSpeed",1f)));
                 //else
                 if (play!=1)
                     mediaPlayer.pause();

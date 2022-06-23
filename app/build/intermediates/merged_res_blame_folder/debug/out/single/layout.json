@@ -32,10 +32,6 @@
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\activity_switch_modes.xml"
     },
     {
-        "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_search_help.xml",
-        "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\activity_search_help.xml"
-    },
-    {
         "merged": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\search_activity.xml",
         "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\layout\\search_activity.xml"
     },

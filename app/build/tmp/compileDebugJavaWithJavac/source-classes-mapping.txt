@@ -78,10 +78,11 @@ com/rafraph/pnineyHalachaHashalem/myAudio.java
  com.rafraph.pnineyHalachaHashalem.myAudio$30
  com.rafraph.pnineyHalachaHashalem.myAudio$31
  com.rafraph.pnineyHalachaHashalem.myAudio$32
+ com.rafraph.pnineyHalachaHashalem.myAudio$33
  com.rafraph.pnineyHalachaHashalem.myAudio$4
  com.rafraph.pnineyHalachaHashalem.myAudio$5
- com.rafraph.pnineyHalachaHashalem.myAudio$5$1
  com.rafraph.pnineyHalachaHashalem.myAudio$6
+ com.rafraph.pnineyHalachaHashalem.myAudio$6$1
  com.rafraph.pnineyHalachaHashalem.myAudio$7
  com.rafraph.pnineyHalachaHashalem.myAudio$8
  com.rafraph.pnineyHalachaHashalem.myAudio$9
@@ -158,15 +159,16 @@ com/rafraph/pnineyHalachaHashalem/textMain.java
  com.rafraph.pnineyHalachaHashalem.textMain
  com.rafraph.pnineyHalachaHashalem.textMain$1
  com.rafraph.pnineyHalachaHashalem.textMain$10
+ com.rafraph.pnineyHalachaHashalem.textMain$10$1
  com.rafraph.pnineyHalachaHashalem.textMain$11
  com.rafraph.pnineyHalachaHashalem.textMain$12
  com.rafraph.pnineyHalachaHashalem.textMain$13
- com.rafraph.pnineyHalachaHashalem.textMain$13$1
- com.rafraph.pnineyHalachaHashalem.textMain$13$1$1
- com.rafraph.pnineyHalachaHashalem.textMain$13$1$1$1
- com.rafraph.pnineyHalachaHashalem.textMain$13$1$1$1$1
- com.rafraph.pnineyHalachaHashalem.textMain$13$1$1$1$1$1
  com.rafraph.pnineyHalachaHashalem.textMain$14
+ com.rafraph.pnineyHalachaHashalem.textMain$14$1
+ com.rafraph.pnineyHalachaHashalem.textMain$14$1$1
+ com.rafraph.pnineyHalachaHashalem.textMain$14$1$1$1
+ com.rafraph.pnineyHalachaHashalem.textMain$14$1$1$1$1
+ com.rafraph.pnineyHalachaHashalem.textMain$14$1$1$1$1$1
  com.rafraph.pnineyHalachaHashalem.textMain$15
  com.rafraph.pnineyHalachaHashalem.textMain$16
  com.rafraph.pnineyHalachaHashalem.textMain$17
@@ -184,17 +186,17 @@ com/rafraph/pnineyHalachaHashalem/textMain.java
  com.rafraph.pnineyHalachaHashalem.textMain$26
  com.rafraph.pnineyHalachaHashalem.textMain$27
  com.rafraph.pnineyHalachaHashalem.textMain$28
+ com.rafraph.pnineyHalachaHashalem.textMain$29
  com.rafraph.pnineyHalachaHashalem.textMain$3
  com.rafraph.pnineyHalachaHashalem.textMain$4
- com.rafraph.pnineyHalachaHashalem.textMain$4$1
  com.rafraph.pnineyHalachaHashalem.textMain$5
+ com.rafraph.pnineyHalachaHashalem.textMain$5$1
  com.rafraph.pnineyHalachaHashalem.textMain$6
  com.rafraph.pnineyHalachaHashalem.textMain$7
- com.rafraph.pnineyHalachaHashalem.textMain$7$1
- com.rafraph.pnineyHalachaHashalem.textMain$7$2
  com.rafraph.pnineyHalachaHashalem.textMain$8
+ com.rafraph.pnineyHalachaHashalem.textMain$8$1
+ com.rafraph.pnineyHalachaHashalem.textMain$8$2
  com.rafraph.pnineyHalachaHashalem.textMain$9
- com.rafraph.pnineyHalachaHashalem.textMain$9$1
  com.rafraph.pnineyHalachaHashalem.textMain$MyWebViewClient
 com/rafraph/pnineyHalachaHashalem/HomePage.java
  com.rafraph.pnineyHalachaHashalem.HomePage

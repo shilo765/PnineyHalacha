@@ -151,6 +151,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int SPANISH = 3;
 	private static final int FRENCH = 4;
 	public boolean isNotHeb=true;
+	public static  ImageView scroll;
 
 	WebView webview;
 	public static int[] book_chapter = new int[2];
@@ -341,37 +342,31 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	}
 	private void showPopupAutoScroolSettings(View v)
 	{
-		final PopupMenu popupMenu = new PopupMenu(textMain.this, v);
-
+		android.support.v7.view.ContextThemeWrapper ctw = new ContextThemeWrapper(textMain.this, R.style.CustomPopupTheme2);
+		PopupMenu popupMenu = new PopupMenu(ctw, v);
+		popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+			@Override
+			public void onDismiss(PopupMenu menu) {
+				scroll.setImageResource(R.drawable.auto_scrool);
+			}
+		});
 		String configHeaders[] = new String[7];
-		if (MyLanguage == ENGLISH) {
-			configHeaders[0] = "Play";
-			configHeaders[1] = "Stop";
-			configHeaders[2] = "Set speed";
-		} else if (MyLanguage == RUSSIAN) {
-			configHeaders[0] = "Играть";
-			configHeaders[1] = "Cтоп";
-			configHeaders[2] = "Yстановить скорость";
 
-		} else if (MyLanguage == SPANISH) {
-			configHeaders[0] = "Desplazamiento automatico";
-			configHeaders[1] = "Parar";
-			configHeaders[2] = "Seleccionar velocidad";
+			configHeaders[0] = "                                    0";
+			configHeaders[1] = "                                    1";
+			configHeaders[2] = "                                    2";
+			configHeaders[3] = "                                    3";
+			configHeaders[4] = "                                    4";
+			configHeaders[5] = "                                    5";
 
-		} else if (MyLanguage == FRENCH) {
-			configHeaders[0] = "Demarrer";
-			configHeaders[1] = "Stop";
-			configHeaders[2] = "Selectionner la vitesse";
-
-		} else {/*this is the default*/
-			configHeaders[0] = "הפעל";
-			configHeaders[1] = "עצור";
-			configHeaders[2] = "קבע מהירות";
-		}
 
 		popupMenu.getMenu().add(0, 0, 0, configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
 		popupMenu.getMenu().add(0, 1, 1, configHeaders[1]);
 		popupMenu.getMenu().add(0, 2, 2, configHeaders[2]);
+		popupMenu.getMenu().add(0, 3, 3, configHeaders[3]);
+		popupMenu.getMenu().add(0, 4, 4, configHeaders[4]);
+		popupMenu.getMenu().add(0, 5, 5, configHeaders[5]);
+
 
 
 
@@ -382,14 +377,28 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				webSettings.setMinimumFontSize(mPrefs.getInt("fontSize",20));
 				switch (item.getItemId()) {
 					case 0:
-						scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
-						runOnUiThread(mScrollDown);
+						scrollSpeed = -1;
+
 						break;
 					case 1:
-						scrollSpeed = -1;
+						scrollSpeed = 1;
+						runOnUiThread(mScrollDown);
 						break;
 					case 2:
-						autoScrollSpeedDialog();
+						scrollSpeed = 2;
+						runOnUiThread(mScrollDown);
+						break;
+					case 3:
+						scrollSpeed = 3;
+						runOnUiThread(mScrollDown);
+						break;
+					case 4:
+						scrollSpeed = 4;
+						runOnUiThread(mScrollDown);
+						break;
+					case 5:
+						scrollSpeed = 5;
+						runOnUiThread(mScrollDown);
 						break;
 					default:
 						break;
@@ -620,10 +629,11 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				innerSearch();
 			}
 		});
-		ImageView scroll=findViewById(R.id.auto_scrool);
+		scroll=findViewById(R.id.auto_scrool);
 		scroll.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				scroll.setImageResource(R.drawable.fill_auto_scroll);
 				showPopupAutoScroolSettings(findViewById(R.id.auto_scrool));
 			}
 		});

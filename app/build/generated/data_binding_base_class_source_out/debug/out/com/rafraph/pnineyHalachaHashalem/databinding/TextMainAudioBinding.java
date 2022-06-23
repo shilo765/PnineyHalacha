@@ -33,6 +33,9 @@ public final class TextMainAudioBinding implements ViewBinding {
   public final TextView audioDuration2;
 
   @NonNull
+  public final ImageButton autoScrool2;
+
+  @NonNull
   public final RelativeLayout content;
 
   @NonNull
@@ -90,17 +93,18 @@ public final class TextMainAudioBinding implements ViewBinding {
   public final WebView webView1;
 
   private TextMainAudioBinding(@NonNull RelativeLayout rootView, @NonNull TextView audioDuration,
-      @NonNull TextView audioDuration2, @NonNull RelativeLayout content,
-      @NonNull RelativeLayout footer, @NonNull LinearLayout hi, @NonNull ListView listView,
-      @NonNull LinearLayout lnrOption3, @NonNull ImageView makeMark, @NonNull ImageButton mediaFf,
-      @NonNull ImageButton mediaNext, @NonNull ImageButton mediaPlayPause,
-      @NonNull ImageButton mediaPrev, @NonNull ImageButton mediaRew, @NonNull ImageView menu,
-      @NonNull RelativeLayout myAudio, @NonNull Spinner myspinner, @NonNull ImageView pageSearch,
-      @NonNull TextView playerInfo, @NonNull SeekBar seekBar6, @NonNull ImageView tooMain,
-      @NonNull WebView webView1) {
+      @NonNull TextView audioDuration2, @NonNull ImageButton autoScrool2,
+      @NonNull RelativeLayout content, @NonNull RelativeLayout footer, @NonNull LinearLayout hi,
+      @NonNull ListView listView, @NonNull LinearLayout lnrOption3, @NonNull ImageView makeMark,
+      @NonNull ImageButton mediaFf, @NonNull ImageButton mediaNext,
+      @NonNull ImageButton mediaPlayPause, @NonNull ImageButton mediaPrev,
+      @NonNull ImageButton mediaRew, @NonNull ImageView menu, @NonNull RelativeLayout myAudio,
+      @NonNull Spinner myspinner, @NonNull ImageView pageSearch, @NonNull TextView playerInfo,
+      @NonNull SeekBar seekBar6, @NonNull ImageView tooMain, @NonNull WebView webView1) {
     this.rootView = rootView;
     this.audioDuration = audioDuration;
     this.audioDuration2 = audioDuration2;
+    this.autoScrool2 = autoScrool2;
     this.content = content;
     this.footer = footer;
     this.hi = hi;
@@ -158,6 +162,12 @@ public final class TextMainAudioBinding implements ViewBinding {
       id = R.id.audioDuration2;
       TextView audioDuration2 = ViewBindings.findChildViewById(rootView, id);
       if (audioDuration2 == null) {
+        break missingId;
+      }
+
+      id = R.id.auto_scrool2;
+      ImageButton autoScrool2 = ViewBindings.findChildViewById(rootView, id);
+      if (autoScrool2 == null) {
         break missingId;
       }
 
@@ -272,9 +282,9 @@ public final class TextMainAudioBinding implements ViewBinding {
       }
 
       return new TextMainAudioBinding((RelativeLayout) rootView, audioDuration, audioDuration2,
-          content, footer, hi, listView, lnrOption3, makeMark, mediaFf, mediaNext, mediaPlayPause,
-          mediaPrev, mediaRew, menu, myAudio, myspinner, pageSearch, playerInfo, seekBar6, tooMain,
-          webView1);
+          autoScrool2, content, footer, hi, listView, lnrOption3, makeMark, mediaFf, mediaNext,
+          mediaPlayPause, mediaPrev, mediaRew, menu, myAudio, myspinner, pageSearch, playerInfo,
+          seekBar6, tooMain, webView1);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

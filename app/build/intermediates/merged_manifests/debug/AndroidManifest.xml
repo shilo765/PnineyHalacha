@@ -123,7 +123,7 @@
             android:name="com.rafraph.pnineyHalachaHashalem.myAudio"
             android:label="myAudio"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <service android:name="com.rafraph.pnineyHalachaHashalem.MediaPlayerService" />
 
