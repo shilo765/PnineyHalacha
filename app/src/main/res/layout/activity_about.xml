@@ -82,7 +82,7 @@
             android:layout_gravity="right"
             android:paddingRight="10dp"
             android:paddingBottom="15dp"
-            android:text="אפליקציית פניני הלכה"
+            android:text=" פניני הלכה והרחבות"
             android:textColor="#970606"
             android:textSize="30dp"
             android:textStyle="bold" />
@@ -94,7 +94,7 @@
             android:layout_gravity="right"
             android:paddingRight="10dp"
             android:paddingBottom="15dp"
-            android:text="כוללת את כל ספרי פניני הלכה(כולל הרחבות) בעברית,אנגלית,רוסית וצרפתית"
+            android:text="כוללת את כל ספרי פניני הלכה (כולל הרחבות) בעברית,אנגלית,ספרדית,רוסית וצרפתית"
             android:textColor="#000000"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -105,7 +105,7 @@
             android:layout_height="42dp"
             android:layout_gravity="right"
             android:paddingRight="10dp"
-            android:text="עדכון גרסא שילה בן נתן"
+            android:text="עדכון גרסא: שילה בן נתן"
             android:textColor="#000000"
             android:textSize="16dp" />
 
@@ -115,9 +115,10 @@
             android:layout_height="42dp"
             android:layout_gravity="right"
             android:paddingRight="10dp"
-            android:text="עיצוב האפליקציה אניה בורוכוב"
+            android:text="עיצוב: אניה בורוכוב"
             android:textColor="#000000"
             android:textSize="16dp" />
+
 
         <TextView
             android:id="@+id/editText"
@@ -125,10 +126,9 @@
             android:layout_height="52dp"
             android:layout_gravity="right"
             android:paddingRight="10dp"
-            android:text="עריכת הטקסט לאפליקציה אלישע הנשקה ושילה בן נתן"
+            android:text="עריכת הטקסט: אלישע הנשקה ושילה בן נתן"
             android:textColor="#000000"
             android:textSize="16dp" />
-
 
         <ImageView
             android:id="@+id/y_logo"

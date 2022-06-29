@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
@@ -139,7 +140,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int F_TFILAT_NASHIM =60;
 	private static final int BOOKS_NUMBER	= 61;
 
-
+	public static int scrollSpeed=-2;
 
 	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29   30  31  32  33  34  35  36  37  38  39  40  41  42  43  44 45  46  47  48  49  50  51  52  53  54 55  56  57  58  59  60*/
 	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 10 , 13,  9, 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17, 26, 13, 8 ,17, 10, 16, 30, 10, 24  };
@@ -350,14 +351,20 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				scroll.setImageResource(R.drawable.auto_scrool);
 			}
 		});
-		String configHeaders[] = new String[7];
+		String configHeaders[] = new String[12];
 
-			configHeaders[0] = "                                    0";
-			configHeaders[1] = "                                    1";
-			configHeaders[2] = "                                    2";
-			configHeaders[3] = "                                    3";
-			configHeaders[4] = "                                    4";
-			configHeaders[5] = "                                    5";
+			configHeaders[0] = "                                     ";
+			configHeaders[1] = "                                    0";
+			configHeaders[2] = "                                    1";
+			configHeaders[3] = "                                    2";
+			configHeaders[4] = "                                    3";
+			configHeaders[5] = "                                    4";
+			configHeaders[6] = "                                    5";
+			configHeaders[7] = "                                    6";
+			configHeaders[8] = "                                    7";
+			configHeaders[9] = "                                    8";
+			configHeaders[10] = "                                    9";
+			configHeaders[11] = "                                    10";
 
 
 		popupMenu.getMenu().add(0, 0, 0, configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
@@ -366,6 +373,12 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		popupMenu.getMenu().add(0, 3, 3, configHeaders[3]);
 		popupMenu.getMenu().add(0, 4, 4, configHeaders[4]);
 		popupMenu.getMenu().add(0, 5, 5, configHeaders[5]);
+		popupMenu.getMenu().add(0, 6, 6, configHeaders[6]);
+		popupMenu.getMenu().add(0, 7, 7, configHeaders[7]);
+		popupMenu.getMenu().add(0, 8, 8, configHeaders[8]);
+		popupMenu.getMenu().add(0, 9, 9, configHeaders[9]);
+		popupMenu.getMenu().add(0, 10, 10, configHeaders[10]);
+		popupMenu.getMenu().add(0, 11, 11, configHeaders[11]);
 
 
 
@@ -376,28 +389,52 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				WebSettings webSettings = webview.getSettings();
 				webSettings.setMinimumFontSize(mPrefs.getInt("fontSize",20));
 				switch (item.getItemId()) {
-					case 0:
+					case 1:
 						scrollSpeed = -1;
 
 						break;
-					case 1:
+					case 2:
 						scrollSpeed = 1;
 						runOnUiThread(mScrollDown);
 						break;
-					case 2:
+					case 3:
 						scrollSpeed = 2;
 						runOnUiThread(mScrollDown);
 						break;
-					case 3:
+					case 4:
 						scrollSpeed = 3;
 						runOnUiThread(mScrollDown);
 						break;
-					case 4:
+					case 5:
 						scrollSpeed = 4;
 						runOnUiThread(mScrollDown);
 						break;
-					case 5:
+					case 6:
 						scrollSpeed = 5;
+						runOnUiThread(mScrollDown);
+						break;
+					case 7:
+						scrollSpeed = 6;
+						runOnUiThread(mScrollDown);
+						break;
+					case 8:
+						scrollSpeed = 7;
+						runOnUiThread(mScrollDown);
+						break;
+					case 9:
+						scrollSpeed = 16;
+						runOnUiThread(mScrollDown);
+						break;
+					case 10:
+						scrollSpeed = 18;
+						while (scrollSpeed==-2)
+						{
+							System.out.println("hi");
+						}
+						runOnUiThread(mScrollDown);
+						break;
+					case 11:
+						scrollSpeed = 20;
 						runOnUiThread(mScrollDown);
 						break;
 					default:
@@ -860,7 +897,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					{
 						//do whatever you want the back key to do
 						dialog.dismiss();
-						scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
+						//scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
 					}
 				});
 			}
@@ -907,7 +944,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			@JavascriptInterface
 			public void performClick(String id)
 			{
-				scrollSpeed = 0;
+				//scrollSpeed = 0;
 				setNoteId(id);
 				runOnUiThread(runnableNote);
 			}
@@ -1379,24 +1416,26 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		}
 	}
 
-	int scrollSpeed=1;
+
 	private Handler mHandler=new Handler();
 	public Runnable mScrollDown = new Runnable()
 	{
+		@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 		public void run()
 		{
-			if(scrollSpeed == 0) // in case of note opened
-			{
-				mHandler.postDelayed(this, 200);
-			}
-			else if(scrollSpeed == -1) // in case that "stop" pressed
+		 	if(scrollSpeed == -1) // in case that "stop" pressed
 			{
 				webview.scrollBy(0, 0);
 			}
 			else
 			{
-				webview.scrollBy(0, 1);
-				mHandler.postDelayed(this, 200/scrollSpeed);
+				Handler mHandler2=new Handler();
+
+				webview.stopNestedScroll();
+				webview.scrollBy(0, scrollSpeed*2);
+				//mHandler2.postDelayed(this, 0);
+				mHandler2.postDelayed(this, 200);
+
 			}
 		}
 	};
@@ -4153,14 +4192,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		});
 		spinnerAutoScroll = (Spinner) autoScrollDialog.findViewById(R.id.spinner_auto_scroll);
-		scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
-		spinnerAutoScroll.setSelection((scrollSpeed / 2) - 1);
+		//scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
+		//spinnerAutoScroll.setSelection((scrollSpeed / 2) - 1);
 		spinnerAutoScroll.setOnItemSelectedListener(new OnItemSelectedListener() {
 			boolean first = true;
 
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				scrollSpeed = (pos + 1) * 2;
-				shPrefEditor.putInt("scrollSpeed", scrollSpeed);
+				//scrollSpeed = (pos + 1) * 2;
+				//shPrefEditor.putInt("scrollSpeed", scrollSpeed);
 				shPrefEditor.commit();
 			}
 
