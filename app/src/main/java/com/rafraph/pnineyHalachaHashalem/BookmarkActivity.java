@@ -368,7 +368,85 @@ public class BookmarkActivity extends Activity
 				}
 			}
 		});
-	
+		bookmarksListView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener ()
+		{
+			@Override
+			public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id)
+			{
+				bookmarksListView.setOnItemClickListener(new OnItemClickListener()
+				{
+					public void onItemClick(AdapterView<?> a, View v, int position, long id)
+					{
+						//bookmarksListView.removeHeaderView(v);
+						AlertDialog.Builder adb=new AlertDialog.Builder(context);
+						adb.setTitle("Delete?");
+						adb.setMessage("Are you sure you want to delete " + position);
+						final int positionToRemove = position-1;
+						adb.setNegativeButton("Cancel", null);
+						adb.setPositiveButton("Ok", new AlertDialog.OnClickListener()
+						{
+							public void onClick(DialogInterface dialog, int which)
+							{
+								int index = 0, index_end = 0;
+								//listBookmarksNames.(positionToRemove);
+								adapter.notifyDataSetChanged();
+								/*remove the bookmark detailes from Bookmark variable*/
+								for(int i=0;i<(positionToRemove*5)+1;i++)/*skip to the book of the right bookmark*/
+									index = Bookmarks.indexOf("," , index) + 1;
+								index_end = index;
+								if(index != 0)
+									index--;//in order to delete the comma "," (except in case we want to delete the first item)
+								for(int i=0;i<5;i++)/*find the end index of this bookmark*/
+									index_end = Bookmarks.indexOf("," , index_end) + 1;
+								if(index_end == 0)
+									index_end = Bookmarks.length();
+								else
+									index_end--;//We don't want to delete the last comma
+								String strToDelete = Bookmarks.substring(index, index_end);
+								Bookmarks = Bookmarks.substring(0, index) + Bookmarks.substring(index_end, Bookmarks.length());
+								String strBookmark = Bookmarks;
+								shPrefEditor.putString("Bookmarks", Bookmarks);
+								shPrefEditor.commit();
+								try
+								{
+									Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.BookmarkActivity");
+									Intent ourIntent = new Intent(BookmarkActivity.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+							}});
+						adb.show();
+					}
+				});
+				/*Listener for the "delete all button"*/
+				buttonDeleteAll.setOnClickListener(new OnClickListener()
+				{
+					@SuppressLint("NewApi")
+					@Override
+					public void onClick(View v)
+					{
+						AlertDialog.Builder adb=new AlertDialog.Builder(context);
+						adb.setTitle("Delete?");
+						adb.setMessage("Are you sure you want to delete all?");
+						adb.setNegativeButton("Cancel", null);
+						adb.setPositiveButton("Ok", new AlertDialog.OnClickListener()
+						{
+							public void onClick(DialogInterface dialog, int which)
+							{
+								Bookmarks = "";
+								shPrefEditor.putString("Bookmarks", Bookmarks);
+								shPrefEditor.commit();
+							}});
+						adb.show();
+					}
+
+				});
+				return false;
+			}
+		});
 
 	}
 

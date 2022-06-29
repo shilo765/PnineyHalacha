@@ -775,6 +775,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     listview.setSelected(true);
+                    listview.setSelection(position);
 
                     //listview.setSelection(position);
 
@@ -2250,10 +2251,14 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         speed = sppedArray[choice];
         shPrefEditor.putFloat("audioSpeed", speed);
         shPrefEditor.commit();
+
         if (playing == 0)
             broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
         section=playerService.getSection();
+        if(section>3){
+            listview.setSelected(true);
+            listview.setSelection(section);}
 
 
     }
@@ -2392,6 +2397,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
         section=playerService.getSection();
+
+            listview.setSelected(true);
+            listview.setSelection(section - 2);
+
+
+
         //playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section ));
         //check if the user return from brachot it give him back to brachot א,א
         if (section + 1486 < 'א')
