@@ -271,6 +271,8 @@ public class Feedback extends Activity implements View.OnClickListener
 								}
 								ourIntent = new Intent(Feedback.this, ourClass);
 								ourIntent.putExtra("homePage", true);
+								shPrefEditor.putString("where", "Feedback");
+								shPrefEditor.commit();
 								startActivity(ourIntent);
 								break;
 
@@ -346,7 +348,7 @@ public class Feedback extends Activity implements View.OnClickListener
 								}
 								//case 8:/*hascamot*/
 								//   hascamotDialog();
-								//  break;
+								  break;
 							case 9:/*about*/
 								try
 								{

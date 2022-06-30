@@ -197,6 +197,8 @@ public class BookmarkActivity extends Activity
 								}
 								ourIntent = new Intent(BookmarkActivity.this, ourClass);
 								ourIntent.putExtra("homePage", true);
+								shPrefEditor.putString("where", "BookmarkActivity");
+								shPrefEditor.commit();
 								startActivity(ourIntent);
 								break;
 
@@ -208,6 +210,7 @@ public class BookmarkActivity extends Activity
 								}
 								ourIntent = new Intent(BookmarkActivity.this, ourClass);
 								ourIntent.putExtra("homePage", false);
+
 								startActivity(ourIntent);
 								break;
 
@@ -272,7 +275,7 @@ public class BookmarkActivity extends Activity
 								}
 								//case 8:/*hascamot*/
 								//   hascamotDialog();
-								//  break;
+								break;
 							case 9:/*about*/
 								try
 								{

@@ -250,6 +250,9 @@ public class About extends Activity implements View.OnClickListener
 								}
 								ourIntent = new Intent(About.this, ourClass);
 								ourIntent.putExtra("homePage", true);
+								shPrefEditor.putString("where", "About");
+								shPrefEditor.commit();
+
 								startActivity(ourIntent);
 								break;
 
@@ -325,7 +328,7 @@ public class About extends Activity implements View.OnClickListener
 								}
 								//case 8:/*hascamot*/
 								//   hascamotDialog();
-								//  break;
+								break;
 							case 9:/*about*/
 								try
 								{
@@ -408,7 +411,16 @@ public class About extends Activity implements View.OnClickListener
 			newV.setTextColor(Color.WHITE);
 			newD.setTextColor(Color.WHITE);
 			editText.setTextColor(Color.WHITE);
-
+//			if(MyLanguage==ENGLISH)
+//				toMain.setImageResource(R.drawable.to_main_b_e);
+//			if(MyLanguage==RUSSIAN)
+//				toMain.setImageResource(R.drawable.to_main_b_r);
+//			if(MyLanguage==SPANISH)
+//				toMain.setImageResource(R.drawable.to_main_b_s);
+//			if(MyLanguage==FRENCH)
+//				toMain.setImageResource(R.drawable.to_main_b_f);
+//			if(MyLanguage==HEBREW)
+//				toMain.setImageResource(R.drawable.to_main_b);
 
 
 

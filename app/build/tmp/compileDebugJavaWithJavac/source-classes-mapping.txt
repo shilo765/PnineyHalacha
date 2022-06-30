@@ -292,7 +292,12 @@ com/rafraph/pnineyHalachaHashalem/BookmarkActivity.java
  com.rafraph.pnineyHalachaHashalem.BookmarkActivity$1$1
  com.rafraph.pnineyHalachaHashalem.BookmarkActivity$2
  com.rafraph.pnineyHalachaHashalem.BookmarkActivity$3
+ com.rafraph.pnineyHalachaHashalem.BookmarkActivity$3$1
+ com.rafraph.pnineyHalachaHashalem.BookmarkActivity$3$1$1
+ com.rafraph.pnineyHalachaHashalem.BookmarkActivity$3$2
+ com.rafraph.pnineyHalachaHashalem.BookmarkActivity$3$2$1
  com.rafraph.pnineyHalachaHashalem.BookmarkActivity$4
+ com.rafraph.pnineyHalachaHashalem.BookmarkActivity$5
 com/rafraph/pnineyHalachaHashalem/databinding/ActivityAudioBinding.java
  com.rafraph.pnineyHalachaHashalem.databinding.ActivityAudioBinding
 com/rafraph/pnineyHalachaHashalem/MediaPlayerService.java

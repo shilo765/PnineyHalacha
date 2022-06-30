@@ -408,7 +408,7 @@ public class pninaYomit extends Activity {
                                 }
                                 //case 8:/*hascamot*/
                                 //   hascamotDialog();
-                                //  break;
+                                 break;
                             case 9:/*about*/
                                 try
                                 {

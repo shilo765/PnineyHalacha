@@ -426,6 +426,55 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                                     }
                                     ourIntent = new Intent(myAudio.this, ourClass);
                                     ourIntent.putExtra("homePage", true);
+                                    shPrefEditor.putString("where", "myAudio");
+                                    shPrefEditor.putString("h&rWebLink", webLink);
+                                    shPrefEditor.putBoolean("hearAndRead", hearAndRead);
+                                    if(hearAndRead)
+                                        shPrefEditor.putInt("h&rScrool", webview.getScrollY());
+                                    shPrefEditor.putInt("h&rAI", section);
+                                    ourIntent.putExtra("sections_" + 1,extras.getStringArrayList("sections_" + 1));
+                                    ourIntent.putExtra("sections_" + 2,extras.getStringArrayList("sections_" + 2));
+                                    ourIntent.putExtra("sections_" + 3,extras.getStringArrayList("sections_" + 3));
+                                    ourIntent.putExtra("sections_" + 4,extras.getStringArrayList("sections_" + 4));
+                                    ourIntent.putExtra("sections_" + 5,extras.getStringArrayList("sections_" + 5));
+                                    ourIntent.putExtra("sections_" + 6,extras.getStringArrayList("sections_" + 6));
+                                    ourIntent.putExtra("sections_" + 7,extras.getStringArrayList("sections_" + 7));
+                                    ourIntent.putExtra("sections_" + 8,extras.getStringArrayList("sections_" + 8));
+                                    ourIntent.putExtra("sections_" + 9,extras.getStringArrayList("sections_" + 9));
+                                    ourIntent.putExtra("sections_" + 10,extras.getStringArrayList("sections_" + 10));
+                                    ourIntent.putExtra("sections_" + 11,extras.getStringArrayList("sections_" + 11));
+                                    ourIntent.putExtra("sections_" + 12,extras.getStringArrayList("sections_" + 12));
+                                    ourIntent.putExtra("sections_" + 13,extras.getStringArrayList("sections_" + 13));
+                                    ourIntent.putExtra("sections_" + 14,extras.getStringArrayList("sections_" + 14));
+                                    ourIntent.putExtra("sections_" + 15,extras.getStringArrayList("sections_" + 15));
+                                    ourIntent.putExtra("sections_" + 16,extras.getStringArrayList("sections_" + 16));
+                                    ourIntent.putExtra("sections_" + 17,extras.getStringArrayList("sections_" + 17));
+                                    ourIntent.putExtra("sections_" + 18,extras.getStringArrayList("sections_" + 18));
+                                    ourIntent.putExtra("sections_" + 19,extras.getStringArrayList("sections_" + 19));
+                                    ourIntent.putExtra("sections_" + 20,extras.getStringArrayList("sections_" + 20));
+                                    ourIntent.putExtra("sections_" + 21,extras.getStringArrayList("sections_" + 21));
+                                    ourIntent.putExtra("sections_" + 22,extras.getStringArrayList("sections_" + 22));
+                                    ourIntent.putExtra("sections_" + 23,extras.getStringArrayList("sections_" + 23));
+                                    ourIntent.putExtra("sections_" + 24,extras.getStringArrayList("sections_" + 24));
+                                    ourIntent.putExtra("sections_" + 25,extras.getStringArrayList("sections_" + 25));
+                                    ourIntent.putExtra("sections_" + 26,extras.getStringArrayList("sections_" + 26));
+                                    ourIntent.putExtra("sections_" + 27,extras.getStringArrayList("sections_" + 27));
+                                    ourIntent.putExtra("sections_" + 28,extras.getStringArrayList("sections_" + 28));
+                                    ourIntent.putExtra("sections_" + 29,extras.getStringArrayList("sections_" + 29));
+                                    ourIntent.putExtra("sections_" + 30,extras.getStringArrayList("sections_" + 30));
+                                    ourIntent.putExtra("sections_" + 31,extras.getStringArrayList("sections_" + 31));
+                                    ourIntent.putExtra("sections_" + 32,extras.getStringArrayList("sections_" + 32));
+                                    ourIntent.putExtra("sections_" + 33,extras.getStringArrayList("sections_" + 33));
+                                    ourIntent.putExtra("sections_" + 34,extras.getStringArrayList("sections_" + 34));
+                                    ourIntent.putExtra("sections_" + 35,extras.getStringArrayList("sections_" + 35));
+                                    ourIntent.putExtra("sections_" + 36,extras.getStringArrayList("sections_" + 36));
+                                    ourIntent.putExtra("sections_" + 37,extras.getStringArrayList("sections_" + 37));
+                                    ourIntent.putExtra("sections_" + 38,extras.getStringArrayList("sections_" + 38));
+                                    ourIntent.putExtra("sections_" + 39,extras.getStringArrayList("sections_" + 39));
+                                    ourIntent.putExtra("sections_" + 40,extras.getStringArrayList("sections_" + 40));
+                                    shPrefEditor.putInt("h&rChapId", chapter);
+                                    shPrefEditor.putInt("h&rBookId", book);
+                                    shPrefEditor.commit();
                                     startActivity(ourIntent);
                                     break;
 
@@ -501,7 +550,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                                     }
                                     //case 8:/*hascamot*/
                                     //   hascamotDialog();
-                                    //  break;
+                                      break;
                                 case 9:/*about*/
                                     try
                                     {
@@ -706,6 +755,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 chapter += 19;
             section = extras.getInt("audio_id");
             sections = extras.getStringArrayList("sections_" + chapter);
+            System.out.println("shilo888888888888888888888888888888888888888888888"+"sections_" + chapter);
             book_name = get_book_name_by_id();
             playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section));
             List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
@@ -1299,20 +1349,75 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             {
                 WebSettings webSettings = webview.getSettings();
                 fontSize = mPrefs.getInt("fontSize",20);;
+                Class ourClass = null;
+                Intent ourIntent;
+                Intent intent;
                 switch (item.getItemId()) {
                     case 0:/*settings*/
+
                         try {
-                            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Settings");
-                            Intent ourIntent = new Intent(myAudio.this, ourClass);
-                            startActivity(ourIntent);
+                            ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         }
+                        ourIntent = new Intent(myAudio.this, ourClass);
+                        ourIntent.putExtra("homePage", true);
+                        shPrefEditor.putString("where", "myAudio");
+                        shPrefEditor.putString("h&rWebLink", webLink);
+                        shPrefEditor.putBoolean("hearAndRead", hearAndRead);
+                        if(hearAndRead)
+                            shPrefEditor.putInt("h&rScrool", webview.getScrollY());
+                        shPrefEditor.putInt("h&rAI", section);
+
+                        ourIntent.putExtra("sections_" + 1,extras.getStringArrayList("sections_" + 1));
+                        ourIntent.putExtra("sections_" + 2,extras.getStringArrayList("sections_" + 2));
+                        ourIntent.putExtra("sections_" + 3,extras.getStringArrayList("sections_" + 3));
+                        ourIntent.putExtra("sections_" + 4,extras.getStringArrayList("sections_" + 4));
+                        ourIntent.putExtra("sections_" + 5,extras.getStringArrayList("sections_" + 5));
+                        ourIntent.putExtra("sections_" + 6,extras.getStringArrayList("sections_" + 6));
+                        ourIntent.putExtra("sections_" + 7,extras.getStringArrayList("sections_" + 7));
+                        ourIntent.putExtra("sections_" + 8,extras.getStringArrayList("sections_" + 8));
+                        ourIntent.putExtra("sections_" + 9,extras.getStringArrayList("sections_" + 9));
+                        ourIntent.putExtra("sections_" + 10,extras.getStringArrayList("sections_" + 10));
+                        ourIntent.putExtra("sections_" + 11,extras.getStringArrayList("sections_" + 11));
+                        ourIntent.putExtra("sections_" + 12,extras.getStringArrayList("sections_" + 12));
+                        ourIntent.putExtra("sections_" + 13,extras.getStringArrayList("sections_" + 13));
+                        ourIntent.putExtra("sections_" + 14,extras.getStringArrayList("sections_" + 14));
+                        ourIntent.putExtra("sections_" + 15,extras.getStringArrayList("sections_" + 15));
+                        ourIntent.putExtra("sections_" + 16,extras.getStringArrayList("sections_" + 16));
+                        ourIntent.putExtra("sections_" + 17,extras.getStringArrayList("sections_" + 17));
+                        ourIntent.putExtra("sections_" + 18,extras.getStringArrayList("sections_" + 18));
+                        ourIntent.putExtra("sections_" + 19,extras.getStringArrayList("sections_" + 19));
+                        ourIntent.putExtra("sections_" + 20,extras.getStringArrayList("sections_" + 20));
+                        ourIntent.putExtra("sections_" + 21,extras.getStringArrayList("sections_" + 21));
+                        ourIntent.putExtra("sections_" + 22,extras.getStringArrayList("sections_" + 22));
+                        ourIntent.putExtra("sections_" + 23,extras.getStringArrayList("sections_" + 23));
+                        ourIntent.putExtra("sections_" + 24,extras.getStringArrayList("sections_" + 24));
+                        ourIntent.putExtra("sections_" + 25,extras.getStringArrayList("sections_" + 25));
+                        ourIntent.putExtra("sections_" + 26,extras.getStringArrayList("sections_" + 26));
+                        ourIntent.putExtra("sections_" + 27,extras.getStringArrayList("sections_" + 27));
+                        ourIntent.putExtra("sections_" + 28,extras.getStringArrayList("sections_" + 28));
+                        ourIntent.putExtra("sections_" + 29,extras.getStringArrayList("sections_" + 29));
+                        ourIntent.putExtra("sections_" + 30,extras.getStringArrayList("sections_" + 30));
+                        ourIntent.putExtra("sections_" + 31,extras.getStringArrayList("sections_" + 31));
+                        ourIntent.putExtra("sections_" + 32,extras.getStringArrayList("sections_" + 32));
+                        ourIntent.putExtra("sections_" + 33,extras.getStringArrayList("sections_" + 33));
+                        ourIntent.putExtra("sections_" + 34,extras.getStringArrayList("sections_" + 34));
+                        ourIntent.putExtra("sections_" + 35,extras.getStringArrayList("sections_" + 35));
+                        ourIntent.putExtra("sections_" + 36,extras.getStringArrayList("sections_" + 36));
+                        ourIntent.putExtra("sections_" + 37,extras.getStringArrayList("sections_" + 37));
+                        ourIntent.putExtra("sections_" + 38,extras.getStringArrayList("sections_" + 38));
+                        ourIntent.putExtra("sections_" + 39,extras.getStringArrayList("sections_" + 39));
+                        ourIntent.putExtra("sections_" + 40,extras.getStringArrayList("sections_" + 40));
+                        shPrefEditor.putInt("h&rChapId", chapter);
+                        shPrefEditor.putInt("h&rBookId", book);
+                        shPrefEditor.commit();
+                        startActivity(ourIntent);
                         break;
                     case 1:/*about*/
                         try {
-                            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
-                            Intent ourIntent = new Intent(myAudio.this, ourClass);
+                             ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+                             ourIntent = new Intent(myAudio.this, ourClass);
                             startActivity(ourIntent);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
@@ -1321,8 +1426,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         break;
                     case 2:/*Feedback*/
                         try {
-                            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
-                            Intent ourIntent = new Intent(myAudio.this, ourClass);
+                             ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+                             ourIntent = new Intent(myAudio.this, ourClass);
                             startActivity(ourIntent);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
@@ -1330,8 +1435,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         break;
                     case 3:/*Explanation for Search*/
                         try {
-                            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
-                            Intent ourIntent = new Intent(myAudio.this, ourClass);
+                             ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+                             ourIntent = new Intent(myAudio.this, ourClass);
                             startActivity(ourIntent);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
@@ -2110,10 +2215,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     }
                 }
             }
-            if (chapter != oldChapter) {
-               v1[0].setBackgroundColor(Color.rgb(151, 6, 6));
-               v1[0].setTextColor(Color.WHITE);
-            }
+//            if (chapter != oldChapter) {
+//               v1[0].setBackgroundColor(Color.rgb(151, 6, 6));
+//               v1[0].setTextColor(Color.WHITE);
+//            }
             if( v1[playerService.getSection()-1]!=null) {
                 v1[playerService.getSection() - 1].setBackgroundColor(Color.rgb(151, 6, 6));
                 v1[playerService.getSection() - 1].setTextColor(Color.WHITE);

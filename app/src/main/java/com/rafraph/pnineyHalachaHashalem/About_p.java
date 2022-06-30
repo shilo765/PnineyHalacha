@@ -187,6 +187,16 @@ public class About_p extends Activity
 			txt2.setTextColor(Color.WHITE);
 			txt3.setTextColor(Color.WHITE);
 			txt4.setTextColor(Color.WHITE);
+//			if(MyLanguage==ENGLISH)
+//				toMain.setImageResource(R.drawable.to_main_b_e);
+//			if(MyLanguage==RUSSIAN)
+//				toMain.setImageResource(R.drawable.to_main_b_r);
+//			if(MyLanguage==SPANISH)
+//				toMain.setImageResource(R.drawable.to_main_b_s);
+//			if(MyLanguage==FRENCH)
+//				toMain.setImageResource(R.drawable.to_main_b_f);
+//			if(MyLanguage==HEBREW)
+//				toMain.setImageResource(R.drawable.to_main_b);
 			//main.setBackgroundColor(Color.BLACK);
 			main2.setBackgroundColor(Color.BLACK);
 			//main3.setBackgroundColor(Color.BLACK);
@@ -305,6 +315,8 @@ public class About_p extends Activity
 								}
 								ourIntent = new Intent(About_p.this, ourClass);
 								ourIntent.putExtra("homePage", true);
+								shPrefEditor.putString("where", "About_p");
+								shPrefEditor.commit();
 								startActivity(ourIntent);
 								break;
 
@@ -380,7 +392,7 @@ public class About_p extends Activity
 								}
 								//case 8:/*hascamot*/
 								//   hascamotDialog();
-								//  break;
+								 break;
 							case 9:/*about*/
 								try
 								{

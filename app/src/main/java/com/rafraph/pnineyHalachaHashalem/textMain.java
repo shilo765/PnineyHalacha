@@ -558,6 +558,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 								}
 								ourIntent = new Intent(textMain.this, ourClass);
 								ourIntent.putExtra("homePage", true);
+								shPrefEditor.putString("where", "textMain");
+								shPrefEditor.commit();
 								startActivity(ourIntent);
 								break;
 
@@ -633,7 +635,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 								}
 								//case 8:/*hascamot*/
 								//   hascamotDialog();
-								//  break;
+								break;
 							case 9:/*about*/
 								try
 								{
@@ -1059,8 +1061,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				if(convertBookIdToName(book_chapter[0]).equals("לא ידוע"))
 					nameBook.setText(mPrefs.getString("book_name","לא ידוע"));
 				else {
-					shPrefEditor.putString("book_name", convertBookIdToName(book_chapter[0]));
-					nameBook.setText(convertBookIdToName(book_chapter[0]));
+					shPrefEditor.putString("book_name", convertBookIdToName(book_chapter[0])+" , "+ convertAnchorIdToSection(book_chapter[1]));
+					nameBook.setText(convertBookIdToName(book_chapter[0])+" , "+ convertAnchorIdToSection(book_chapter[1]));
 				}
 
 				fromBookmarks = extras.getInt("fromBookmarks");

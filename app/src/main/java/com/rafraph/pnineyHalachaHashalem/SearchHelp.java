@@ -424,6 +424,8 @@ public class SearchHelp extends Activity {
 								}
 								ourIntent = new Intent(SearchHelp.this, ourClass);
 								ourIntent.putExtra("homePage", true);
+								shPrefEditor.putString("where", "SearchHelp");
+								shPrefEditor.commit();
 								startActivity(ourIntent);
 								break;
 
@@ -499,7 +501,7 @@ public class SearchHelp extends Activity {
 								}
 								//case 8:/*hascamot*/
 								//   hascamotDialog();
-								//  break;
+								 break;
 							case 9:/*about*/
 								try
 								{
