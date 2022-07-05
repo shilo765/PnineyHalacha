@@ -166,13 +166,29 @@ public class pninaYomit extends Activity {
         shPrefEditor = mPrefs.edit();
 
         LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+        int MyLanguage = mPrefs.getInt("MyLanguage", 0);
         if (mPrefs.getInt("BlackBackground", 0)==1)
         {
+            ImageView toMain= (ImageView) findViewById(R.id.to_main);
             main.setBackgroundColor(Color.BLACK);
             webview.setBackgroundColor(Color.BLACK);
+            if(MyLanguage==ENGLISH)
+                toMain.setImageResource(R.drawable.to_main_b_e);
+            if(MyLanguage==RUSSIAN)
+                toMain.setImageResource(R.drawable.to_main_b_r);
+            if(MyLanguage==SPANISH)
+                toMain.setImageResource(R.drawable.to_main_b_s);
+            if(MyLanguage==FRENCH)
+                toMain.setImageResource(R.drawable.to_main_b_f);
+            if(MyLanguage==HEBREW)
+                toMain.setImageResource(R.drawable.to_main_b);
+            main=(LinearLayout) findViewById(R.id.lnrOption3);
+            ImageView menu= (ImageView) findViewById(R.id.menu);
+            menu.setImageResource(R.drawable.ic_action_congif_b);
+            main.setBackgroundColor(Color.rgb(120,1,1));
 
         }
-        int MyLanguage = mPrefs.getInt("MyLanguage", 0);
+
         switch (MyLanguage)
         {
             case ENGLISH:

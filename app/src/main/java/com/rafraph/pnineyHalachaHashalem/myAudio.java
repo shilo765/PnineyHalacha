@@ -973,6 +973,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
 
         final ImageView toMain = infView.findViewById(R.id.to_main);
+        final ImageView menu = infView.findViewById(R.id.menu);
+        final LinearLayout main = infView.findViewById(R.id.lnrOption3);
         if(MyLanguage==ENGLISH)
             toMain.setImageResource(R.drawable.to_main_e);
         if(MyLanguage==RUSSIAN)
@@ -981,6 +983,28 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             toMain.setImageResource(R.drawable.to_main_s);
         if(MyLanguage==FRENCH)
             toMain.setImageResource(R.drawable.to_main_f);
+        if(BlackBackground==1)
+        {
+            main.setBackgroundColor(Color.rgb(120,1,1));
+            if(MyLanguage==ENGLISH)
+                toMain.setImageResource(R.drawable.to_main_b_e);
+            if(MyLanguage==RUSSIAN)
+                toMain.setImageResource(R.drawable.to_main_b_r);
+            if(MyLanguage==SPANISH)
+                toMain.setImageResource(R.drawable.to_main_b_s);
+            if(MyLanguage==FRENCH)
+                toMain.setImageResource(R.drawable.to_main_b_f);
+            if(MyLanguage==HEBREW)
+                toMain.setImageResource(R.drawable.to_main_b);
+            if(hearAndRead)
+            {
+                final ImageView pageSearch = infView.findViewById(R.id.page_search);
+                final ImageView makeMark = infView.findViewById(R.id.make_mark);
+                pageSearch.setImageResource(R.drawable.page_search_b);
+                makeMark.setImageResource(R.drawable.make_bookmark_b);
+            }
+            menu.setImageResource(R.drawable.ic_action_congif_b);
+        }
         //searchBtn.setVisibility(View.GONE);
         //addBookMark.setVisibility(View.GONE);
         //config.setVisibility(View.GONE);
@@ -2406,6 +2430,21 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             //textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
             if (mPrefs.getInt("BlackBackground", 0) == 1) {
                 textView.setTextColor(Color.WHITE);
+                ImageView toMain= (ImageView) findViewById(R.id.to_main);
+                if(MyLanguage==ENGLISH)
+                    toMain.setImageResource(R.drawable.to_main_b_e);
+                if(MyLanguage==RUSSIAN)
+                    toMain.setImageResource(R.drawable.to_main_b_r);
+                if(MyLanguage==SPANISH)
+                    toMain.setImageResource(R.drawable.to_main_b_s);
+                if(MyLanguage==FRENCH)
+                    toMain.setImageResource(R.drawable.to_main_b_f);
+                if(MyLanguage==HEBREW)
+                    toMain.setImageResource(R.drawable.to_main_b);
+                LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+                ImageView menu= (ImageView) findViewById(R.id.menu);
+                menu.setImageResource(R.drawable.ic_action_congif_b);
+                main.setBackgroundColor(Color.rgb(120,1,1));
                 // listview.setBackgroundColor(Color.BLACK);
             } else
                 textView.setTextColor(Color.BLACK);

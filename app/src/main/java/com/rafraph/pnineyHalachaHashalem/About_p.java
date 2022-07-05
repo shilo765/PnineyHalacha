@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -199,6 +200,20 @@ public class About_p extends Activity
 //				toMain.setImageResource(R.drawable.to_main_b);
 			//main.setBackgroundColor(Color.BLACK);
 			main2.setBackgroundColor(Color.BLACK);
+			if(MyLanguage==ENGLISH)
+				toMain.setImageResource(R.drawable.to_main_b_e);
+			if(MyLanguage==RUSSIAN)
+				toMain.setImageResource(R.drawable.to_main_b_r);
+			if(MyLanguage==SPANISH)
+				toMain.setImageResource(R.drawable.to_main_b_s);
+			if(MyLanguage==FRENCH)
+				toMain.setImageResource(R.drawable.to_main_b_f);
+			if(MyLanguage==HEBREW)
+				toMain.setImageResource(R.drawable.to_main_b);
+			LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+			ImageView menu= (ImageView) findViewById(R.id.menu);
+			menu.setImageResource(R.drawable.ic_action_congif_b);
+			main.setBackgroundColor(Color.rgb(120,1,1));
 			//main3.setBackgroundColor(Color.BLACK);
 			//main4.setBackgroundColor(Color.BLACK);
 			//main5.setBackgroundColor(Color.BLACK);

@@ -153,7 +153,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int FRENCH = 4;
 	public boolean isNotHeb=true;
 	public static  ImageView scroll;
-
+	public static Bundle extras;
 	WebView webview;
 	public static int[] book_chapter = new int[2];
 	boolean cameFromSearch = false, firstTime = true, ChangeChapter = false,gi=false;
@@ -427,10 +427,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						break;
 					case 10:
 						scrollSpeed = 18;
-						while (scrollSpeed==-2)
-						{
-							System.out.println("hi");
-						}
 						runOnUiThread(mScrollDown);
 						break;
 					case 11:
@@ -559,6 +555,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 								ourIntent = new Intent(textMain.this, ourClass);
 								ourIntent.putExtra("homePage", true);
 								shPrefEditor.putString("where", "textMain");
+								ourIntent.putExtra("book_chapter",extras.getIntArray("book_chapter") );
 								shPrefEditor.commit();
 								startActivity(ourIntent);
 								break;
@@ -872,8 +869,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						"<head>";
 				if(BlackBackground == 0)
 					content += "<body>";//White background
-				else if(BlackBackground == 1)
+				else if(BlackBackground == 1) {
 					content += "<body style=\"background-color:black;color:white\">";//Black background
+				}
 				ParseTheDoc();
 				headers = doc.select("div#ftn"+note_id);
 				note = headers.get(0).text();
@@ -967,11 +965,34 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
-
+		if(BlackBackground==1)
+		{
+			toMain= (ImageView) findViewById(R.id.too_main);
+			ImageView makeMark= (ImageView) findViewById(R.id.make_mark);
+			ImageView pageSearch= (ImageView) findViewById(R.id.page_search);
+			if(MyLanguage==ENGLISH)
+				toMain.setImageResource(R.drawable.to_main_b_e);
+			if(MyLanguage==RUSSIAN)
+				toMain.setImageResource(R.drawable.to_main_b_r);
+			if(MyLanguage==SPANISH)
+				toMain.setImageResource(R.drawable.to_main_b_s);
+			if(MyLanguage==FRENCH)
+				toMain.setImageResource(R.drawable.to_main_b_f);
+			if(MyLanguage==HEBREW)
+				toMain.setImageResource(R.drawable.to_main_b);
+			LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+			ImageView menu2= (ImageView) findViewById(R.id.menu);
+			TextView bookName= (TextView) findViewById(R.id.bookname);
+			bookName.setTextColor(Color.WHITE);
+			menu2.setImageResource(R.drawable.ic_action_congif_b);
+			makeMark.setImageResource(R.drawable.make_bookmark_b);
+			searchPage.setImageResource(R.drawable.page_search_b);
+			main.setBackgroundColor(Color.rgb(120,1,1));
+		}
 
 		inflater = getMenuInflater();
 		textActionBar = getSupportActionBar();
-		Bundle extras = getIntent().getExtras();
+		extras = getIntent().getExtras();
 		if (extras != null)
 		{
 			cameFromSearch = extras.getBoolean("cameFromSearch",false);
@@ -1353,6 +1374,21 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				bFindNext.setImageDrawable(resources.getDrawable(R.drawable.ic_action_down_black));
 				bFindPrevious.setImageDrawable(resources.getDrawable(R.drawable.ic_action_up_black));
 			}
+			ImageView toMain= (ImageView) findViewById(R.id.too_main);
+			if(MyLanguage==ENGLISH)
+				toMain.setImageResource(R.drawable.to_main_b_e);
+			if(MyLanguage==RUSSIAN)
+				toMain.setImageResource(R.drawable.to_main_b_r);
+			if(MyLanguage==SPANISH)
+				toMain.setImageResource(R.drawable.to_main_b_s);
+			if(MyLanguage==FRENCH)
+				toMain.setImageResource(R.drawable.to_main_b_f);
+			if(MyLanguage==HEBREW)
+				toMain.setImageResource(R.drawable.to_main_b);
+			LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+			ImageView menu2= (ImageView) findViewById(R.id.menu);
+			menu2.setImageResource(R.drawable.ic_action_congif_b);
+			main.setBackgroundColor(Color.rgb(120,1,1));
 
 		} else {
 
@@ -1530,13 +1566,11 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				break;
 
 			case R.id.ibNextPage:
-				//webview.pageDown(false);
-				webview.setScrollY(webview.getScrollY()+970);
+				webview.pageDown(false);
 				break;
 
 			case R.id.ibPreviousPage:
-				//webview.pageUp(false);
-				webview.setScrollY(webview.getScrollY()-970);
+				webview.pageUp(false);
 				break;
 
 			case R.id.ibFindNext:

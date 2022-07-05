@@ -170,8 +170,23 @@ public class Feedback extends Activity implements View.OnClickListener
 			etcontact.setTextColor(Color.WHITE);
 			etcontact.setBackgroundResource(R.drawable.dark_big_rec);
 
+
 			//main.setBackgroundColor(Color.BLACK);
 			main.setBackgroundColor(Color.BLACK);
+			if(MyLanguage==ENGLISH)
+				toMain.setImageResource(R.drawable.to_main_b_e);
+			if(MyLanguage==RUSSIAN)
+				toMain.setImageResource(R.drawable.to_main_b_r);
+			if(MyLanguage==SPANISH)
+				toMain.setImageResource(R.drawable.to_main_b_s);
+			if(MyLanguage==FRENCH)
+				toMain.setImageResource(R.drawable.to_main_b_f);
+			if(MyLanguage==HEBREW)
+				toMain.setImageResource(R.drawable.to_main_b);
+			main=(LinearLayout) findViewById(R.id.lnrOption3);
+			ImageView menu= (ImageView) findViewById(R.id.menu);
+			menu.setImageResource(R.drawable.ic_action_congif_b);
+			main.setBackgroundColor(Color.rgb(120,1,1));
 			//main3.setBackgroundColor(Color.BLACK);
 			//main4.setBackgroundColor(Color.BLACK);
 			//main5.setBackgroundColor(Color.BLACK);

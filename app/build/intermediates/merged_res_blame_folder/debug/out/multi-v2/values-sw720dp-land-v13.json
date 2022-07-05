@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sw720dp-land-v13\\values-sw720dp-land-v13.xml",
+            "outputFile": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-16:/values-sw720dp-land-v13/values-sw720dp-land-v13.xml",
             "map": [
                 {
                     "source": "C:\\Users\\naamag\\AndroidStudioProjects\\PnineyHalacha0305\\app\\src\\main\\res\\values-sw720dp-land\\dimens.xml",

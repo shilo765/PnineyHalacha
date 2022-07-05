@@ -401,7 +401,7 @@ public class About extends Activity implements View.OnClickListener
 		//	LinearLayout main3=(LinearLayout) findViewById(R.id.lnrOption3);
 		//	LinearLayout main4=(LinearLayout) findViewById(R.id.lnrOption7);
 		//	LinearLayout main5=(LinearLayout) findViewById(R.id.lnrOption8);
-		LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+
 		RelativeLayout main2=(RelativeLayout) findViewById(R.id.layout_root);
 		if (mPrefs.getInt("BlackBackground", 0)==1)
 		{
@@ -411,21 +411,25 @@ public class About extends Activity implements View.OnClickListener
 			newV.setTextColor(Color.WHITE);
 			newD.setTextColor(Color.WHITE);
 			editText.setTextColor(Color.WHITE);
-//			if(MyLanguage==ENGLISH)
-//				toMain.setImageResource(R.drawable.to_main_b_e);
-//			if(MyLanguage==RUSSIAN)
-//				toMain.setImageResource(R.drawable.to_main_b_r);
-//			if(MyLanguage==SPANISH)
-//				toMain.setImageResource(R.drawable.to_main_b_s);
-//			if(MyLanguage==FRENCH)
-//				toMain.setImageResource(R.drawable.to_main_b_f);
-//			if(MyLanguage==HEBREW)
-//				toMain.setImageResource(R.drawable.to_main_b);
+			if(MyLanguage==ENGLISH)
+				toMain.setImageResource(R.drawable.to_main_b_e);
+			if(MyLanguage==RUSSIAN)
+				toMain.setImageResource(R.drawable.to_main_b_r);
+			if(MyLanguage==SPANISH)
+				toMain.setImageResource(R.drawable.to_main_b_s);
+			if(MyLanguage==FRENCH)
+				toMain.setImageResource(R.drawable.to_main_b_f);
+			if(MyLanguage==HEBREW)
+				toMain.setImageResource(R.drawable.to_main_b);
+			LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+			menu.setImageResource(R.drawable.ic_action_congif_b);
+			main.setBackgroundColor(Color.rgb(120,1,1));
+
 
 
 
 			//main.setBackgroundColor(Color.BLACK);
-			main.setBackgroundColor(Color.BLACK);
+
 			main2.setBackgroundColor(Color.BLACK);
 			//main3.setBackgroundColor(Color.BLACK);
 			//main4.setBackgroundColor(Color.BLACK);

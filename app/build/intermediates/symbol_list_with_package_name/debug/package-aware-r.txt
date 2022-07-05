@@ -1249,6 +1249,7 @@ drawable head_shaddow
 drawable hear_and_read
 drawable ic_about_p
 drawable ic_action_config
+drawable ic_action_congif_b
 drawable ic_action_down
 drawable ic_action_down_black
 drawable ic_action_next_item
@@ -1278,6 +1279,7 @@ drawable ic_too_py
 drawable img
 drawable janer_logo
 drawable make_bookmark
+drawable make_bookmark_b
 drawable mtrl_snackbar_background
 drawable mtrl_tabs_default_indicator
 drawable my_last_location
@@ -1298,6 +1300,7 @@ drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable page_search
+drawable page_search_b
 drawable pn_books
 drawable pnina_sep
 drawable pnineyicon
@@ -1317,6 +1320,11 @@ drawable search
 drawable setting_home
 drawable svg_hear_and_read
 drawable to_main
+drawable to_main_b
+drawable to_main_b_e
+drawable to_main_b_f
+drawable to_main_b_r
+drawable to_main_b_s
 drawable to_main_e
 drawable to_main_f
 drawable to_main_r

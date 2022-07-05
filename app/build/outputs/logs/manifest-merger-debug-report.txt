@@ -1,366 +1,366 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-128:12
-INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-128:12
-INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-128:12
-INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-128:12
-MERGED from [com.android.databinding:viewbinding:7.0.2] C:\Users\naamag\.gradle\caches\transforms-3\391857fb9ecfdd92c27997809d9092e8\transformed\viewbinding-7.0.2\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-v4:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\4f79687481d81fce64b9aea0574a822a\transformed\support-v4-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.navigation:navigation-ui:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d16f6e2d18ce0d1895660c5d42b73a09\transformed\navigation-ui-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:design:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ecadb9bcf79677136195fed56f1e8a12\transformed\design-28.0.0\AndroidManifest.xml:17:1-24:12
-MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\naamag\.gradle\caches\transforms-3\6535490a941ac7b86c2e56ac54354564\transformed\constraint-layout-2.0.4\AndroidManifest.xml:2:1-11:12
-MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\8fd11623966bb0584e113cba6c369170\transformed\appcompat-v7-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\1fc9a997f9dac476611511a7c4a43a7d\transformed\support-media-compat-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\493d801043c7b5409de5c054a138310a\transformed\recyclerview-v7-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.navigation:navigation-fragment:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\0632d78383b41be6257f0fd0e613d03c\transformed\navigation-fragment-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\01ce58cb5dec02ff2dcf5e31777eb70a\transformed\support-fragment-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d09347d7015ac919f27baecb2a4aa9b5\transformed\animated-vector-drawable-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\32d53bd70fb6aafefab88a38711e2b80\transformed\support-core-ui-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.navigation:navigation-runtime:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\fe2fcdf5da5f73b9a172aa42ea08e146\transformed\navigation-runtime-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d6cf91d70e9f90ed48c03cc4e82d4a1f\transformed\support-core-utils-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a924792ed09f27f71b341992b008677d\transformed\support-vector-drawable-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:transition:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ca25ee580cf311222cbfee59d001e30e\transformed\transition-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:loader:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\335934a6384f95abb2560c4dcdf086ba\transformed\loader-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:viewpager:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a22f9ff71f1edf1fe4f66b386fb8e4a4\transformed\viewpager-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\362c21bf486fe36d808c9907a31ee884\transformed\coordinatorlayout-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\bbd22f0e830f120d1d7022e6a4a0b2fb\transformed\drawerlayout-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\2ea285b7ae91134af2ca4bb77048a56f\transformed\slidingpanelayout-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:customview:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\fdf1ba2d2c9953c3edf5b35f99d479af\transformed\customview-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\3b91920cf64056fe02a23d5f9234bf3e\transformed\swiperefreshlayout-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\5278c2e8b81630465bb68ddee38799fd\transformed\asynclayoutinflater-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.navigation:navigation-common:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\0d22b0ead785a4f972cde50bb0df23cf\transformed\navigation-common-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\192ad8f6a0f651ff9f10305663e68198\transformed\support-compat-28.0.0\AndroidManifest.xml:17:1-24:12
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\5d596afbbf514aaec8702eb472ca97f3\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:17:1-25:12
-MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\5469d3acc753b2c845dfdf96e65ea703\transformed\cursoradapter-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ae0147c0b827ab8af8c45b5ef28395ad\transformed\cardview-v7-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\24b7454e8c63cb44018c3eb80150e376\transformed\runtime-1.1.1\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:documentfile:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a95499803a806bc20d1fd4638c0c9eec\transformed\documentfile-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ebc0c7c92882fadc8fdb9f45927fc821\transformed\localbroadcastmanager-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:print:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ab4ac626fa615bb51ff79c5f5a113f59\transformed\print-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:interpolator:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\00c853c6be18376f60855f1362b85a1c\transformed\interpolator-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\b2c59d30b7c8b57319743475697d8ad1\transformed\viewmodel-1.1.1\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\315627340ffe1ce39273a67babb101e6\transformed\livedata-1.1.1\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\3d30d1dfc52eef7a30e76658177aa636\transformed\livedata-core-1.1.1\AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.core:runtime:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\9144f778eb61599c0354b3e5bd6c8d2f\transformed\runtime-1.1.1\AndroidManifest.xml:17:1-22:12
-INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-128:12
-INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-128:12
-INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-128:12
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-127:12
+INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-127:12
+INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-127:12
+INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-127:12
+MERGED from [com.android.databinding:viewbinding:7.2.0] C:\Users\naamag\.gradle\caches\transforms-3\df78623cfb086026af5cf4fead766c90\transformed\viewbinding-7.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a34f9ca2008ffd4164e51267a9b8822c\transformed\support-v4-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.navigation:navigation-ui:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\6841fe6f8c8b1878414edc7a0e0f6bda\transformed\navigation-ui-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:design:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\8074c5b165befda9ab1750611a810db6\transformed\design-28.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\naamag\.gradle\caches\transforms-3\f9d64e14c042d69360539e39f061100a\transformed\constraint-layout-2.0.4\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\05de8c41fdde52fe1c7dc583b599de44\transformed\appcompat-v7-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\bced22c0334ceb9268140ee23af83b11\transformed\support-media-compat-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\e65f37f9bb1b8c0d7b62b16507d69b52\transformed\recyclerview-v7-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.navigation:navigation-fragment:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\f7cf96b4642c8bd09ad774b51c5447cc\transformed\navigation-fragment-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\7b6a9d62f76beb57997c2f7a85eb7dd4\transformed\support-fragment-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\b319cdf409e7f0460e505fca0cf75089\transformed\animated-vector-drawable-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\4ea55d372c88d9be5b6cb4a872a2b4b6\transformed\support-core-ui-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.navigation:navigation-runtime:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\f9ca2ea99b9f9764231c199eef6d39df\transformed\navigation-runtime-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\34e2ad4b9ab67d2628732683836f9358\transformed\support-core-utils-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\72cd64a2687b4d8364d05e95cde30976\transformed\support-vector-drawable-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\3bcc28c74ae75461659284a1e4ffa23f\transformed\transition-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\cad7c295978b37762433bd6f5c588faa\transformed\loader-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\fca23ba7f17ee81ae114b96cb3d01d71\transformed\viewpager-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d635870cacc85af38cd70ce95dfa2e4f\transformed\coordinatorlayout-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\02c7c27e0bf349e06f1016650dda935b\transformed\drawerlayout-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\74b716f0ad4dcf56f5c7fc0946d016aa\transformed\slidingpanelayout-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\1e130ef18ee11f6947793133c28da5ad\transformed\customview-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\2a62daea3d8e304ef0649b1cdb575cea\transformed\swiperefreshlayout-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\995c56ad534730271b261e560e01031f\transformed\asynclayoutinflater-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.navigation:navigation-common:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\3cdef0ad33194f621293f906eb435023\transformed\navigation-common-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\85e8df90276e95c75de3fa04945b018a\transformed\support-compat-28.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\e7362334cd1213ac78943fcf9a0c347f\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\f1262345d2b446166d9f25df83fba582\transformed\cursoradapter-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\1101731164ac304b3dc9c170afd9f22e\transformed\cardview-v7-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\82711e4d476ef53ba07a726c74a65562\transformed\runtime-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d4d6c834871cad8b70c2a83f8b4e9371\transformed\documentfile-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\7df65d354b7fdda3717e92e4dffe69bc\transformed\localbroadcastmanager-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\b8332bfea85bf1436d2854231f8cf1a5\transformed\print-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a6241402297407ce1c7a0fc4679f918e\transformed\interpolator-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\bcb9b869b128858eb294509ac37175b8\transformed\viewmodel-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\52f155cb03c6ba4a6d984234c04ce745\transformed\livedata-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\56b5f8f891bbf5004dde6fd8f3a41740\transformed\livedata-core-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\a6ecb995697bd303955a24b5b471c55f\transformed\runtime-1.1.1\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-127:12
+INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-127:12
+INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-127:12
 	package
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:3:5-48
 		INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-127:12
 		INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
 	android:versionName
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:7:5-28
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:6:5-28
 		INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
 	android:hardwareAccelerated
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:4:5-39
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:3:5-39
 	xmlns:android
 		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:11-69
 	android:versionCode
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:6:5-29
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:5:5-29
 		INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
 	android:installLocation
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:5:5-35
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:4:5-35
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:9:5-79
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:8:5-79
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:9:22-76
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:8:22-76
 uses-permission#android.permission.INTERNET
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:10:5-67
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:9:5-67
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:10:22-64
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:9:22-64
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:11:5-81
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:10:5-81
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:11:22-78
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:10:22-78
 uses-permission#android.permission.READ_PHONE_STATE
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:12:5-75
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:11:5-75
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:12:22-72
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:11:22-72
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:13:5-80
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:12:5-80
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:13:22-77
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:12:22-77
 uses-permission#android.permission.WAKE_LOCK
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:14:5-68
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:13:5-68
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:14:22-65
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:13:22-65
 uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:15:5-77
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:14:5-77
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:15:22-74
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:14:22-74
 uses-permission#android.permission.SET_ALARM
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:16:5-67
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:15:5-67
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:16:22-65
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:15:22-65
 uses-permission#android.permission.WRITE_int_STORAGE
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:20:5-76
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:19:5-76
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:20:22-73
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:19:22-73
 uses-permission#android.permission.MANAGE_EXTERNAL_STORAGE
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:27:5-81
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:26:5-81
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:27:22-79
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:26:22-79
 application
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:29:5-126:19
-MERGED from [com.android.support:design:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ecadb9bcf79677136195fed56f1e8a12\transformed\design-28.0.0\AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:design:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ecadb9bcf79677136195fed56f1e8a12\transformed\design-28.0.0\AndroidManifest.xml:22:5-20
-MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\naamag\.gradle\caches\transforms-3\6535490a941ac7b86c2e56ac54354564\transformed\constraint-layout-2.0.4\AndroidManifest.xml:9:5-20
-MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\naamag\.gradle\caches\transforms-3\6535490a941ac7b86c2e56ac54354564\transformed\constraint-layout-2.0.4\AndroidManifest.xml:9:5-20
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\192ad8f6a0f651ff9f10305663e68198\transformed\support-compat-28.0.0\AndroidManifest.xml:22:5-94
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\192ad8f6a0f651ff9f10305663e68198\transformed\support-compat-28.0.0\AndroidManifest.xml:22:5-94
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\5d596afbbf514aaec8702eb472ca97f3\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:22:5-23:19
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\5d596afbbf514aaec8702eb472ca97f3\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:22:5-23:19
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:28:5-125:19
+MERGED from [com.android.support:design:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\8074c5b165befda9ab1750611a810db6\transformed\design-28.0.0\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\8074c5b165befda9ab1750611a810db6\transformed\design-28.0.0\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\naamag\.gradle\caches\transforms-3\f9d64e14c042d69360539e39f061100a\transformed\constraint-layout-2.0.4\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\naamag\.gradle\caches\transforms-3\f9d64e14c042d69360539e39f061100a\transformed\constraint-layout-2.0.4\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\85e8df90276e95c75de3fa04945b018a\transformed\support-compat-28.0.0\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\85e8df90276e95c75de3fa04945b018a\transformed\support-compat-28.0.0\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\e7362334cd1213ac78943fcf9a0c347f\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\e7362334cd1213ac78943fcf9a0c347f\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:22:5-23:19
 	android:appComponentFactory
-		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\192ad8f6a0f651ff9f10305663e68198\transformed\support-compat-28.0.0\AndroidManifest.xml:22:18-91
+		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\85e8df90276e95c75de3fa04945b018a\transformed\support-compat-28.0.0\AndroidManifest.xml:22:18-91
 	android:label
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:33:9-41
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:32:9-41
 	android:hardwareAccelerated
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:31:9-43
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:30:9-43
 	android:icon
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:32:9-45
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:31:9-45
 	android:allowBackup
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:30:9-35
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:29:9-35
 	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:34:9-40
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:33:9-40
 activity#com.rafraph.pnineyHalachaHashalem.HomePage
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:35:9-37:79
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:34:9-36:79
 	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:37:13-77
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:36:13-77
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:36:13-37
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:35:13-37
 activity#com.rafraph.pnineyHalachaHashalem.pninaYomit
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:38:9-40:79
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:37:9-39:79
 	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:40:13-77
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:39:13-77
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:39:13-39
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:38:13-39
 activity#com.rafraph.pnineyHalachaHashalem.switch_modes
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:41:9-44:50
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:40:9-43:50
 	android:hardwareAccelerated
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:44:13-47
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:43:13-47
 	android:exported
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:43:13-36
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:42:13-36
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:42:13-41
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:41:13-41
 activity#com.rafraph.pnineyHalachaHashalem.Splash
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:45:9-55:20
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:44:9-54:20
 	android:label
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:48:13-45
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:47:13-45
 	android:hardwareAccelerated
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:47:13-47
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:46:13-47
 	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:49:13-77
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:48:13-77
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:46:13-35
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:45:13-35
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:50:13-54:29
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:49:13-53:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:51:17-69
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:50:17-69
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:51:25-66
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:50:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:53:17-77
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:52:17-77
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:53:27-74
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:52:27-74
 activity#com.rafraph.pnineyHalachaHashalem.MainActivity
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:56:9-69:20
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:55:9-68:20
 	android:hardwareAccelerated
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:58:13-47
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:57:13-47
 	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:59:13-69
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:58:13-69
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:57:13-41
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:56:13-41
 intent-filter#action:name:com.rafraph.ph_beta.MAINACTIVITY+category:name:android.intent.category.DEFAULT
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:60:13-64:29
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:59:13-63:29
 action#com.rafraph.ph_beta.MAINACTIVITY
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:61:17-75
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:60:17-75
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:61:25-72
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:60:25-72
 category#android.intent.category.DEFAULT
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:63:17-76
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:62:17-76
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:63:27-73
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:62:27-73
 meta-data#android.app.default_searchable
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:66:13-68:55
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:65:13-67:55
 	android:value
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:68:17-52
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:67:17-52
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:67:17-62
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:66:17-62
 activity#com.rafraph.pnineyHalachaHashalem.textMain
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:70:9-81:20
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:69:9-80:20
 	android:label
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:74:13-45
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:73:13-45
 	android:hardwareAccelerated
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:73:13-47
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:72:13-47
 	android:configChanges
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:72:13-74
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:71:13-74
 	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:75:13-69
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:74:13-69
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:71:13-37
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:70:13-37
 activity#com.rafraph.pnineyHalachaHashalem.About
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:82:9-85:63
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:81:9-84:63
 	android:label
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:84:13-57
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:83:13-57
 	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:85:13-60
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:84:13-60
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:83:13-34
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:82:13-34
 activity#com.rafraph.pnineyHalachaHashalem.About_p
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:86:9-92:15
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:85:9-91:15
 	android:label
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:88:13-57
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:87:13-57
 	android:hardwareAccelerated
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:91:13-47
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:90:13-47
 	android:configChanges
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:90:13-74
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:89:13-74
 	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:89:13-60
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:88:13-60
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:87:13-36
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:86:13-36
 activity#com.rafraph.pnineyHalachaHashalem.Feedback
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:93:9-96:63
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:92:9-95:63
 	android:label
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:94:13-60
+	android:theme
 		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:95:13-60
-	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:96:13-60
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:94:13-37
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:93:13-37
 activity#com.rafraph.pnineyHalachaHashalem.SearchHelp
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:98:9-101:63
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:97:9-100:63
 	android:label
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:100:13-63
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:99:13-63
 	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:101:13-60
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:100:13-60
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:99:13-39
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:98:13-39
 activity#com.rafraph.pnineyHalachaHashalem.SearchableActivity
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:102:9-112:20
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:101:9-111:20
 	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:104:13-60
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:103:13-60
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:103:13-47
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:102:13-47
 intent-filter#action:name:android.intent.action.SEARCH
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:105:13-107:29
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:104:13-106:29
 action#android.intent.action.SEARCH
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:106:17-71
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:105:17-71
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:106:25-68
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:105:25-68
 meta-data#android.app.searchable
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:109:13-111:54
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:108:13-110:54
 	android:resource
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:111:17-51
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:110:17-51
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:110:17-54
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:109:17-54
 activity#com.rafraph.pnineyHalachaHashalem.BookmarkActivity
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:113:9-116:63
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:112:9-115:63
 	android:label
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:114:13-60
+	android:theme
 		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:115:13-60
-	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:116:13-60
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:114:13-45
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:113:13-45
 activity#com.rafraph.pnineyHalachaHashalem.myAudio
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:117:9-121:51
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:116:9-120:51
 	android:screenOrientation
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:121:13-49
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:120:13-49
 	android:label
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:119:13-36
-	android:theme
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:120:13-69
-	android:name
 		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:118:13-36
+	android:theme
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:119:13-69
+	android:name
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:117:13-36
 service#com.rafraph.pnineyHalachaHashalem.MediaPlayerService
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:123:9-55
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:122:9-55
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:123:18-52
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:122:18-52
 receiver#com.rafraph.pnineyHalachaHashalem.Notification_reciver
-ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:125:9-57
+ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:124:9-57
 	android:name
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:125:19-55
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:124:19-55
 uses-sdk
 INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
-MERGED from [com.android.databinding:viewbinding:7.0.2] C:\Users\naamag\.gradle\caches\transforms-3\391857fb9ecfdd92c27997809d9092e8\transformed\viewbinding-7.0.2\AndroidManifest.xml:20:5-44
-MERGED from [com.android.databinding:viewbinding:7.0.2] C:\Users\naamag\.gradle\caches\transforms-3\391857fb9ecfdd92c27997809d9092e8\transformed\viewbinding-7.0.2\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\4f79687481d81fce64b9aea0574a822a\transformed\support-v4-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\4f79687481d81fce64b9aea0574a822a\transformed\support-v4-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.navigation:navigation-ui:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d16f6e2d18ce0d1895660c5d42b73a09\transformed\navigation-ui-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.navigation:navigation-ui:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d16f6e2d18ce0d1895660c5d42b73a09\transformed\navigation-ui-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:design:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ecadb9bcf79677136195fed56f1e8a12\transformed\design-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:design:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ecadb9bcf79677136195fed56f1e8a12\transformed\design-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\naamag\.gradle\caches\transforms-3\6535490a941ac7b86c2e56ac54354564\transformed\constraint-layout-2.0.4\AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\naamag\.gradle\caches\transforms-3\6535490a941ac7b86c2e56ac54354564\transformed\constraint-layout-2.0.4\AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\8fd11623966bb0584e113cba6c369170\transformed\appcompat-v7-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\8fd11623966bb0584e113cba6c369170\transformed\appcompat-v7-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\1fc9a997f9dac476611511a7c4a43a7d\transformed\support-media-compat-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\1fc9a997f9dac476611511a7c4a43a7d\transformed\support-media-compat-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\493d801043c7b5409de5c054a138310a\transformed\recyclerview-v7-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\493d801043c7b5409de5c054a138310a\transformed\recyclerview-v7-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.navigation:navigation-fragment:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\0632d78383b41be6257f0fd0e613d03c\transformed\navigation-fragment-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.navigation:navigation-fragment:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\0632d78383b41be6257f0fd0e613d03c\transformed\navigation-fragment-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\01ce58cb5dec02ff2dcf5e31777eb70a\transformed\support-fragment-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\01ce58cb5dec02ff2dcf5e31777eb70a\transformed\support-fragment-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d09347d7015ac919f27baecb2a4aa9b5\transformed\animated-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d09347d7015ac919f27baecb2a4aa9b5\transformed\animated-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\32d53bd70fb6aafefab88a38711e2b80\transformed\support-core-ui-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\32d53bd70fb6aafefab88a38711e2b80\transformed\support-core-ui-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.navigation:navigation-runtime:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\fe2fcdf5da5f73b9a172aa42ea08e146\transformed\navigation-runtime-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.navigation:navigation-runtime:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\fe2fcdf5da5f73b9a172aa42ea08e146\transformed\navigation-runtime-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d6cf91d70e9f90ed48c03cc4e82d4a1f\transformed\support-core-utils-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d6cf91d70e9f90ed48c03cc4e82d4a1f\transformed\support-core-utils-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a924792ed09f27f71b341992b008677d\transformed\support-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a924792ed09f27f71b341992b008677d\transformed\support-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:transition:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ca25ee580cf311222cbfee59d001e30e\transformed\transition-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:transition:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ca25ee580cf311222cbfee59d001e30e\transformed\transition-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:loader:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\335934a6384f95abb2560c4dcdf086ba\transformed\loader-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:loader:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\335934a6384f95abb2560c4dcdf086ba\transformed\loader-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:viewpager:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a22f9ff71f1edf1fe4f66b386fb8e4a4\transformed\viewpager-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:viewpager:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a22f9ff71f1edf1fe4f66b386fb8e4a4\transformed\viewpager-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\362c21bf486fe36d808c9907a31ee884\transformed\coordinatorlayout-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\362c21bf486fe36d808c9907a31ee884\transformed\coordinatorlayout-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\bbd22f0e830f120d1d7022e6a4a0b2fb\transformed\drawerlayout-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\bbd22f0e830f120d1d7022e6a4a0b2fb\transformed\drawerlayout-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\2ea285b7ae91134af2ca4bb77048a56f\transformed\slidingpanelayout-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\2ea285b7ae91134af2ca4bb77048a56f\transformed\slidingpanelayout-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:customview:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\fdf1ba2d2c9953c3edf5b35f99d479af\transformed\customview-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:customview:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\fdf1ba2d2c9953c3edf5b35f99d479af\transformed\customview-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\3b91920cf64056fe02a23d5f9234bf3e\transformed\swiperefreshlayout-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\3b91920cf64056fe02a23d5f9234bf3e\transformed\swiperefreshlayout-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\5278c2e8b81630465bb68ddee38799fd\transformed\asynclayoutinflater-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\5278c2e8b81630465bb68ddee38799fd\transformed\asynclayoutinflater-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.navigation:navigation-common:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\0d22b0ead785a4f972cde50bb0df23cf\transformed\navigation-common-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.navigation:navigation-common:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\0d22b0ead785a4f972cde50bb0df23cf\transformed\navigation-common-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\192ad8f6a0f651ff9f10305663e68198\transformed\support-compat-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\192ad8f6a0f651ff9f10305663e68198\transformed\support-compat-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\5d596afbbf514aaec8702eb472ca97f3\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\5d596afbbf514aaec8702eb472ca97f3\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\5469d3acc753b2c845dfdf96e65ea703\transformed\cursoradapter-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\5469d3acc753b2c845dfdf96e65ea703\transformed\cursoradapter-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ae0147c0b827ab8af8c45b5ef28395ad\transformed\cardview-v7-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ae0147c0b827ab8af8c45b5ef28395ad\transformed\cardview-v7-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\24b7454e8c63cb44018c3eb80150e376\transformed\runtime-1.1.1\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\24b7454e8c63cb44018c3eb80150e376\transformed\runtime-1.1.1\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:documentfile:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a95499803a806bc20d1fd4638c0c9eec\transformed\documentfile-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:documentfile:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a95499803a806bc20d1fd4638c0c9eec\transformed\documentfile-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ebc0c7c92882fadc8fdb9f45927fc821\transformed\localbroadcastmanager-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ebc0c7c92882fadc8fdb9f45927fc821\transformed\localbroadcastmanager-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:print:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ab4ac626fa615bb51ff79c5f5a113f59\transformed\print-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:print:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ab4ac626fa615bb51ff79c5f5a113f59\transformed\print-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:interpolator:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\00c853c6be18376f60855f1362b85a1c\transformed\interpolator-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:interpolator:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\00c853c6be18376f60855f1362b85a1c\transformed\interpolator-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\b2c59d30b7c8b57319743475697d8ad1\transformed\viewmodel-1.1.1\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\b2c59d30b7c8b57319743475697d8ad1\transformed\viewmodel-1.1.1\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\315627340ffe1ce39273a67babb101e6\transformed\livedata-1.1.1\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\315627340ffe1ce39273a67babb101e6\transformed\livedata-1.1.1\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\3d30d1dfc52eef7a30e76658177aa636\transformed\livedata-core-1.1.1\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\3d30d1dfc52eef7a30e76658177aa636\transformed\livedata-core-1.1.1\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\9144f778eb61599c0354b3e5bd6c8d2f\transformed\runtime-1.1.1\AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\9144f778eb61599c0354b3e5bd6c8d2f\transformed\runtime-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.databinding:viewbinding:7.2.0] C:\Users\naamag\.gradle\caches\transforms-3\df78623cfb086026af5cf4fead766c90\transformed\viewbinding-7.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.android.databinding:viewbinding:7.2.0] C:\Users\naamag\.gradle\caches\transforms-3\df78623cfb086026af5cf4fead766c90\transformed\viewbinding-7.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a34f9ca2008ffd4164e51267a9b8822c\transformed\support-v4-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a34f9ca2008ffd4164e51267a9b8822c\transformed\support-v4-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-ui:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\6841fe6f8c8b1878414edc7a0e0f6bda\transformed\navigation-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-ui:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\6841fe6f8c8b1878414edc7a0e0f6bda\transformed\navigation-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\8074c5b165befda9ab1750611a810db6\transformed\design-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\8074c5b165befda9ab1750611a810db6\transformed\design-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\naamag\.gradle\caches\transforms-3\f9d64e14c042d69360539e39f061100a\transformed\constraint-layout-2.0.4\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\naamag\.gradle\caches\transforms-3\f9d64e14c042d69360539e39f061100a\transformed\constraint-layout-2.0.4\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\05de8c41fdde52fe1c7dc583b599de44\transformed\appcompat-v7-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\05de8c41fdde52fe1c7dc583b599de44\transformed\appcompat-v7-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\bced22c0334ceb9268140ee23af83b11\transformed\support-media-compat-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\bced22c0334ceb9268140ee23af83b11\transformed\support-media-compat-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\e65f37f9bb1b8c0d7b62b16507d69b52\transformed\recyclerview-v7-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\e65f37f9bb1b8c0d7b62b16507d69b52\transformed\recyclerview-v7-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-fragment:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\f7cf96b4642c8bd09ad774b51c5447cc\transformed\navigation-fragment-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-fragment:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\f7cf96b4642c8bd09ad774b51c5447cc\transformed\navigation-fragment-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\7b6a9d62f76beb57997c2f7a85eb7dd4\transformed\support-fragment-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\7b6a9d62f76beb57997c2f7a85eb7dd4\transformed\support-fragment-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\b319cdf409e7f0460e505fca0cf75089\transformed\animated-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\b319cdf409e7f0460e505fca0cf75089\transformed\animated-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\4ea55d372c88d9be5b6cb4a872a2b4b6\transformed\support-core-ui-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\4ea55d372c88d9be5b6cb4a872a2b4b6\transformed\support-core-ui-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-runtime:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\f9ca2ea99b9f9764231c199eef6d39df\transformed\navigation-runtime-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-runtime:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\f9ca2ea99b9f9764231c199eef6d39df\transformed\navigation-runtime-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\34e2ad4b9ab67d2628732683836f9358\transformed\support-core-utils-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\34e2ad4b9ab67d2628732683836f9358\transformed\support-core-utils-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\72cd64a2687b4d8364d05e95cde30976\transformed\support-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\72cd64a2687b4d8364d05e95cde30976\transformed\support-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\3bcc28c74ae75461659284a1e4ffa23f\transformed\transition-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\3bcc28c74ae75461659284a1e4ffa23f\transformed\transition-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\cad7c295978b37762433bd6f5c588faa\transformed\loader-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\cad7c295978b37762433bd6f5c588faa\transformed\loader-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\fca23ba7f17ee81ae114b96cb3d01d71\transformed\viewpager-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\fca23ba7f17ee81ae114b96cb3d01d71\transformed\viewpager-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d635870cacc85af38cd70ce95dfa2e4f\transformed\coordinatorlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d635870cacc85af38cd70ce95dfa2e4f\transformed\coordinatorlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\02c7c27e0bf349e06f1016650dda935b\transformed\drawerlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\02c7c27e0bf349e06f1016650dda935b\transformed\drawerlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\74b716f0ad4dcf56f5c7fc0946d016aa\transformed\slidingpanelayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\74b716f0ad4dcf56f5c7fc0946d016aa\transformed\slidingpanelayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\1e130ef18ee11f6947793133c28da5ad\transformed\customview-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\1e130ef18ee11f6947793133c28da5ad\transformed\customview-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\2a62daea3d8e304ef0649b1cdb575cea\transformed\swiperefreshlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\2a62daea3d8e304ef0649b1cdb575cea\transformed\swiperefreshlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\995c56ad534730271b261e560e01031f\transformed\asynclayoutinflater-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\995c56ad534730271b261e560e01031f\transformed\asynclayoutinflater-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-common:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\3cdef0ad33194f621293f906eb435023\transformed\navigation-common-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-common:1.0.0] C:\Users\naamag\.gradle\caches\transforms-3\3cdef0ad33194f621293f906eb435023\transformed\navigation-common-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\85e8df90276e95c75de3fa04945b018a\transformed\support-compat-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\85e8df90276e95c75de3fa04945b018a\transformed\support-compat-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\e7362334cd1213ac78943fcf9a0c347f\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\e7362334cd1213ac78943fcf9a0c347f\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\f1262345d2b446166d9f25df83fba582\transformed\cursoradapter-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\f1262345d2b446166d9f25df83fba582\transformed\cursoradapter-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\1101731164ac304b3dc9c170afd9f22e\transformed\cardview-v7-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\1101731164ac304b3dc9c170afd9f22e\transformed\cardview-v7-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\82711e4d476ef53ba07a726c74a65562\transformed\runtime-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\82711e4d476ef53ba07a726c74a65562\transformed\runtime-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d4d6c834871cad8b70c2a83f8b4e9371\transformed\documentfile-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\d4d6c834871cad8b70c2a83f8b4e9371\transformed\documentfile-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\7df65d354b7fdda3717e92e4dffe69bc\transformed\localbroadcastmanager-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\7df65d354b7fdda3717e92e4dffe69bc\transformed\localbroadcastmanager-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\b8332bfea85bf1436d2854231f8cf1a5\transformed\print-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\b8332bfea85bf1436d2854231f8cf1a5\transformed\print-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a6241402297407ce1c7a0fc4679f918e\transformed\interpolator-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\a6241402297407ce1c7a0fc4679f918e\transformed\interpolator-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\bcb9b869b128858eb294509ac37175b8\transformed\viewmodel-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\bcb9b869b128858eb294509ac37175b8\transformed\viewmodel-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\52f155cb03c6ba4a6d984234c04ce745\transformed\livedata-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\52f155cb03c6ba4a6d984234c04ce745\transformed\livedata-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\56b5f8f891bbf5004dde6fd8f3a41740\transformed\livedata-core-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\56b5f8f891bbf5004dde6fd8f3a41740\transformed\livedata-core-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\a6ecb995697bd303955a24b5b471c55f\transformed\runtime-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\naamag\.gradle\caches\transforms-3\a6ecb995697bd303955a24b5b471c55f\transformed\runtime-1.1.1\AndroidManifest.xml:20:5-44
 INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion

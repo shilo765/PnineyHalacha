@@ -440,23 +440,21 @@ public class MainActivity extends AppCompatActivity
 		});
 
 		File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
-		if(fileEn.exists())
+		if(fileEn.exists()&&isPremissionGranted(getApplicationContext()))
 			for (int i = enS; i <= enE; i++)
 				listDisplay.add(listDataHeader.get(i));
 		File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
-		if(fileEs.exists())
+		if(fileEs.exists()&&isPremissionGranted(getApplicationContext()))
 			for (int i = esS; i <= esE; i++)
 				listDisplay.add(listDataHeader.get(i));
 		File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
-		if(fileR.exists())
+		if(fileR.exists()&&isPremissionGranted(getApplicationContext()))
 			for (int i = ruS; i <= ruE; i++)
 				listDisplay.add(listDataHeader.get(i));
 		File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
-		if(fileF.exists())
+		if(fileF.exists()&&isPremissionGranted(getApplicationContext()))
 			for (int i = frS; i <= frE; i++)
 				listDisplay.add(listDataHeader.get(i));
-
-
 		listAdapter = new ExpandableListAdapter(this, listDisplay, listDataChild);
 
 
@@ -478,7 +476,21 @@ public class MainActivity extends AppCompatActivity
 			listAdapter.setTextColor(Color.WHITE);
 			//to set the list text color
 			expListView.setAdapter(listAdapter);
-			expListView.setBackgroundColor(Color.BLACK);//to set the list text color
+			expListView.setBackgroundColor(Color.BLACK);
+			if(MyLanguage==ENGLISH)
+				toMain.setImageResource(R.drawable.to_main_b_e);
+			if(MyLanguage==RUSSIAN)
+				toMain.setImageResource(R.drawable.to_main_b_r);
+			if(MyLanguage==SPANISH)
+				toMain.setImageResource(R.drawable.to_main_b_s);
+			if(MyLanguage==FRENCH)
+				toMain.setImageResource(R.drawable.to_main_b_f);
+			if(MyLanguage==HEBREW)
+				toMain.setImageResource(R.drawable.to_main_b);
+			LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+			menu= (ImageView) findViewById(R.id.menu);
+			menu.setImageResource(R.drawable.ic_action_congif_b);
+			main.setBackgroundColor(Color.rgb(120,1,1));//to set the list text color
 		}
 		else
 		{
@@ -2366,6 +2378,7 @@ private void initializeSeekBar()
 		if(firstLang==0) {
 			languageDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 			languageDialog.setContentView(R.layout.language);
+
 			TextView welcome =languageDialog.findViewById(R.id.chooseTochen);
 			TextView pickBooks =languageDialog.findViewById(R.id.pickBooks);
 			switch (Locale.getDefault().getLanguage()) {
@@ -2506,12 +2519,12 @@ private void initializeSeekBar()
 			}
 			seekbar = (SeekBar) languageDialog.findViewById(R.id.seekBar6);
 			seekbar.setMax(77);
-			seekbar.setProgress(mPrefs.getInt("fontSize",20));
+			seekbar.setProgress(mPrefs.getInt("fontSize",20)*2);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 				seekbar.setMin(40);
 			}
 			cb 		= (TextView) languageDialog.findViewById(R.id.textSizeExm);
-			cb.setTextSize(mPrefs.getInt("fontSize",20));
+			cb.setTextSize(mPrefs.getInt("fontSize",20)*2);
 			initializeSeekBar();
 			TextView langOf=languageDialog.findViewById(R.id.langof);
 			TextView chooseTochenLang=languageDialog.findViewById(R.id.chooseTochen);
@@ -2731,21 +2744,114 @@ private void initializeSeekBar()
 
 
 		File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
-		if (fileF.exists())
-			f_imv_down.setImageResource(R.drawable.f_b_4);
+		if (fileF.exists()) {
+			if(!isPremissionGranted(getApplicationContext())){
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+				f_imv_down.setImageResource(R.drawable.f_b_4);
+			}
+
+		}
 		File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
-		if (fileEs.exists())
-			es_imv_down.setImageResource(R.drawable.es_b_4);
+		if (fileEs.exists()){
+			if(!isPremissionGranted(getApplicationContext())){
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+				es_imv_down.setImageResource(R.drawable.es_b_4);
+			}
+
+		}
+
 		File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
-		if (fileEn.exists())
-			en_imv_down.setImageResource(R.drawable.en_b_4);
+		if (fileEn.exists()){
+			if(!isPremissionGranted(getApplicationContext())){
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+				en_imv_down.setImageResource(R.drawable.en_b_4);
+			}
+
+		}
+
 		File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
-		if (fileR.exists())
-			r_imv_down.setImageResource(R.drawable.r_b_4);
+		if (fileR.exists()){
+			if(!isPremissionGranted(getApplicationContext())){
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+				r_imv_down.setImageResource(R.drawable.r_b_4);
+			}
+
+		}
+
 		dialog_x.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				languageDialog.dismiss();
+				pop = 0;
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
+				changeL = true;
+
+				//mPrefs.getString("where","HomePage");
+				Class ourClass = null;
+				try {
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem."+mPrefs.getString("where","HomePage"));
+				}
+				catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				shPrefEditor.putString("where", "HomePage");
+				shPrefEditor.commit();
+				Intent ourIntent = new Intent(MainActivity.this, ourClass);
+				int[] book_chapter = new int[2];
+				book_chapter[0] = 0xFFFF;
+				book_chapter[1] = 0xFFFF;
+				ourIntent.putExtra("book_chapter", mPrefs.getInt("h&rChapId",1));
+				ourIntent.putExtra("audio_id", mPrefs.getInt("h&rAI",1));
+				ourIntent.putExtra("MyLanguage", MyLanguage);
+				ourIntent.putExtra("book_id", mPrefs.getInt("h&rBookId",1));
+				ourIntent.putExtra("chapter_id", mPrefs.getInt("h&rChapId",1));
+				ourIntent.putExtra("webLink", mPrefs.getString("h&rWebLink",""));
+				//ourIntent.putExtra("webLink", localFile.getPath());
+				ourIntent.putExtra("scroolY", mPrefs.getInt("h&rScrool",0));
+				ourIntent.putExtra("hearAndRead", mPrefs.getBoolean("hearAndRead",true));
+				ourIntent.putExtra("book_chapter",extras.getIntArray("book_chapter") );
+				System.out.println("shilo77777777777777777777777777777777777777777777777777777"+"sections_" + mPrefs.getInt("h&rChapId",1));
+				ourIntent.putExtra("sections_" + 1,extras.getStringArrayList("sections_" + 1));
+				ourIntent.putExtra("sections_" + 2,extras.getStringArrayList("sections_" + 2));
+				ourIntent.putExtra("sections_" + 3,extras.getStringArrayList("sections_" + 3));
+				ourIntent.putExtra("sections_" + 4,extras.getStringArrayList("sections_" + 4));
+				ourIntent.putExtra("sections_" + 5,extras.getStringArrayList("sections_" + 5));
+				ourIntent.putExtra("sections_" + 6,extras.getStringArrayList("sections_" + 6));
+				ourIntent.putExtra("sections_" + 7,extras.getStringArrayList("sections_" + 7));
+				ourIntent.putExtra("sections_" + 8,extras.getStringArrayList("sections_" + 8));
+				ourIntent.putExtra("sections_" + 9,extras.getStringArrayList("sections_" + 9));
+				ourIntent.putExtra("sections_" + 10,extras.getStringArrayList("sections_" + 10));
+				ourIntent.putExtra("sections_" + 11,extras.getStringArrayList("sections_" + 11));
+				ourIntent.putExtra("sections_" + 12,extras.getStringArrayList("sections_" + 12));
+				ourIntent.putExtra("sections_" + 13,extras.getStringArrayList("sections_" + 13));
+				ourIntent.putExtra("sections_" + 14,extras.getStringArrayList("sections_" + 14));
+				ourIntent.putExtra("sections_" + 15,extras.getStringArrayList("sections_" + 15));
+				ourIntent.putExtra("sections_" + 16,extras.getStringArrayList("sections_" + 16));
+				ourIntent.putExtra("sections_" + 17,extras.getStringArrayList("sections_" + 17));
+				ourIntent.putExtra("sections_" + 18,extras.getStringArrayList("sections_" + 18));
+				ourIntent.putExtra("sections_" + 19,extras.getStringArrayList("sections_" + 19));
+				ourIntent.putExtra("sections_" + 20,extras.getStringArrayList("sections_" + 20));
+				ourIntent.putExtra("sections_" + 21,extras.getStringArrayList("sections_" + 21));
+				ourIntent.putExtra("sections_" + 22,extras.getStringArrayList("sections_" + 22));
+				ourIntent.putExtra("sections_" + 23,extras.getStringArrayList("sections_" + 23));
+				ourIntent.putExtra("sections_" + 24,extras.getStringArrayList("sections_" + 24));
+				ourIntent.putExtra("sections_" + 25,extras.getStringArrayList("sections_" + 25));
+				ourIntent.putExtra("sections_" + 26,extras.getStringArrayList("sections_" + 26));
+				ourIntent.putExtra("sections_" + 27,extras.getStringArrayList("sections_" + 27));
+				ourIntent.putExtra("sections_" + 28,extras.getStringArrayList("sections_" + 28));
+				ourIntent.putExtra("sections_" + 29,extras.getStringArrayList("sections_" + 29));
+				ourIntent.putExtra("sections_" + 30,extras.getStringArrayList("sections_" + 30));
+				ourIntent.putExtra("sections_" + 31,extras.getStringArrayList("sections_" + 31));
+				ourIntent.putExtra("sections_" + 32,extras.getStringArrayList("sections_" + 32));
+				ourIntent.putExtra("sections_" + 33,extras.getStringArrayList("sections_" + 33));
+				ourIntent.putExtra("sections_" + 34,extras.getStringArrayList("sections_" + 34));
+				ourIntent.putExtra("sections_" + 35,extras.getStringArrayList("sections_" + 35));
+				ourIntent.putExtra("sections_" + 36,extras.getStringArrayList("sections_" + 36));
+				ourIntent.putExtra("sections_" + 37,extras.getStringArrayList("sections_" + 37));
+				ourIntent.putExtra("sections_" + 38,extras.getStringArrayList("sections_" + 38));
+				ourIntent.putExtra("sections_" + 39,extras.getStringArrayList("sections_" + 39));
+				ourIntent.putExtra("sections_" + 40,extras.getStringArrayList("sections_" + 40));
+				startActivity(ourIntent);
 			}
 		});
 		if(firstLang==0) {
@@ -3105,7 +3211,7 @@ private void initializeSeekBar()
 				//ourIntent.putExtra("webLink", localFile.getPath());
 				ourIntent.putExtra("scroolY", mPrefs.getInt("h&rScrool",0));
 				ourIntent.putExtra("hearAndRead", mPrefs.getBoolean("hearAndRead",true));
-
+				ourIntent.putExtra("book_chapter",extras.getIntArray("book_chapter") );
 				System.out.println("shilo77777777777777777777777777777777777777777777777777777"+"sections_" + mPrefs.getInt("h&rChapId",1));
 				ourIntent.putExtra("sections_" + 1,extras.getStringArrayList("sections_" + 1));
 				ourIntent.putExtra("sections_" + 2,extras.getStringArrayList("sections_" + 2));

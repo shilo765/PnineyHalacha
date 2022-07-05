@@ -154,6 +154,20 @@ public class HomePage extends Activity {
             main4.setBackgroundColor(Color.BLACK);
             main5.setBackgroundColor(Color.BLACK);
             main6.setBackgroundColor(Color.BLACK);
+            if(MyLanguage==ENGLISH)
+                toMain.setImageResource(R.drawable.to_main_b_e);
+            if(MyLanguage==RUSSIAN)
+                toMain.setImageResource(R.drawable.to_main_b_r);
+            if(MyLanguage==SPANISH)
+                toMain.setImageResource(R.drawable.to_main_b_s);
+            if(MyLanguage==FRENCH)
+                toMain.setImageResource(R.drawable.to_main_b_f);
+            if(MyLanguage==HEBREW)
+                toMain.setImageResource(R.drawable.to_main_b);
+            main=(LinearLayout) findViewById(R.id.lnrOption3);
+            ImageView menu= (ImageView) findViewById(R.id.menu);
+            menu.setImageResource(R.drawable.ic_action_congif_b);
+            main.setBackgroundColor(Color.rgb(120,1,1));
         }
         ImageView menu= (ImageView) findViewById(R.id.menu);
 

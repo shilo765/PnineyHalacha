@@ -86,6 +86,7 @@ public class downBack extends Activity {
         @Override
         protected String doInBackground(String... params) {
             // get the string from params, which is an array
+
             int i=0;
             while (i<1000) {
                 System.out.println("hi"+i);
