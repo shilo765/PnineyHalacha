@@ -12,7 +12,7 @@
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/drawable/rav.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout-v21/bookmarks.xml" value="0.21041666666666667" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout-v21/home_page2.xml" value="0.1703125" />
-        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout/about_pninei.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout/about_pninei.xml" value="0.2059659090909091" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout/acronyms.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout/activity_about.xml" value="0.2684659090909091" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout/activity_audio.xml" value="0.36666666666666664" />
@@ -40,6 +40,7 @@
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout/note.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout/paragraph.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout/search_activity.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout/spinner_des.xml" value="0.2671875" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout/splash.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout/text_main.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha0305/app/src/main/res/layout/text_main_audio.xml" value="0.24661508704061896" />
@@ -120,6 +121,7 @@
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/settings.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/tochen_actionbar.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/naamag/AndroidStudioProjects/PnineyHalacha1502/app/src/main/res/menu/tochen_actionbar_black.xml" value="0.5" />
+        <entry key="..\:/Users/naamag/AppData/Local/Android/Sdk/platforms/android-30/data/res/layout/simple_expandable_list_item_1.xml" value="0.26927083333333335" />
       </map>
     </option>
   </component>

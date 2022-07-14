@@ -308,7 +308,7 @@ public class MainActivity extends AppCompatActivity
 				else {/*this is the default*/
 					popupMenu.getMenu().add(0,0,0,"הגדרות");
 					popupMenu.getMenu().add(0,1,0,"ספרים");
-					popupMenu.getMenu().add(0,2,0,"לימוד יומי");
+					popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
 					popupMenu.getMenu().add(0,3,0,"חיפוש");
 					popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
 					popupMenu.getMenu().add(0,5,0,"משוב");
@@ -2356,7 +2356,7 @@ private void initializeSeekBar()
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 					cb.setTextSize(progress);
-					shPrefEditor.putInt("fontSize",progress-20);
+					shPrefEditor.putInt("fontSize",progress);
 					shPrefEditor.commit();
 
 				}
@@ -2519,9 +2519,9 @@ private void initializeSeekBar()
 			}
 			seekbar = (SeekBar) languageDialog.findViewById(R.id.seekBar6);
 			seekbar.setMax(77);
-			seekbar.setProgress(mPrefs.getInt("fontSize",20)*2);
+			seekbar.setProgress(mPrefs.getInt("fontSize",20));
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-				seekbar.setMin(40);
+				seekbar.setMin(15);
 			}
 			cb 		= (TextView) languageDialog.findViewById(R.id.textSizeExm);
 			cb.setTextSize(mPrefs.getInt("fontSize",20)*2);

@@ -16,6 +16,7 @@ import android.media.PlaybackParams;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 
@@ -172,8 +173,15 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
             sections = new ArrayList<String>();
             sections = serviceIntent.getExtras().getStringArrayList("sections_"+chapter);
-            if (book_audio_id!=F_TFILA)
-            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3",book_audio_id, chapter, section );
+            if (book_audio_id!=F_TFILA) {
+               // File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/audio/10-02-03.mp3");
+               // if (fileF.exists()) {
+                   // mediaUrl =Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/audio/10-02-02.mp3";
+
+                  //  }
+               // else
+                    mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section);
+            }
             else
                 mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-%02d-%02d-%02d.mp3" ,2, chapter, section);
         } catch (NullPointerException e) {

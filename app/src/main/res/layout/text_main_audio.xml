@@ -84,7 +84,7 @@
         <WebView
             android:id="@+id/webView1"
             android:layout_width="match_parent"
-            android:layout_height="700dp"
+            android:layout_height="match_parent"
 
             android:layout_weight="1">
 
@@ -252,7 +252,7 @@
                     android:layout_marginRight="10dp"
                     android:background="#00FFFFFF"
                     android:backgroundTint="#FFFFFF"
-                    android:popupBackground="#667B7B"
+                    android:popupBackground="#FFF7EC"
                     android:scaleType="centerInside"
                     android:scrollbarSize="25dp"
                     android:spinnerMode="dropdown"

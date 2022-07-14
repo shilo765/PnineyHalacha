@@ -2,6 +2,8 @@ package com.rafraph.pnineyHalachaHashalem;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +19,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
@@ -45,11 +48,14 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -393,7 +399,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     else {/*this is the default*/
                         popupMenu.getMenu().add(0,0,0,"הגדרות");
                         popupMenu.getMenu().add(0,1,0,"ספרים");
-                        popupMenu.getMenu().add(0,2,0,"לימוד יומי");
+                        popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
                         popupMenu.getMenu().add(0,3,0,"חיפוש");
                         popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
                         popupMenu.getMenu().add(0,5,0,"משוב");
@@ -718,7 +724,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             firstCall = true;
             spinner = findViewById(R.id.myspinner);
             spinner.setSelected(true);
-            ArrayAdapter<CharSequence> simpleadapter = ArrayAdapter.createFromResource(this, R.array.speed_audio_array, android.R.layout.simple_list_item_1);
+            final List<String> states= Arrays.asList("x2","x1.75","x1.5","x1.25","x1","x0.75");
+             ArrayAdapter simpleadapter = new ArrayAdapter(this, R.layout.spinner_des, states);
+
             simpleadapter.setDropDownViewResource((android.R.layout.simple_list_item_1));
             spinner.setAdapter(simpleadapter);
             float tempSpeed=mPrefs.getFloat("audioSpeed",1f);
@@ -755,7 +763,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 chapter += 19;
             section = extras.getInt("audio_id");
             sections = extras.getStringArrayList("sections_" + chapter);
-            System.out.println("shilo888888888888888888888888888888888888888888888"+"sections_" + chapter);
             book_name = get_book_name_by_id();
             playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section));
             List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
@@ -768,7 +775,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 textView = new TextView(getBaseContext());
                 //String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
                 //String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
-                textView.setText("  " + sections.get(i) + "\n");
+                textView.setText("\n  " + sections.get(i) + "\n");
                 //textView.setText("shilo");
                 //textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
                 if (mPrefs.getInt("BlackBackground", 0) == 1) {
@@ -859,7 +866,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         broadcastIntent = new Intent(Broadcast_Speed);
                         int choice = spinner.getSelectedItemPosition();
                         speed = sppedArray[choice];
-
                         shPrefEditor.putFloat("audioSpeed", speed);
                         shPrefEditor.commit();
                     }
@@ -899,8 +905,115 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             refresh(2000);
 
         }
-    }
 
+        if(false) //downaudio
+        {
+            final ProgressDialog downloadWait = ProgressDialog.show(myAudio.this, "", "מוריד ספרים אנא המתן");
+            new Thread() {
+                public void run() {
+                    try {
+                        myAudio.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                try {
+                                    downloadBooks2(book,chapter,section, "audio");
+                                } catch (InterruptedException | IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    } catch (Exception e) {
+
+                    }
+                    downloadWait.dismiss();
+                }
+            }.start();
+        }
+    }
+    public  void downloadBooks2(int downBook,int downChap,int downSec ,String folder) throws InterruptedException, IOException {
+
+        if(downSec>1) {
+            File file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+ folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec-1)).substring(0, 2) + ".mp3");
+            if(!file.exists()) {
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://cdn1.yhb.org.il/mp3/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec - 1)).substring(0, 2) + ".mp3"));
+                request.setDescription("please  wait");
+                //request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/" + folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec - 1)).substring(0, 2) + ".mp3");
+                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                downloadManager.enqueue(request);
+                shPrefEditor.putString("Bookmark5",mPrefs.getString("Bookmark5",""));
+                shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark4",""));
+                shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark3",""));
+                shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark2",""));
+                shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark1",""));
+                shPrefEditor.putString("Bookmark5",("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec - 1)).substring(0, 2) + ".mp3");
+                shPrefEditor.commit();
+            }
+        }
+        File file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+ folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec)).substring(0, 2) + ".mp3");
+        if(!file.exists()) {
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://cdn1.yhb.org.il/mp3/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec)).substring(0, 2) + ".mp3"));
+            request.setDescription("please  wait");
+            //request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/" + folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec)).substring(0, 2) + ".mp3");
+            DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+            downloadManager.enqueue(request);
+            shPrefEditor.putString("Bookmark5",mPrefs.getString("Bookmark5",""));
+            shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark4",""));
+            shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark3",""));
+            shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark2",""));
+            shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark1",""));
+            shPrefEditor.putString("Bookmark5",("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec )).substring(0, 2) + ".mp3");
+            shPrefEditor.commit();
+        }
+
+        if(downSec<lastSec) {
+             file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+ folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec+1)).substring(0, 2) + ".mp3");
+            if(!file.exists()) {
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://cdn1.yhb.org.il/mp3/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec + 1)).substring(0, 2) + ".mp3"));
+                request.setDescription("please  wait");
+                //request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/" + folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec + 1)).substring(0, 2) + ".mp3");
+                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                downloadManager.enqueue(request);
+                shPrefEditor.putString("Bookmark5",mPrefs.getString("Bookmark5",""));
+                shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark4",""));
+                shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark3",""));
+                shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark2",""));
+                shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark1",""));
+                shPrefEditor.putString("Bookmark5",("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec +1)).substring(0, 2) + ".mp3");
+                shPrefEditor.commit();
+            }
+        }
+        if(downSec<lastSec-1) {
+             file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+ folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec+2)).substring(0, 2) + ".mp3");
+            if(!file.exists()) {
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://cdn1.yhb.org.il/mp3/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec + 2)).substring(0, 2) + ".mp3"));
+                request.setDescription("please  wait");
+                //request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/" + folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec + 2)).substring(0, 2) + ".mp3");
+                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                downloadManager.enqueue(request);
+                shPrefEditor.putString("Bookmark5",mPrefs.getString("Bookmark5",""));
+                shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark4",""));
+                shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark3",""));
+                shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark2",""));
+                shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark1",""));
+                shPrefEditor.putString("Bookmark5",("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec +2)).substring(0, 2) + ".mp3");
+                shPrefEditor.commit();
+            }
+        }
+        file=new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+ folder);
+        File[] list = file.listFiles();
+        int count = 0;
+        for (File f: list){
+            String name = f.getName();
+            if(!name.equals(mPrefs.getString("Bookmark1",""))&&!name.equals(mPrefs.getString("Bookmark2",""))&&!name.equals(mPrefs.getString("Bookmark3",""))&&!name.equals(mPrefs.getString("Bookmark4",""))&&!name.equals(mPrefs.getString("Bookmark5","")))
+                file.delete();
+        }
+
+    }
     private void refresh(int millisec) {
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {

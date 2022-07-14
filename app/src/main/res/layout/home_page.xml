@@ -73,10 +73,10 @@
 
             android:foregroundGravity="center"
             android:gravity="center"
-            android:paddingRight="50dp">
+            android:paddingRight="40dp">
 
             <RelativeLayout
-                android:layout_width="70dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="50dp">
 
@@ -87,7 +87,7 @@
                     android:layout_marginTop="83dp"
                     android:gravity="center"
 
-                    android:text="לימוד יומי"
+                    android:text="הלימוד היומי"
                     android:textColor="#970606"
                     android:textSize="14dp"
                     android:textStyle="bold" />

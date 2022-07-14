@@ -394,7 +394,7 @@ public class SearchHelp extends Activity {
 				else {/*this is the default*/
 					popupMenu.getMenu().add(0,0,0,"הגדרות");
 					popupMenu.getMenu().add(0,1,0,"ספרים");
-					popupMenu.getMenu().add(0,2,0,"לימוד יומי");
+					popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
 					popupMenu.getMenu().add(0,3,0,"חיפוש");
 					popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
 					popupMenu.getMenu().add(0,5,0,"משוב");
@@ -783,7 +783,7 @@ public class SearchHelp extends Activity {
 				}
 
 				query=" "+searchText.getText().toString()+" ";
-				queryToSearch=searchText.getText().toString();
+				queryToSearch=searchText.getText().toString().split("\\(")[0];
 				{
 
 					//query = "ו";// for test of the search
@@ -819,7 +819,16 @@ public class SearchHelp extends Activity {
 													query=" "+ queryToSearch+",";
 													doMySearch(num);
 												}
-
+												if(totalCount<num)
+												{
+													query="'"+ queryToSearch+"'";
+													doMySearch(num);
+												}
+												if(totalCount<num)
+												{
+													query="\""+ queryToSearch+"\"";
+													doMySearch(num);
+												}
 												if(totalCount<num)
 												{
 													query=","+queryToSearch+" ";
@@ -852,6 +861,11 @@ public class SearchHelp extends Activity {
 												{
 													query=" "+queryToSearch+"יהם";
 													//doMySearch(num);
+												}
+												if(totalCount<num)
+												{
+													query=queryToSearch;
+													doMySearch(num);
 												}
 
 

@@ -20,6 +20,8 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -127,6 +129,7 @@ public class About_p extends Activity
 			e.printStackTrace();
 		}
 	}
+	@SuppressLint("ResourceType")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -148,6 +151,8 @@ public class About_p extends Activity
 		TextView txt2=(TextView) findViewById(R.id.headr);
 		TextView txt3=(TextView) findViewById(R.id.textView3);
 		TextView txt4=(TextView) findViewById(R.id.textView4);
+		//ImageView lili=(ImageView) findViewById(R.id.imageviewlili);
+		//Glide.with(this).load(R.drawable.abb).into(lili);
 		switch (MyLanguage)
 		{
 			case ENGLISH:
@@ -300,7 +305,7 @@ public class About_p extends Activity
 				else {/*this is the default*/
 					popupMenu.getMenu().add(0,0,0,"הגדרות");
 					popupMenu.getMenu().add(0,1,0,"ספרים");
-					popupMenu.getMenu().add(0,2,0,"לימוד יומי");
+					popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
 					popupMenu.getMenu().add(0,3,0,"חיפוש");
 					popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
 					popupMenu.getMenu().add(0,5,0,"משוב");

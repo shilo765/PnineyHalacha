@@ -237,7 +237,7 @@ public class HomePage extends Activity {
                 else {/*this is the default*/
                     popupMenu.getMenu().add(0,0,0,"הגדרות");
                     popupMenu.getMenu().add(0,1,0,"ספרים");
-                    popupMenu.getMenu().add(0,2,0,"לימוד יומי");
+                    popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
                     popupMenu.getMenu().add(0,3,0,"חיפוש");
                     popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
                     popupMenu.getMenu().add(0,5,0,"משוב");
