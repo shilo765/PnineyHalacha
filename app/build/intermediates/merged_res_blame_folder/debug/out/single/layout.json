@@ -56,6 +56,10 @@
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\bookmarks.xml"
     },
     {
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/activity_about.xml",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/activity_about.xml"
+    },
+    {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_feedback.xml",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_feedback.xml"
     },
@@ -96,12 +100,12 @@
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\note.xml"
     },
     {
-        "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_searchable.xml",
-        "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_searchable.xml"
-    },
-    {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\text_main_down.xml",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\text_main_down.xml"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_searchable.xml",
+        "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_searchable.xml"
     },
     {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\audio_list.xml",
@@ -130,9 +134,5 @@
     {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\paragraph.xml",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\paragraph.xml"
-    },
-    {
-        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/about_pninei.xml",
-        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/about_pninei.xml"
     }
 ]

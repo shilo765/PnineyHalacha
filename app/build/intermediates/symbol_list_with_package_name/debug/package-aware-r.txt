@@ -1266,7 +1266,6 @@ drawable ic_ask_the_rav
 drawable ic_go_donate
 drawable ic_go_shop
 drawable ic_last_loc
-drawable ic_launcher
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
@@ -1287,7 +1286,6 @@ drawable my_last_location
 drawable my_marks
 drawable navigation_empty_icon
 drawable new_dialog_x
-drawable not_ic
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -1304,6 +1302,7 @@ drawable page_search
 drawable page_search_b
 drawable pn_books
 drawable pnina_sep
+drawable pniney_icon
 drawable pnineyicon
 drawable pressed_color
 drawable r_b_1
@@ -1548,6 +1547,7 @@ id layout_root
 id lblListHeader
 id lblListItem
 id left
+id lili
 id line1
 id line3
 id linear

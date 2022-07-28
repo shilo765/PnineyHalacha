@@ -699,7 +699,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
 
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),
-                R.drawable.ic_launcher); //replace with your own image
+                R.drawable.pniney_icon); //replace with your own image
 
         // Create a new Notification
         /*NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)

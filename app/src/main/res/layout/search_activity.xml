@@ -184,15 +184,16 @@
 
 		<ImageView
 			android:id="@+id/goSearch"
-			android:layout_width="wrap_content"
-			android:layout_height="35dp"
+			android:layout_width="20dp"
+			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
 
 			android:layout_marginStart="5dp"
 			android:layout_marginLeft="5dp"
-			android:layout_marginRight="12dp"
+			android:layout_marginTop="5dp"
 
 
+			android:layout_marginRight="24dp"
 			android:src="@drawable/search" />
 
 

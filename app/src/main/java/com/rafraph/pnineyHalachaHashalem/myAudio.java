@@ -942,11 +942,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/" + folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec - 1)).substring(0, 2) + ".mp3");
                 DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                 downloadManager.enqueue(request);
-                shPrefEditor.putString("Bookmark5",mPrefs.getString("Bookmark5",""));
-                shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark4",""));
-                shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark3",""));
-                shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark2",""));
-                shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark1",""));
+                shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark2",""));
+                shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark3",""));
+                shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark4",""));
+                shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark5",""));
                 shPrefEditor.putString("Bookmark5",("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec - 1)).substring(0, 2) + ".mp3");
                 shPrefEditor.commit();
             }
@@ -959,11 +958,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/" + folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec)).substring(0, 2) + ".mp3");
             DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
             downloadManager.enqueue(request);
-            shPrefEditor.putString("Bookmark5",mPrefs.getString("Bookmark5",""));
-            shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark4",""));
-            shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark3",""));
-            shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark2",""));
-            shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark1",""));
+            shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark2",""));
+            shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark3",""));
+            shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark4",""));
+            shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark5",""));
             shPrefEditor.putString("Bookmark5",("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec )).substring(0, 2) + ".mp3");
             shPrefEditor.commit();
         }
@@ -977,11 +975,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/" + folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec + 1)).substring(0, 2) + ".mp3");
                 DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                 downloadManager.enqueue(request);
-                shPrefEditor.putString("Bookmark5",mPrefs.getString("Bookmark5",""));
-                shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark4",""));
-                shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark3",""));
-                shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark2",""));
-                shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark1",""));
+                shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark2",""));
+                shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark3",""));
+                shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark4",""));
+                shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark5",""));
                 shPrefEditor.putString("Bookmark5",("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec +1)).substring(0, 2) + ".mp3");
                 shPrefEditor.commit();
             }
@@ -995,11 +992,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/" + folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec + 2)).substring(0, 2) + ".mp3");
                 DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                 downloadManager.enqueue(request);
-                shPrefEditor.putString("Bookmark5",mPrefs.getString("Bookmark5",""));
-                shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark4",""));
-                shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark3",""));
-                shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark2",""));
-                shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark1",""));
+                shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark2",""));
+                shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark3",""));
+                shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark4",""));
+                shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark5",""));
                 shPrefEditor.putString("Bookmark5",("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec +2)).substring(0, 2) + ".mp3");
                 shPrefEditor.commit();
             }
@@ -1037,7 +1033,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
                     @Override
                     public void onPageFinished(WebView view, String url) {
-                        webview.setY(80);
+                        webview.setY(100);
                         webview.scrollTo(0,scrollPos);
                         scrollPos=0;
                         super.onPageFinished(view, url);
@@ -1046,7 +1042,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 lastChap=chapter;
               }
             if (webview.getScrollY()==0)
-                webview.setY(80);
+                webview.setY(100);
 
 
 

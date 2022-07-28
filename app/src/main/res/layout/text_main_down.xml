@@ -169,29 +169,29 @@
         android:layout_width="match_parent"
         android:layout_height="77dp"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
+
         android:visibility="gone"
         android:tag="gone"
         tools:visibility="gone">
         <ImageButton
             android:id="@+id/ibFindPrevious"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="77dp"
             android:layout_weight="0.5"
             android:background="#970606"
             android:contentDescription="@string/PreviousPage"
-            android:paddingTop="10dp"
+
             android:src="@drawable/ic_action_up"
              />
 
         <ImageButton
             android:id="@+id/ibFindNext"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="77dp"
             android:layout_weight="0.5"
             android:background="#970606"
             android:contentDescription="@string/NextPage"
-            android:paddingTop="10dp"
+
             android:src="@drawable/ic_action_down"
             />
 

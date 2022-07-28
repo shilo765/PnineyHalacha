@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -42,6 +43,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Button;
@@ -586,7 +588,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-			if(mPrefs.getString("Version", "").equals("4") == false)
+			if(mPrefs.getString("Version", "").equals("4.1.3") == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);
@@ -2742,39 +2744,47 @@ private void initializeSeekBar()
 
 
 
-
+		refresh(1000);
 		File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
 		if (fileF.exists()) {
+
 			if(!isPremissionGranted(getApplicationContext())){
 				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
-				f_imv_down.setImageResource(R.drawable.f_b_4);
 			}
+			else
+				f_imv_down.setImageResource(R.drawable.f_b_4);
 
 		}
 		File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
 		if (fileEs.exists()){
+
 			if(!isPremissionGranted(getApplicationContext())){
 				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
-				es_imv_down.setImageResource(R.drawable.es_b_4);
+
 			}
+			else
+				es_imv_down.setImageResource(R.drawable.es_b_4);
 
 		}
 
 		File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
 		if (fileEn.exists()){
+
 			if(!isPremissionGranted(getApplicationContext())){
 				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
-				en_imv_down.setImageResource(R.drawable.en_b_4);
 			}
-
+			else
+				en_imv_down.setImageResource(R.drawable.en_b_4);
 		}
 
 		File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
 		if (fileR.exists()){
 			if(!isPremissionGranted(getApplicationContext())){
 				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
-				r_imv_down.setImageResource(R.drawable.r_b_4);
 			}
+			else
+				r_imv_down.setImageResource(R.drawable.r_b_4);
+
 
 		}
 
@@ -3279,6 +3289,45 @@ private void initializeSeekBar()
 		{
 			e.printStackTrace();
 		}
+	}
+	private void refresh(int millisec) {
+		final Handler handler = new Handler();
+		final Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				//speed = sppedArray[spinner.getSelectedItemPosition()];
+				content();
+			}
+		};
+		handler.postDelayed(runnable, millisec);
+	}
+	public void content()
+	{
+
+		if(isPremissionGranted(getApplicationContext()))
+		{
+			ImageView r_imv_down = (ImageView) languageDialog.findViewById(R.id.to_py);
+			//ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
+			ImageView es_imv_down = (ImageView) languageDialog.findViewById(R.id.im_es_down);
+			//ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
+			ImageView en_imv_down = (ImageView) languageDialog.findViewById(R.id.settings);
+			//ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
+			ImageView f_imv_down = (ImageView) languageDialog.findViewById(R.id.im_f_down);
+			File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
+			if (fileR.exists())
+				r_imv_down.setImageResource(R.drawable.r_b_4);
+			File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
+			if (fileEn.exists())
+				en_imv_down.setImageResource(R.drawable.en_b_4);
+			File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
+			if (fileEs.exists())
+				es_imv_down.setImageResource(R.drawable.es_b_4);
+			File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
+			if (fileF.exists())
+				f_imv_down.setImageResource(R.drawable.f_b_4);
+		}
+		refresh(1000);
+
 	}
 
 

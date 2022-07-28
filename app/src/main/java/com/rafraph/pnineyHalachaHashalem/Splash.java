@@ -14,7 +14,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.Locale;
 
@@ -71,6 +74,21 @@ public class Splash extends Activity{
 				book_chapter[0] = 0xFFFF;
 				book_chapter[1] = 0xFFFF;
 				ourIntent.putExtra("book_chapter", book_chapter);
+				setContentView(R.layout.splash);
+				ImageView lili=(ImageView) findViewById(R.id.lili);
+				LinearLayout lili3=(LinearLayout) findViewById(R.id.hi);
+				Glide.with(this).load(R.drawable.abb).into(lili);
+				lili3.setBackground(lili.getDrawable());
+				Thread timer = new Thread() {
+					public void run() {
+						try {
+							sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				};
+				timer.start();
 				startActivity(ourIntent);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -78,6 +96,11 @@ public class Splash extends Activity{
 
 		}
 		setContentView(R.layout.splash);
+		ImageView lili=(ImageView) findViewById(R.id.lili);
+		Glide.with(this).load(R.drawable.abb).into(lili);
+		LinearLayout lili3=(LinearLayout) findViewById(R.id.hi);
+		Glide.with(this).load(R.drawable.abb).into(lili);
+		lili3.setBackground(lili.getDrawable());
 		Thread timer = new Thread() {
 			public void run() {
 				try {
@@ -95,7 +118,7 @@ public class Splash extends Activity{
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-			if(mPrefs.getString("Version", "").equals("4") == false)
+			if(mPrefs.getString("Version", "").equals("4.1.3") == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);
@@ -187,6 +210,7 @@ public class Splash extends Activity{
 							e.printStackTrace();
 						}
 						Intent ourIntent = new Intent(Splash.this, ourClass);
+
 						ourIntent.putExtra("homePage", false);
 						ourIntent.putExtra("newV", true);
 						startActivity(ourIntent);
@@ -197,6 +221,12 @@ public class Splash extends Activity{
 			}
 			else
 			{
+				setContentView(R.layout.splash);
+				ImageView lili2=(ImageView) findViewById(R.id.lili);
+				Glide.with(this).load(R.drawable.abb).into(lili2);
+				lili3=(LinearLayout) findViewById(R.id.hi);
+				Glide.with(this).load(R.drawable.abb).into(lili);
+				lili3.setBackground(lili.getDrawable());
 				Thread timer2 = new Thread() {
 					public void run() {
 						try {

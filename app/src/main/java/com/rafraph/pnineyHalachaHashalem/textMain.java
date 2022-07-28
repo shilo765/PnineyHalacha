@@ -221,12 +221,18 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		}
 
 	}//onCreate
-
+	@Override
+	protected void onDestroy() {
+		if (webview != null)
+			webview.destroy();
+		super.onDestroy();
+	}
 	@Override
 	public void onBackPressed() {
 		if(lnrFindOptions.getTag().equals("vis"))
 		{
 			lnrFindOptions.setVisibility(View.GONE);
+			lnrOptions.setVisibility(View.VISIBLE);
 			lnrFindOptions.setTag("gone");
 			webview.findAllAsync("sdafsdhgfsdagfhgdszgf");
 		}
@@ -997,11 +1003,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		{
 			cameFromSearch = extras.getBoolean("cameFromSearch",false);
 			searchPosition = extras.getString("searchPosition");
+			String searchText = extras.getString("searchText");
 			if(extras.getIntArray("book_chapter") != null)
 				book_chapter = extras.getIntArray("book_chapter");
 			sectionsForToast = extras.getString("sectionsForToast");
 			if(cameFromSearch == true)
 			{
+				TextView nameBook= findViewById(R.id.bookname);
+				nameBook.setText(searchText);
 				query = extras.getString("query");
 				findBookAndChapter();
 
@@ -1014,6 +1023,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				//String s=query.split("l")[2];
 				scrollY = 0;
 				lnrFindOptions.setVisibility(View.VISIBLE);
+				lnrOptions.setVisibility(View.INVISIBLE);
 				lnrFindOptions.setTag("vis");
 				webview.findAllAsync(" "+query+" ");
 				webview.setFindListener(new WebView.FindListener() {
@@ -1083,7 +1093,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					nameBook.setText(mPrefs.getString("book_name","לא ידוע"));
 				else {
 					shPrefEditor.putString("book_name", convertBookIdToName(book_chapter[0])+" , "+ convertAnchorIdToSection(book_chapter[1]));
-					nameBook.setText(convertBookIdToName(book_chapter[0])+" , "+ convertAnchorIdToSection(book_chapter[1]));
+					if(book_chapter[0]<19)
+						nameBook.setText(convertBookIdToName(book_chapter[0])+" , "+ convertAnchorIdToSection(book_chapter[1]));
+					else
+						nameBook.setText(convertBookIdToName(book_chapter[0])+" , "+ book_chapter[1]);
 				}
 
 				fromBookmarks = extras.getInt("fromBookmarks");
@@ -1531,9 +1544,20 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				currentChapter = getClearUrl();
 				getTheArrayLocation(currentChapter);
 				book_chapter[1] += 1;
+				TextView bookName= (TextView) findViewById(R.id.bookname);
 				//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
 				loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
-				title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
+				if(book_chapter[1] == 0) {
+					title = convertBookIdToName(book_chapter[0]);
+					bookName.setText(title);
+				}
+				else {
+					if(book_chapter[0]<19)
+						title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
+					else
+						title = convertBookIdToName(book_chapter[0]) + ": " + book_chapter[1];
+					bookName.setText(title);
+				}
 				if(book_chapter[1] == lastChapter[book_chapter[0]])
 					bNext_sec.setEnabled(false);
 				else
@@ -1549,13 +1573,21 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				scrollY = 0;/*In order to jump to the beginning of the chapter*/
 				currentChapter = getClearUrl();
 				getTheArrayLocation(currentChapter);
+				bookName= (TextView) findViewById(R.id.bookname);
 				book_chapter[1] -= 1;
 				//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
 				loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
-				if(book_chapter[1] == 0)
+				if(book_chapter[1] == 0) {
 					title = convertBookIdToName(book_chapter[0]);
-				else
-					title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
+					bookName.setText(title);
+				}
+				else {
+					if(book_chapter[0]<19)
+						title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
+					else
+						title = convertBookIdToName(book_chapter[0]) + ": " + book_chapter[1];
+					bookName.setText(title);
+				}
 				if(book_chapter[1] == 0)
 					bPrevious_sec.setEnabled(false);
 				else

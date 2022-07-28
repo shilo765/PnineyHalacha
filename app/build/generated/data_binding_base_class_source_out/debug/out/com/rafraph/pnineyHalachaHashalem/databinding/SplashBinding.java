@@ -7,17 +7,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.viewbinding.ViewBinding;
+import android.viewbinding.ViewBindings;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.rafraph.pnineyHalachaHashalem.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
+import java.lang.String;
 
 public final class SplashBinding implements ViewBinding {
   @NonNull
   private final LinearLayout rootView;
 
-  private SplashBinding(@NonNull LinearLayout rootView) {
+  @NonNull
+  public final LinearLayout hi;
+
+  @NonNull
+  public final ImageView lili;
+
+  private SplashBinding(@NonNull LinearLayout rootView, @NonNull LinearLayout hi,
+      @NonNull ImageView lili) {
     this.rootView = rootView;
+    this.hi = hi;
+    this.lili = lili;
   }
 
   @Override
@@ -43,10 +55,21 @@ public final class SplashBinding implements ViewBinding {
 
   @NonNull
   public static SplashBinding bind(@NonNull View rootView) {
-    if (rootView == null) {
-      throw new NullPointerException("rootView");
-    }
+    // The body of this method is generated in a way you would not otherwise write.
+    // This is done to optimize the compiled bytecode for size and performance.
+    int id;
+    missingId: {
+      LinearLayout hi = (LinearLayout) rootView;
 
-    return new SplashBinding((LinearLayout) rootView);
+      id = R.id.lili;
+      ImageView lili = ViewBindings.findChildViewById(rootView, id);
+      if (lili == null) {
+        break missingId;
+      }
+
+      return new SplashBinding((LinearLayout) rootView, hi, lili);
+    }
+    String missingId = rootView.getResources().getResourceName(id);
+    throw new NullPointerException("Missing required view with ID: ".concat(missingId));
   }
 }

@@ -19,7 +19,7 @@ public class Notification_reciver extends BroadcastReceiver {
         PendingIntent pendingIntent=PendingIntent.getActivity(context,100,pninaYomitRepit,PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder=new NotificationCompat.Builder(context,"notifyLemubit")
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.drawable.pniney_icon)
                 .setContentTitle("הפנינה היומית")
                 .setContentText("הגיע הזמן ללימוד הפנינה היומית")
                 .setAutoCancel(true)

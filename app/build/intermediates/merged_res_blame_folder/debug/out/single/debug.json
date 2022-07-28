@@ -48,6 +48,10 @@
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-xhdpi\\baseline_play_circle_outline_white_24.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-hdpi_pniney_icon.png.flat",
+        "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-hdpi\\pniney_icon.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-ldpi_delete_reminder.png.flat",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-ldpi\\delete_reminder.png"
     },
@@ -864,6 +868,10 @@
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-hdpi\\baseline_forward_10_white_24.png"
     },
     {
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-merged_res-19:/layout_activity_about.xml.flat",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/activity_about.xml"
+    },
+    {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-mdpi_baseline_replay_10_white_36.png.flat",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-mdpi\\baseline_replay_10_white_36.png"
     },
@@ -872,12 +880,12 @@
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-ldpi\\f_b_3.png"
     },
     {
-        "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-xhdpi_ic_search_all.png.flat",
-        "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-pngs-14:\\drawable-xhdpi\\ic_search_all.png"
-    },
-    {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\layout_text_main_down.xml.flat",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\text_main_down.xml"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-xhdpi_ic_search_all.png.flat",
+        "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-pngs-14:\\drawable-xhdpi\\ic_search_all.png"
     },
     {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-hdpi_baseline_skip_next_white_48.png.flat",
@@ -1084,6 +1092,10 @@
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-pngs-14:\\drawable-xhdpi\\ic_quiz.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-hdpi_headicon.jpeg.flat",
+        "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-hdpi\\headicon.jpeg"
+    },
+    {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-hdpi_back_rec13.png.flat",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-hdpi\\back_rec13.png"
     },
@@ -1134,10 +1146,6 @@
     {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-mdpi_baseline_play_circle_outline_white_36.png.flat",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-mdpi\\baseline_play_circle_outline_white_36.png"
-    },
-    {
-        "merged": "com.rafraph.pnineyHalachaHashalem.app-merged_res-19:/layout_about_pninei.xml.flat",
-        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/about_pninei.xml"
     },
     {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-xxxhdpi_ic_action_view_as_list.png.flat",
@@ -1340,6 +1348,10 @@
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\tochen_actionbar_lay.xml"
     },
     {
+        "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-xxxhdpi_pniney_icon.png.flat",
+        "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-xxxhdpi\\pniney_icon.png"
+    },
+    {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-xxxhdpi_baseline_replay_10_white_18.png.flat",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-xxxhdpi\\baseline_replay_10_white_18.png"
     },
@@ -1362,6 +1374,10 @@
     {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-xxhdpi_pnineyicon.png.flat",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-xxhdpi\\pnineyicon.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-xxxhdpi_pniney_icon.jpeg.flat",
+        "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-xxxhdpi\\pniney_icon.jpeg"
     },
     {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-hdpi_to_main_b.png.flat",

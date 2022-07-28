@@ -17,8 +17,10 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -96,6 +98,7 @@ public class SearchHelp extends Activity {
 	public ListView searchListView = null;
 	public ListView searchListView2 = null;
 	public String query;
+
 	public TextView bookFound;
 	public String queryToSearch;
 	public String sectionsForToast = null;
@@ -248,6 +251,36 @@ public class SearchHelp extends Activity {
 		TextView lastSearch2=findViewById(R.id.last_search);
 		TextView head=findViewById(R.id.headr);
 		EditText title=findViewById(R.id.title);
+		title.setOnEditorActionListener(
+			new EditText.OnEditorActionListener() {
+				@Override
+				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+					if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+							actionId == EditorInfo.IME_ACTION_DONE ||
+							event != null &&
+									event.getAction() == KeyEvent.ACTION_DOWN &&
+									event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+						if (event == null || !event.isShiftPressed()) {
+							// the user is done typing.
+							TextView txt1 = (TextView) findViewById(R.id.textView7);
+							TextView txt2 = (TextView) findViewById(R.id.textView8);
+							TextView txt3 = (TextView) findViewById(R.id.textView9);
+							TextView txt4 = (TextView) findViewById(R.id.textView10);
+							TextView txt5 = (TextView) findViewById(R.id.textView11);
+							txt1.setVisibility(View.GONE);
+							txt2.setVisibility(View.GONE);
+							txt3.setVisibility(View.GONE);
+							txt4.setVisibility(View.GONE);
+							txt5.setVisibility(View.GONE);
+							goSearch();
+
+							return true; // consume.
+						}
+					}
+					return false; // pass on to other listeners.
+				}
+			}
+	);
 		if(MyLanguage==ENGLISH){
 			searchNow2.setText("Search");
 			lastSearch2.setText("Last search");
@@ -293,7 +326,7 @@ public class SearchHelp extends Activity {
 
 
 		}
-		makeKeys();
+		//makeKeys();
 		ImageView tooHome= (ImageView) findViewById(R.id.to_main);
 
 		ImageView goSearch= (ImageView) findViewById(R.id.goSearch);
@@ -301,6 +334,9 @@ public class SearchHelp extends Activity {
 		TextView tv= (TextView) findViewById(R.id.headr);
 		bookFound= (TextView) findViewById(R.id.no_found);
 		EditText searchText= (EditText) findViewById(R.id.title);
+
+
+
 		TextView lastSearch= (TextView) findViewById(R.id.last_search);
 		ImageView toMain= (ImageView) findViewById(R.id.to_main);
 
@@ -574,6 +610,12 @@ public class SearchHelp extends Activity {
 								temp=temp.substring(0,temp.length()-1);
 
 							searchText.setText(temp.split("\\(")[0]);
+							txt1.setVisibility(View.GONE);
+							txt2.setVisibility(View.GONE);
+							txt3.setVisibility(View.GONE);
+							txt4.setVisibility(View.GONE);
+							txt5.setVisibility(View.GONE);
+							goSearch();
 						}
 					});
 					txt2.setOnClickListener(new View.OnClickListener() {
@@ -586,6 +628,12 @@ public class SearchHelp extends Activity {
 								temp=temp.substring(0,temp.length()-1);
 
 							searchText.setText(temp.split("\\(")[0]);
+							txt1.setVisibility(View.GONE);
+							txt2.setVisibility(View.GONE);
+							txt3.setVisibility(View.GONE);
+							txt4.setVisibility(View.GONE);
+							txt5.setVisibility(View.GONE);
+							goSearch();
 						}
 					});
 					txt3.setOnClickListener(new View.OnClickListener() {
@@ -598,6 +646,12 @@ public class SearchHelp extends Activity {
 								temp=temp.substring(0,temp.length()-1);
 
 							searchText.setText(temp);
+							txt1.setVisibility(View.GONE);
+							txt2.setVisibility(View.GONE);
+							txt3.setVisibility(View.GONE);
+							txt4.setVisibility(View.GONE);
+							txt5.setVisibility(View.GONE);
+							goSearch();
 						}
 					});
 					txt4.setOnClickListener(new View.OnClickListener() {
@@ -610,6 +664,12 @@ public class SearchHelp extends Activity {
 								temp=temp.substring(0,temp.length()-1);
 
 							searchText.setText(temp);
+							txt1.setVisibility(View.GONE);
+							txt2.setVisibility(View.GONE);
+							txt3.setVisibility(View.GONE);
+							txt4.setVisibility(View.GONE);
+							txt5.setVisibility(View.GONE);
+							goSearch();
 						}
 					});
 					txt5.setOnClickListener(new View.OnClickListener() {
@@ -622,6 +682,12 @@ public class SearchHelp extends Activity {
 								temp=temp.substring(0,temp.length()-1);
 
 							searchText.setText(temp);;
+							txt1.setVisibility(View.GONE);
+							txt2.setVisibility(View.GONE);
+							txt3.setVisibility(View.GONE);
+							txt4.setVisibility(View.GONE);
+							txt5.setVisibility(View.GONE);
+							goSearch();
 						}
 					});
 					txt1.setText("");
@@ -673,7 +739,9 @@ public class SearchHelp extends Activity {
 			}
 			@Override
 			public void afterTextChanged(Editable s) {
+
 			}
+
 		});
 		searchNow.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -752,17 +820,16 @@ public class SearchHelp extends Activity {
 							e.printStackTrace();
 						}
 						Intent ourIntent = new Intent(SearchHelp.this, ourClass);
-
-
-
 						//sectionsForToast =listStrAnchor.get(position );
 						ourIntent.putExtra("cameFromSearch", true);
 						String  s=mPrefs.getString("sp" + position, "");
 						ourIntent.putExtra("searchPosition", mPrefs.getString("sp" + position, ""));
 
-						ourIntent.putExtra("query", query);
-						//ourIntent.putExtra("sectionsForToast", sectionsForToast);
+						ourIntent.putExtra("searchText", mPrefs.getString("st" + position, ""));
 
+						ourIntent.putExtra("query", ((TextView)view).getText().toString());
+						//ourIntent.putExtra("sectionsForToast", sectionsForToast);
+						//System.out.println(3/0);
 						startActivity(ourIntent);
 					}
 				});
@@ -772,209 +839,17 @@ public class SearchHelp extends Activity {
 		goSearch.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				searchFound=false;
-				bookFound.setVisibility(View.GONE);
-
-				if(searchListView!=null) {
-					for (int i=searchListView.getHeaderViewsCount() ;i>=0;i--)
-						searchListView.removeHeaderView(searchListView.getChildAt(i));
-					for (int i=searchListView.getFooterViewsCount() ;i>=0;i--)
-						searchListView.removeFooterView(searchListView.getChildAt(i));
-				}
-
-				query=" "+searchText.getText().toString()+" ";
-				queryToSearch=searchText.getText().toString().split("\\(")[0];
-				{
-
-					//query = "ו";// for test of the search
-//					for (int i=0; i<query.length(); i++)
-//					{
-//						validQuery = hebCharacter.contains(query.substring(i, i+1));
-//						if(validQuery == false)
-//						{
-//							break;
-//						}
-//					}
-
-					if(true)
-					{
-						searchListView = (ListView) findViewById(R.id.list);
-						searchListView.setVisibility(View.VISIBLE);
-						final ProgressDialog downloadWait = ProgressDialog.show(SearchHelp.this, "", pleaseWait);
-						new Thread() {
-							public void run() {
-								try {
-									SearchHelp.this.runOnUiThread(new Runnable() {
-										@Override
-										public void run() {
-											// TODO Auto-generated method stub
-											try {
-												int num=querys.length;
-												int temp;
-												doMySearch(num);
-
-												temp=totalCount;
-												if(totalCount<num)
-												{
-													query=" "+ queryToSearch+",";
-													doMySearch(num);
-												}
-												if(totalCount<num)
-												{
-													query="'"+ queryToSearch+"'";
-													doMySearch(num);
-												}
-												if(totalCount<num)
-												{
-													query="\""+ queryToSearch+"\"";
-													doMySearch(num);
-												}
-												if(totalCount<num)
-												{
-													query=","+queryToSearch+" ";
-													doMySearch(num);
-												}
-
-												if(totalCount<num)
-												{
-													query="ה"+queryToSearch+" ";
-													//doMySearch(num);
-												}
-												if(totalCount<num)
-												{
-													query="ו"+query+" ";
-													//doMySearch(num);
-												}
-												if(totalCount<num)
-												{
-													query=" "+queryToSearch+"ם";
-													//doMySearch(num);
-												}
-
-												if(totalCount<num)
-												{
-													query=" "+queryToSearch+"הם";
-													//doMySearch(num);
-												}
-
-												if(totalCount<num)
-												{
-													query=" "+queryToSearch+"יהם";
-													//doMySearch(num);
-												}
-												if(totalCount<num)
-												{
-													query=queryToSearch;
-													doMySearch(num);
-												}
-
-
-											} catch (InterruptedException e) {
-												e.printStackTrace();
-											}
-											showResults();
-
-										}
-									});
-								} catch (Exception e) {
-
-								}
-								downloadWait.dismiss();
-							}
-						}.start();
-						downloadWait.setOnDismissListener(new DialogInterface.OnDismissListener() {
-							@Override
-							public void onDismiss(DialogInterface dialog) {
-								if(!searchFound) {
-									bookFound.setVisibility(View.VISIBLE);
-									searchListView.setVisibility(View.GONE);
-								}
-
-							}
-						});
-						//for (int i=searchListView.getHeaderViewsCount() ;i>=0;i--)
-						//searchListView.removeHeaderView(searchListView.getChildAt(i));
-
-						searchText.setText("");
-
-
-						searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-						{
-							boolean cameFromSearch = false;
-							String searchPosition = null;
-							@Override
-							public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-							{
-								try
-								{
-									Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
-									Intent ourIntent = new Intent(SearchHelp.this, ourClass);
-
-									searchPosition = listStrAnchor.get(position);
-									String searchText=listStrName.get(position);
-									cameFromSearch = true;
-									sectionsForToast =listStrAnchor.get(position );
-									ourIntent.putExtra("cameFromSearch", cameFromSearch);
-									ourIntent.putExtra("searchPosition", searchPosition);
-
-									ourIntent.putExtra("query",queryToSearch);
-									for (int i=1;i<10;i++) {
-										shPrefEditor.putString("s"+i, mPrefs.getString("s" + (i-1), ""));
-										shPrefEditor.putString("sp"+i, mPrefs.getString("sp" + (i-1), ""));
-									}
-									shPrefEditor.putString("s0", queryToSearch);
-									shPrefEditor.putString("sp0", searchPosition+"");
-									shPrefEditor.commit();
-
-									if (sectionsForToast.indexOf("הערות:") != -1) {
-										sectionsForToast = sectionsForToast.substring(sectionsForToast.indexOf("הערות: ") + 7, sectionsForToast.indexOf(")"));
-									} else {
-										sectionsForToast = "";
-									}
-									ourIntent.putExtra("sectionsForToast", sectionsForToast);
-									if (sectionsForToast.indexOf("הערות:") != -1) {
-										sectionsForToast = sectionsForToast.substring(sectionsForToast.indexOf("הערות: ") + 7, sectionsForToast.indexOf(")"));
-									} else {
-										sectionsForToast = "";
-									}
-									ourIntent.putExtra("sectionsForToast", sectionsForToast);
-
-									startActivity(ourIntent);
-								}
-								catch (ClassNotFoundException e)
-								{
-									e.printStackTrace();
-								}
-							}
-						});
-					}
-					else
-					{
-						final Context context = getBaseContext();
-						AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-								context);
-
-						// set title
-						alertDialogBuilder.setTitle("חיפוש לא חוקי");
-
-						// set dialog message
-						alertDialogBuilder
-								.setMessage("הסימן "+query.substring(i, i+1)+" אינו חוקי")
-								.setCancelable(false)
-								.setPositiveButton("חזור",new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,int id) {
-										// if this button is clicked, close current activity
-										//SearchableActivity.this.finish();
-									}
-								});
-
-						// create alert dialog
-						AlertDialog alertDialog = alertDialogBuilder.create();
-
-						// show it
-						alertDialog.show();
-					}
-				}
+				TextView txt1 = (TextView) findViewById(R.id.textView7);
+				TextView txt2 = (TextView) findViewById(R.id.textView8);
+				TextView txt3 = (TextView) findViewById(R.id.textView9);
+				TextView txt4 = (TextView) findViewById(R.id.textView10);
+				TextView txt5 = (TextView) findViewById(R.id.textView11);
+				txt1.setVisibility(View.GONE);
+				txt2.setVisibility(View.GONE);
+				txt3.setVisibility(View.GONE);
+				txt4.setVisibility(View.GONE);
+				txt5.setVisibility(View.GONE);
+				goSearch();
 			}
 
 
@@ -1199,8 +1074,215 @@ public class SearchHelp extends Activity {
 		totalCount=0;
 		return true;
 	}
-	public void makeKeys()
+	public void goSearch()
 	{
+		EditText searchText= (EditText) findViewById(R.id.title);
+		searchFound=false;
+		bookFound.setVisibility(View.GONE);
+
+		if(searchListView!=null) {
+			for (int i=searchListView.getHeaderViewsCount() ;i>=0;i--)
+				searchListView.removeHeaderView(searchListView.getChildAt(i));
+			for (int i=searchListView.getFooterViewsCount() ;i>=0;i--)
+				searchListView.removeFooterView(searchListView.getChildAt(i));
+		}
+
+		query=" "+searchText.getText().toString()+" ";
+		queryToSearch=searchText.getText().toString().split("\\(")[0];
+		{
+
+			//query = "ו";// for test of the search
+//					for (int i=0; i<query.length(); i++)
+//					{
+//						validQuery = hebCharacter.contains(query.substring(i, i+1));
+//						if(validQuery == false)
+//						{
+//							break;
+//						}
+//					}
+
+			if(true)
+			{
+				searchListView = (ListView) findViewById(R.id.list);
+				searchListView.setVisibility(View.VISIBLE);
+				final ProgressDialog downloadWait = ProgressDialog.show(SearchHelp.this, "", pleaseWait);
+				new Thread() {
+					public void run() {
+						try {
+							SearchHelp.this.runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									try {
+										int num=querys.length;
+										int temp;
+										doMySearch(num);
+
+										temp=totalCount;
+										if(totalCount<num)
+										{
+											query=" "+ queryToSearch+",";
+											doMySearch(num);
+										}
+										if(totalCount<num)
+										{
+											query="'"+ queryToSearch+"'";
+											doMySearch(num);
+										}
+										if(totalCount<num)
+										{
+											query="\""+ queryToSearch+"\"";
+											doMySearch(num);
+										}
+										if(totalCount<num)
+										{
+											query=","+queryToSearch+" ";
+											doMySearch(num);
+										}
+
+										if(totalCount<num)
+										{
+											query="ה"+queryToSearch+" ";
+											//doMySearch(num);
+										}
+										if(totalCount<num)
+										{
+											query="ו"+query+" ";
+											//doMySearch(num);
+										}
+										if(totalCount<num)
+										{
+											query=" "+queryToSearch+"ם";
+											//doMySearch(num);
+										}
+
+										if(totalCount<num)
+										{
+											query=" "+queryToSearch+"הם";
+											//doMySearch(num);
+										}
+
+										if(totalCount<num)
+										{
+											query=" "+queryToSearch+"יהם";
+											//doMySearch(num);
+										}
+										if(totalCount<num)
+										{
+											query=queryToSearch;
+											doMySearch(num);
+										}
+
+
+									} catch (InterruptedException e) {
+										e.printStackTrace();
+									}
+									showResults();
+
+								}
+							});
+						} catch (Exception e) {
+
+						}
+						downloadWait.dismiss();
+					}
+				}.start();
+				downloadWait.setOnDismissListener(new DialogInterface.OnDismissListener() {
+					@Override
+					public void onDismiss(DialogInterface dialog) {
+						if(!searchFound) {
+							bookFound.setVisibility(View.VISIBLE);
+							searchListView.setVisibility(View.GONE);
+						}
+
+					}
+				});
+				//for (int i=searchListView.getHeaderViewsCount() ;i>=0;i--)
+				//searchListView.removeHeaderView(searchListView.getChildAt(i));
+
+				searchText.setText("");
+
+
+				searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+				{
+					boolean cameFromSearch = false;
+					String searchPosition = null;
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+					{
+						try
+						{
+							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
+							Intent ourIntent = new Intent(SearchHelp.this, ourClass);
+
+							searchPosition = listStrAnchor.get(position);
+							String searchText=listStrName.get(position);
+							cameFromSearch = true;
+							sectionsForToast =listStrAnchor.get(position );
+							ourIntent.putExtra("cameFromSearch", cameFromSearch);
+							ourIntent.putExtra("searchPosition", searchPosition);
+							ourIntent.putExtra("sectionsForToast", sectionsForToast);
+							ourIntent.putExtra("query",queryToSearch);
+							ourIntent.putExtra("searchText",searchText.split("\\(")[1].split(",")[0]);
+							for (int i=1;i<10;i++) {
+								shPrefEditor.putString("s"+i, mPrefs.getString("s" + (i-1), ""));
+								shPrefEditor.putString("sp"+i, mPrefs.getString("sp" + (i-1), ""));
+								shPrefEditor.putString("st"+i, mPrefs.getString("st" + (i-1), ""));
+							}
+							shPrefEditor.putString("s0", queryToSearch);
+							shPrefEditor.putString("sp0", searchPosition+"");
+							shPrefEditor.putString("st0", searchText.split("\\(")[1].split(",")[0]);
+							shPrefEditor.commit();
+
+							if (sectionsForToast.indexOf("הערות:") != -1) {
+								sectionsForToast = sectionsForToast.substring(sectionsForToast.indexOf("הערות: ") + 7, sectionsForToast.indexOf(")"));
+							} else {
+								sectionsForToast = "";
+							}
+							ourIntent.putExtra("sectionsForToast", sectionsForToast);
+							if (sectionsForToast.indexOf("הערות:") != -1) {
+								sectionsForToast = sectionsForToast.substring(sectionsForToast.indexOf("הערות: ") + 7, sectionsForToast.indexOf(")"));
+							} else {
+								sectionsForToast = "";
+							}
+							ourIntent.putExtra("sectionsForToast", sectionsForToast);
+
+							startActivity(ourIntent);
+						}
+						catch (ClassNotFoundException e)
+						{
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+			else
+			{
+				final Context context = getBaseContext();
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+						context);
+
+				// set title
+				alertDialogBuilder.setTitle("חיפוש לא חוקי");
+
+				// set dialog message
+				alertDialogBuilder
+						.setMessage("הסימן "+query.substring(i, i+1)+" אינו חוקי")
+						.setCancelable(false)
+						.setPositiveButton("חזור",new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,int id) {
+								// if this button is clicked, close current activity
+								//SearchableActivity.this.finish();
+							}
+						});
+
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+
+				// show it
+				alertDialog.show();
+			}
+		}
 
 	}
 	public void showResults()
