@@ -52,7 +52,7 @@ INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\ma
 		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:2:1-127:12
 		INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
 	android:versionName
-		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:6:5-28
+		ADDED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml:6:5-32
 		INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\naamag\AndroidStudioProjects\PnineyHalacha0305\app\src\main\AndroidManifest.xml
 	android:hardwareAccelerated

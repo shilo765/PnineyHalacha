@@ -104,7 +104,7 @@ public class Splash extends Activity{
 		Thread timer = new Thread() {
 			public void run() {
 				try {
-					sleep(1000);
+					sleep(4000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -118,7 +118,7 @@ public class Splash extends Activity{
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-			if(mPrefs.getString("Version", "").equals("4.1.3") == false)
+			if(mPrefs.getString("Version", "").equals("4.1.4") == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);
@@ -230,7 +230,7 @@ public class Splash extends Activity{
 				Thread timer2 = new Thread() {
 					public void run() {
 						try {
-							sleep(1000);
+							sleep(4000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}

@@ -588,7 +588,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-			if(mPrefs.getString("Version", "").equals("4.1.3") == false)
+			if(mPrefs.getString("Version", "").equals("4.1.4") == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);

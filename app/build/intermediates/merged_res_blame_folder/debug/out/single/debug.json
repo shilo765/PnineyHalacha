@@ -864,6 +864,10 @@
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-hdpi\\to_main_s.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-ldpi_abb.gif.flat",
+        "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-ldpi\\abb.gif"
+    },
+    {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-hdpi_baseline_forward_10_white_24.png.flat",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-hdpi\\baseline_forward_10_white_24.png"
     },
@@ -1112,6 +1116,10 @@
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-ldpi\\f_b_2.png"
     },
     {
+        "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-xxxhdpi_abb.gif.flat",
+        "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-xxxhdpi\\abb.gif"
+    },
+    {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-xxxhdpi_baseline_play_circle_outline_white_18.png.flat",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-xxxhdpi\\baseline_play_circle_outline_white_18.png"
     },
@@ -1206,6 +1214,10 @@
     {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-ldpi_rav.png.flat",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-ldpi\\rav.png"
+    },
+    {
+        "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-hdpi_abb2.gif.flat",
+        "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-hdpi\\abb2.gif"
     },
     {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-mdpi_ic_my_marks.png.flat",
