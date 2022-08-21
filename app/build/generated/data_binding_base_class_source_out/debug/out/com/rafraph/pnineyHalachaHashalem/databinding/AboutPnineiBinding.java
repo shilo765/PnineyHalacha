@@ -22,6 +22,12 @@ public final class AboutPnineiBinding implements ViewBinding {
   private final RelativeLayout rootView;
 
   @NonNull
+  public final TextView aboutPn;
+
+  @NonNull
+  public final TextView aboutRav;
+
+  @NonNull
   public final ImageView bChap2;
 
   @NonNull
@@ -29,9 +35,6 @@ public final class AboutPnineiBinding implements ViewBinding {
 
   @NonNull
   public final TextView headr;
-
-  @NonNull
-  public final TextView include;
 
   @NonNull
   public final RelativeLayout layoutRoot;
@@ -46,9 +49,6 @@ public final class AboutPnineiBinding implements ViewBinding {
   public final ImageView rav;
 
   @NonNull
-  public final TextView textView3;
-
-  @NonNull
   public final TextView textView4;
 
   @NonNull
@@ -57,21 +57,21 @@ public final class AboutPnineiBinding implements ViewBinding {
   @NonNull
   public final ImageView toMain;
 
-  private AboutPnineiBinding(@NonNull RelativeLayout rootView, @NonNull ImageView bChap2,
-      @NonNull ImageView books, @NonNull TextView headr, @NonNull TextView include,
-      @NonNull RelativeLayout layoutRoot, @NonNull LinearLayout lnrOption3, @NonNull ImageView menu,
-      @NonNull ImageView rav, @NonNull TextView textView3, @NonNull TextView textView4,
+  private AboutPnineiBinding(@NonNull RelativeLayout rootView, @NonNull TextView aboutPn,
+      @NonNull TextView aboutRav, @NonNull ImageView bChap2, @NonNull ImageView books,
+      @NonNull TextView headr, @NonNull RelativeLayout layoutRoot, @NonNull LinearLayout lnrOption3,
+      @NonNull ImageView menu, @NonNull ImageView rav, @NonNull TextView textView4,
       @NonNull TextView textViewDecodedText, @NonNull ImageView toMain) {
     this.rootView = rootView;
+    this.aboutPn = aboutPn;
+    this.aboutRav = aboutRav;
     this.bChap2 = bChap2;
     this.books = books;
     this.headr = headr;
-    this.include = include;
     this.layoutRoot = layoutRoot;
     this.lnrOption3 = lnrOption3;
     this.menu = menu;
     this.rav = rav;
-    this.textView3 = textView3;
     this.textView4 = textView4;
     this.textViewDecodedText = textViewDecodedText;
     this.toMain = toMain;
@@ -104,6 +104,18 @@ public final class AboutPnineiBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.about_pn;
+      TextView aboutPn = ViewBindings.findChildViewById(rootView, id);
+      if (aboutPn == null) {
+        break missingId;
+      }
+
+      id = R.id.about_rav;
+      TextView aboutRav = ViewBindings.findChildViewById(rootView, id);
+      if (aboutRav == null) {
+        break missingId;
+      }
+
       id = R.id.b_chap2;
       ImageView bChap2 = ViewBindings.findChildViewById(rootView, id);
       if (bChap2 == null) {
@@ -119,12 +131,6 @@ public final class AboutPnineiBinding implements ViewBinding {
       id = R.id.headr;
       TextView headr = ViewBindings.findChildViewById(rootView, id);
       if (headr == null) {
-        break missingId;
-      }
-
-      id = R.id.include;
-      TextView include = ViewBindings.findChildViewById(rootView, id);
-      if (include == null) {
         break missingId;
       }
 
@@ -148,12 +154,6 @@ public final class AboutPnineiBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.textView3;
-      TextView textView3 = ViewBindings.findChildViewById(rootView, id);
-      if (textView3 == null) {
-        break missingId;
-      }
-
       id = R.id.textView4;
       TextView textView4 = ViewBindings.findChildViewById(rootView, id);
       if (textView4 == null) {
@@ -172,8 +172,8 @@ public final class AboutPnineiBinding implements ViewBinding {
         break missingId;
       }
 
-      return new AboutPnineiBinding((RelativeLayout) rootView, bChap2, books, headr, include,
-          layoutRoot, lnrOption3, menu, rav, textView3, textView4, textViewDecodedText, toMain);
+      return new AboutPnineiBinding((RelativeLayout) rootView, aboutPn, aboutRav, bChap2, books,
+          headr, layoutRoot, lnrOption3, menu, rav, textView4, textViewDecodedText, toMain);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

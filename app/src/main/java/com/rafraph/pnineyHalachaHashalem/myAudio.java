@@ -27,12 +27,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.format.Time;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -349,7 +351,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         popupMenu.getMenu().add(0,1,0,"Books");
                         popupMenu.getMenu().add(0,2,0,"Daily Study");
                         popupMenu.getMenu().add(0,3,0,"Search");
-                        popupMenu.getMenu().add(0,4,0,"Abbreviations");
                         popupMenu.getMenu().add(0,5,0,"Contact Us");
                         popupMenu.getMenu().add(0,6,0,"Purchasing books");
                         popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
@@ -362,7 +363,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         popupMenu.getMenu().add(0,1,0,"Книги");
                         popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
                         popupMenu.getMenu().add(0,3,0,"Поиск");
-                        popupMenu.getMenu().add(0,4,0,"Сокращения");
                         popupMenu.getMenu().add(0,5,0,"Отзыв");
                         popupMenu.getMenu().add(0,6,0,"Список книг");
                         popupMenu.getMenu().add(0,7,0,"Спросить равина");
@@ -375,7 +375,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         popupMenu.getMenu().add(0,1,0,"Libros");
                         popupMenu.getMenu().add(0,2,0,"Estudio diario");
                         popupMenu.getMenu().add(0,3,0,"Búsqueda");
-                        popupMenu.getMenu().add(0,4,0,"Acrónimos");
                         popupMenu.getMenu().add(0,5,0,"retroalimentación");
                         popupMenu.getMenu().add(0,6,0,"compra de libros");
                         popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
@@ -388,7 +387,6 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         popupMenu.getMenu().add(0,1,0,"livres");
                         popupMenu.getMenu().add(0,2,0,"étude quotidienne");
                         popupMenu.getMenu().add(0,3,0,"Recherche");
-                        popupMenu.getMenu().add(0,4,0,"Initiales");
                         popupMenu.getMenu().add(0,5,0,"Contact Us");
                         popupMenu.getMenu().add(0,6,0,"Achat de livres");
                         popupMenu.getMenu().add(0,7,0,"Demander au rav");
@@ -764,6 +762,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             section = extras.getInt("audio_id");
             sections = extras.getStringArrayList("sections_" + chapter);
             book_name = get_book_name_by_id();
+            //shilo
             playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section));
             List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
             List<TextView> txtvList = new ArrayList<TextView>();
@@ -820,8 +819,14 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     }
                 }
             }
-            v1[section-1].setBackgroundColor(Color.rgb(151, 6, 6));
-            v1[section-1].setTextColor(Color.WHITE);
+            try {
+                v1[section-2].setBackgroundColor(Color.rgb(151, 6, 6));
+                v1[section-2].setTextColor(Color.WHITE);
+            }
+            catch (Exception exp) {
+                v1[section - 1].setBackgroundColor(Color.rgb(151, 6, 6));
+                v1[section - 1].setTextColor(Color.WHITE);
+            }
 
 
 
@@ -1003,6 +1008,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         file=new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+ folder);
         File[] list = file.listFiles();
         int count = 0;
+        if(list!=null)
         for (File f: list){
             String name = f.getName();
             if(!name.equals(mPrefs.getString("Bookmark1",""))&&!name.equals(mPrefs.getString("Bookmark2",""))&&!name.equals(mPrefs.getString("Bookmark3",""))&&!name.equals(mPrefs.getString("Bookmark4",""))&&!name.equals(mPrefs.getString("Bookmark5","")))
@@ -1290,14 +1296,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public Runnable mScrollDown = new Runnable()
     {
         public void run() {
-            if (scrollSpeed == 0) // in case of note opened
-            {
-                mHandler.postDelayed(this, 200);
-            } else if (scrollSpeed == -1) // in case that "stop" pressed
+            if (scrollSpeed == -1) // in case that "stop" pressed
             {
                 webview.scrollBy(0, 0);
             } else {
                 webview.scrollBy(0, 1);
+                mHandler.removeCallbacks(this);
                 mHandler.postDelayed(this, 200 / scrollSpeed);
             }
         }
@@ -1323,6 +1327,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         configHeaders[3] = "3";
         configHeaders[4] = "4";
         configHeaders[5] = "5";
+        configHeaders[6] = "6";
 
 
         popupMenu.getMenu().add(0, 0, 0, configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
@@ -1331,6 +1336,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         popupMenu.getMenu().add(0, 3, 3, configHeaders[3]);
         popupMenu.getMenu().add(0, 4, 4, configHeaders[4]);
         popupMenu.getMenu().add(0, 5, 5, configHeaders[5]);
+        popupMenu.getMenu().add(0, 6, 6, configHeaders[6]);
 
 
 
@@ -1346,23 +1352,26 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
                         break;
                     case 1:
-                        scrollSpeed = 1;
-                        runOnUiThread(mScrollDown);
-                        break;
-                    case 2:
                         scrollSpeed = 2;
                         runOnUiThread(mScrollDown);
                         break;
-                    case 3:
-                        scrollSpeed = 3;
-                        runOnUiThread(mScrollDown);
-                        break;
-                    case 4:
+                    case 2:
                         scrollSpeed = 4;
                         runOnUiThread(mScrollDown);
                         break;
+                    case 3:
+                        scrollSpeed = 6;
+                        runOnUiThread(mScrollDown);
+                        break;
+                    case 4:
+                        scrollSpeed = 8;
+                        runOnUiThread(mScrollDown);
+                        break;
                     case 5:
-                        scrollSpeed = 5;
+                        scrollSpeed = 10;
+                        runOnUiThread(mScrollDown);
+                    case 6:
+                        scrollSpeed = 12;
                         runOnUiThread(mScrollDown);
                         break;
                     default:
@@ -1770,7 +1779,44 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         ImageView dialogButton = innerSearchDialog.findViewById(R.id.goSearch);
         ImageView clearBtn = innerSearchDialog.findViewById(R.id.clear);
         TextToSearch = (EditText) innerSearchDialog.findViewById(R.id.title);
+        TextToSearch.setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                                actionId == EditorInfo.IME_ACTION_DONE ||
+                                event != null &&
+                                        event.getAction() == KeyEvent.ACTION_DOWN &&
+                                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                            if (event == null || !event.isShiftPressed()) {
+                                // the user is done typing.
 
+                                innerSearchText = TextToSearch.getText().toString();
+
+                                innerSearchDialog.dismiss();
+                                if(API < 16)
+                                {
+                                    int a=webview.findAll(/*"כל"*/innerSearchText);
+                                    /*to highlight the searched text*/
+                                    try
+                                    {
+                                        Method m = WebView.class.getMethod("setFindIsUp", Boolean.TYPE);
+                                        m.invoke(webview, true);
+                                    }
+                                    catch (Throwable ignored){}
+                                }
+                                else
+                                {
+                                    webview.findAllAsync(/*"כל"*/innerSearchText);
+                                }
+
+                                return true; // consume.
+                            }
+                        }
+                        return false; // pass on to other listeners.
+                    }
+                }
+        );
         // if button is clicked
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NewApi")
@@ -2242,6 +2288,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
         shPrefEditor.putFloat("audioSpeed", speed);
         shPrefEditor.commit();
+        //shilo
         playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(selectedSection));
         section = selectedSection;
         sendBroadcast(broadcastIntent);
@@ -2352,9 +2399,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 //               v1[0].setBackgroundColor(Color.rgb(151, 6, 6));
 //               v1[0].setTextColor(Color.WHITE);
 //            }
-            if( v1[playerService.getSection()-1]!=null) {
-                v1[playerService.getSection() - 1].setBackgroundColor(Color.rgb(151, 6, 6));
-                v1[playerService.getSection() - 1].setTextColor(Color.WHITE);
+            if( v1[playerService.getSection()]!=null) {
+                v1[playerService.getSection() -1].setBackgroundColor(Color.rgb(151, 6, 6));
+                v1[playerService.getSection()-1 ].setTextColor(Color.WHITE);
                 playerInfo.setText(book_name + " " + convert_character_to_id(playerService.getChapter()) + ", " + convert_character_to_id(playerService.getSection()));
             }
 
@@ -2481,6 +2528,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     public void skip_to_next(View view)
     {
+        //int a=0/0;
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
         sendBroadcast(broadcastIntent);
@@ -2505,7 +2553,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     {
         List<TextView> txtvList = new ArrayList<TextView>();
         TextView textView = new TextView(getBaseContext());
-        header = book_name + " " + convert_character_to_id(chapter) + ", א";
+        header = book_name + " shilo" + convert_character_to_id(chapter) + ", א";
         playerInfo.setText(header);
         // TODO: fill the list of sections of the new chapter
         System.out.println("hi"+chapter);

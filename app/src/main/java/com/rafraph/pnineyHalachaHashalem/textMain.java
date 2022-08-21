@@ -42,6 +42,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -207,6 +208,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		final Context context = this;
+
+
+		setContentView(R.layout.text_main_down);
 		loadActivity();
 		if (BlackBackground == 1) {
 			webview.setWebViewClient(new WebViewClient() {
@@ -219,6 +223,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			webview.setBackgroundColor(Color.BLACK);//black
 			//infView.setBackgroundColor(Color.BLACK);
 		}
+;
+
 
 	}//onCreate
 	@Override
@@ -255,6 +261,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	}
 	public void loadWebview(String path, WebView webview)
 	{
+
 		final ProgressDialog downloadWait = ProgressDialog.show(textMain.this, "", "please wait");
 		new Thread() {
 			public void run() {
@@ -285,6 +292,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 										break;
 								}
 								webview.loadUrl(path);webview.loadUrl(path);
+
 								webview.setWebViewClient(new WebViewClient() {
 									public void onPageFinished(WebView view, String url) {
 										if (BlackBackground==1)
@@ -381,10 +389,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		popupMenu.getMenu().add(0, 5, 5, configHeaders[5]);
 		popupMenu.getMenu().add(0, 6, 6, configHeaders[6]);
 		popupMenu.getMenu().add(0, 7, 7, configHeaders[7]);
-		popupMenu.getMenu().add(0, 8, 8, configHeaders[8]);
-		popupMenu.getMenu().add(0, 9, 9, configHeaders[9]);
-		popupMenu.getMenu().add(0, 10, 10, configHeaders[10]);
-		popupMenu.getMenu().add(0, 11, 11, configHeaders[11]);
+
 
 
 
@@ -400,27 +405,27 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 						break;
 					case 2:
-						scrollSpeed = 1;
-						runOnUiThread(mScrollDown);
-						break;
-					case 3:
 						scrollSpeed = 2;
 						runOnUiThread(mScrollDown);
 						break;
-					case 4:
-						scrollSpeed = 3;
-						runOnUiThread(mScrollDown);
-						break;
-					case 5:
+					case 3:
 						scrollSpeed = 4;
 						runOnUiThread(mScrollDown);
 						break;
+					case 4:
+						scrollSpeed = 6;
+						runOnUiThread(mScrollDown);
+						break;
+					case 5:
+						scrollSpeed = 8;
+						runOnUiThread(mScrollDown);
+						break;
 					case 6:
-						scrollSpeed = 5;
+						scrollSpeed = 10;
 						runOnUiThread(mScrollDown);
 						break;
 					case 7:
-						scrollSpeed = 6;
+						scrollSpeed = 12;
 						runOnUiThread(mScrollDown);
 						break;
 					case 8:
@@ -436,6 +441,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						runOnUiThread(mScrollDown);
 						break;
 					case 11:
+
 						scrollSpeed = 20;
 						runOnUiThread(mScrollDown);
 						break;
@@ -459,7 +465,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 
 
-		setContentView(R.layout.text_main_down);
+
 
 		firstTime = true;
 		book_chapter[0] = -1;
@@ -480,7 +486,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					popupMenu.getMenu().add(0,1,0,"Books");
 					popupMenu.getMenu().add(0,2,0,"Daily Study");
 					popupMenu.getMenu().add(0,3,0,"Search");
-					popupMenu.getMenu().add(0,4,0,"Abbreviations");
 					popupMenu.getMenu().add(0,5,0,"Contact Us");
 					popupMenu.getMenu().add(0,6,0,"Purchasing books");
 					popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
@@ -493,7 +498,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					popupMenu.getMenu().add(0,1,0,"Книги");
 					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
 					popupMenu.getMenu().add(0,3,0,"Поиск");
-					popupMenu.getMenu().add(0,4,0,"Сокращения");
 					popupMenu.getMenu().add(0,5,0,"Отзыв");
 					popupMenu.getMenu().add(0,6,0,"Список книг");
 					popupMenu.getMenu().add(0,7,0,"Спросить равина");
@@ -506,7 +510,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					popupMenu.getMenu().add(0,1,0,"Libros");
 					popupMenu.getMenu().add(0,2,0,"Estudio diario");
 					popupMenu.getMenu().add(0,3,0,"Búsqueda");
-					popupMenu.getMenu().add(0,4,0,"Acrónimos");
 					popupMenu.getMenu().add(0,5,0,"retroalimentación");
 					popupMenu.getMenu().add(0,6,0,"compra de libros");
 					popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
@@ -519,7 +522,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					popupMenu.getMenu().add(0,1,0,"livres");
 					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
 					popupMenu.getMenu().add(0,3,0,"Recherche");
-					popupMenu.getMenu().add(0,4,0,"Initiales");
 					popupMenu.getMenu().add(0,5,0,"Contact Us");
 					popupMenu.getMenu().add(0,6,0,"Achat de livres");
 					popupMenu.getMenu().add(0,7,0,"Demander au rav");
@@ -706,7 +708,11 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					@Override
 					public void onClick(View v)
 					{
-						int index = 0, index_end = 0;
+						if(BookmarkName.getText().toString().equals(""))
+							Toast.makeText(getApplicationContext(),	"cant be empty", Toast.LENGTH_SHORT).show();
+						else
+						{
+							int index = 0, index_end = 0;
 						String bookmarkText = BookmarkName.getText().toString();
 						bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
 						/*		      bookmark name			book					chapter						scroll							fontSize*/
@@ -752,7 +758,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						shPrefEditor.putString("Bookmarks", Bookmarks);
 						shPrefEditor.commit();
 						bookmarkDialog.dismiss();
-					}
+					}}
 				});
 
 				fillChaptersNames();
@@ -795,6 +801,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		webview.getSettings().setAllowFileAccess(true);
 
 		webview.setWebViewClient(new MyWebViewClient());
+
+
 
 		bParagraphs    = (ImageButton) findViewById(R.id.to_main);
 		bSwitchModes = (ImageButton) findViewById(R.id.set_note);
@@ -1147,6 +1155,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		});
 
+
 		final WebView wv = new WebView(this);
 		wv.post(new Runnable() {
 			@Override
@@ -1471,22 +1480,15 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private Handler mHandler=new Handler();
 	public Runnable mScrollDown = new Runnable()
 	{
-		@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-		public void run()
-		{
-		 	if(scrollSpeed == -1) // in case that "stop" pressed
+		public void run() {
+
+			if (scrollSpeed == -1) // in case that "stop" pressed
 			{
 				webview.scrollBy(0, 0);
-			}
-			else
-			{
-				Handler mHandler2=new Handler();
-
-				webview.stopNestedScroll();
-				webview.scrollBy(0, scrollSpeed*2);
-				//mHandler2.postDelayed(this, 0);
-				mHandler2.postDelayed(this, 200);
-
+			} else {
+				webview.scrollBy(0, 1);
+				mHandler.removeCallbacks(this);
+				mHandler.postDelayed(this, 200 / scrollSpeed);
 			}
 		}
 	};
@@ -4131,6 +4133,46 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		ImageView dialogButton =  innerSearchDialog.findViewById(R.id.goSearch);
 		TextToSearch = (EditText) innerSearchDialog.findViewById(R.id.title );
+		TextToSearch.setOnEditorActionListener(
+				new EditText.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+								actionId == EditorInfo.IME_ACTION_DONE ||
+								event != null &&
+										event.getAction() == KeyEvent.ACTION_DOWN &&
+										event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+							if (event == null || !event.isShiftPressed()) {
+								// the user is done typing.
+
+								innerSearchText = TextToSearch.getText().toString();
+
+								innerSearchDialog.dismiss();
+								lnrFindOptions.setVisibility(View.VISIBLE);
+								lnrFindOptions.setTag("vis");
+								if(API < 16)
+								{
+									int a=webview.findAll(/*"כל"*/innerSearchText);
+									/*to highlight the searched text*/
+									try
+									{
+										Method m = WebView.class.getMethod("setFindIsUp", Boolean.TYPE);
+										m.invoke(webview, true);
+									}
+									catch (Throwable ignored){}
+								}
+								else
+								{
+									webview.findAllAsync(/*"כל"*/innerSearchText);
+								}
+
+								return true; // consume.
+							}
+						}
+						return false; // pass on to other listeners.
+					}
+				}
+		);
 		ImageView clearBtn = innerSearchDialog.findViewById(R.id.clear);
 
 		// if button is clicked

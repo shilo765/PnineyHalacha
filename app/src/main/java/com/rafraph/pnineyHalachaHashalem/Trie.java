@@ -9,10 +9,12 @@ public class Trie {
     static final int ALPHABET_SIZE = 31;
     public static String abc="אבגדהוזחטיכלמנסעפצקרשתףםןץך /()";
 
+
     // trie node
     static class TrieNode
     {
         TrieNode[] children = new TrieNode[ALPHABET_SIZE];
+
 
         // isEndOfWord is true if the node represents
         // end of a word
@@ -35,6 +37,7 @@ public class Trie {
     // just marks leaf node
     static void insert(String key)
     {
+        key.replace("\'","");
         int level;
         int length = key.length();
         int index;
@@ -48,7 +51,6 @@ public class Trie {
                 index++;
             if (pCrawl.children[index] == null)
                 pCrawl.children[index] = new TrieNode();
-
             pCrawl = pCrawl.children[index];
         }
 
@@ -59,6 +61,7 @@ public class Trie {
     // Returns true if key presents in trie, else false
     static boolean search(String key)
     {
+        key.replace("\'","");
         int level;
         int length = key.length();
         int index;
@@ -78,6 +81,7 @@ public class Trie {
     }
     static List<String> complite(String key)
     {
+        key.replace("\'","");
         List<String> lst= new ArrayList<String>();
         int level;
         int length = key.length();

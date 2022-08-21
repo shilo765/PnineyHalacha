@@ -164,6 +164,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@null"
                 android:onClick="skip_to_previous"
+                android:paddingLeft="20dp"
                 android:src="@drawable/baseline_skip_previous_white_48" />
 
             <ImageButton

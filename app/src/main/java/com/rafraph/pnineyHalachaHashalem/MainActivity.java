@@ -260,7 +260,6 @@ public class MainActivity extends AppCompatActivity
 					popupMenu.getMenu().add(0,1,0,"Books");
 					popupMenu.getMenu().add(0,2,0,"Daily Study");
 					popupMenu.getMenu().add(0,3,0,"Search");
-					popupMenu.getMenu().add(0,4,0,"Abbreviations");
 					popupMenu.getMenu().add(0,5,0,"Contact Us");
 					popupMenu.getMenu().add(0,6,0,"Purchasing books");
 					popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
@@ -273,7 +272,6 @@ public class MainActivity extends AppCompatActivity
 					popupMenu.getMenu().add(0,1,0,"Книги");
 					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
 					popupMenu.getMenu().add(0,3,0,"Поиск");
-					popupMenu.getMenu().add(0,4,0,"Сокращения");
 					popupMenu.getMenu().add(0,5,0,"Отзыв");
 					popupMenu.getMenu().add(0,6,0,"Список книг");
 					popupMenu.getMenu().add(0,7,0,"Спросить равина");
@@ -286,7 +284,6 @@ public class MainActivity extends AppCompatActivity
 					popupMenu.getMenu().add(0,1,0,"Libros");
 					popupMenu.getMenu().add(0,2,0,"Estudio diario");
 					popupMenu.getMenu().add(0,3,0,"Búsqueda");
-					popupMenu.getMenu().add(0,4,0,"Acrónimos");
 					popupMenu.getMenu().add(0,5,0,"retroalimentación");
 					popupMenu.getMenu().add(0,6,0,"compra de libros");
 					popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
@@ -299,7 +296,6 @@ public class MainActivity extends AppCompatActivity
 					popupMenu.getMenu().add(0,1,0,"livres");
 					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
 					popupMenu.getMenu().add(0,3,0,"Recherche");
-					popupMenu.getMenu().add(0,4,0,"Initiales");
 					popupMenu.getMenu().add(0,5,0,"Contact Us");
 					popupMenu.getMenu().add(0,6,0,"Achat de livres");
 					popupMenu.getMenu().add(0,7,0,"Demander au rav");
@@ -588,7 +584,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-			if(mPrefs.getString("Version", "").equals("4.1.4") == false)
+			if(mPrefs.getString("Version", "").equals("4.1.7") == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);

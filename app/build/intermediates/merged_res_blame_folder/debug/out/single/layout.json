@@ -56,10 +56,6 @@
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\bookmarks.xml"
     },
     {
-        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/activity_about.xml",
-        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/activity_about.xml"
-    },
-    {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\activity_feedback.xml",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_feedback.xml"
     },
@@ -82,6 +78,10 @@
     {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\home_page.xml",
         "source": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\home_page.xml"
+    },
+    {
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:/layout/home_page.xml",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/home_page.xml"
     },
     {
         "merged": "C:\\Users\\naamag\\.gradle\\daemon\\7.3.3\\com.rafraph.pnineyHalachaHashalem.app-mergeDebugResources-18:\\layout\\list_item.xml",

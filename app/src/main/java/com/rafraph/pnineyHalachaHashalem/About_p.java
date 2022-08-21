@@ -149,35 +149,60 @@ public class About_p extends Activity
 			toMain.setImageResource(R.drawable.to_main_f);
 		TextView txt1=(TextView) findViewById(R.id.include);
 		TextView txt2=(TextView) findViewById(R.id.headr);
-		TextView txt3=(TextView) findViewById(R.id.textView3);
+
 		TextView txt4=(TextView) findViewById(R.id.textView4);
-		//ImageView lili=(ImageView) findViewById(R.id.imageviewlili);
+		TextView aboutRav=(TextView) findViewById(R.id.about_rav);
+		TextView aboutPn=(TextView) findViewById(R.id.about_pn);
+		ImageView rav=(ImageView) findViewById(R.id.rav);
+		ImageView books=(ImageView) findViewById(R.id.books);
 		//Glide.with(this).load(R.drawable.abb).into(lili);
 		switch (MyLanguage)
 		{
 			case ENGLISH:
-				txt1.setText("About the series");
-				txt2.setText("The series of books, “Peninei Halakha” is the work of Rabbi Eliezer Melamed shlita, Rosh Yeshiva and Rabbi of the community Har Bracha");
-				txt3.setText("Rabbi Eliezer Melamed");
-				txt4.setText("Rosh Yeshivat Har Bracha and Rabbi of the community, author of the “Peninei Halakha” series, and author of the weekly column “Revivim” in the “Besheva” newspaper");
+				txt2.setText("'Peninei Halakha', the work of Rabbi Eliezer Melamed Shlita, presents the tradition of halachic rulings in a fresh Israeli spirit. The books are written in clear and up-to-date language, which illuminates the halakhot with their spiritual “flavor”, and refer to the customs of the various sectors. The halakhot are explained from the rules to the details, and with an emphasis on current issues which have recently emerged.");
+				txt4.setText("Рав Элиэзер Меламед – раввин поселения Ѓар-Браха в Самарии и глава ешивы. Один из ведущих ѓалахических авторитетов в религиозном сионизме. В своей еженедельной колонке «Ревивим» рав Меламед освещает через призму Ѓалахи и еврейской философии темы семьи, общественной жизни и актуальные вопросы и события. Рав Меламед – выпускник ешивы «Мерказ ѓа-рав» и ученик рава Цви-Йеѓуды Кука.");
+				rav.setImageResource(R.drawable.rav_ltr);
+				aboutRav.setPadding(0,0,300,0);
+				aboutRav.setText("About the Author");
+				books.setImageResource(R.drawable.pn_books_e);
+				aboutPn.setPadding(0,0,310,0);
+				aboutPn.setText("About the series");
 				break;
 			case RUSSIAN:
-				txt1.setText("О серии книг");
-				txt2.setText("Серия книг \"Жемчужины Галахи\" написана равином Элиэзером Меламедом, главой ешивы и поселения Хар-Браха");
-				txt3.setText("Равин Элиэзер Меламед");
-				txt4.setText("Глава ешивы Хар-Браха и равин поселения, автор книг \"Жемчужины Галахи\" и еженедельной колонки \"Ревивим\"");
+				txt2.setText("Книги «Жемчужины Ѓалахи», рава Элиэзера Меламеда, представляют ѓалахические постановления. Книги написаны ясным и простым языком; в них раскрывается духовный смысл заповедей Торы и рассматриваются обычаи различных общин. Ѓалаха объясняется на основе универсальных принципов и рассматривается во всех деталях и нюансах. В книгах делается особый акцент на актуальные вопросы нашего времени.");
+				txt4.setText("Рав Элиэзер Меламед – раввин поселения и ешивы Ѓар-Браха. Один из ведущих ѓалахических авторитетов в религиозном сионизме и атор еженедельной колонки \"Ревивим\". Рав Меламед – выпускник ешивы «Мерказ ѓа-рав» и ученик рава Цви-Йеѓуды Кука. Автор серии «Жемчужины Ѓалахи» и книги «Еврейская традиция»");
+				rav.setImageResource(R.drawable.rav_ltr);
+				aboutRav.setPadding(0,0,430,0);
+				aboutRav.setText("Об авторе");
+				books.setImageResource(R.drawable.pn_books_r);
+				aboutPn.setPadding(0,0,480,0);
+				aboutPn.setText("О серии");
 				break;
 			case FRENCH:
-				txt1.setText("Sur la collection");
-				txt2.setText("La série de livre Pninei Halakha a été écrit par le rabbin Eliezer Melamed chlit'a, roch yéchiva et rabbin de Har Braha");
-				txt3.setText("Le rabbin Eliezer Melamed");
-				txt4.setText("Roch yéchiva et rabbin de de Har Braha, auteur de la série de livre Pninei Halkha, auteur de la colonne hebdomadaire \"revivim\" dans le journal \"béchéva\"");
+				txt2.setText("''Les Perles de la Loi'', du rav Eliezer Melamed Shlita, présente la traditionnelle jurisprudence halakhique, sous un regard sioniste rafraîchissant. " +
+						"L'oeuvre est écrite dans une syntaxe volontairement moderne et claire, détaillant pour chaque loi son fondement spirituel, et mettant en exergue les coutumes des différents courants. " +
+						"Les lois sont enseignées depuis la règle générale jusqu'aux conséquences pratiques, y compris celles qui ont attrait à l'actualité la plus récente.");
+				txt4.setText("Le rav Eliezer Melamed est le Rosh Yeshiva de l'institut talmudique Har Berakha et rav du Yishouv. Il est un décisionnaire halakhique dominant du courant sioniste religieux et jouit d'une tribune hebdomadaire dans les journaux ''Revivim'' et ''Besheva''. Le rav Melamed est diplômé de la Yeshiva Merkaz Harav, et a eu loisir de faire partie des élèves les plus proches du Rav Tsvi Yehouda Kook. Parmi ses nombreux écrits : ''Les Perles de la Loi'', ou ''La Tradition Juive''.");
+				rav.setImageResource(R.drawable.rav_ltr);
+				aboutRav.setPadding(0,0,230,0);
+				aboutRav.setText("À propos de l'auteur");
+				books.setImageResource(R.drawable.pn_books_f);
+				aboutPn.setPadding(0,0,230,0);
+				aboutPn.setText("À propos de l'oeuvre");
+
 				break;
 			case SPANISH:
-				txt1.setText("en la serie");
-				txt2.setText("La serie de libros, Pninei Halaja es obra del rabino Eliezer Melamed Shlita, Rosh Yeshiva y el rabino Har Beraja.");
-				txt3.setText("El rabino Eliezer enseña");
-				txt4.setText("Rosh Yeshiva Har Beraja y rabino del Yishuv, autor de la serie Pninei Halaja y autor de la columna Revivim en el periódico Besheva");
+				txt2.setText("'Pnimei halajá', la obra del rabino Eliezer Melamed Shalita, presenta la tradición de los decretos halájicos con el espíritu fresco de la tierra de Israel. Los libros están escritos en un lenguaje claro y actual, que despierta  con su espiritualidad el sabor por el estudió sabor." +
+						"Y hace hincapié sobre las diversas costumbres Las halajot se explican desde las reglas hasta los detalles y con énfasis en temas de actualidad que han sido actualizados recientemente.");
+
+				txt4.setText("Rabino Eliezer Melamed, director de la ieshivá Har Beraja y rabino del ishub. Uno de los principales exegetas de Halajá en el sionismo religioso y columnista 'Ravivim' del diario 'Bessheva'." +
+						"El rabino es graduado de la Merkaz Rabbi Yeshiva y estudiante del rab tzvi yehuda Cohen kuk z\"l entre sus libros se encuentran: 'Penini Halajá' y el libro 'La Tradición Judía'.");
+				rav.setImageResource(R.drawable.rav_ltr);
+				aboutRav.setPadding(0,0,350,0);
+				aboutRav.setText("Sobre el Autor");
+				books.setImageResource(R.drawable.pn_books_s);
+				aboutPn.setPadding(0,0,260,0);
+				aboutPn.setText("sobre la colección");
 				break;
 			case HEBREW:
 				break;
@@ -191,7 +216,7 @@ public class About_p extends Activity
 		{
 			txt1.setTextColor(Color.WHITE);
 			txt2.setTextColor(Color.WHITE);
-			txt3.setTextColor(Color.WHITE);
+
 			txt4.setTextColor(Color.WHITE);
 //			if(MyLanguage==ENGLISH)
 //				toMain.setImageResource(R.drawable.to_main_b_e);
@@ -255,7 +280,6 @@ public class About_p extends Activity
 					popupMenu.getMenu().add(0,1,0,"Books");
 					popupMenu.getMenu().add(0,2,0,"Daily Study");
 					popupMenu.getMenu().add(0,3,0,"Search");
-					popupMenu.getMenu().add(0,4,0,"Abbreviations");
 					popupMenu.getMenu().add(0,5,0,"Contact Us");
 					popupMenu.getMenu().add(0,6,0,"Purchasing books");
 					popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
@@ -268,7 +292,6 @@ public class About_p extends Activity
 					popupMenu.getMenu().add(0,1,0,"Книги");
 					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
 					popupMenu.getMenu().add(0,3,0,"Поиск");
-					popupMenu.getMenu().add(0,4,0,"Сокращения");
 					popupMenu.getMenu().add(0,5,0,"Отзыв");
 					popupMenu.getMenu().add(0,6,0,"Список книг");
 					popupMenu.getMenu().add(0,7,0,"Спросить равина");
@@ -281,7 +304,6 @@ public class About_p extends Activity
 					popupMenu.getMenu().add(0,1,0,"Libros");
 					popupMenu.getMenu().add(0,2,0,"Estudio diario");
 					popupMenu.getMenu().add(0,3,0,"Búsqueda");
-					popupMenu.getMenu().add(0,4,0,"Acrónimos");
 					popupMenu.getMenu().add(0,5,0,"retroalimentación");
 					popupMenu.getMenu().add(0,6,0,"compra de libros");
 					popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
@@ -294,7 +316,6 @@ public class About_p extends Activity
 					popupMenu.getMenu().add(0,1,0,"livres");
 					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
 					popupMenu.getMenu().add(0,3,0,"Recherche");
-					popupMenu.getMenu().add(0,4,0,"Initiales");
 					popupMenu.getMenu().add(0,5,0,"Contact Us");
 					popupMenu.getMenu().add(0,6,0,"Achat de livres");
 					popupMenu.getMenu().add(0,7,0,"Demander au rav");

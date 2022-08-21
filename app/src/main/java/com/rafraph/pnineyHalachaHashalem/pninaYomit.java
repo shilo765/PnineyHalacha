@@ -192,35 +192,35 @@ public class pninaYomit extends Activity {
         switch (MyLanguage)
         {
             case ENGLISH:
-                webview.loadUrl("https://ph.yhb.org.il/pninayomit-en/");
+                webview.loadUrl("https://ph.yhb.org.il/pninayomit-en/#page-data");
                 set="Set";
                 noteSet="The reminder was set up successfully";
                 setRemind="Set a reminder";
                 remindCancel="Reminder canceled";
                 break;
             case RUSSIAN:
-                webview.loadUrl("https://ph.yhb.org.il/pninayomit-ru/");
+                webview.loadUrl("https://ph.yhb.org.il/pninayomit-ru/#page-data");
                 set="Постоянно";
                 noteSet="Напоминание установлено";
                 setRemind="Установить напоминание";
                 remindCancel="Удалить напоминание";
                 break;
             case FRENCH:
-                webview.loadUrl("https://ph.yhb.org.il/pninayomit-fr/");
+                webview.loadUrl("https://ph.yhb.org.il/pninayomit-fr/#page-data");
                 set="Valider ";
                 noteSet="Le rappel a été correctement programmé";
                 setRemind="Programmer un rappel ";
                 remindCancel="Le rappel a été correctement annulé";
                 break;
             case SPANISH:
-                webview.loadUrl("https://ph.yhb.org.il/pninayomit-es/");
+                webview.loadUrl("https://ph.yhb.org.il/pninayomit-es/#page-data");
                 set="arreglar";
                 noteSet="El recordatorio se configuró correctamente.";
                 setRemind="Establecer un recordatorio";
                 remindCancel="Recordatorio cancelado";
                 break;
             case HEBREW:
-                webview.loadUrl("https://ph.yhb.org.il/pninayomit/");
+                webview.loadUrl("https://ph.yhb.org.il/pninayomit/#page-data");
                 set="קבע";
                 noteSet="קבע תזכורת";
                 setRemind="תזכורת הוגדרה";
@@ -269,7 +269,6 @@ public class pninaYomit extends Activity {
                     popupMenu.getMenu().add(0,1,0,"Books");
                     popupMenu.getMenu().add(0,2,0,"Daily Study");
                     popupMenu.getMenu().add(0,3,0,"Search");
-                    popupMenu.getMenu().add(0,4,0,"Abbreviations");
                     popupMenu.getMenu().add(0,5,0,"Contact Us");
                     popupMenu.getMenu().add(0,6,0,"Purchasing books");
                     popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
@@ -282,7 +281,6 @@ public class pninaYomit extends Activity {
                     popupMenu.getMenu().add(0,1,0,"Книги");
                     popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
                     popupMenu.getMenu().add(0,3,0,"Поиск");
-                    popupMenu.getMenu().add(0,4,0,"Сокращения");
                     popupMenu.getMenu().add(0,5,0,"Отзыв");
                     popupMenu.getMenu().add(0,6,0,"Список книг");
                     popupMenu.getMenu().add(0,7,0,"Спросить равина");
@@ -295,7 +293,6 @@ public class pninaYomit extends Activity {
                     popupMenu.getMenu().add(0,1,0,"Libros");
                     popupMenu.getMenu().add(0,2,0,"Estudio diario");
                     popupMenu.getMenu().add(0,3,0,"Búsqueda");
-                    popupMenu.getMenu().add(0,4,0,"Acrónimos");
                     popupMenu.getMenu().add(0,5,0,"retroalimentación");
                     popupMenu.getMenu().add(0,6,0,"compra de libros");
                     popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
@@ -308,7 +305,6 @@ public class pninaYomit extends Activity {
                     popupMenu.getMenu().add(0,1,0,"livres");
                     popupMenu.getMenu().add(0,2,0,"étude quotidienne");
                     popupMenu.getMenu().add(0,3,0,"Recherche");
-                    popupMenu.getMenu().add(0,4,0,"Initiales");
                     popupMenu.getMenu().add(0,5,0,"Contact Us");
                     popupMenu.getMenu().add(0,6,0,"Achat de livres");
                     popupMenu.getMenu().add(0,7,0,"Demander au rav");

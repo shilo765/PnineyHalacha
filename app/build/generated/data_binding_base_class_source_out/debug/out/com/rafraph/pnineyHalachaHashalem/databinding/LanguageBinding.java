@@ -23,9 +23,6 @@ public final class LanguageBinding implements ViewBinding {
   private final RelativeLayout rootView;
 
   @NonNull
-  public final TextView chooseTochen;
-
-  @NonNull
   public final ImageView dialogX;
 
   @NonNull
@@ -67,15 +64,13 @@ public final class LanguageBinding implements ViewBinding {
   @NonNull
   public final ImageView tooPy;
 
-  private LanguageBinding(@NonNull RelativeLayout rootView, @NonNull TextView chooseTochen,
-      @NonNull ImageView dialogX, @NonNull ImageView imEsDown, @NonNull ImageView imFDown,
-      @NonNull RelativeLayout layoutRoot, @NonNull LinearLayout lnrOption2,
-      @NonNull LinearLayout lnrOption3, @NonNull LinearLayout lnrOption4,
-      @NonNull LinearLayout lnrOption5, @NonNull LinearLayout lnrOptions,
-      @NonNull TextView pickBooks, @NonNull RadioGroup radios, @NonNull ImageView settings,
-      @NonNull ImageView toPy, @NonNull ImageView tooPy) {
+  private LanguageBinding(@NonNull RelativeLayout rootView, @NonNull ImageView dialogX,
+      @NonNull ImageView imEsDown, @NonNull ImageView imFDown, @NonNull RelativeLayout layoutRoot,
+      @NonNull LinearLayout lnrOption2, @NonNull LinearLayout lnrOption3,
+      @NonNull LinearLayout lnrOption4, @NonNull LinearLayout lnrOption5,
+      @NonNull LinearLayout lnrOptions, @NonNull TextView pickBooks, @NonNull RadioGroup radios,
+      @NonNull ImageView settings, @NonNull ImageView toPy, @NonNull ImageView tooPy) {
     this.rootView = rootView;
-    this.chooseTochen = chooseTochen;
     this.dialogX = dialogX;
     this.imEsDown = imEsDown;
     this.imFDown = imFDown;
@@ -119,12 +114,6 @@ public final class LanguageBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.chooseTochen;
-      TextView chooseTochen = ViewBindings.findChildViewById(rootView, id);
-      if (chooseTochen == null) {
-        break missingId;
-      }
-
       id = R.id.dialog_x;
       ImageView dialogX = ViewBindings.findChildViewById(rootView, id);
       if (dialogX == null) {
@@ -205,9 +194,9 @@ public final class LanguageBinding implements ViewBinding {
         break missingId;
       }
 
-      return new LanguageBinding((RelativeLayout) rootView, chooseTochen, dialogX, imEsDown,
-          imFDown, layoutRoot, lnrOption2, lnrOption3, lnrOption4, lnrOption5, lnrOptions,
-          pickBooks, radios, settings, toPy, tooPy);
+      return new LanguageBinding((RelativeLayout) rootView, dialogX, imEsDown, imFDown, layoutRoot,
+          lnrOption2, lnrOption3, lnrOption4, lnrOption5, lnrOptions, pickBooks, radios, settings,
+          toPy, tooPy);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

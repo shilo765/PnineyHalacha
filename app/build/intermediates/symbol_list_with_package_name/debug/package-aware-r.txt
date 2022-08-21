@@ -1068,7 +1068,6 @@ dimen tooltip_precise_anchor_threshold
 dimen tooltip_vertical_padding
 dimen tooltip_y_offset_non_touch
 dimen tooltip_y_offset_touch
-drawable abb
 drawable abb2
 drawable abc_ab_share_pack_mtrl_alpha
 drawable abc_action_bar_item_background_material
@@ -1241,6 +1240,7 @@ drawable f_b_4
 drawable fill_auto_scroll
 drawable fill_auto_scroll2
 drawable fill_auto_scroll3
+drawable first_gif
 drawable h_b_1
 drawable h_b_2
 drawable h_b_3
@@ -1302,6 +1302,10 @@ drawable notify_panel_notification_icon_bg
 drawable page_search
 drawable page_search_b
 drawable pn_books
+drawable pn_books_e
+drawable pn_books_f
+drawable pn_books_r
+drawable pn_books_s
 drawable pnina_sep
 drawable pniney_icon
 drawable pnineyicon
@@ -1312,6 +1316,7 @@ drawable r_b_3
 drawable r_b_4
 drawable r_rec
 drawable rav
+drawable rav_ltr
 drawable rec_r_half2_empty
 drawable rec_r_half2_full
 drawable rec_r_half_empty
@@ -1354,6 +1359,8 @@ id SHOW_PROGRESS
 id SYM
 id SecondFragment
 id about
+id about_pn
+id about_rav
 id accelerate
 id action0
 id action_FirstFragment_to_SecondFragment
@@ -1745,7 +1752,6 @@ id transition_scene_layoutid_cache
 id transition_transform
 id triangle
 id txt1
-id txt2
 id txt3
 id txt4
 id txt5

@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_root"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".About_p"
 
-    android:background="#FFFFFF">
+    tools:context=".About_p">
 
 
     <LinearLayout
@@ -63,67 +63,80 @@
                 android:src="@drawable/head_shaddow"
                 android:tag="4" />
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-        <ImageView
-            android:id="@+id/books"
-            android:layout_width="295dp"
-            android:layout_height="171dp"
-            android:layout_gravity="center"
-            android:scaleX="1"
-            android:scaleY="0.9"
-            android:src="@drawable/pn_books"
-            android:tag="4" />
-
-        <TextView
-            android:id="@+id/include"
-            android:layout_width="wrap_content"
-            android:layout_height="38dp"
-            android:layout_gravity="right"
-            android:paddingRight="10dp"
-            android:text="על הסדרה"
-            android:textColor="#000000"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/books"
+                android:layout_width="wrap_content"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/pn_books"
+                android:tag="4" />
+            <TextView
+                android:id="@+id/about_pn"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="#970606"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="25dp"
+                android:gravity="right"
+                android:text="על הסדרה"
+                android:textSize="24dp" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/headr"
-            android:layout_width="wrap_content"
-            android:layout_height="76dp"
-            android:layout_gravity="right"
-            android:paddingRight="10dp"
-            android:text="סדרת הספרים 'פניני הלכה' הינה פרי יצירתו של הרב אליעזר מלמד שליט''א, ראש הישיבה ורב הישוב הר ברכה"
-            android:textColor="#000000"
-            android:textSize="16dp" />
-
-        <ImageView
-            android:id="@+id/rav"
-            android:layout_width="138dp"
-            android:layout_height="138dp"
-            android:layout_gravity="center"
-            android:scaleX="1"
-            android:scaleY="0.9"
-            android:src="@drawable/rav"
-            android:tag="4" />
-
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="41dp"
-            android:layout_gravity="right"
-            android:paddingRight="10dp"
-            android:text="הרב אליעזר מלמד"
-            android:textColor="#000000"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="344dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:paddingRight="10dp"
-            android:text="הוא רב הישוב הר ברכה, מחבר סדרת ספרי ההלכה פניני הלכה, בעל טור קבוע בשם 'רביבים' בעיתון בשבע וראש ישיבת הר ברכה"
+            android:text="'פניני הלכה' פרי יצירתו של הרב אליעזר מלמד שליט''א, מגישה את מסורת הפסיקה ההלכתית ברוח ארצישראלית רעננה. הספרים כתובים בלשון בהירה ועדכנית, המאירה את ההלכות בטעמן הרוחני, ומתייחסים למנהגי העדות השונות. ההלכות מבוארות מן הכללים אל הפרטים ובדגש על סוגיות אקטואליות שהתחדשו בעת האחרונה."
+            android:textColor="#000000"
+            android:textSize="16dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+
+            <ImageView
+                android:id="@+id/rav"
+                android:layout_width="wrap_content"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/rav"
+                android:tag="4" />
+
+            <TextView
+                android:id="@+id/about_rav"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="25dp"
+                android:gravity="right"
+                android:text="על המחבר"
+                android:textColor="#970606"
+                android:textSize="24dp" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:paddingRight="10dp"
+            android:text="הרב אליעזר מלמד שליט''א, ראש ישיבת הר ברכה ורב הישוב. מבחירי פוסקי ההלכה בציונות הדתית ובעל טור 'רביבים' בעיתון 'בשבע'.
+הרב הינו בוגר ישיבת מרכז הרב ומתלמידי הרצי''ה. בין ספריו: 'פניני הלכה' וספר 'המסורת היהודית'.
+"
             android:textColor="#000000"
             android:textSize="16dp" />
 

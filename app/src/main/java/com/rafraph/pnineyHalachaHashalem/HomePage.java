@@ -4,16 +4,19 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -68,6 +71,10 @@ public class HomePage extends Activity {
         TextView bePartner=findViewById(R.id.be_partner);
         TextView buyBooks=findViewById(R.id.buy_books);
         ImageView toMain= (ImageView) findViewById(R.id.to_main);
+        ImageView askTheRav= (ImageView) findViewById(R.id.ask_the_rav);
+        ImageView donate= (ImageView) findViewById(R.id.donation);
+        ImageView quiz= (ImageView) findViewById(R.id.take_quiz);
+        ImageView cart= (ImageView) findViewById(R.id.go_shop);
         if(MyLanguage==ENGLISH){
             toMain.setImageResource(R.drawable.to_main_e);
             dayliyLimud.setText("Daily Study");
@@ -92,6 +99,15 @@ public class HomePage extends Activity {
             theLast.setText("Последние место чтения");
             theQuiz.setText("hebrew testing ");
             theAsk.setText("Спросить равина");
+            askTheRav.setPadding(65,0,0,0);
+            askTheRav.setScaleY(1f);
+            askTheRav.setScaleX(1f);
+            donate.setPadding(65,0,0,0);
+            donate.setScaleY(0.6f);
+            donate.setScaleX(0.6f);
+            quiz.setPadding(0,0,45,0);
+            quiz.setScaleY(1f);
+            quiz.setScaleX(1f);
             bePartner.setText("Пожертвования");
             buyBooks.setText("Список книг");
         }
@@ -106,6 +122,12 @@ public class HomePage extends Activity {
             theLast.setText("Última ubicación");
             theQuiz.setText("hebrew testing ");
             theAsk.setText("pregúntale al rabino");
+            askTheRav.setPadding(75,0,0,0);
+            askTheRav.setScaleY(1f);
+            askTheRav.setScaleX(1f);
+            quiz.setPadding(0,0,55,0);
+            quiz.setScaleY(1f);
+            quiz.setScaleX(1f);
             bePartner.setText("Donaciones");
             buyBooks.setText("compra de libros");
         }
@@ -122,6 +144,19 @@ public class HomePage extends Activity {
             theAsk.setText("Demander au rav");
             bePartner.setText("Devenez partenaires");
             buyBooks.setText("Achat de livres");
+            buyBooks.setPadding(0,0,0,0);
+            askTheRav.setPadding(65,0,0,0);
+            askTheRav.setScaleY(1f);
+            askTheRav.setScaleX(1f);
+            donate.setPadding(115,0,0,0);
+            donate.setScaleY(0.9f);
+            donate.setScaleX(0.9f);
+            quiz.setPadding(0,0,55,0);
+            quiz.setScaleY(1f);
+            quiz.setScaleX(1f);
+            cart.setPadding(0,0,25,0);
+            cart.setScaleY(0.7f);
+            cart.setScaleX(0.7f);
         }
         Bundle extras = getIntent().getExtras();
 
@@ -135,8 +170,8 @@ public class HomePage extends Activity {
         ImageView mymarks= (ImageView) findViewById(R.id.my_marks);
         ImageView myLastLoc= (ImageView) findViewById(R.id.my_last_loc);
         ImageView goShop= (ImageView) findViewById(R.id.go_shop);
-        ImageView askTheRav= (ImageView) findViewById(R.id.ask_the_rav);
-        ImageView donate= (ImageView) findViewById(R.id.donation);
+
+
         ImageView takeQuiz= (ImageView) findViewById(R.id.take_quiz);
 
         LinearLayout main=(LinearLayout) findViewById(R.id.main);
@@ -184,7 +219,7 @@ public class HomePage extends Activity {
                     popupMenu.getMenu().add(0,1,0,"Books");
                     popupMenu.getMenu().add(0,2,0,"Daily Study");
                     popupMenu.getMenu().add(0,3,0,"Search");
-                    popupMenu.getMenu().add(0,4,0,"Abbreviations");
+
                     popupMenu.getMenu().add(0,5,0,"Contact Us");
                     popupMenu.getMenu().add(0,6,0,"Purchasing books");
                     popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
@@ -198,7 +233,6 @@ public class HomePage extends Activity {
                     popupMenu.getMenu().add(0,1,0,"Книги");
                     popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
                     popupMenu.getMenu().add(0,3,0,"Поиск");
-                    popupMenu.getMenu().add(0,4,0,"Сокращения");
                     popupMenu.getMenu().add(0,5,0,"Отзыв");
                     popupMenu.getMenu().add(0,6,0,"Список книг");
                     popupMenu.getMenu().add(0,7,0,"Спросить равина");
@@ -212,7 +246,7 @@ public class HomePage extends Activity {
                     popupMenu.getMenu().add(0,1,0,"Libros");
                     popupMenu.getMenu().add(0,2,0,"Estudio diario");
                     popupMenu.getMenu().add(0,3,0,"Búsqueda");
-                    popupMenu.getMenu().add(0,4,0,"Acrónimos");
+
                     popupMenu.getMenu().add(0,5,0,"retroalimentación");
                     popupMenu.getMenu().add(0,6,0,"compra de libros");
                     popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
@@ -226,7 +260,6 @@ public class HomePage extends Activity {
                     popupMenu.getMenu().add(0,1,0,"livres");
                     popupMenu.getMenu().add(0,2,0,"étude quotidienne");
                     popupMenu.getMenu().add(0,3,0,"Recherche");
-                    popupMenu.getMenu().add(0,4,0,"Initiales");
                     popupMenu.getMenu().add(0,5,0,"Contact Us");
                     popupMenu.getMenu().add(0,6,0,"Achat de livres");
                     popupMenu.getMenu().add(0,7,0,"Demander au rav");
@@ -446,11 +479,135 @@ public class HomePage extends Activity {
                 }
             }
         });
+        if(mPrefs.getString("Version", "").equals("4.1.7") == false)
+        {
+
+            String version = null;
+            try {
+                version = packageManager.getPackageInfo(packageName, 0).versionName;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            newVersion = true;
+            shPrefEditor.putString("Version", version);
+            shPrefEditor.commit();
+            newVersionDialog = new Dialog(context);
+            newVersionDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            newVersionDialog.setContentView(R.layout.new_version);
+            newVersionDialog.setTitle("גרסה " + version);
+            newVersionDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            TextView title=newVersionDialog.findViewById(R.id.title);
+            TextView txt1=newVersionDialog.findViewById(R.id.txt1);
+
+            TextView txt3=newVersionDialog.findViewById(R.id.txt3);
+            TextView txt4=newVersionDialog.findViewById(R.id.txt4);
+            TextView txt5=newVersionDialog.findViewById(R.id.txt5);
+            TextView txt6=newVersionDialog.findViewById(R.id.txt6);
+            TextView txt7=newVersionDialog.findViewById(R.id.txt7);
+            TextView txt8=newVersionDialog.findViewById(R.id.txt8);
+            if(MyLanguage==ENGLISH){
+                title.setText("We have renewed!");
+                txt1.setText("We are pleased to present you with the “Peninei  Halakha” app in an improved design, which includes:");
+                txt3.setText("2. Completion of all “Peninei Halakha” books in languages");
+                txt4.setText("3. Improving search engine results including auto-completion");
+                txt5.setText("4. Daily halakha and the possibility of scheduling a reminder");
+                txt6.setText("5. Troubleshooting");
+                txt7.setText("Enjoy your study!");
+                txt8.setText("App team \"Peninei Halakha\"");
+            }
+            if(MyLanguage==RUSSIAN)
+            {
+                title.setText("Обновление!");
+                txt1.setText("Рады представить Вам приложение \"Жемчужины Галахи\" в обновленном дизайне, который включает в себя:");
+
+                txt3.setText("2. Дополнение книгами на иностранных языках");
+                txt4.setText("3. Улучшение поиска, включая автозаполнение");
+                txt5.setText("4. Программа \"Ежедневная жемчужина\" и возможность установить напоминание об обучении");
+                txt6.setText("5. Устранены баги");
+                txt7.setText("Наслаждайтесь Вашей учебой");
+                txt8.setText("Коллектив приложения Жемчужины Галахи");
+            }
+            if(MyLanguage==SPANISH)
+            {
+                title.setText("¡Hemos renovado!");
+                txt1.setText("Nos complace presentarle la aplicación Pninei Halaja con un diseño mejorado, que incluye:");
+                txt3.setText("2. Finalización de todos los libros de referencia en idiomas.");
+                txt4.setText("3. Mejorar los resultados del motor de búsqueda, incluida la finalización automática");
+                txt5.setText("4. Halajá diaria y la posibilidad de programar un recordatorio.");
+                txt6.setText("5. Resolución de problemas.");
+                txt7.setText("¡Aprendizaje divertido!");
+                txt8.setText("personal de la aplicación Pninei de Halajá");
+            }
+            if(MyLanguage==FRENCH)
+            {
+                title.setText("Nous avons renouvelé !");
+                txt1.setText("Nous sommes heureux de vous présenter la version améliorée de notre application, au sommaire :");
+                txt3.setText("2. La mise à jour du contenu avec désormais la collection complète du receuil 'PNINÉ HALAKHA'' en langues étrangères");
+                txt4.setText("3. Un nouveau moteur de recherche intuitif");
+                txt5.setText("4. L'étude d'une loi quotidienne avec la possibilité de programmer un rappel automatique sur votre téléphone");
+                txt6.setText("5. La correction de bugs");
+                txt7.setText("Bonne étude !");
+                txt8.setText("L'équipe de l'appli PNINÉ HALAKHA");
+            }
+
+
+
+
+            ImageView dialogExit = (ImageView) newVersionDialog.findViewById(R.id.dialogButtonExit);
+            // if button is clicked
+            dialogExit.setOnClickListener(new View.OnClickListener()
+            {
+                @SuppressLint("NewApi")
+                @Override
+                public void onClick(View v)
+                {
+                    Class ourClass = null;
+                    try {
+                        ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Intent ourIntent = new Intent(HomePage.this, ourClass);
+
+                    ourIntent.putExtra("homePage", false);
+                    ourIntent.putExtra("newV", true);
+                    startActivity(ourIntent);
+                }
+            });
+            newVersionDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+
+                    Class ourClass = null;
+                    try {
+                        ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Intent ourIntent = new Intent(HomePage.this, ourClass);
+
+                    ourIntent.putExtra("homePage", false);
+                    ourIntent.putExtra("newV", true);
+                    startActivity(ourIntent);
+
+                }
+            });
+            newVersionDialog.show();
+        }
         goShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+                if(MyLanguage==ENGLISH)
+                intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
+                if(MyLanguage==FRENCH)
+                    intent.setData(Uri.parse("https://shop.yhb.org.il/fr/"));
+                if(MyLanguage==RUSSIAN)
+                    intent.setData(Uri.parse("https://shop.yhb.org.il/ru/"));
+                if(MyLanguage==SPANISH)
+                    intent.setData(Uri.parse("https://shop.yhb.org.il/es/"));
                 startActivity(intent);
             }
         });
@@ -474,8 +631,10 @@ public class HomePage extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-
+                if(MyLanguage==HEBREW)
                 intent.setData(Uri.parse("https://yhb.org.il/support-us/"));
+                else
+                    intent.setData(Uri.parse("https://en.yhb.org.il/donations/"));
                 startActivity(intent);
             }
         });

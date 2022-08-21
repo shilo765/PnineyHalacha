@@ -33,9 +33,6 @@ public final class NewVersionBinding implements ViewBinding {
   public final TextView txt1;
 
   @NonNull
-  public final TextView txt2;
-
-  @NonNull
   public final TextView txt3;
 
   @NonNull
@@ -58,15 +55,14 @@ public final class NewVersionBinding implements ViewBinding {
 
   private NewVersionBinding(@NonNull RelativeLayout rootView, @NonNull ImageView dialogButtonExit,
       @NonNull RelativeLayout layoutRoot, @NonNull TextView title, @NonNull TextView txt1,
-      @NonNull TextView txt2, @NonNull TextView txt3, @NonNull TextView txt4,
-      @NonNull TextView txt5, @NonNull TextView txt6, @NonNull TextView txt7,
-      @NonNull TextView txt8, @NonNull TextView txtBlank) {
+      @NonNull TextView txt3, @NonNull TextView txt4, @NonNull TextView txt5,
+      @NonNull TextView txt6, @NonNull TextView txt7, @NonNull TextView txt8,
+      @NonNull TextView txtBlank) {
     this.rootView = rootView;
     this.dialogButtonExit = dialogButtonExit;
     this.layoutRoot = layoutRoot;
     this.title = title;
     this.txt1 = txt1;
-    this.txt2 = txt2;
     this.txt3 = txt3;
     this.txt4 = txt4;
     this.txt5 = txt5;
@@ -123,12 +119,6 @@ public final class NewVersionBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.txt2;
-      TextView txt2 = ViewBindings.findChildViewById(rootView, id);
-      if (txt2 == null) {
-        break missingId;
-      }
-
       id = R.id.txt3;
       TextView txt3 = ViewBindings.findChildViewById(rootView, id);
       if (txt3 == null) {
@@ -172,7 +162,7 @@ public final class NewVersionBinding implements ViewBinding {
       }
 
       return new NewVersionBinding((RelativeLayout) rootView, dialogButtonExit, layoutRoot, title,
-          txt1, txt2, txt3, txt4, txt5, txt6, txt7, txt8, txtBlank);
+          txt1, txt3, txt4, txt5, txt6, txt7, txt8, txtBlank);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
