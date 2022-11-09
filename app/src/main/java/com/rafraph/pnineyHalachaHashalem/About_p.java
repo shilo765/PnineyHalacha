@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -114,6 +115,14 @@ public class About_p extends Activity
 		});
 		acronymsDialog.show();
 	}
+
+	public static void setMargins (View v, int l, int t, int r, int b) {
+		if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+			ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+			p.setMargins(l, t, r, b);
+			v.requestLayout();
+		}
+	}
 	@Override
 	public void onBackPressed() {
 		try
@@ -147,7 +156,7 @@ public class About_p extends Activity
 			toMain.setImageResource(R.drawable.to_main_s);
 		if(MyLanguage==FRENCH)
 			toMain.setImageResource(R.drawable.to_main_f);
-		TextView txt1=(TextView) findViewById(R.id.include);
+
 		TextView txt2=(TextView) findViewById(R.id.headr);
 
 		TextView txt4=(TextView) findViewById(R.id.textView4);
@@ -160,9 +169,9 @@ public class About_p extends Activity
 		{
 			case ENGLISH:
 				txt2.setText("'Peninei Halakha', the work of Rabbi Eliezer Melamed Shlita, presents the tradition of halachic rulings in a fresh Israeli spirit. The books are written in clear and up-to-date language, which illuminates the halakhot with their spiritual “flavor”, and refer to the customs of the various sectors. The halakhot are explained from the rules to the details, and with an emphasis on current issues which have recently emerged.");
-				txt4.setText("Рав Элиэзер Меламед – раввин поселения Ѓар-Браха в Самарии и глава ешивы. Один из ведущих ѓалахических авторитетов в религиозном сионизме. В своей еженедельной колонке «Ревивим» рав Меламед освещает через призму Ѓалахи и еврейской философии темы семьи, общественной жизни и актуальные вопросы и события. Рав Меламед – выпускник ешивы «Мерказ ѓа-рав» и ученик рава Цви-Йеѓуды Кука.");
+				txt4.setText("Rosh Yeshivat Har Bracha and Rabbi of the community, author of the “Peninei Halakha” series, and author of the weekly column “Revivim” in the “Besheva” newspaper");
 				rav.setImageResource(R.drawable.rav_ltr);
-				aboutRav.setPadding(0,0,300,0);
+				//aboutRav.setPadding(0,0,300,0);
 				aboutRav.setText("About the Author");
 				books.setImageResource(R.drawable.pn_books_e);
 				aboutPn.setPadding(0,0,310,0);
@@ -205,6 +214,8 @@ public class About_p extends Activity
 				aboutPn.setText("sobre la colección");
 				break;
 			case HEBREW:
+				setMargins(rav,0,50,0,0);
+				setMargins(aboutRav,0,50,0,0);
 				break;
 		}
 		//LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption2);
@@ -214,7 +225,6 @@ public class About_p extends Activity
 		RelativeLayout main2=(RelativeLayout) findViewById(R.id.layout_root);
 		if (mPrefs.getInt("BlackBackground", 0)==1)
 		{
-			txt1.setTextColor(Color.WHITE);
 			txt2.setTextColor(Color.WHITE);
 
 			txt4.setTextColor(Color.WHITE);
@@ -276,6 +286,7 @@ public class About_p extends Activity
 				//popupMenu.
 
 				if(MyLanguage == ENGLISH) {
+					popupMenu.getMenu().add(0,-1,0,"Homepage");
 					popupMenu.getMenu().add(0,0,0,"Settings");
 					popupMenu.getMenu().add(0,1,0,"Books");
 					popupMenu.getMenu().add(0,2,0,"Daily Study");
@@ -288,6 +299,7 @@ public class About_p extends Activity
 					popupMenu.getMenu().add(0,9,0,"About");
 				}
 				else if(MyLanguage == RUSSIAN) {
+					popupMenu.getMenu().add(0,-1,0,"домашняя страница");
 					popupMenu.getMenu().add(0,0,0,"Настройки");
 					popupMenu.getMenu().add(0,1,0,"Книги");
 					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
@@ -300,20 +312,22 @@ public class About_p extends Activity
 					popupMenu.getMenu().add(0,9,0,"О приложении");
 				}
 				else if(MyLanguage == SPANISH) {
+					popupMenu.getMenu().add(0,-1,0,"Página principal");
 					popupMenu.getMenu().add(0,0,0,"Definiciones");
 					popupMenu.getMenu().add(0,1,0,"Libros");
 					popupMenu.getMenu().add(0,2,0,"Estudio diario");
 					popupMenu.getMenu().add(0,3,0,"Búsqueda");
-					popupMenu.getMenu().add(0,5,0,"retroalimentación");
-					popupMenu.getMenu().add(0,6,0,"compra de libros");
-					popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
+					popupMenu.getMenu().add(0,5,0,"Retroalimentación");
+					popupMenu.getMenu().add(0,6,0,"Compra de libros");
+					popupMenu.getMenu().add(0,7,0,"Pregúntale al rabino");
 					//booksDownload configHeaders[6] = "ספרים להורדה";
-					popupMenu.getMenu().add(0,8,0,"en la serie");
-					popupMenu.getMenu().add(0,9,0,"sobre");
+					popupMenu.getMenu().add(0,8,0,"En la serie");
+					popupMenu.getMenu().add(0,9,0,"Sobre");
 				}
 				else if(MyLanguage == FRENCH) {
+					popupMenu.getMenu().add(0,-1,0,"Page d'accueil");
 					popupMenu.getMenu().add(0,0,0,"Réglages");
-					popupMenu.getMenu().add(0,1,0,"livres");
+					popupMenu.getMenu().add(0,1,0,"Livres");
 					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
 					popupMenu.getMenu().add(0,3,0,"Recherche");
 					popupMenu.getMenu().add(0,5,0,"Contact Us");
@@ -324,6 +338,7 @@ public class About_p extends Activity
 					popupMenu.getMenu().add(0,9,0,"À propos");
 				}
 				else {/*this is the default*/
+					popupMenu.getMenu().add(0,-1,0,"דף הבית");
 					popupMenu.getMenu().add(0,0,0,"הגדרות");
 					popupMenu.getMenu().add(0,1,0,"ספרים");
 					popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
@@ -347,6 +362,22 @@ public class About_p extends Activity
 						Intent intent;
 						switch (item.getItemId())
 						{
+							case -1:/*Home page*/
+
+								try
+								{
+									ourClass = null;
+
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+									ourIntent = new Intent(About_p.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+
 							case 0:/*settings*/
 
 								try {
@@ -412,6 +443,15 @@ public class About_p extends Activity
 							case 6:/*buy books*/
 								intent = new Intent(Intent.ACTION_VIEW);
 								intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+
+								if(MyLanguage==FRENCH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/fr/"));
+								if(MyLanguage==RUSSIAN)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/ru/"));
+								if(MyLanguage==SPANISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/es/"));
+								if(MyLanguage==ENGLISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
 								startActivity(intent);
 								break;
 

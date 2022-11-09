@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -139,7 +140,7 @@ public class About extends Activity implements View.OnClickListener
 
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
-		TextView about=(TextView) findViewById(R.id.about);
+
 		TextView appName=(TextView) findViewById(R.id.appName);
 		TextView include=(TextView) findViewById(R.id.include);
 		TextView newV=(TextView) findViewById(R.id.headr);
@@ -166,6 +167,7 @@ public class About extends Activity implements View.OnClickListener
 				//popupMenu.
 
 				if(MyLanguage == ENGLISH) {
+					popupMenu.getMenu().add(0,-1,0,"Homepage");
 					popupMenu.getMenu().add(0,0,0,"Settings");
 					popupMenu.getMenu().add(0,1,0,"Books");
 					popupMenu.getMenu().add(0,2,0,"Daily Study");
@@ -178,6 +180,7 @@ public class About extends Activity implements View.OnClickListener
 					popupMenu.getMenu().add(0,9,0,"About");
 				}
 				else if(MyLanguage == RUSSIAN) {
+					popupMenu.getMenu().add(0,-1,0,"домашняя страница");
 					popupMenu.getMenu().add(0,0,0,"Настройки");
 					popupMenu.getMenu().add(0,1,0,"Книги");
 					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
@@ -190,20 +193,22 @@ public class About extends Activity implements View.OnClickListener
 					popupMenu.getMenu().add(0,9,0,"О приложении");
 				}
 				else if(MyLanguage == SPANISH) {
+					popupMenu.getMenu().add(0,-1,0,"Página principal");
 					popupMenu.getMenu().add(0,0,0,"Definiciones");
 					popupMenu.getMenu().add(0,1,0,"Libros");
 					popupMenu.getMenu().add(0,2,0,"Estudio diario");
 					popupMenu.getMenu().add(0,3,0,"Búsqueda");
-					popupMenu.getMenu().add(0,5,0,"retroalimentación");
-					popupMenu.getMenu().add(0,6,0,"compra de libros");
-					popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
+					popupMenu.getMenu().add(0,5,0,"Retroalimentación");
+					popupMenu.getMenu().add(0,6,0,"Compra de libros");
+					popupMenu.getMenu().add(0,7,0,"Pregúntale al rabino");
 					//booksDownload configHeaders[6] = "ספרים להורדה";
-					popupMenu.getMenu().add(0,8,0,"en la serie");
-					popupMenu.getMenu().add(0,9,0,"sobre");
+					popupMenu.getMenu().add(0,8,0,"En la serie");
+					popupMenu.getMenu().add(0,9,0,"Sobre");
 				}
 				else if(MyLanguage == FRENCH) {
+					popupMenu.getMenu().add(0,-1,0,"Page d'accueil");
 					popupMenu.getMenu().add(0,0,0,"Réglages");
-					popupMenu.getMenu().add(0,1,0,"livres");
+					popupMenu.getMenu().add(0,1,0,"Livres");
 					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
 					popupMenu.getMenu().add(0,3,0,"Recherche");
 					popupMenu.getMenu().add(0,5,0,"Contact Us");
@@ -214,6 +219,7 @@ public class About extends Activity implements View.OnClickListener
 					popupMenu.getMenu().add(0,9,0,"À propos");
 				}
 				else {/*this is the default*/
+					popupMenu.getMenu().add(0,-1,0,"דף הבית");
 					popupMenu.getMenu().add(0,0,0,"הגדרות");
 					popupMenu.getMenu().add(0,1,0,"ספרים");
 					popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
@@ -237,6 +243,21 @@ public class About extends Activity implements View.OnClickListener
 						Intent intent;
 						switch (item.getItemId())
 						{
+							case -1:/*Home page*/
+
+								try
+								{
+									ourClass = null;
+
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+									ourIntent = new Intent(About.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
 							case 0:/*settings*/
 
 								try {
@@ -303,6 +324,15 @@ public class About extends Activity implements View.OnClickListener
 							case 6:/*buy books*/
 								intent = new Intent(Intent.ACTION_VIEW);
 								intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+
+								if(MyLanguage==FRENCH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/fr/"));
+								if(MyLanguage==RUSSIAN)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/ru/"));
+								if(MyLanguage==SPANISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/es/"));
+								if(MyLanguage==ENGLISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
 								startActivity(intent);
 								break;
 
@@ -352,7 +382,6 @@ public class About extends Activity implements View.OnClickListener
 		switch (MyLanguage)
 		{
 			case ENGLISH:
-				about.setText("about");
 				appName.setText("Peninei Halakha App");
 				include.setText("Includes all “Peninei Halakha” books (including Harchavot) in Hebrew, English, Russian and French");
 				newV.setText("Updated version of Shilo Ben Natan");
@@ -360,15 +389,15 @@ public class About extends Activity implements View.OnClickListener
 				editText.setText("Editing the text for the application Elisha Haneshka and Shilo Ben Natan");
 				break;
 			case RUSSIAN:
-				about.setText("О приложении");
+
 				appName.setText("Приложение \"Жемчужины Галахи\"");
 				include.setText("Содержит все книги \"Жемчужины Галахи\" (включая дополнения) на иврите, английском, русском и французском");
 				newV.setText("Обновление версии Шило бен Натан");
 				newD.setText("Дизайн приложения Аня Сара Борохов");
-				editText.setText("Редактирование текста для приложения Элиша");
+				editText.setText("Редактирование текста для приложения Элиша Хеншкен и Шило бен Натан");
 				break;
 			case FRENCH:
-				about.setText("A propos");
+
 				appName.setText("Application Pninei Halakha");
 				include.setText("Inclus tous les livres de Pninei Halakha (incluant les approfondissements) en hébreu, anglais, russe et français");
 				newV.setText("Version mise à jour par Chilo Ben Nathan");
@@ -376,7 +405,7 @@ public class About extends Activity implements View.OnClickListener
 				editText.setText("Texte de l'application édité par Elicha Anchaka et Chilo Ben Nathan");
 				break;
 			case SPANISH:
-				about.setText("Sobre");
+
 				appName.setText("Aplicación Pninei Halaja");
 				include.setText("Incluye todos los libros de Pninei Halajá (incluidas las extensiones) en hebreo, inglés, ruso y francés");
 				newV.setText("Versión actualizada de Sheila Ben Natan");
@@ -389,7 +418,18 @@ public class About extends Activity implements View.OnClickListener
 		img.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				speak();
+				try
+				{
+					Class ourClass = null;
+					Intent ourIntent;
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+					ourIntent = new Intent(About.this, ourClass);
+					startActivity(ourIntent);
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -401,7 +441,7 @@ public class About extends Activity implements View.OnClickListener
 		RelativeLayout main2=(RelativeLayout) findViewById(R.id.layout_root);
 		if (mPrefs.getInt("BlackBackground", 0)==1)
 		{
-			about.setTextColor(Color.WHITE);
+
 			appName.setTextColor(Color.WHITE);
 			include.setTextColor(Color.WHITE);
 			newV.setTextColor(Color.WHITE);
@@ -442,23 +482,27 @@ public class About extends Activity implements View.OnClickListener
 		intd.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
 		intd.putExtra(RecognizerIntent.EXTRA_PROMPT, "do somthing");
 		try {
+			Toast.makeText(getApplicationContext(), "result.get(0)", Toast.LENGTH_LONG).show();
 			startActivityForResult(intd,1000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		Toast.makeText(getApplicationContext(), "result.get(0)", Toast.LENGTH_LONG).show();
 		switch (requestCode){
-			case 100:{
+			case 1000:{
 				if(resultCode==RESULT_OK&&null!=data)
 				{
 					ArrayList<String> result =data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-					TextView about=(TextView) findViewById(R.id.about);
-					about.setText("hi");
+					TextView include=(TextView) findViewById(R.id.include);
+					include.setText(result.get(0));
+					Toast.makeText(getApplicationContext(), "result.get(0)", Toast.LENGTH_LONG).show();
 				}
 			}
 		}

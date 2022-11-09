@@ -50,6 +50,9 @@ public final class LanguageBinding implements ViewBinding {
   public final LinearLayout lnrOptions;
 
   @NonNull
+  public final ImageView myMarks;
+
+  @NonNull
   public final TextView pickBooks;
 
   @NonNull
@@ -59,17 +62,14 @@ public final class LanguageBinding implements ViewBinding {
   public final ImageView settings;
 
   @NonNull
-  public final ImageView toPy;
-
-  @NonNull
   public final ImageView tooPy;
 
   private LanguageBinding(@NonNull RelativeLayout rootView, @NonNull ImageView dialogX,
       @NonNull ImageView imEsDown, @NonNull ImageView imFDown, @NonNull RelativeLayout layoutRoot,
       @NonNull LinearLayout lnrOption2, @NonNull LinearLayout lnrOption3,
       @NonNull LinearLayout lnrOption4, @NonNull LinearLayout lnrOption5,
-      @NonNull LinearLayout lnrOptions, @NonNull TextView pickBooks, @NonNull RadioGroup radios,
-      @NonNull ImageView settings, @NonNull ImageView toPy, @NonNull ImageView tooPy) {
+      @NonNull LinearLayout lnrOptions, @NonNull ImageView myMarks, @NonNull TextView pickBooks,
+      @NonNull RadioGroup radios, @NonNull ImageView settings, @NonNull ImageView tooPy) {
     this.rootView = rootView;
     this.dialogX = dialogX;
     this.imEsDown = imEsDown;
@@ -80,10 +80,10 @@ public final class LanguageBinding implements ViewBinding {
     this.lnrOption4 = lnrOption4;
     this.lnrOption5 = lnrOption5;
     this.lnrOptions = lnrOptions;
+    this.myMarks = myMarks;
     this.pickBooks = pickBooks;
     this.radios = radios;
     this.settings = settings;
-    this.toPy = toPy;
     this.tooPy = tooPy;
   }
 
@@ -164,6 +164,12 @@ public final class LanguageBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.my_marks;
+      ImageView myMarks = ViewBindings.findChildViewById(rootView, id);
+      if (myMarks == null) {
+        break missingId;
+      }
+
       id = R.id.pickBooks;
       TextView pickBooks = ViewBindings.findChildViewById(rootView, id);
       if (pickBooks == null) {
@@ -182,12 +188,6 @@ public final class LanguageBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.to_py;
-      ImageView toPy = ViewBindings.findChildViewById(rootView, id);
-      if (toPy == null) {
-        break missingId;
-      }
-
       id = R.id.too_py;
       ImageView tooPy = ViewBindings.findChildViewById(rootView, id);
       if (tooPy == null) {
@@ -195,8 +195,8 @@ public final class LanguageBinding implements ViewBinding {
       }
 
       return new LanguageBinding((RelativeLayout) rootView, dialogX, imEsDown, imFDown, layoutRoot,
-          lnrOption2, lnrOption3, lnrOption4, lnrOption5, lnrOptions, pickBooks, radios, settings,
-          toPy, tooPy);
+          lnrOption2, lnrOption3, lnrOption4, lnrOption5, lnrOptions, myMarks, pickBooks, radios,
+          settings, tooPy);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

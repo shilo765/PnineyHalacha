@@ -114,6 +114,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     {
         return section;
     }
+    public void setSection(int sec){this.section=sec;}
     public int getChapter()
     {
         return chapter;

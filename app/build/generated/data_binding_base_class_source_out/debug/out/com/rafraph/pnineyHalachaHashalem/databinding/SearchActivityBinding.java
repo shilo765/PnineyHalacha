@@ -26,10 +26,10 @@ public final class SearchActivityBinding implements ViewBinding {
   public final ImageView bChap2;
 
   @NonNull
-  public final ImageView goSearch;
+  public final ImageView getVoice;
 
   @NonNull
-  public final TextView headr;
+  public final ImageView goSearch;
 
   @NonNull
   public final TextView lastSearch;
@@ -80,7 +80,7 @@ public final class SearchActivityBinding implements ViewBinding {
   public final ImageView toMain;
 
   private SearchActivityBinding(@NonNull LinearLayout rootView, @NonNull ImageView bChap2,
-      @NonNull ImageView goSearch, @NonNull TextView headr, @NonNull TextView lastSearch,
+      @NonNull ImageView getVoice, @NonNull ImageView goSearch, @NonNull TextView lastSearch,
       @NonNull ListView list, @NonNull ListView list2, @NonNull LinearLayout lnrOption3,
       @NonNull LinearLayout lnrOptions, @NonNull LinearLayout main, @NonNull ImageView menu,
       @NonNull TextView noFound, @NonNull TextView searchNow, @NonNull TextView textView10,
@@ -88,8 +88,8 @@ public final class SearchActivityBinding implements ViewBinding {
       @NonNull TextView textView9, @NonNull EditText title, @NonNull ImageView toMain) {
     this.rootView = rootView;
     this.bChap2 = bChap2;
+    this.getVoice = getVoice;
     this.goSearch = goSearch;
-    this.headr = headr;
     this.lastSearch = lastSearch;
     this.list = list;
     this.list2 = list2;
@@ -141,15 +141,15 @@ public final class SearchActivityBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.goSearch;
-      ImageView goSearch = ViewBindings.findChildViewById(rootView, id);
-      if (goSearch == null) {
+      id = R.id.getVoice;
+      ImageView getVoice = ViewBindings.findChildViewById(rootView, id);
+      if (getVoice == null) {
         break missingId;
       }
 
-      id = R.id.headr;
-      TextView headr = ViewBindings.findChildViewById(rootView, id);
-      if (headr == null) {
+      id = R.id.goSearch;
+      ImageView goSearch = ViewBindings.findChildViewById(rootView, id);
+      if (goSearch == null) {
         break missingId;
       }
 
@@ -245,9 +245,9 @@ public final class SearchActivityBinding implements ViewBinding {
         break missingId;
       }
 
-      return new SearchActivityBinding((LinearLayout) rootView, bChap2, goSearch, headr, lastSearch,
-          list, list2, lnrOption3, lnrOptions, main, menu, noFound, searchNow, textView10,
-          textView11, textView7, textView8, textView9, title, toMain);
+      return new SearchActivityBinding((LinearLayout) rootView, bChap2, getVoice, goSearch,
+          lastSearch, list, list2, lnrOption3, lnrOptions, main, menu, noFound, searchNow,
+          textView10, textView11, textView7, textView8, textView9, title, toMain);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

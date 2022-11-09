@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -239,9 +241,25 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		{
 			lnrFindOptions.setVisibility(View.GONE);
 			lnrOptions.setVisibility(View.VISIBLE);
-			lnrFindOptions.setTag("gone");
+			lnrFindOptions.setTag("from search");
 			webview.findAllAsync("sdafsdhgfsdagfhgdszgf");
 		}
+		if(lnrFindOptions.getTag().equals("from search"))
+		{
+			Class ourClass = null;
+			Intent ourIntent = null;
+			try {
+				ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+				//book_chapter[0]
+
+				shPrefEditor.putInt("expList", book_chapter[0]);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			ourIntent = new Intent(textMain.this, ourClass);
+			startActivity(ourIntent);
+		}
+
 		else {
 			Class ourClass = null;
 			Intent ourIntent = null;
@@ -482,6 +500,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				//popupMenu.
 
 				if(MyLanguage == ENGLISH) {
+					popupMenu.getMenu().add(0,-1,0,"Homepage");
 					popupMenu.getMenu().add(0,0,0,"Settings");
 					popupMenu.getMenu().add(0,1,0,"Books");
 					popupMenu.getMenu().add(0,2,0,"Daily Study");
@@ -494,6 +513,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					popupMenu.getMenu().add(0,9,0,"About");
 				}
 				else if(MyLanguage == RUSSIAN) {
+					popupMenu.getMenu().add(0,-1,0,"домашняя страница");
 					popupMenu.getMenu().add(0,0,0,"Настройки");
 					popupMenu.getMenu().add(0,1,0,"Книги");
 					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
@@ -506,20 +526,22 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					popupMenu.getMenu().add(0,9,0,"О приложении");
 				}
 				else if(MyLanguage == SPANISH) {
+					popupMenu.getMenu().add(0,-1,0,"Página principal");
 					popupMenu.getMenu().add(0,0,0,"Definiciones");
 					popupMenu.getMenu().add(0,1,0,"Libros");
 					popupMenu.getMenu().add(0,2,0,"Estudio diario");
 					popupMenu.getMenu().add(0,3,0,"Búsqueda");
-					popupMenu.getMenu().add(0,5,0,"retroalimentación");
-					popupMenu.getMenu().add(0,6,0,"compra de libros");
-					popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
+					popupMenu.getMenu().add(0,5,0,"Retroalimentación");
+					popupMenu.getMenu().add(0,6,0,"Compra de libros");
+					popupMenu.getMenu().add(0,7,0,"Pregúntale al rabino");
 					//booksDownload configHeaders[6] = "ספרים להורדה";
-					popupMenu.getMenu().add(0,8,0,"en la serie");
-					popupMenu.getMenu().add(0,9,0,"sobre");
+					popupMenu.getMenu().add(0,8,0,"En la serie");
+					popupMenu.getMenu().add(0,9,0,"Sobre");
 				}
 				else if(MyLanguage == FRENCH) {
+					popupMenu.getMenu().add(0,-1,0,"Page d'accueil");
 					popupMenu.getMenu().add(0,0,0,"Réglages");
-					popupMenu.getMenu().add(0,1,0,"livres");
+					popupMenu.getMenu().add(0,1,0,"Livres");
 					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
 					popupMenu.getMenu().add(0,3,0,"Recherche");
 					popupMenu.getMenu().add(0,5,0,"Contact Us");
@@ -530,6 +552,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					popupMenu.getMenu().add(0,9,0,"À propos");
 				}
 				else {/*this is the default*/
+					popupMenu.getMenu().add(0,-1,0,"דף הבית");
 					popupMenu.getMenu().add(0,0,0,"הגדרות");
 					popupMenu.getMenu().add(0,1,0,"ספרים");
 					popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
@@ -553,6 +576,21 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						Intent intent;
 						switch (item.getItemId())
 						{
+							case -1:/*Home page*/
+
+								try
+								{
+									ourClass = null;
+
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+									ourIntent = new Intent(textMain.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
 							case 0:/*settings*/
 
 								try {
@@ -619,6 +657,15 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 							case 6:/*buy books*/
 								intent = new Intent(Intent.ACTION_VIEW);
 								intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+
+								if(MyLanguage==FRENCH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/fr/"));
+								if(MyLanguage==RUSSIAN)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/ru/"));
+								if(MyLanguage==SPANISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/es/"));
+								if(MyLanguage==ENGLISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
 								startActivity(intent);
 								break;
 
@@ -815,6 +862,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		bFindNext      = (ImageButton) findViewById(R.id.ibFindNext);
 		bFindPrevious  = (ImageButton) findViewById(R.id.ibFindPrevious);
 		ImageView toMain = (ImageView) findViewById(R.id.too_main);
+
 		if(MyLanguage==ENGLISH)
 			toMain.setImageResource(R.drawable.to_main_e);
 		if(MyLanguage==RUSSIAN)
@@ -931,6 +979,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						Intent ourIntent = new Intent(textMain.this, ourClass);
 
 						ourIntent.putExtra("audio_id", Integer.parseInt(audio_id));
+						ourIntent.putExtra("cameFromText", true);
 						ourIntent.putExtra("MyLanguage", MyLanguage);
 						ourIntent.putExtra("book_id", book_chapter[0]);
 						ourIntent.putExtra("chapter_id", book_chapter[1]);
@@ -1142,6 +1191,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			bNext_sec.setEnabled(false);
 		else if(book_chapter[1] == 0)
 			bPrevious_sec.setEnabled(false);
+
 		webview.setWebChromeClient(new WebChromeClient()
 		{
 			@Override
@@ -1172,9 +1222,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		//webview.loadUrl("https://ph.yhb.org.il/pninayomit/");
 		//webview.scrollTo(0,680);
 		//webSettings.setDomStorageEnabled(true);
-
-
-
+		int a;
+		if(!IntStream.of(haveAudio).anyMatch(x -> x ==book_chapter[0]))
+			bSwitchModes.setVisibility(View.GONE);
 
 	}
 
@@ -1421,6 +1471,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			textActionBar.setTitle(Html.fromHtml("<font color=\"black\">" + title + "</font>"));
 			bParagraphs.setImageDrawable(resources.getDrawable(R.drawable.ic_action_view_as_list));
 			bSwitchModes.setImageDrawable(resources.getDrawable(R.drawable.ic_action_switches_modes));
+
 			bNext_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_next_item));
 			bPrevious_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_previous_item));
 			bNext_page.setImageDrawable(resources.getDrawable(R.drawable.ic_action_down));
@@ -1522,6 +1573,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						e.printStackTrace();
 					}
 					Intent ourIntent = new Intent(textMain.this,ourClass);
+					ourIntent.putExtra("cameFromText", true);
 					ourIntent.putExtra("audio_id", Integer.parseInt("1"));
 					ourIntent.putExtra("book_id", book_chapter[0]);
 					ourIntent.putExtra("chapter_id", book_chapter[1]);

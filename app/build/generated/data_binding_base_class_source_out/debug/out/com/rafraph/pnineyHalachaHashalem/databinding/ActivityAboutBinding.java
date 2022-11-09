@@ -22,9 +22,6 @@ public final class ActivityAboutBinding implements ViewBinding {
   private final RelativeLayout rootView;
 
   @NonNull
-  public final TextView about;
-
-  @NonNull
   public final TextView appName;
 
   @NonNull
@@ -60,13 +57,12 @@ public final class ActivityAboutBinding implements ViewBinding {
   @NonNull
   public final ImageView yLogo;
 
-  private ActivityAboutBinding(@NonNull RelativeLayout rootView, @NonNull TextView about,
-      @NonNull TextView appName, @NonNull ImageView bChap2, @NonNull TextView editText,
-      @NonNull TextView headr, @NonNull TextView include, @NonNull ImageView jLogo,
-      @NonNull RelativeLayout layoutRoot, @NonNull LinearLayout lnrOption3, @NonNull ImageView menu,
-      @NonNull TextView newD, @NonNull ImageView toMain, @NonNull ImageView yLogo) {
+  private ActivityAboutBinding(@NonNull RelativeLayout rootView, @NonNull TextView appName,
+      @NonNull ImageView bChap2, @NonNull TextView editText, @NonNull TextView headr,
+      @NonNull TextView include, @NonNull ImageView jLogo, @NonNull RelativeLayout layoutRoot,
+      @NonNull LinearLayout lnrOption3, @NonNull ImageView menu, @NonNull TextView newD,
+      @NonNull ImageView toMain, @NonNull ImageView yLogo) {
     this.rootView = rootView;
-    this.about = about;
     this.appName = appName;
     this.bChap2 = bChap2;
     this.editText = editText;
@@ -108,12 +104,6 @@ public final class ActivityAboutBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.about;
-      TextView about = ViewBindings.findChildViewById(rootView, id);
-      if (about == null) {
-        break missingId;
-      }
-
       id = R.id.appName;
       TextView appName = ViewBindings.findChildViewById(rootView, id);
       if (appName == null) {
@@ -182,8 +172,8 @@ public final class ActivityAboutBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityAboutBinding((RelativeLayout) rootView, about, appName, bChap2, editText,
-          headr, include, jLogo, layoutRoot, lnrOption3, menu, newD, toMain, yLogo);
+      return new ActivityAboutBinding((RelativeLayout) rootView, appName, bChap2, editText, headr,
+          include, jLogo, layoutRoot, lnrOption3, menu, newD, toMain, yLogo);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

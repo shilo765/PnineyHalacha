@@ -90,6 +90,9 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final LinearLayout main;
 
   @NonNull
+  public final ImageView myMarks;
+
+  @NonNull
   public final RadioGroup radios;
 
   @NonNull
@@ -102,9 +105,6 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final TextView textSizeExm;
 
   @NonNull
-  public final ImageView toPy;
-
-  @NonNull
   public final ImageView tooPy;
 
   private ActivitySettingsBinding(@NonNull RelativeLayout rootView, @NonNull TextView blackScreen,
@@ -115,9 +115,9 @@ public final class ActivitySettingsBinding implements ViewBinding {
       @NonNull TextView langof, @NonNull TextView lastLocation, @NonNull RelativeLayout layoutRoot,
       @NonNull LinearLayout lnrOption2, @NonNull LinearLayout lnrOption5,
       @NonNull LinearLayout lnrOption6, @NonNull LinearLayout lnrOption7,
-      @NonNull LinearLayout lnrOptions, @NonNull LinearLayout main, @NonNull RadioGroup radios,
-      @NonNull SeekBar seekBar6, @NonNull ImageView settings, @NonNull TextView textSizeExm,
-      @NonNull ImageView toPy, @NonNull ImageView tooPy) {
+      @NonNull LinearLayout lnrOptions, @NonNull LinearLayout main, @NonNull ImageView myMarks,
+      @NonNull RadioGroup radios, @NonNull SeekBar seekBar6, @NonNull ImageView settings,
+      @NonNull TextView textSizeExm, @NonNull ImageView tooPy) {
     this.rootView = rootView;
     this.blackScreen = blackScreen;
     this.chooseSize = chooseSize;
@@ -141,11 +141,11 @@ public final class ActivitySettingsBinding implements ViewBinding {
     this.lnrOption7 = lnrOption7;
     this.lnrOptions = lnrOptions;
     this.main = main;
+    this.myMarks = myMarks;
     this.radios = radios;
     this.seekBar6 = seekBar6;
     this.settings = settings;
     this.textSizeExm = textSizeExm;
-    this.toPy = toPy;
     this.tooPy = tooPy;
   }
 
@@ -304,6 +304,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.my_marks;
+      ImageView myMarks = ViewBindings.findChildViewById(rootView, id);
+      if (myMarks == null) {
+        break missingId;
+      }
+
       id = R.id.radios;
       RadioGroup radios = ViewBindings.findChildViewById(rootView, id);
       if (radios == null) {
@@ -328,12 +334,6 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.to_py;
-      ImageView toPy = ViewBindings.findChildViewById(rootView, id);
-      if (toPy == null) {
-        break missingId;
-      }
-
       id = R.id.too_py;
       ImageView tooPy = ViewBindings.findChildViewById(rootView, id);
       if (tooPy == null) {
@@ -343,7 +343,7 @@ public final class ActivitySettingsBinding implements ViewBinding {
       return new ActivitySettingsBinding((RelativeLayout) rootView, blackScreen, chooseSize,
           chooseTochen, dialogX, imBlackScreen, imEn, imEs, imEsDown, imF, imFDown, imH,
           imLastLocation, imR, langof, lastLocation, layoutRoot, lnrOption2, lnrOption5, lnrOption6,
-          lnrOption7, lnrOptions, main, radios, seekBar6, settings, textSizeExm, toPy, tooPy);
+          lnrOption7, lnrOptions, main, myMarks, radios, seekBar6, settings, textSizeExm, tooPy);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

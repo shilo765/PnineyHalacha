@@ -43,7 +43,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Button;
@@ -166,7 +165,8 @@ public class MainActivity extends AppCompatActivity
 	//private FirebaseAuth mAuth;
 	@Override
 	public void onBackPressed() {
-		if(nowExp==-1) {
+		//if(nowExp==-1) {  // change to this for only close the inner list and not go to the home page
+		if(true) {
 			try {
 				Class ourClass = null;
 				Intent ourIntent;
@@ -256,6 +256,7 @@ public class MainActivity extends AppCompatActivity
 				//popupMenu.
 
 				if(MyLanguage == ENGLISH) {
+					popupMenu.getMenu().add(0,-1,0,"Homepage");
 					popupMenu.getMenu().add(0,0,0,"Settings");
 					popupMenu.getMenu().add(0,1,0,"Books");
 					popupMenu.getMenu().add(0,2,0,"Daily Study");
@@ -268,6 +269,7 @@ public class MainActivity extends AppCompatActivity
 					popupMenu.getMenu().add(0,9,0,"About");
 				}
 				else if(MyLanguage == RUSSIAN) {
+					popupMenu.getMenu().add(0,-1,0,"домашняя страница");
 					popupMenu.getMenu().add(0,0,0,"Настройки");
 					popupMenu.getMenu().add(0,1,0,"Книги");
 					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
@@ -280,20 +282,22 @@ public class MainActivity extends AppCompatActivity
 					popupMenu.getMenu().add(0,9,0,"О приложении");
 				}
 				else if(MyLanguage == SPANISH) {
+					popupMenu.getMenu().add(0,-1,0,"Página principal");
 					popupMenu.getMenu().add(0,0,0,"Definiciones");
 					popupMenu.getMenu().add(0,1,0,"Libros");
 					popupMenu.getMenu().add(0,2,0,"Estudio diario");
 					popupMenu.getMenu().add(0,3,0,"Búsqueda");
-					popupMenu.getMenu().add(0,5,0,"retroalimentación");
-					popupMenu.getMenu().add(0,6,0,"compra de libros");
-					popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
+					popupMenu.getMenu().add(0,5,0,"Retroalimentación");
+					popupMenu.getMenu().add(0,6,0,"Compra de libros");
+					popupMenu.getMenu().add(0,7,0,"Pregúntale al rabino");
 					//booksDownload configHeaders[6] = "ספרים להורדה";
-					popupMenu.getMenu().add(0,8,0,"en la serie");
-					popupMenu.getMenu().add(0,9,0,"sobre");
+					popupMenu.getMenu().add(0,8,0,"En la serie");
+					popupMenu.getMenu().add(0,9,0,"Sobre");
 				}
 				else if(MyLanguage == FRENCH) {
+					popupMenu.getMenu().add(0,-1,0,"Page d'accueil");
 					popupMenu.getMenu().add(0,0,0,"Réglages");
-					popupMenu.getMenu().add(0,1,0,"livres");
+					popupMenu.getMenu().add(0,1,0,"Livres");
 					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
 					popupMenu.getMenu().add(0,3,0,"Recherche");
 					popupMenu.getMenu().add(0,5,0,"Contact Us");
@@ -304,6 +308,7 @@ public class MainActivity extends AppCompatActivity
 					popupMenu.getMenu().add(0,9,0,"À propos");
 				}
 				else {/*this is the default*/
+					popupMenu.getMenu().add(0,-1,0,"דף הבית");
 					popupMenu.getMenu().add(0,0,0,"הגדרות");
 					popupMenu.getMenu().add(0,1,0,"ספרים");
 					popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
@@ -327,6 +332,22 @@ public class MainActivity extends AppCompatActivity
 						Intent intent;
 						switch (item.getItemId())
 						{
+							case -1:/*Home page*/
+
+								try
+								{
+									ourClass = null;
+
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+									ourIntent = new Intent(MainActivity.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+
 							case 0:/*settings*/
 
 								try {
@@ -390,6 +411,15 @@ public class MainActivity extends AppCompatActivity
 							case 6:/*buy books*/
 								intent = new Intent(Intent.ACTION_VIEW);
 								intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+
+								if(MyLanguage==FRENCH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/fr/"));
+								if(MyLanguage==RUSSIAN)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/ru/"));
+								if(MyLanguage==SPANISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/es/"));
+								if(MyLanguage==ENGLISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
 								startActivity(intent);
 								break;
 
@@ -584,7 +614,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-			if(mPrefs.getString("Version", "").equals("4.1.7") == false)
+			if(mPrefs.getString("Version", "").equals("4.1.14") == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);
@@ -2373,6 +2403,22 @@ private void initializeSeekBar()
 		fileOrDirectory.delete();
 	}
 	void languageDialog(Context context,int firstLang) {
+		PackageManager packageManager = context.getPackageManager();
+		String packageName = context.getPackageName();
+		String version;
+		try
+		{
+			version = packageManager.getPackageInfo(packageName, 0).versionName;
+
+			if(mPrefs.getString("Version", "").equals("4.1.14") == false)
+			{
+				firstLang=0;
+			}
+		}
+		catch (PackageManager.NameNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 		if(firstLang==0) {
 			languageDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 			languageDialog.setContentView(R.layout.language);
@@ -2479,7 +2525,7 @@ private void initializeSeekBar()
 		ImageView dialog_x = (ImageView) languageDialog.findViewById(R.id.dialog_x);
 		//ImageView dialog_x2 = (ImageView) languageDialog.findViewById(R.id.dialog_x2);
 		//ImageView r_imv=(ImageView) languageDialog.findViewById(R.id.im_r);
-		ImageView r_imv_down = (ImageView) languageDialog.findViewById(R.id.to_py);
+		ImageView r_imv_down = (ImageView) languageDialog.findViewById(R.id.my_marks);
 		//ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
 		ImageView es_imv_down = (ImageView) languageDialog.findViewById(R.id.im_es_down);
 		//ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
@@ -2537,6 +2583,7 @@ private void initializeSeekBar()
 				r_imv.setImageResource(R.drawable.r_b_2);
 				langOf.setText("Язык приложения");
 				chooseTochenLang.setText("Выбор языка книг");
+                chooseTochenLang.setPadding(0,0,500,0);
 				chooseSize.setText("Выбрать размер текста");
 				exm.setText("Жемчужины Галахи");
 				blackScreen.setText("Темная тема");
@@ -3302,7 +3349,7 @@ private void initializeSeekBar()
 
 		if(isPremissionGranted(getApplicationContext()))
 		{
-			ImageView r_imv_down = (ImageView) languageDialog.findViewById(R.id.to_py);
+			ImageView r_imv_down = (ImageView) languageDialog.findViewById(R.id.my_marks);
 			//ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
 			ImageView es_imv_down = (ImageView) languageDialog.findViewById(R.id.im_es_down);
 			//ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);

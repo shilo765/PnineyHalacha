@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:hardwareAccelerated="true"
     android:installLocation="auto"
-    android:versionCode="40"
-    android:versionName="4.1.7" >
+    android:versionCode="40114"
+    android:versionName="4.1.14" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -37,10 +37,6 @@
         <activity
             android:name=".pninaYomit"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
-        <activity
-            android:name=".switch_modes"
-            android:exported="true"
-            android:hardwareAccelerated="true" />
         <activity
             android:name=".Splash"
             android:hardwareAccelerated="true"
@@ -98,17 +94,6 @@
             android:name=".SearchHelp"
             android:label="@string/title_activity_search_help"
             android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name=".SearchableActivity"
-            android:theme="@android:style/Theme.NoTitleBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
         <activity
             android:name=".BookmarkActivity"
             android:label="@string/title_activity_bookmark"

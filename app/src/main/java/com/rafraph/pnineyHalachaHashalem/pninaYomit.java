@@ -202,7 +202,7 @@ public class pninaYomit extends Activity {
                 webview.loadUrl("https://ph.yhb.org.il/pninayomit-ru/#page-data");
                 set="Постоянно";
                 noteSet="Напоминание установлено";
-                setRemind="Установить напоминание";
+                setRemind="напоминание";
                 remindCancel="Удалить напоминание";
                 break;
             case FRENCH:
@@ -265,6 +265,7 @@ public class pninaYomit extends Activity {
                 //popupMenu.
 
                 if(MyLanguage == ENGLISH) {
+                    popupMenu.getMenu().add(0,-1,0,"Homepage");
                     popupMenu.getMenu().add(0,0,0,"Settings");
                     popupMenu.getMenu().add(0,1,0,"Books");
                     popupMenu.getMenu().add(0,2,0,"Daily Study");
@@ -277,6 +278,7 @@ public class pninaYomit extends Activity {
                     popupMenu.getMenu().add(0,9,0,"About");
                 }
                 else if(MyLanguage == RUSSIAN) {
+                    popupMenu.getMenu().add(0,-1,0,"домашняя страница");
                     popupMenu.getMenu().add(0,0,0,"Настройки");
                     popupMenu.getMenu().add(0,1,0,"Книги");
                     popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
@@ -289,20 +291,22 @@ public class pninaYomit extends Activity {
                     popupMenu.getMenu().add(0,9,0,"О приложении");
                 }
                 else if(MyLanguage == SPANISH) {
+                    popupMenu.getMenu().add(0,-1,0,"Página principal");
                     popupMenu.getMenu().add(0,0,0,"Definiciones");
                     popupMenu.getMenu().add(0,1,0,"Libros");
                     popupMenu.getMenu().add(0,2,0,"Estudio diario");
                     popupMenu.getMenu().add(0,3,0,"Búsqueda");
-                    popupMenu.getMenu().add(0,5,0,"retroalimentación");
-                    popupMenu.getMenu().add(0,6,0,"compra de libros");
-                    popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
+                    popupMenu.getMenu().add(0,5,0,"Retroalimentación");
+                    popupMenu.getMenu().add(0,6,0,"Compra de libros");
+                    popupMenu.getMenu().add(0,7,0,"Pregúntale al rabino");
                     //booksDownload configHeaders[6] = "ספרים להורדה";
-                    popupMenu.getMenu().add(0,8,0,"en la serie");
-                    popupMenu.getMenu().add(0,9,0,"sobre");
+                    popupMenu.getMenu().add(0,8,0,"En la serie");
+                    popupMenu.getMenu().add(0,9,0,"Sobre");
                 }
                 else if(MyLanguage == FRENCH) {
+                    popupMenu.getMenu().add(0,-1,0,"Page d'accueil");
                     popupMenu.getMenu().add(0,0,0,"Réglages");
-                    popupMenu.getMenu().add(0,1,0,"livres");
+                    popupMenu.getMenu().add(0,1,0,"Livres");
                     popupMenu.getMenu().add(0,2,0,"étude quotidienne");
                     popupMenu.getMenu().add(0,3,0,"Recherche");
                     popupMenu.getMenu().add(0,5,0,"Contact Us");
@@ -313,6 +317,7 @@ public class pninaYomit extends Activity {
                     popupMenu.getMenu().add(0,9,0,"À propos");
                 }
                 else {/*this is the default*/
+                    popupMenu.getMenu().add(0,-1,0,"דף הבית");
                     popupMenu.getMenu().add(0,0,0,"הגדרות");
                     popupMenu.getMenu().add(0,1,0,"ספרים");
                     popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
@@ -336,6 +341,21 @@ public class pninaYomit extends Activity {
                         Intent intent;
                         switch (item.getItemId())
                         {
+                            case -1:/*Home page*/
+
+                                try
+                                {
+                                    ourClass = null;
+
+                                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+                                    ourIntent = new Intent(pninaYomit.this, ourClass);
+                                    startActivity(ourIntent);
+                                }
+                                catch (ClassNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                break;
                             case 0:/*settings*/
 
                                 try {
@@ -399,6 +419,15 @@ public class pninaYomit extends Activity {
                             case 6:/*buy books*/
                                 intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+
+                                if(MyLanguage==FRENCH)
+                                    intent.setData(Uri.parse("https://shop.yhb.org.il/fr/"));
+                                if(MyLanguage==RUSSIAN)
+                                    intent.setData(Uri.parse("https://shop.yhb.org.il/ru/"));
+                                if(MyLanguage==SPANISH)
+                                    intent.setData(Uri.parse("https://shop.yhb.org.il/es/"));
+                                if(MyLanguage==ENGLISH)
+                                    intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
                                 startActivity(intent);
                                 break;
 
@@ -448,6 +477,28 @@ public class pninaYomit extends Activity {
         createNotiChannel();
         refresh(10);
         TextView img=(TextView) findViewById(R.id.set_note);
+        TextView imgF=(TextView) findViewById(R.id.set_note_f);
+        TextView imgEn=(TextView) findViewById(R.id.set_note_en);
+        TextView imgEs=(TextView) findViewById(R.id.set_note_es);
+        TextView imgR=(TextView) findViewById(R.id.set_note_r);
+        if(MyLanguage==ENGLISH) {
+            img.setVisibility(View.GONE);
+            imgEn.setVisibility(View.VISIBLE);
+        }
+        if(MyLanguage==RUSSIAN) {
+            img.setVisibility(View.GONE);
+            imgR.setVisibility(View.VISIBLE);
+        }
+        if(MyLanguage==FRENCH) {
+            img.setVisibility(View.GONE);
+            imgF.setVisibility(View.VISIBLE);
+
+        }
+
+        if(MyLanguage==SPANISH) {
+            img.setVisibility(View.GONE);
+            imgEs.setVisibility(View.VISIBLE);
+        }
         ImageView deleteR=(ImageView) findViewById(R.id.deleteReminder);
         etH=(NumberPicker) findViewById(R.id.etH);
         etM=(NumberPicker) findViewById(R.id.etM);
@@ -504,7 +555,7 @@ public class pninaYomit extends Activity {
             public void onClick(View v) {
                 if(!notPress) {
                    // img.setBackgroundResource(R.drawable.h_set_remainder);
-                    img.setPadding(0,0,150,0);
+                    img.setPadding(0,0,430,0);
                     img.setText(set);
                     l.setBackgroundColor(Color.parseColor("#970606"));
                     etH.setVisibility(View.VISIBLE);
@@ -529,7 +580,7 @@ public class pninaYomit extends Activity {
                     penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
                     alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
                     alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
-                    Toast.makeText(getApplicationContext(), noteSet, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), setRemind, Toast.LENGTH_SHORT).show();
                         shPrefEditor.putInt("PYnote",hour );
                         shPrefEditor.putInt("PYnote2",mins);
                         shPrefEditor.commit();
@@ -555,6 +606,232 @@ public class pninaYomit extends Activity {
                 }
             }
         });
+        imgF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!notPress) {
+                    // img.setBackgroundResource(R.drawable.h_set_remainder);
+                    imgF.setPadding(50,0,0,0);
+                    imgF.setText(set);
+                    l.setBackgroundColor(Color.parseColor("#970606"));
+                    etH.setVisibility(View.VISIBLE);
+                    Sep.setVisibility(View.VISIBLE);
+                    etM.setVisibility(View.VISIBLE);
+                    shPrefEditor.putInt("PYnote",0 );
+                    shPrefEditor.putInt("PYnote2",0);
+                    shPrefEditor.commit();
+                    notPress=true;
+                }
+                else
+                {
+                    int hour=0,mins=0;
+                    try {
+                        hour = ((NumberPicker) findViewById(R.id.etH)).getValue();
+                        mins = ((NumberPicker) findViewById(R.id.etM)).getValue();
+                        Calendar calnder = Calendar.getInstance();
+                        calnder.set(Calendar.HOUR_OF_DAY, hour);
+                        calnder.set(Calendar.MINUTE, mins);
+
+                        Intent notiReciv = new Intent(getApplicationContext(), Notification_reciver.class);
+                        penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
+                        alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+                        alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
+                        Toast.makeText(getApplicationContext(), setRemind, Toast.LENGTH_SHORT).show();
+                        shPrefEditor.putInt("PYnote",hour );
+                        shPrefEditor.putInt("PYnote2",mins);
+                        shPrefEditor.commit();
+                        String setH="",setM="";
+                        if(((NumberPicker) findViewById(R.id.etH)).getValue()<10)
+                            setH+="0";
+                        if(((NumberPicker) findViewById(R.id.etM)).getValue()<10)
+                            setM+="0";
+                        imgF.setText(setH+((NumberPicker) findViewById(R.id.etH)).getValue()+" : "+setM+((NumberPicker) findViewById(R.id.etM)).getValue());
+
+
+                        etH.setVisibility(View.INVISIBLE);
+                        Sep.setVisibility(View.INVISIBLE);
+                        img.setPadding(50,0,0,0);
+                        imgF.setPadding(50,0,0,0);
+                        etM.setVisibility(View.INVISIBLE);
+                        l.setBackgroundColor(Color.parseColor("#fefef2"));
+                        //img.setBackgroundResource(R.drawable.h_set_remainder);
+                        notPress=false;
+//
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getApplicationContext(), "נא למלא את השעה", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        imgEn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!notPress) {
+                    // img.setBackgroundResource(R.drawable.h_set_remainder);
+                    imgEn.setPadding(50,0,0,0);
+                    imgEn.setText(set);
+                    l.setBackgroundColor(Color.parseColor("#970606"));
+                    etH.setVisibility(View.VISIBLE);
+                    Sep.setVisibility(View.VISIBLE);
+                    etM.setVisibility(View.VISIBLE);
+                    shPrefEditor.putInt("PYnote",0 );
+                    shPrefEditor.putInt("PYnote2",0);
+                    shPrefEditor.commit();
+                    notPress=true;
+                }
+                else
+                {
+                    int hour=0,mins=0;
+                    try {
+                        hour = ((NumberPicker) findViewById(R.id.etH)).getValue();
+                        mins = ((NumberPicker) findViewById(R.id.etM)).getValue();
+                        Calendar calnder = Calendar.getInstance();
+                        calnder.set(Calendar.HOUR_OF_DAY, hour);
+                        calnder.set(Calendar.MINUTE, mins);
+
+                        Intent notiReciv = new Intent(getApplicationContext(), Notification_reciver.class);
+                        penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
+                        alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+                        alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
+                        Toast.makeText(getApplicationContext(), setRemind, Toast.LENGTH_SHORT).show();
+                        shPrefEditor.putInt("PYnote",hour );
+                        shPrefEditor.putInt("PYnote2",mins);
+                        shPrefEditor.commit();
+                        String setH="",setM="";
+                        if(((NumberPicker) findViewById(R.id.etH)).getValue()<10)
+                            setH+="0";
+                        if(((NumberPicker) findViewById(R.id.etM)).getValue()<10)
+                            setM+="0";
+                        imgEn.setText(setH+((NumberPicker) findViewById(R.id.etH)).getValue()+" : "+setM+((NumberPicker) findViewById(R.id.etM)).getValue());
+
+
+                        etH.setVisibility(View.INVISIBLE);
+                        Sep.setVisibility(View.INVISIBLE);
+                        imgEn.setPadding(50,0,0,0);
+                        etM.setVisibility(View.INVISIBLE);
+                        l.setBackgroundColor(Color.parseColor("#fefef2"));
+                        //img.setBackgroundResource(R.drawable.h_set_remainder);
+                        notPress=false;
+//
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getApplicationContext(), "נא למלא את השעה", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        imgEs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!notPress) {
+                    // img.setBackgroundResource(R.drawable.h_set_remainder);
+                    imgEs.setPadding(50,0,0,0);
+                    imgEs.setText(set);
+                    l.setBackgroundColor(Color.parseColor("#970606"));
+                    etH.setVisibility(View.VISIBLE);
+                    Sep.setVisibility(View.VISIBLE);
+                    etM.setVisibility(View.VISIBLE);
+                    shPrefEditor.putInt("PYnote",0 );
+                    shPrefEditor.putInt("PYnote2",0);
+                    shPrefEditor.commit();
+                    notPress=true;
+                }
+                else
+                {
+                    int hour=0,mins=0;
+                    try {
+                        hour = ((NumberPicker) findViewById(R.id.etH)).getValue();
+                        mins = ((NumberPicker) findViewById(R.id.etM)).getValue();
+                        Calendar calnder = Calendar.getInstance();
+                        calnder.set(Calendar.HOUR_OF_DAY, hour);
+                        calnder.set(Calendar.MINUTE, mins);
+
+                        Intent notiReciv = new Intent(getApplicationContext(), Notification_reciver.class);
+                        penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
+                        alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+                        alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
+                        Toast.makeText(getApplicationContext(), setRemind, Toast.LENGTH_SHORT).show();
+                        shPrefEditor.putInt("PYnote",hour );
+                        shPrefEditor.putInt("PYnote2",mins);
+                        shPrefEditor.commit();
+                        String setH="",setM="";
+                        if(((NumberPicker) findViewById(R.id.etH)).getValue()<10)
+                            setH+="0";
+                        if(((NumberPicker) findViewById(R.id.etM)).getValue()<10)
+                            setM+="0";
+                        imgEs.setText(setH+((NumberPicker) findViewById(R.id.etH)).getValue()+" : "+setM+((NumberPicker) findViewById(R.id.etM)).getValue());
+
+
+                        etH.setVisibility(View.INVISIBLE);
+                        Sep.setVisibility(View.INVISIBLE);
+                        //img.setPadding(50,0,0,0);
+                        imgEs.setPadding(50,0,0,0);
+                        etM.setVisibility(View.INVISIBLE);
+                        l.setBackgroundColor(Color.parseColor("#fefef2"));
+                        //img.setBackgroundResource(R.drawable.h_set_remainder);
+                        notPress=false;
+//
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getApplicationContext(), "נא למלא את השעה", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        imgR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!notPress) {
+                    // img.setBackgroundResource(R.drawable.h_set_remainder);
+                    //imgR.setPadding(50,0,0,0);
+                    imgR.setText(set);
+                    l.setBackgroundColor(Color.parseColor("#970606"));
+                    etH.setVisibility(View.VISIBLE);
+                    Sep.setVisibility(View.VISIBLE);
+                    etM.setVisibility(View.VISIBLE);
+                    shPrefEditor.putInt("PYnote",0 );
+                    shPrefEditor.putInt("PYnote2",0);
+                    shPrefEditor.commit();
+                    notPress=true;
+                }
+                else
+                {
+                    int hour=0,mins=0;
+                    try {
+                        hour = ((NumberPicker) findViewById(R.id.etH)).getValue();
+                        mins = ((NumberPicker) findViewById(R.id.etM)).getValue();
+                        Calendar calnder = Calendar.getInstance();
+                        calnder.set(Calendar.HOUR_OF_DAY, hour);
+                        calnder.set(Calendar.MINUTE, mins);
+
+                        Intent notiReciv = new Intent(getApplicationContext(), Notification_reciver.class);
+                        penNotu = PendingIntent.getBroadcast(getApplicationContext(), 100, notiReciv, PendingIntent.FLAG_UPDATE_CURRENT);
+                        alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+                        alarm.setRepeating(AlarmManager.RTC_WAKEUP, calnder.getTimeInMillis(), AlarmManager.INTERVAL_DAY, penNotu);
+                        Toast.makeText(getApplicationContext(), setRemind, Toast.LENGTH_SHORT).show();
+                        shPrefEditor.putInt("PYnote",hour );
+                        shPrefEditor.putInt("PYnote2",mins);
+                        shPrefEditor.commit();
+                        String setH="",setM="";
+                        if(((NumberPicker) findViewById(R.id.etH)).getValue()<10)
+                            setH+="0";
+                        if(((NumberPicker) findViewById(R.id.etM)).getValue()<10)
+                            setM+="0";
+                        imgR.setText(setH+((NumberPicker) findViewById(R.id.etH)).getValue()+" : "+setM+((NumberPicker) findViewById(R.id.etM)).getValue());
+
+
+                        etH.setVisibility(View.INVISIBLE);
+                        Sep.setVisibility(View.INVISIBLE);
+                        //imgR.setPadding(50,0,0,0);
+                        etM.setVisibility(View.INVISIBLE);
+                        l.setBackgroundColor(Color.parseColor("#fefef2"));
+                        //img.setBackgroundResource(R.drawable.h_set_remainder);
+                        notPress=false;
+//
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getApplicationContext(), "נא למלא את השעה", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
         deleteR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -562,10 +839,12 @@ public class pninaYomit extends Activity {
                 Toast.makeText(getApplicationContext(), remindCancel, Toast.LENGTH_SHORT).show();
                 etH.setVisibility(View.INVISIBLE);
                 Sep.setVisibility(View.INVISIBLE);
-                img.setPadding(0,0,85,0);
+                img.setPadding(0,0,320,0);
+                img.setPadding(50,0,0,0);
+
                 shPrefEditor.putInt("PYnote",-1 );
                 shPrefEditor.commit();
-                img.setText(setRemind);
+                img.setText(noteSet);
                 etM.setVisibility(View.INVISIBLE);
                 l.setBackgroundColor(Color.parseColor("#fefef2"));
                 //img.setBackgroundResource(R.drawable.h_set_remainder);

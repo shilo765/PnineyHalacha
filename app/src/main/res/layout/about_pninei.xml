@@ -80,11 +80,10 @@
                 android:id="@+id/about_pn"
                 android:layout_width="400dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:textColor="#970606"
                 android:layout_marginTop="40dp"
-                android:layout_marginRight="25dp"
-                android:gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="על הסדרה"
                 android:textSize="24dp" />
         </RelativeLayout>
@@ -95,6 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:paddingRight="10dp"
+            android:paddingLeft="10dp"
             android:text="'פניני הלכה' פרי יצירתו של הרב אליעזר מלמד שליט''א, מגישה את מסורת הפסיקה ההלכתית ברוח ארצישראלית רעננה. הספרים כתובים בלשון בהירה ועדכנית, המאירה את ההלכות בטעמן הרוחני, ומתייחסים למנהגי העדות השונות. ההלכות מבוארות מן הכללים אל הפרטים ובדגש על סוגיות אקטואליות שהתחדשו בעת האחרונה."
             android:textColor="#000000"
             android:textSize="16dp" />
@@ -117,10 +117,11 @@
                 android:id="@+id/about_rav"
                 android:layout_width="400dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="40dp"
-                android:layout_marginRight="25dp"
-                android:gravity="right"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:text="על המחבר"
                 android:textColor="#970606"
                 android:textSize="24dp" />
@@ -134,7 +135,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:paddingRight="10dp"
-            android:text="הרב אליעזר מלמד שליט''א, ראש ישיבת הר ברכה ורב הישוב. מבחירי פוסקי ההלכה בציונות הדתית ובעל טור 'רביבים' בעיתון 'בשבע'.
+            android:paddingLeft="10dp"
+            android:text="הרב אליעזר מלמד שליט''א, ראש ישיבת הר ברכה ורב הישוב. מבכירי פוסקי ההלכה בציונות הדתית ובעל טור 'רביבים' בעיתון 'בשבע'.
 הרב הינו בוגר ישיבת מרכז הרב ומתלמידי הרצי''ה. בין ספריו: 'פניני הלכה' וספר 'המסורת היהודית'.
 "
             android:textColor="#000000"

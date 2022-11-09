@@ -72,16 +72,70 @@
 
         <TextView
             android:id="@+id/set_note"
-            android:layout_width="138dp"
+            android:layout_width="181dp"
             android:layout_height="29dp"
             android:background="@drawable/h_pnina_reminder"
             android:ems="10"
             android:inputType="textPersonName"
-            android:paddingRight="50dp"
+            android:paddingRight="70dp"
             android:text="קבע תזכורת"
             android:textColor="#FFFFFF"
             android:textSize="17dp" />
-
+        <TextView
+            android:id="@+id/set_note_en"
+            android:layout_width="181dp"
+            android:layout_height="29dp"
+            android:background="@drawable/h_pnina_reminder"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingRight="70dp"
+            android:paddingTop="2dp"
+            android:text="   set a reminder"
+            android:textColor="#FFFFFF"
+            android:textSize="15dp"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/set_note_r"
+            android:layout_width="181dp"
+            android:layout_height="29dp"
+            android:background="@drawable/h_pnina_reminder"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingRight="70dp"
+            android:paddingTop="3dp"
+            android:text="  напоминание"
+            android:textColor="#FFFFFF"
+            android:textSize="16dp"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/set_note_f"
+            android:layout_width="181dp"
+            android:layout_height="29dp"
+            android:background="@drawable/h_pnina_reminder"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingRight="70dp"
+            android:paddingTop="2dp"
+            android:text="   rappel"
+            android:textColor="#FFFFFF"
+            android:textSize="17dp"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/set_note_es"
+            android:layout_width="181dp"
+            android:layout_height="29dp"
+            android:background="@drawable/h_pnina_reminder"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingRight="70dp"
+            android:paddingTop="3dp"
+            android:text="   recordatorio"
+            android:textColor="#FFFFFF"
+            android:textSize="17dp"
+            android:visibility="gone"
+            />
         <ImageButton
             android:id="@+id/deleteReminder"
             android:layout_width="50dp"

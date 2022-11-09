@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+
+	android:id="@+id/layout_root"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:background="#FFFFFF"
+	android:orientation="vertical"
+	>
+
+	<LinearLayout
+		android:id="@+id/main"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="#FFFFFF"
+		android:orientation="vertical">
+
+		<ImageView
+			android:id="@+id/dialog_x"
+			android:layout_width="32dp"
+			android:layout_height="32dp"
+			android:paddingLeft="10dp"
+			android:paddingTop="10dp"
+			android:paddingRight="10dp"
+			android:paddingBottom="10dp"
+			android:scaleX="0.8"
+			android:scaleY="0.8"
+			app:srcCompat="@drawable/dialog_x" />
+
+		<RadioGroup
+			android:id="@+id/radios"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_gravity="right"
+			android:layout_marginTop="30dp"
+			android:inputType="text"
+			android:orientation="vertical" />
+
+		<TextView
+			android:id="@+id/langof"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="right"
+			android:scaleX="0.7"
+			android:scaleY="0.7"
+			android:text="שפת  האפליקציה"
+			android:textSize="20dp"
+			android:textStyle="bold" />
+
+		<LinearLayout
+			android:id="@+id/lnrOptions"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="#FFFFFF"
+			android:gravity="center">
+
+			<ImageView
+				android:id="@+id/im_f"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="20dp"
+				android:layout_marginRight="20dp"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				app:srcCompat="@drawable/f_b_1" />
+
+			<ImageView
+				android:id="@+id/im_es"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="20dp"
+				android:layout_marginRight="20dp"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				app:srcCompat="@drawable/es_b_1" />
+
+			<ImageView
+				android:id="@+id/im_r"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="20dp"
+				android:layout_marginRight="20dp"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				app:srcCompat="@drawable/r_b_1" />
+
+			<ImageView
+				android:id="@+id/im_en"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="20dp"
+				android:layout_marginRight="20dp"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				app:srcCompat="@drawable/en_b_1" />
+
+			<ImageView
+				android:id="@+id/im_h"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				app:srcCompat="@drawable/h_b_1" />
+
+		</LinearLayout>
+
+		<TextView
+			android:id="@+id/chooseTochen"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+
+			android:layout_gravity="right"
+			android:gravity="right"
+			android:scaleX="0.7"
+			android:scaleY="0.7"
+			android:text="בחירת תוכן השפות בספרים"
+			android:supportsRtl="true"
+			android:textSize="20sp"
+			android:textStyle="bold" />
+
+		<LinearLayout
+			android:id="@+id/lnrOption2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="#FFFFFF"
+			android:gravity="center">
+
+			<ImageView
+				android:id="@+id/im_f_down"
+				android:layout_width="70dp"
+				android:layout_height="match_parent"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				app:srcCompat="@drawable/f_b_3" />
+
+			<ImageView
+				android:id="@+id/im_es_down"
+				android:layout_width="70dp"
+				android:layout_height="match_parent"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				app:srcCompat="@drawable/es_b_3" />
+
+			<ImageView
+				android:id="@+id/my_marks"
+				android:layout_width="70dp"
+				android:layout_height="match_parent"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				app:srcCompat="@drawable/r_b_3" />
+
+			<ImageView
+				android:id="@+id/settings"
+				android:layout_width="70dp"
+				android:layout_height="wrap_content"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				app:srcCompat="@drawable/en_b_3" />
+
+			<ImageView
+				android:id="@+id/too_py"
+				android:layout_width="70dp"
+				android:layout_height="match_parent"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				android:tag="4"
+				app:srcCompat="@drawable/h_b_4" />
+
+		</LinearLayout>
+
+		<TextView
+			android:id="@+id/chooseSize"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="right"
+			android:scaleX="0.7"
+			android:scaleY="0.7"
+			android:text="קביעת גודל טקסט"
+			android:textSize="20sp"
+			android:textStyle="bold" />
+
+		<LinearLayout
+			android:id="@+id/lnrOption5"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="#FFFFFF"
+			android:gravity="center">
+
+			<SeekBar
+				android:id="@+id/seekBar6"
+				style="@style/Widget.AppCompat.SeekBar.Discrete"
+				android:layout_width="344dp"
+				android:layout_height="33dp"
+				android:max="10"
+				android:progress="10"
+				android:progressTint="#970606"
+				android:scrollbarStyle="outsideInset"
+				android:thumbTint="#970606" />
+
+		</LinearLayout>
+
+		<TextView
+			android:id="@+id/textSizeExm"
+			android:layout_width="390dp"
+			android:layout_height="109dp"
+			android:layout_gravity="right"
+			android:scaleX="0.7"
+			android:scaleY="0.7"
+			android:text="פניני הלכה"
+			android:textSize="20sp"
+			android:textStyle="bold" />
+
+		<LinearLayout
+			android:id="@+id/lnrOption6"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="#FFFFFF"
+			android:gravity="center">
+
+			<ImageView
+				android:id="@+id/im_black_screen"
+				android:layout_width="62dp"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				android:tag="4"
+				app:srcCompat="@drawable/check" />
+
+			<TextView
+				android:id="@+id/blackScreen"
+				android:layout_width="202dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="right"
+				android:layout_marginTop="10dp"
+				android:scaleX="0.7"
+				android:scaleY="0.7"
+				android:text="החשכת מסך"
+				android:textSize="20sp"
+				android:textStyle="bold" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/lnrOption7"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="#FFFFFF"
+			android:gravity="center">
+
+			<ImageView
+				android:id="@+id/im_last_location"
+				android:layout_width="190dp"
+				android:layout_height="37dp"
+				android:layout_weight="1"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				android:tag="4"
+				app:srcCompat="@drawable/check" />
+
+			<TextView
+				android:id="@+id/lastLocation"
+				android:layout_width="201dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="right"
+				android:layout_marginTop="10dp"
+				android:scaleX="0.7"
+				android:scaleY="0.7"
+				android:text="בפתיחת האפליקציה דלג למיקום אחרון"
+				android:textSize="20sp"
+				android:textStyle="bold" />
+
+		</LinearLayout>
+
+
+	</LinearLayout>
+
+</RelativeLayout>

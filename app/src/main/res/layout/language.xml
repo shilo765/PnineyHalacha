@@ -107,7 +107,7 @@
                 app:srcCompat="@drawable/es_b_3" />
 
             <ImageView
-                android:id="@+id/to_py"
+                android:id="@+id/my_marks"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="50dp"

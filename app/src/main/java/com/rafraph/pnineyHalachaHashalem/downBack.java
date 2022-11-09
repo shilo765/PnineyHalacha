@@ -19,7 +19,7 @@ public class downBack extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_page);
+        setContentView(R.layout.new_home);
 
         // This starts the AsyncTask
         // Doesn't need to be in onCreate()

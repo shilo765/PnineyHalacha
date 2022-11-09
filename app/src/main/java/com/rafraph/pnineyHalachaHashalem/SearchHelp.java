@@ -16,6 +16,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Environment;
+import android.speech.RecognizerIntent;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.Editable;
@@ -25,6 +27,8 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,6 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,6 +49,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Stack;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -87,6 +93,7 @@ public class SearchHelp extends Activity {
 	private static final int SPANISH = 3;
 	private static final int FRENCH = 4;
 	public static int LangWrite;
+	public static boolean onceLast=false;
 	public String[] querys=new String[50];
 	public static Stack<File> stcakFiles=new Stack<>();
 	public static String pleaseWait="please wait";
@@ -253,7 +260,7 @@ public class SearchHelp extends Activity {
 		MyLanguage = mPrefs.getInt("MyLanguage", -1);
 		TextView searchNow2=findViewById(R.id.search_now);
 		TextView lastSearch2=findViewById(R.id.last_search);
-		TextView head=findViewById(R.id.headr);
+		//TextView head=findViewById(R.id.headr);
 		EditText title=findViewById(R.id.title);
 		title.setOnEditorActionListener(
 			new EditText.OnEditorActionListener() {
@@ -288,7 +295,7 @@ public class SearchHelp extends Activity {
 		if(MyLanguage==ENGLISH){
 			searchNow2.setText("Search");
 			lastSearch2.setText("Last search");
-			head.setText("Search in \"Peninei Halakha\"");
+			//head.setText("Search in \"Peninei Halakha\"");
 			title.setHint("Search text");
 
 		}
@@ -296,21 +303,21 @@ public class SearchHelp extends Activity {
 		{
 			searchNow2.setText("Поиск");
 			lastSearch2.setText("Последний поиск");
-			head.setText("Поиск по книгам \"Жемчужины Галахи\"");
+			//head.setText("Поиск по книгам \"Жемчужины Галахи\"");
 			title.setHint("Текст");
 		}
 		if(MyLanguage==SPANISH)
 		{
 			searchNow2.setText("Búsqueda");
 			lastSearch2.setText("última búsqueda");
-			head.setText("Búsqueda de Pninei Halaja");
+			//head.setText("Búsqueda de Pninei Halaja");
 			title.setHint("Buscar texto");
 		}
 		if(MyLanguage==FRENCH)
 		{
 			searchNow2.setText("Recherche");
 			lastSearch2.setText("Dernière recherche ");
-			head.setText("Recherche sur PNINÉ HALAKHA'");
+			//head.setText("Recherche sur PNINÉ HALAKHA'");
 			title.setHint("Mot clef ");
 		}
 		if(MyLanguage==HEBREW)
@@ -334,8 +341,9 @@ public class SearchHelp extends Activity {
 		ImageView tooHome= (ImageView) findViewById(R.id.to_main);
 
 		ImageView goSearch= (ImageView) findViewById(R.id.goSearch);
+		ImageView getVoice= (ImageView) findViewById(R.id.getVoice);
 		TextView searchNow= (TextView) findViewById(R.id.search_now);
-		TextView tv= (TextView) findViewById(R.id.headr);
+
 		bookFound= (TextView) findViewById(R.id.no_found);
 		EditText searchText= (EditText) findViewById(R.id.title);
 
@@ -354,6 +362,12 @@ public class SearchHelp extends Activity {
 			toMain.setImageResource(R.drawable.to_main_f);
 		searchListView2 = (ListView) findViewById(R.id.list2);
 		searchListView2.setVisibility(View.GONE);
+		getVoice.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				speak();
+			}
+		});
 		toMain.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -380,6 +394,7 @@ public class SearchHelp extends Activity {
 				//popupMenu.
 
 				if(MyLanguage == ENGLISH) {
+					popupMenu.getMenu().add(0,-1,0,"Homepage");
 					popupMenu.getMenu().add(0,0,0,"Settings");
 					popupMenu.getMenu().add(0,1,0,"Books");
 					popupMenu.getMenu().add(0,2,0,"Daily Study");
@@ -392,6 +407,7 @@ public class SearchHelp extends Activity {
 					popupMenu.getMenu().add(0,9,0,"About");
 				}
 				else if(MyLanguage == RUSSIAN) {
+					popupMenu.getMenu().add(0,-1,0,"домашняя страница");
 					popupMenu.getMenu().add(0,0,0,"Настройки");
 					popupMenu.getMenu().add(0,1,0,"Книги");
 					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
@@ -404,20 +420,22 @@ public class SearchHelp extends Activity {
 					popupMenu.getMenu().add(0,9,0,"О приложении");
 				}
 				else if(MyLanguage == SPANISH) {
+					popupMenu.getMenu().add(0,-1,0,"Página principal");
 					popupMenu.getMenu().add(0,0,0,"Definiciones");
 					popupMenu.getMenu().add(0,1,0,"Libros");
 					popupMenu.getMenu().add(0,2,0,"Estudio diario");
 					popupMenu.getMenu().add(0,3,0,"Búsqueda");
-					popupMenu.getMenu().add(0,5,0,"retroalimentación");
-					popupMenu.getMenu().add(0,6,0,"compra de libros");
-					popupMenu.getMenu().add(0,7,0,"pregúntale al rabino");
+					popupMenu.getMenu().add(0,5,0,"Retroalimentación");
+					popupMenu.getMenu().add(0,6,0,"Compra de libros");
+					popupMenu.getMenu().add(0,7,0,"Pregúntale al rabino");
 					//booksDownload configHeaders[6] = "ספרים להורדה";
-					popupMenu.getMenu().add(0,8,0,"en la serie");
-					popupMenu.getMenu().add(0,9,0,"sobre");
+					popupMenu.getMenu().add(0,8,0,"En la serie");
+					popupMenu.getMenu().add(0,9,0,"Sobre");
 				}
 				else if(MyLanguage == FRENCH) {
+					popupMenu.getMenu().add(0,-1,0,"Page d'accueil");
 					popupMenu.getMenu().add(0,0,0,"Réglages");
-					popupMenu.getMenu().add(0,1,0,"livres");
+					popupMenu.getMenu().add(0,1,0,"Livres");
 					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
 					popupMenu.getMenu().add(0,3,0,"Recherche");
 					popupMenu.getMenu().add(0,5,0,"Contact Us");
@@ -428,6 +446,7 @@ public class SearchHelp extends Activity {
 					popupMenu.getMenu().add(0,9,0,"À propos");
 				}
 				else {/*this is the default*/
+					popupMenu.getMenu().add(0,-1,0,"דף הבית");
 					popupMenu.getMenu().add(0,0,0,"הגדרות");
 					popupMenu.getMenu().add(0,1,0,"ספרים");
 					popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
@@ -451,6 +470,22 @@ public class SearchHelp extends Activity {
 						Intent intent;
 						switch (item.getItemId())
 						{
+							case -1:/*Home page*/
+
+								try
+								{
+									ourClass = null;
+
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+									ourIntent = new Intent(SearchHelp.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+
 							case 0:/*settings*/
 
 								try {
@@ -516,7 +551,16 @@ public class SearchHelp extends Activity {
 							case 6:/*buy books*/
 								intent = new Intent(Intent.ACTION_VIEW);
 								intent.setData(Uri.parse("https://shop.yhb.org.il/"));
-								startActivity(intent);
+
+								if(MyLanguage==FRENCH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/fr/"));
+								if(MyLanguage==RUSSIAN)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/ru/"));
+								if(MyLanguage==SPANISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/es/"));
+								if(MyLanguage==ENGLISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
+								startActivity(intent);;
 								break;
 
 							case 7:/*ask the rav*/
@@ -570,7 +614,7 @@ public class SearchHelp extends Activity {
 			}
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count)  {
-				if(searchText.getText().toString().contains("\'")) {
+				//if(searchText.getText().toString().contains("\'")) {
 					if (searchText.getText().toString().length() == 1)
 						if (hebCharacter.contains(searchText.getText().toString()))
 							LangWrite = HEBREW;
@@ -737,7 +781,7 @@ public class SearchHelp extends Activity {
 								lst.remove(0);
 
 					}
-				}
+
 
 			}
 			@Override
@@ -755,6 +799,7 @@ public class SearchHelp extends Activity {
 				lastSearch.setBackgroundResource(R.drawable.rec_r_half2_empty);
 				searchText.setVisibility(View.VISIBLE);
 				goSearch.setVisibility(View.VISIBLE);
+				getVoice.setVisibility(View.VISIBLE);
 				lastSearch.setTextColor(Color.rgb(151, 6, 6));
 				searchFound=false;
 				bookFound.setVisibility(View.GONE);
@@ -770,6 +815,7 @@ public class SearchHelp extends Activity {
 				bookFound.setVisibility(View.GONE);
 				searchText.setVisibility(View.GONE);
 				goSearch.setVisibility(View.GONE);
+				getVoice.setVisibility(View.GONE);
 				lastSearch.setBackgroundResource(R.drawable.rec_r_half2_full);
 				lastSearch.setTextColor(Color.WHITE);
 				searchNow.setBackgroundResource(R.drawable.rec_r_half_empty);
@@ -782,58 +828,77 @@ public class SearchHelp extends Activity {
 				shPrefEditor = mPrefs.edit();
 				//BlackBackground = mPrefs.getInt("BlackBackground", 0);
 				//searchListView2.addHeaderView(mPrefs.getString("BlackBackground", ""));
-				for(int k=0;k<10;k++) {
-					TextView textView = new TextView(getBaseContext());
-					//String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
-					//String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
-					textView.setText(mPrefs.getString("s" + k, ""));
-					//textView.setText("shilo");
-					//textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
-					if (mPrefs.getInt("BlackBackground", 0)==1) {
-						textView.setTextColor(Color.WHITE);
-						ImageView toMain= (ImageView) findViewById(R.id.to_main);
-						if(MyLanguage==ENGLISH)
-							toMain.setImageResource(R.drawable.to_main_b_e);
-						if(MyLanguage==RUSSIAN)
-							toMain.setImageResource(R.drawable.to_main_b_r);
-						if(MyLanguage==SPANISH)
-							toMain.setImageResource(R.drawable.to_main_b_s);
-						if(MyLanguage==FRENCH)
-							toMain.setImageResource(R.drawable.to_main_b_f);
-						if(MyLanguage==HEBREW)
-							toMain.setImageResource(R.drawable.to_main_b);
-						LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
-						ImageView menu= (ImageView) findViewById(R.id.menu);
-						menu.setImageResource(R.drawable.ic_action_congif_b);
-						main.setBackgroundColor(Color.rgb(120,1,1));
+				if(!onceLast) {
+					onceLast=true;
+					for (int k = 0; k < 10; k++) {
+						TextView textView = new TextView(getBaseContext());
+						//String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
+						//String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
+						textView.setText(mPrefs.getString("s" + k, ""));
+						//textView.setText("shilo");
+						//textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
+						if (mPrefs.getInt("BlackBackground", 0) == 1) {
+							textView.setTextColor(Color.WHITE);
+							ImageView toMain = (ImageView) findViewById(R.id.to_main);
+							if (MyLanguage == ENGLISH)
+								toMain.setImageResource(R.drawable.to_main_b_e);
+							if (MyLanguage == RUSSIAN)
+								toMain.setImageResource(R.drawable.to_main_b_r);
+							if (MyLanguage == SPANISH)
+								toMain.setImageResource(R.drawable.to_main_b_s);
+							if (MyLanguage == FRENCH)
+								toMain.setImageResource(R.drawable.to_main_b_f);
+							if (MyLanguage == HEBREW)
+								toMain.setImageResource(R.drawable.to_main_b);
+							LinearLayout main = (LinearLayout) findViewById(R.id.lnrOption3);
+							ImageView menu = (ImageView) findViewById(R.id.menu);
+							menu.setImageResource(R.drawable.ic_action_congif_b);
+							main.setBackgroundColor(Color.rgb(120, 1, 1));
+						} else
+							textView.setTextColor(Color.BLACK);
+						textView.setTextSize(24);
+						searchListView2.addFooterView(textView);
+						showResults();
 					}
-					else
-						textView.setTextColor(Color.BLACK);
-					textView.setTextSize(24);
-					searchListView2.addFooterView(textView);
-					showResults();
 				}
 				searchListView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						Class ourClass = null;
-						try {
-							ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
-						} catch (ClassNotFoundException e) {
-							e.printStackTrace();
-						}
-						Intent ourIntent = new Intent(SearchHelp.this, ourClass);
-						//sectionsForToast =listStrAnchor.get(position );
-						ourIntent.putExtra("cameFromSearch", true);
-						String  s=mPrefs.getString("sp" + position, "");
-						ourIntent.putExtra("searchPosition", mPrefs.getString("sp" + position, ""));
 
-						ourIntent.putExtra("searchText", mPrefs.getString("st" + position, ""));
+						searchNow.setBackgroundResource(R.drawable.rec_r_half_full);
+						searchNow.setTextColor(Color.WHITE);
+						lastSearch.setBackgroundResource(R.drawable.rec_r_half2_empty);
+						searchText.setVisibility(View.VISIBLE);
+						goSearch.setVisibility(View.VISIBLE);
+						getVoice.setVisibility(View.VISIBLE);
+						lastSearch.setTextColor(Color.rgb(151, 6, 6));
+						searchFound=false;
+						bookFound.setVisibility(View.GONE);
+						searchListView2.setVisibility(View.GONE);
+						if(searchListView!=null)
+							searchListView.setVisibility(View.VISIBLE);
+						searchText.setText(((TextView)view).getText().toString());
+						final ProgressDialog downloadWait = ProgressDialog.show(SearchHelp.this, "", "please wait");
+						new Thread() {
+							public void run() {
+								try {
+									SearchHelp.this.runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											onceLast=false;
+											goSearch();
+										}
+									});
+								} catch (Exception e) {
 
-						ourIntent.putExtra("query", ((TextView)view).getText().toString());
+								}
+								downloadWait.dismiss();
+							}
+						}.start();
+
 						//ourIntent.putExtra("sectionsForToast", sectionsForToast);
-						//System.out.println(3/0);
-						startActivity(ourIntent);
+
 					}
 				});
 
@@ -881,6 +946,7 @@ public class SearchHelp extends Activity {
 			return ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED;
 	}
 	public boolean doMySearch(int num) throws InterruptedException {
+		String LangSearch="EnglishBooks";
 		if(LangWrite==RUSSIAN)
 			unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/ru.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks");
 
@@ -890,21 +956,25 @@ public class SearchHelp extends Activity {
 			if (folder.exists())
 				for (final File fileEntry : folder.listFiles()) {
 					stcakFiles.add(fileEntry);
+
 				}
 			final File folder2 = new File(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks");
 			if (folder2.exists())
 				for (final File fileEntry : folder2.listFiles()) {
 					stcakFiles.add(fileEntry);
+					LangSearch="RussianBooks";
 				}
 			final File folder3 = new File(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks");
 			if (folder3.exists())
 				for (final File fileEntry : folder3.listFiles()) {
 					stcakFiles.add(fileEntry);
+					LangSearch="SpanishBooks";
 				}
 			final File folder4 = new File(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks");
 			if (folder4.exists())
 				for (final File fileEntry : folder4.listFiles()) {
 					stcakFiles.add(fileEntry);
+					LangSearch="FrenchBooks";
 				}
 		}
 		System.out.println("hihiohihih");
@@ -954,7 +1024,7 @@ public class SearchHelp extends Activity {
 								if (s.contains(query)&&once&&first.contains("<strong>")) {
 									once=false;
 									str+=(first + "(" + fi.substring(0, fi.length() - 5) + ")" + ":shilo");
-									listStrAnchor.add(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/"+fi+":1");
+									listStrAnchor.add(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/"+LangSearch+"/"+fi+":1");
 									TextView textView = new TextView(this);
 									//String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
 									String sourceString = first + "(" + fi.substring(0, fi.length() - 5) + ")";
@@ -1235,13 +1305,17 @@ public class SearchHelp extends Activity {
 							ourIntent.putExtra("sectionsForToast", sectionsForToast);
 							ourIntent.putExtra("query",queryToSearch);
 							ourIntent.putExtra("searchText",searchText.split("\\(")[1].split(",")[0]);
-							for (int i=1;i<10;i++) {
-								shPrefEditor.putString("s"+i, mPrefs.getString("s" + (i-1), ""));
-								shPrefEditor.putString("sp"+i, mPrefs.getString("sp" + (i-1), ""));
-								shPrefEditor.putString("st"+i, mPrefs.getString("st" + (i-1), ""));
+							boolean thereis=false;
+
+							for (int i = 1; i < 10; i++) {
+								if (mPrefs.getString("s" + (i - 1), "").equals(queryToSearch))
+									break;
+								shPrefEditor.putString("s" + i, mPrefs.getString("s" + (i - 1), ""));
+								shPrefEditor.putString("sp" + i, mPrefs.getString("sp" + (i - 1), ""));
+								shPrefEditor.putString("st" + i, mPrefs.getString("st" + (i - 1), ""));
 							}
 							shPrefEditor.putString("s0", queryToSearch);
-							shPrefEditor.putString("sp0", searchPosition+"");
+							shPrefEditor.putString("sp0", searchPosition + "");
 							shPrefEditor.putString("st0", searchText.split("\\(")[1].split(",")[0]);
 							shPrefEditor.commit();
 
@@ -1295,6 +1369,37 @@ public class SearchHelp extends Activity {
 			}
 		}
 
+	}
+	private  void speak()
+	{
+		Intent intd=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		intd.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		intd.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+		intd.putExtra(RecognizerIntent.EXTRA_PROMPT, "do somthing");
+		try {
+			startActivityForResult(intd,1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		//Toast.makeText(getApplicationContext(), "result.get(0)", Toast.LENGTH_LONG).show();
+		switch (requestCode){
+			case 1000:{
+				if(resultCode==RESULT_OK&&null!=data)
+				{
+					ArrayList<String> result =data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+					EditText voiceT=(EditText) findViewById(R.id.title);
+					voiceT.setText(result.get(0));
+					//Toast.makeText(getApplicationContext(), "result.get(0)", Toast.LENGTH_LONG).show();
+				}
+			}
+		}
 	}
 	public void showResults()
 	{

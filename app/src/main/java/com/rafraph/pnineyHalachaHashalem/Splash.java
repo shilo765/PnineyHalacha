@@ -1,4 +1,4 @@
-package com.rafraph.pnineyHalachaHashalem;
+ package com.rafraph.pnineyHalachaHashalem;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -58,9 +58,11 @@ public class Splash extends Activity{
 			}
 
 		}
+		shPrefEditor.putInt("MyLanguage", MyLanguage);
+		shPrefEditor.commit();
 		Bundle extras = getIntent().getExtras();
 		// if its not first virsion and have last place
-		if (mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("4.1.7") == true)) {
+		if (mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("4.1.14") == true)) {
 
 			try {
 				Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
@@ -93,7 +95,7 @@ public class Splash extends Activity{
 
 		}
 		// if its not first virsion and not last place
-		if (mPrefs.getString("Version", "").equals("4.1.7") == true) {
+		if (mPrefs.getString("Version", "").equals("4.1.14") == true) {
 
 			try {
 				Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
@@ -113,7 +115,7 @@ public class Splash extends Activity{
 							e.printStackTrace();
 						} finally {
 							stop = 2;
-							if (!(mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("4.1.7") == true))) {
+							if (!(mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("4.1.14") == true))) {
 								Class ourClass = null;
 								try {
 									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
@@ -151,9 +153,43 @@ public class Splash extends Activity{
 				version = packageManager.getPackageInfo(packageName, 0).versionName;
 				setContentView(R.layout.splash);
 				ImageView lili2 = (ImageView) findViewById(R.id.lili);
-				Glide.with(this).load(R.drawable.first_gif).into(lili2);
+				switch (MyLanguage) {
+					case ENGLISH:
+						Glide.with(this).load(R.drawable.gif_en).into(lili2);
+						break;
+					case RUSSIAN:
+						Glide.with(this).load(R.drawable.gif_ru).into(lili2);
+						break;
+					case SPANISH:
+						Glide.with(this).load(R.drawable.gif_es).into(lili2);
+						break;
+					case FRENCH:
+						Glide.with(this).load(R.drawable.gif_fr).into(lili2);
+						break;
+					default:
+						Glide.with(this).load(R.drawable.first_gif).into(lili2);
+						break;
+				}
+
+
 				lili3 = (LinearLayout) findViewById(R.id.hi);
-				Glide.with(this).load(R.drawable.first_gif).into(lili);
+				switch (MyLanguage) {
+					case ENGLISH:
+						Glide.with(this).load(R.drawable.gif_en).into(lili);
+						break;
+					case RUSSIAN:
+						Glide.with(this).load(R.drawable.gif_ru).into(lili);
+						break;
+					case SPANISH:
+						Glide.with(this).load(R.drawable.gif_es).into(lili);
+						break;
+					case FRENCH:
+						Glide.with(this).load(R.drawable.gif_fr).into(lili);
+						break;
+					default:
+						Glide.with(this).load(R.drawable.first_gif).into(lili);
+						break;
+				}
 				lili3.setBackground(lili.getDrawable());
 
 
@@ -168,7 +204,7 @@ public class Splash extends Activity{
 						e.printStackTrace();
 					} finally {
 						stop = 2;
-						if (!(mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("4.1.7") == true))) {
+						if (!(mPrefs.getInt("StartInLastLocation", 1) == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && (mPrefs.getString("Version", "").equals("4.1.14") == true))) {
 							Class ourClass = null;
 							try {
 								ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
