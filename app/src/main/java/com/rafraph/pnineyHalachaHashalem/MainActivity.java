@@ -614,7 +614,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-			if(mPrefs.getString("Version", "").equals("4.1.14") == false)
+			if(mPrefs.getString("Version", "").equals("4.1.16") == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);
@@ -2410,7 +2410,7 @@ private void initializeSeekBar()
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-			if(mPrefs.getString("Version", "").equals("4.1.14") == false)
+			if(mPrefs.getString("Version", "").equals("4.1.16") == false)
 			{
 				firstLang=0;
 			}
@@ -2494,6 +2494,9 @@ private void initializeSeekBar()
 			LinearLayout partC=(LinearLayout) languageDialog.findViewById(R.id.lnrOption5);
 			LinearLayout partD=(LinearLayout) languageDialog.findViewById(R.id.lnrOption6);
 			LinearLayout partE=(LinearLayout) languageDialog.findViewById(R.id.lnrOption7);
+			LinearLayout partF=(LinearLayout) languageDialog.findViewById(R.id.lnrOption8);
+			TextView screenOn=(TextView) languageDialog.findViewById(R.id.screenOn);
+			TextView brightScreen=(TextView) languageDialog.findViewById(R.id.brightScreen);
 			if (mPrefs.getInt("BlackBackground", 0)==1)
 			{
 				langOf.setTextColor(Color.WHITE);
@@ -2502,7 +2505,8 @@ private void initializeSeekBar()
 				chooseSize.setTextColor(Color.WHITE);
 				textSizeExm.setTextColor(Color.WHITE);
 				chooseLastLoc.setTextColor(Color.WHITE);
-
+				screenOn.setTextColor(Color.WHITE);
+				brightScreen.setTextColor(Color.WHITE);
 				main.setBackgroundColor(Color.BLACK);
 				main2.setBackgroundColor(Color.BLACK);
 				partA.setBackgroundColor(Color.BLACK);
@@ -2510,6 +2514,8 @@ private void initializeSeekBar()
 				partC.setBackgroundColor(Color.BLACK);
 				partD.setBackgroundColor(Color.BLACK);
 				partE.setBackgroundColor(Color.BLACK);
+				partF.setBackgroundColor(Color.BLACK);
+
 				//main3.setBackgroundColor(Color.BLACK);
 				//main4.setBackgroundColor(Color.BLACK);
 				//main5.setBackgroundColor(Color.BLACK);
@@ -2540,27 +2546,45 @@ private void initializeSeekBar()
 			ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
 			ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
 			ImageView im_black_screen=(ImageView) languageDialog.findViewById(R.id.im_black_screen);
+			ImageView im_white_screen=(ImageView) languageDialog.findViewById(R.id.im_white_screen);
 			ImageView im_last_loc=(ImageView) languageDialog.findViewById(R.id.im_last_location);
+			ImageView im_screenOn=(ImageView) languageDialog.findViewById(R.id.im_so);
 			if (mPrefs.getInt("BlackBackground", 0) == 1)
 			{
 				im_black_screen.setImageResource(R.drawable.check_fill);
+				im_white_screen.setImageResource(R.drawable.check);
 				im_black_screen.setTag("3");
+				im_white_screen.setTag("4");
 			}
 			else
 			{
 				im_black_screen.setImageResource(R.drawable.check);
+				im_white_screen.setImageResource(R.drawable.check_fill);
 				im_black_screen.setTag("4");
+				im_white_screen.setTag("3");
 			}
 			if (mPrefs.getInt("StartInLastLocation", 1) == 1)
 			{
-				im_last_loc.setImageResource(R.drawable.check_fill);
+				im_last_loc.setImageResource(R.drawable.checkbox_fill);
 				im_last_loc.setTag("3");
 			}
 			else
 			{
-				im_last_loc.setImageResource(R.drawable.check);
+				im_last_loc.setImageResource(R.drawable.checkbox);
 				im_last_loc.setTag("4");
 			}
+
+			if (mPrefs.getInt("ScreenOn", 1) == 1)
+			{
+				im_screenOn.setImageResource(R.drawable.checkbox_fill);
+				im_screenOn.setTag("3");
+			}
+			else
+			{
+				im_screenOn.setImageResource(R.drawable.checkbox);
+				im_screenOn.setTag("4");
+			}
+
 			seekbar = (SeekBar) languageDialog.findViewById(R.id.seekBar6);
 			seekbar.setMax(77);
 			seekbar.setProgress(mPrefs.getInt("fontSize",20));
@@ -2575,6 +2599,8 @@ private void initializeSeekBar()
 			TextView chooseSize=languageDialog.findViewById(R.id.chooseSize);
 			TextView exm=languageDialog.findViewById(R.id.textSizeExm);
 			TextView blackScreen=languageDialog.findViewById(R.id.blackScreen);
+			TextView brightScreen=languageDialog.findViewById(R.id.brightScreen);
+			TextView screenOn=languageDialog.findViewById(R.id.screenOn);
 			TextView lastLoc=languageDialog.findViewById(R.id.lastLocation);
 			if (MyLanguage == HEBREW)
 				h_imv.setImageResource(R.drawable.h_b_2);
@@ -2586,7 +2612,9 @@ private void initializeSeekBar()
                 chooseTochenLang.setPadding(0,0,500,0);
 				chooseSize.setText("Выбрать размер текста");
 				exm.setText("Жемчужины Галахи");
-				blackScreen.setText("Темная тема");
+				screenOn.setText("Темная тема отмена");
+				blackScreen.setText("темный");
+				brightScreen.setText("яркий   :Режим отображения");
 				lastLoc.setText("При загрузке приложения возвращаться на последнее место чтения");
 			}
 			else if (MyLanguage == SPANISH)
@@ -2596,7 +2624,9 @@ private void initializeSeekBar()
 				chooseTochenLang.setText("Selección del contenido de los idiomas en los libros.");
 				chooseSize.setText("Establecer tamaño de texto");
 				exm.setText("Pninei Halaja");
-				blackScreen.setText("Oscurecimiento de pantalla");
+				screenOn.setText("cancelar el sueño del monitor");
+				blackScreen.setText("oscura");
+				brightScreen.setText("brillante   :modo de visualización");
 				lastLoc.setText("Al abrir la aplicación, salta a la última ubicación");
 			}
 			else if (MyLanguage == FRENCH)
@@ -2606,7 +2636,9 @@ private void initializeSeekBar()
 				chooseTochenLang.setText("Selection du contenu des langues des livres");
 				chooseSize.setText("Définir la taille du texte");
 				exm.setText("Pninei Halakha");
-				blackScreen.setText("Assombrir l'écran");
+				screenOn.setText("Annuler mode veille");
+				blackScreen.setText("foncée");
+				brightScreen.setText("brillante   :mode d'affichage");
 				lastLoc.setText("À l'ouverture de l'application, passez directement au dernier emplacement visité");
 
 			}
@@ -2617,7 +2649,9 @@ private void initializeSeekBar()
 				chooseTochenLang.setText("Selecting the content of the languages in the books");
 				chooseSize.setText("Set text size");
 				exm.setText("Pninei Halakha");
-				blackScreen.setText("Darken Screen");
+				screenOn.setText("Cancel monitor sleep");
+				blackScreen.setText("Dark");
+				brightScreen.setText("bright   :Display mode selection");
 				lastLoc.setText("When opening the app, skip to the last location");
 			}
 			shPrefEditor.putInt("MyLanguage", MyLanguage);
@@ -2629,15 +2663,86 @@ private void initializeSeekBar()
 
 					if (im_black_screen.getTag().equals("4")) {
 						im_black_screen.setImageResource(R.drawable.check_fill);
+						im_white_screen.setImageResource(R.drawable.check);
 						im_black_screen.setTag("3");
+						im_white_screen.setTag("4");
 						shPrefEditor.putInt("BlackBackground", 1);
+						TextView chooseBlack=(TextView) languageDialog.findViewById(R.id.blackScreen);
+						TextView chooseTochen=(TextView) languageDialog.findViewById(R.id.chooseTochen);
+						TextView textSizeExm=(TextView) languageDialog.findViewById(R.id.textSizeExm);
+						TextView chooseLastLoc=(TextView) languageDialog.findViewById(R.id.lastLocation);
+						TextView screenOn=(TextView) languageDialog.findViewById(R.id.screenOn);
+						TextView brightScreen=(TextView) languageDialog.findViewById(R.id.brightScreen);
+						RelativeLayout main=(RelativeLayout) languageDialog.findViewById(R.id.layout_root);
+						LinearLayout main2=(LinearLayout) languageDialog.findViewById(R.id.main);
+						LinearLayout partA=(LinearLayout) languageDialog.findViewById(R.id.lnrOptions);
+						LinearLayout partB=(LinearLayout) languageDialog.findViewById(R.id.lnrOption2);
+						LinearLayout partC=(LinearLayout) languageDialog.findViewById(R.id.lnrOption5);
+						LinearLayout partD=(LinearLayout) languageDialog.findViewById(R.id.lnrOption6);
+						LinearLayout partE=(LinearLayout) languageDialog.findViewById(R.id.lnrOption7);
+						LinearLayout partF=(LinearLayout) languageDialog.findViewById(R.id.lnrOption8);
+							langOf.setTextColor(Color.WHITE);
+							chooseBlack.setTextColor(Color.WHITE);
+							chooseTochen.setTextColor(Color.WHITE);
+							chooseSize.setTextColor(Color.WHITE);
+							textSizeExm.setTextColor(Color.WHITE);
+							chooseLastLoc.setTextColor(Color.WHITE);
+							screenOn.setTextColor(Color.WHITE);
+							brightScreen.setTextColor(Color.WHITE);
+							main.setBackgroundColor(Color.BLACK);
+							main2.setBackgroundColor(Color.BLACK);
+							partA.setBackgroundColor(Color.BLACK);
+							partB.setBackgroundColor(Color.BLACK);
+							partC.setBackgroundColor(Color.BLACK);
+							partD.setBackgroundColor(Color.BLACK);
+							partE.setBackgroundColor(Color.BLACK);
+							partF.setBackgroundColor(Color.BLACK);
 
-					} else {
-						im_black_screen.setImageResource(R.drawable.check);
-						im_black_screen.setTag("4");
-						shPrefEditor.putInt("BlackBackground", 0);
+
 					}
+				}
+			});
+			im_white_screen.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
 
+
+					if (im_white_screen.getTag().equals("4")) {
+						im_black_screen.setImageResource(R.drawable.check);
+						im_white_screen.setImageResource(R.drawable.check_fill);
+						im_black_screen.setTag("4");
+						im_white_screen.setTag("3");
+						shPrefEditor.putInt("BlackBackground", 0);
+						TextView chooseBlack=(TextView) languageDialog.findViewById(R.id.blackScreen);
+						TextView chooseTochen=(TextView) languageDialog.findViewById(R.id.chooseTochen);
+						TextView textSizeExm=(TextView) languageDialog.findViewById(R.id.textSizeExm);
+						TextView chooseLastLoc=(TextView) languageDialog.findViewById(R.id.lastLocation);
+						TextView screenOn=(TextView) languageDialog.findViewById(R.id.screenOn);
+						TextView brightScreen=(TextView) languageDialog.findViewById(R.id.brightScreen);
+						RelativeLayout main=(RelativeLayout) languageDialog.findViewById(R.id.layout_root);
+						LinearLayout main2=(LinearLayout) languageDialog.findViewById(R.id.main);
+						LinearLayout partA=(LinearLayout) languageDialog.findViewById(R.id.lnrOptions);
+						LinearLayout partB=(LinearLayout) languageDialog.findViewById(R.id.lnrOption2);
+						LinearLayout partC=(LinearLayout) languageDialog.findViewById(R.id.lnrOption5);
+						LinearLayout partD=(LinearLayout) languageDialog.findViewById(R.id.lnrOption6);
+						LinearLayout partE=(LinearLayout) languageDialog.findViewById(R.id.lnrOption7);
+						LinearLayout partF=(LinearLayout) languageDialog.findViewById(R.id.lnrOption8);
+						langOf.setTextColor(Color.BLACK);
+						chooseBlack.setTextColor(Color.BLACK);
+						chooseTochen.setTextColor(Color.BLACK);
+						chooseSize.setTextColor(Color.BLACK);
+						screenOn.setTextColor(Color.BLACK);
+						brightScreen.setTextColor(Color.BLACK);
+						chooseLastLoc.setTextColor(Color.BLACK);
+						main.setBackgroundColor(Color.WHITE);
+						main2.setBackgroundColor(Color.WHITE);
+						partA.setBackgroundColor(Color.WHITE);
+						partB.setBackgroundColor(Color.WHITE);
+						partC.setBackgroundColor(Color.WHITE);
+						partD.setBackgroundColor(Color.WHITE);
+						partE.setBackgroundColor(Color.WHITE);
+						partF.setBackgroundColor(Color.WHITE);
+					}
 				}
 			});
 			im_last_loc.setOnClickListener(new OnClickListener() {
@@ -2646,14 +2751,33 @@ private void initializeSeekBar()
 
 
 					if (im_last_loc.getTag().equals("4")) {
-						im_last_loc.setImageResource(R.drawable.check_fill);
+						im_last_loc.setImageResource(R.drawable.checkbox_fill);
 						im_last_loc.setTag("3");
 						shPrefEditor.putInt("StartInLastLocation", 1);
 
 					} else {
-						im_last_loc.setImageResource(R.drawable.check);
+						im_last_loc.setImageResource(R.drawable.checkbox);
 						im_last_loc.setTag("4");
 						shPrefEditor.putInt("StartInLastLocation", 0);
+					}
+
+				}
+			});
+
+			im_screenOn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+
+					if (im_screenOn.getTag().equals("4")) {
+						im_screenOn.setImageResource(R.drawable.checkbox_fill);
+						im_screenOn.setTag("3");
+						shPrefEditor.putInt("ScreenOn", 1);
+
+					} else {
+						im_screenOn.setImageResource(R.drawable.checkbox);
+						im_screenOn.setTag("4");
+						shPrefEditor.putInt("ScreenOn", 0);
 					}
 
 				}
@@ -2671,8 +2795,10 @@ private void initializeSeekBar()
 				chooseTochenLang.setText("בחירת תוכן השפות בספרים");
 				chooseSize.setText("קביעת גודל טקסט");
 				exm.setText("פניני הלכה");
-				blackScreen.setText("החשכת מסך");
+				blackScreen.setText("חשוך");
+				brightScreen.setText("בחירת מצב תצוגה:   בהיר");
 				lastLoc.setText("בפתיחת האפליקציה דלג למיקום אחרון");
+				screenOn.setText("ביטול החשכת מסך");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
 			}
@@ -2690,7 +2816,9 @@ private void initializeSeekBar()
 				chooseTochenLang.setText("Выбор языка книг");
 				chooseSize.setText("Выбрать размер текста");
 				exm.setText("Жемчужины Галахи");
-				blackScreen.setText("Темная тема");
+				blackScreen.setText("темный");
+				brightScreen.setText("яркий   :Режим отображения");
+				screenOn.setText("Темная тема отмена");
 				lastLoc.setText("При загрузке приложения возвращаться на последнее место чтения");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
@@ -2710,7 +2838,9 @@ private void initializeSeekBar()
 				chooseTochenLang.setText("Selección del contenido de los idiomas en los libros.");
 				chooseSize.setText("Establecer tamaño de texto");
 				exm.setText("Pninei Halaja");
-				blackScreen.setText("Oscurecimiento de pantalla");
+				blackScreen.setText("oscura");
+				brightScreen.setText("brillante   :modo de visualización");
+				screenOn.setText("cancelar el sueño del monitor");
 				lastLoc.setText("Al abrir la aplicación, salta a la última ubicación");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
@@ -2729,7 +2859,9 @@ private void initializeSeekBar()
 				chooseTochenLang.setText("Selecting the content of the languages in the books");
 				chooseSize.setText("Set text size");
 				exm.setText("Pninei Halakha");
-				blackScreen.setText("Darken Screen");
+				blackScreen.setText("Dark");
+				screenOn.setText("Cancel monitor sleep");
+				brightScreen.setText("bright   :Display mode selection");
 				lastLoc.setText("When opening the app, skip to the last location");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
@@ -2748,7 +2880,9 @@ private void initializeSeekBar()
 				chooseTochenLang.setText("Selection du contenu des langues des livres");
 				chooseSize.setText("Définir la taille du texte");
 				exm.setText("Pninei Halakha");
-				blackScreen.setText("Assombrir l'écran");
+				blackScreen.setText("foncée");
+				screenOn.setText("Annuler mode veille");
+				brightScreen.setText("brillante   :mode d'affichage");
 				lastLoc.setText("À l'ouverture de l'application, passez directement au dernier emplacement visité");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();

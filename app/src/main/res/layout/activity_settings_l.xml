@@ -213,7 +213,7 @@
 			android:textStyle="bold" />
 
 		<LinearLayout
-			android:id="@+id/lnrOption6"
+			android:id="@+id/lnrOption8"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:background="#FFFFFF"
@@ -232,6 +232,27 @@
 			<TextView
 				android:id="@+id/blackScreen"
 				android:layout_width="202dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="right"
+				android:layout_marginTop="10dp"
+				android:scaleX="0.7"
+				android:scaleY="0.7"
+				android:text="החשכת מסך"
+				android:textSize="20sp"
+				android:textStyle="bold" />
+			<ImageView
+				android:id="@+id/im_black_screen2"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:scaleX="0.8"
+				android:scaleY="0.8"
+				android:tag="4"
+				app:srcCompat="@drawable/check" />
+
+			<TextView
+				android:id="@+id/blackScreen2"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="right"
 				android:layout_marginTop="10dp"

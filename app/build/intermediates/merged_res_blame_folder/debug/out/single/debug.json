@@ -440,6 +440,10 @@
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-ldpi\\big_rec.png"
     },
     {
+        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable_checkbox_fill.png.flat",
+        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable\\checkbox_fill.png"
+    },
+    {
         "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-anydpi-v21_ic_go_donate.xml.flat",
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-pngs-14:\\drawable-anydpi-v21\\ic_go_donate.xml"
     },
@@ -606,6 +610,10 @@
     {
         "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable_voice2.png.flat",
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable\\voice2.png"
+    },
+    {
+        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable_checkbox.png.flat",
+        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable\\checkbox.png"
     },
     {
         "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-anydpi-v21_ic_my_marks.xml.flat",
@@ -928,6 +936,10 @@
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable\\my_last_location.png"
     },
     {
+        "merged": "com.rafraph.pnineyHalachaHashalem.app-merged_res-19:/layout_activity_about.xml.flat",
+        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/activity_about.xml"
+    },
+    {
         "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-xxxhdpi_baseline_forward_10_white_48.png.flat",
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-xxxhdpi\\baseline_forward_10_white_48.png"
     },
@@ -984,12 +996,12 @@
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-xxxhdpi\\baseline_skip_next_white_48.png"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\layout_text_main_audio.xml.flat",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\text_main_audio.xml"
-    },
-    {
         "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\layout_bookmarks.xml.flat",
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\bookmarks.xml"
+    },
+    {
+        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\layout_text_main_audio.xml.flat",
+        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\text_main_audio.xml"
     },
     {
         "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-xxhdpi_baseline_forward_10_white_48.png.flat",
@@ -1052,12 +1064,12 @@
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-hdpi\\baseline_replay_10_white_24.png"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\layout_new_home_en.xml.flat",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_home_en.xml"
-    },
-    {
         "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-hdpi_back_rec_14.png.flat",
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-hdpi\\back_rec_14.png"
+    },
+    {
+        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\layout_new_home_en.xml.flat",
+        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\new_home_en.xml"
     },
     {
         "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-ldpi_check.png.flat",
@@ -1336,10 +1348,6 @@
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-hdpi\\back_rec8.png"
     },
     {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\layout_activity_switch_modes.xml.flat",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_switch_modes.xml"
-    },
-    {
         "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-hdpi_fill_auto_scroll3.png.flat",
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-hdpi\\fill_auto_scroll3.png"
     },
@@ -1412,10 +1420,6 @@
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable-xxxhdpi\\baseline_skip_next_white_18.png"
     },
     {
-        "merged": "com.rafraph.pnineyHalachaHashalem.app-merged_res-19:/layout_activity_pnina_yomit.xml.flat",
-        "source": "com.rafraph.pnineyHalachaHashalem.app-main-21:/layout/activity_pnina_yomit.xml"
-    },
-    {
         "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable-hdpi_ic_quiz.png.flat",
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-pngs-14:\\drawable-hdpi\\ic_quiz.png"
     },
@@ -1466,10 +1470,6 @@
     {
         "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\drawable_background_list_item.xml.flat",
         "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\drawable\\background_list_item.xml"
-    },
-    {
-        "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\layout_activity_searchable.xml.flat",
-        "source": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-main-21:\\layout\\activity_searchable.xml"
     },
     {
         "merged": "C:\\Users\\barno\\.gradle\\daemon\\7.4\\com.rafraph.pnineyHalachaHashalem.app-merged_res-19:\\layout_text_main.xml.flat",

@@ -1210,6 +1210,8 @@ drawable big_rec
 drawable black_color
 drawable check
 drawable check_fill
+drawable checkbox
+drawable checkbox_fill
 drawable clear_btn
 drawable dark_big_rec
 drawable dark_rec
@@ -1418,11 +1420,13 @@ id baseline
 id beginOnFirstDraw
 id beginning
 id blackScreen
+id blackScreen2
 id blocking
 id bookname
 id books
 id bottom
 id bounce
+id brightScreen
 id buttonDeleteAll
 id buttonPanel
 id buy_books
@@ -1539,6 +1543,7 @@ id ifRoom
 id ignore
 id ignoreRequest
 id im_black_screen
+id im_black_screen2
 id im_en
 id im_es
 id im_es_down
@@ -1547,6 +1552,8 @@ id im_f_down
 id im_h
 id im_last_location
 id im_r
+id im_so
+id im_white_screen
 id image
 id include
 id info
@@ -1584,6 +1591,7 @@ id lnrOption4
 id lnrOption5
 id lnrOption6
 id lnrOption7
+id lnrOption8
 id lnrOptions
 id lvExp
 id main
@@ -1652,6 +1660,7 @@ id save_non_transition_alpha
 id save_scale_type
 id sawtooth
 id screen
+id screenOn
 id scroll
 id scrollIndicatorDown
 id scrollIndicatorUp

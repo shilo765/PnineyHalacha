@@ -450,7 +450,7 @@ public class HomePage extends Activity {
                 }
             }
         });
-        if(mPrefs.getString("Version", "").equals("4.1.14") == false)
+        if(mPrefs.getString("Version", "").equals("4.1.16") == false)
         {
 
             String version = null;

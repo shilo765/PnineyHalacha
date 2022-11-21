@@ -27,6 +27,9 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final TextView blackScreen;
 
   @NonNull
+  public final TextView brightScreen;
+
+  @NonNull
   public final TextView chooseSize;
 
   @NonNull
@@ -63,6 +66,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final ImageView imR;
 
   @NonNull
+  public final ImageView imSo;
+
+  @NonNull
+  public final ImageView imWhiteScreen;
+
+  @NonNull
   public final TextView langof;
 
   @NonNull
@@ -84,6 +93,9 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final LinearLayout lnrOption7;
 
   @NonNull
+  public final LinearLayout lnrOption8;
+
+  @NonNull
   public final LinearLayout lnrOptions;
 
   @NonNull
@@ -94,6 +106,9 @@ public final class ActivitySettingsBinding implements ViewBinding {
 
   @NonNull
   public final RadioGroup radios;
+
+  @NonNull
+  public final TextView screenOn;
 
   @NonNull
   public final SeekBar seekBar6;
@@ -108,18 +123,21 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final ImageView tooPy;
 
   private ActivitySettingsBinding(@NonNull RelativeLayout rootView, @NonNull TextView blackScreen,
-      @NonNull TextView chooseSize, @NonNull TextView chooseTochen, @NonNull ImageView dialogX,
-      @NonNull ImageView imBlackScreen, @NonNull ImageView imEn, @NonNull ImageView imEs,
-      @NonNull ImageView imEsDown, @NonNull ImageView imF, @NonNull ImageView imFDown,
-      @NonNull ImageView imH, @NonNull ImageView imLastLocation, @NonNull ImageView imR,
+      @NonNull TextView brightScreen, @NonNull TextView chooseSize, @NonNull TextView chooseTochen,
+      @NonNull ImageView dialogX, @NonNull ImageView imBlackScreen, @NonNull ImageView imEn,
+      @NonNull ImageView imEs, @NonNull ImageView imEsDown, @NonNull ImageView imF,
+      @NonNull ImageView imFDown, @NonNull ImageView imH, @NonNull ImageView imLastLocation,
+      @NonNull ImageView imR, @NonNull ImageView imSo, @NonNull ImageView imWhiteScreen,
       @NonNull TextView langof, @NonNull TextView lastLocation, @NonNull RelativeLayout layoutRoot,
       @NonNull LinearLayout lnrOption2, @NonNull LinearLayout lnrOption5,
       @NonNull LinearLayout lnrOption6, @NonNull LinearLayout lnrOption7,
-      @NonNull LinearLayout lnrOptions, @NonNull LinearLayout main, @NonNull ImageView myMarks,
-      @NonNull RadioGroup radios, @NonNull SeekBar seekBar6, @NonNull ImageView settings,
+      @NonNull LinearLayout lnrOption8, @NonNull LinearLayout lnrOptions,
+      @NonNull LinearLayout main, @NonNull ImageView myMarks, @NonNull RadioGroup radios,
+      @NonNull TextView screenOn, @NonNull SeekBar seekBar6, @NonNull ImageView settings,
       @NonNull TextView textSizeExm, @NonNull ImageView tooPy) {
     this.rootView = rootView;
     this.blackScreen = blackScreen;
+    this.brightScreen = brightScreen;
     this.chooseSize = chooseSize;
     this.chooseTochen = chooseTochen;
     this.dialogX = dialogX;
@@ -132,6 +150,8 @@ public final class ActivitySettingsBinding implements ViewBinding {
     this.imH = imH;
     this.imLastLocation = imLastLocation;
     this.imR = imR;
+    this.imSo = imSo;
+    this.imWhiteScreen = imWhiteScreen;
     this.langof = langof;
     this.lastLocation = lastLocation;
     this.layoutRoot = layoutRoot;
@@ -139,10 +159,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
     this.lnrOption5 = lnrOption5;
     this.lnrOption6 = lnrOption6;
     this.lnrOption7 = lnrOption7;
+    this.lnrOption8 = lnrOption8;
     this.lnrOptions = lnrOptions;
     this.main = main;
     this.myMarks = myMarks;
     this.radios = radios;
+    this.screenOn = screenOn;
     this.seekBar6 = seekBar6;
     this.settings = settings;
     this.textSizeExm = textSizeExm;
@@ -179,6 +201,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
       id = R.id.blackScreen;
       TextView blackScreen = ViewBindings.findChildViewById(rootView, id);
       if (blackScreen == null) {
+        break missingId;
+      }
+
+      id = R.id.brightScreen;
+      TextView brightScreen = ViewBindings.findChildViewById(rootView, id);
+      if (brightScreen == null) {
         break missingId;
       }
 
@@ -254,6 +282,18 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.im_so;
+      ImageView imSo = ViewBindings.findChildViewById(rootView, id);
+      if (imSo == null) {
+        break missingId;
+      }
+
+      id = R.id.im_white_screen;
+      ImageView imWhiteScreen = ViewBindings.findChildViewById(rootView, id);
+      if (imWhiteScreen == null) {
+        break missingId;
+      }
+
       id = R.id.langof;
       TextView langof = ViewBindings.findChildViewById(rootView, id);
       if (langof == null) {
@@ -292,6 +332,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.lnrOption8;
+      LinearLayout lnrOption8 = ViewBindings.findChildViewById(rootView, id);
+      if (lnrOption8 == null) {
+        break missingId;
+      }
+
       id = R.id.lnrOptions;
       LinearLayout lnrOptions = ViewBindings.findChildViewById(rootView, id);
       if (lnrOptions == null) {
@@ -313,6 +359,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
       id = R.id.radios;
       RadioGroup radios = ViewBindings.findChildViewById(rootView, id);
       if (radios == null) {
+        break missingId;
+      }
+
+      id = R.id.screenOn;
+      TextView screenOn = ViewBindings.findChildViewById(rootView, id);
+      if (screenOn == null) {
         break missingId;
       }
 
@@ -340,10 +392,11 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivitySettingsBinding((RelativeLayout) rootView, blackScreen, chooseSize,
-          chooseTochen, dialogX, imBlackScreen, imEn, imEs, imEsDown, imF, imFDown, imH,
-          imLastLocation, imR, langof, lastLocation, layoutRoot, lnrOption2, lnrOption5, lnrOption6,
-          lnrOption7, lnrOptions, main, myMarks, radios, seekBar6, settings, textSizeExm, tooPy);
+      return new ActivitySettingsBinding((RelativeLayout) rootView, blackScreen, brightScreen,
+          chooseSize, chooseTochen, dialogX, imBlackScreen, imEn, imEs, imEsDown, imF, imFDown, imH,
+          imLastLocation, imR, imSo, imWhiteScreen, langof, lastLocation, layoutRoot, lnrOption2,
+          lnrOption5, lnrOption6, lnrOption7, lnrOption8, lnrOptions, main, myMarks, radios,
+          screenOn, seekBar6, settings, textSizeExm, tooPy);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

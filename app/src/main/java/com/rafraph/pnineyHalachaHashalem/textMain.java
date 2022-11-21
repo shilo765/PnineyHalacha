@@ -1379,7 +1379,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		supportInvalidateOptionsMenu();
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
-		SleepScreen = mPrefs.getInt("SleepScreen", 1);
+		SleepScreen = mPrefs.getInt("ScreenOn", 1);
 
 		if(SleepScreen == 0)
 		{
@@ -1854,77 +1854,29 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		ArrayList<String> sections = new ArrayList<String>();
 		ArrayList<String> sections2 = new ArrayList<String>();
 		fileName = getClearUrl();
-
-
-		String[] splitString = fileName.split("/");
+		prefix = "file:///android_asset/";
+		fileNameOnly = fileName.substring(prefix.length());
+		fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
 
 		for(int i=1; i<=lastChapter[book_chapter[0]]; i++) {
 			try {
-				sections = new ArrayList<String>();
-					File file=null;
-					InputStream is=null;
-					switch (splitString[splitString.length-2])
-					{
-						case "EnglishBooks":
-							prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/";
-							fileNameOnly = fileName.substring(prefix.length());
-							fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
-							file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks/"+fileNameOnly);
-							is = new FileInputStream(file);
-							break;
-						case "RussianBooks":
-							prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/";
-							fileNameOnly = fileName.substring(prefix.length());
-							fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
-							file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks/"+fileNameOnly);
-							is = new FileInputStream(file);
-							break;
-						case "FrenchBooks":
-							prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/";
-							fileNameOnly = fileName.substring(prefix.length());
-							fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
-							file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks/"+fileNameOnly);
-							is = new FileInputStream(file);
-							break;
-						case "SpanishBooks":
-							prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/";
-							fileNameOnly = fileName.substring(prefix.length());
-							fileNameOnly = fileNameOnly.substring(0, fileNameOnly.lastIndexOf("_")+1);
-							file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks/"+fileNameOnly);
-							is = new FileInputStream(file);
-							break;
-						default:
-							prefix = "file:///android_asset/";
-							fileNameOnly = fileName.substring(prefix.length());
-							is = getAssets().open(fileNameOnly.split("_")[0]+"_"+i+".html");
-							break;
-					}
-				System.out.println(fileNameOnly.split("_")[0]+"_"+i);
+				InputStream is;
+				if (book_chapter[0] == KASHRUT_B)
+					is = getAssets().open(fileNameOnly+(i+19)+".html");
+				else
+					is = getAssets().open(fileNameOnly+i+".html");
 				int size = is.available();
 				byte[] buffer = new byte[size];
 				is.read(buffer);
-
 				is.close();
 				String input = new String(buffer);
 
 				Document doc = Jsoup.parse(input);
-
 				headers = doc.select("h2");
-				if(headers.size()==0){
-					headers = doc.select("p");
 
-					Elements NewHead = new Elements();
-					for(int k = 0; k < headers.size(); k++) {
-						if(headers.get(k).text().length()>1)
-							if(headers.get(k).text().charAt(1)=='.'||headers.get(k).text().charAt(2)=='.'||(MyLanguage==SPANISH&&(headers.get(k).text().charAt(1)==')'||headers.get(k).text().charAt(2)==')')))
-								NewHead.add(headers.get(k));
-					}
-					headers=NewHead;
-				}
-				System.out.println(headers.size());
-				for(j = 0; j < headers.size(); j++) {
-						sections.add(headers.get(j).text());
-				}
+				sections.clear();
+				for(j = 0; j < headers.size(); j++)
+					sections.add(headers.get(j).text());
 
 				String name;
 				if (book_chapter[0] == KASHRUT_B)
@@ -1932,11 +1884,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				else
 					name = "sections_"+i;
 
-
 				// Creating a new local copy of the current list.
 				ArrayList<String> newList = new ArrayList<>(sections);
-
-				int n=0;
 
 				ourIntent.putStringArrayListExtra(name, newList);
 

@@ -3,8 +3,8 @@
 3    package="com.rafraph.pnineyHalachaHashalem"
 4    android:hardwareAccelerated="true"
 5    android:installLocation="auto"
-6    android:versionCode="40113"
-7    android:versionName="4.1.13" >
+6    android:versionCode="40116"
+7    android:versionName="4.1.16" >
 8
 9    <uses-sdk
 10        android:minSdkVersion="16"
