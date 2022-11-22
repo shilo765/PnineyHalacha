@@ -2,15 +2,22 @@ package com.rafraph.pnineyHalachaHashalem;
 
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,18 +28,23 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -43,6 +55,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
@@ -90,29 +103,63 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private static final int HAR_SUCOT      = 21;
 	private static final int HAR_SHABAT     = 22;
 	private static final int HAR_SIMCHAT    = 23;
-	private static final int BOOKS_HEB_NUMBER	= 24;
+	private static final int BOOKS_HEB_NUMBER=24;
 	private static final int E_TEFILA       = 24;
 	private static final int E_PESACH       = 25;
 	private static final int E_ZMANIM       = 26;
 	private static final int E_WOMEN_PRAYER = 27;
 	private static final int E_SHABAT       = 28;
-	private static final int F_TEFILA       = 29;
-	private static final int S_SHABAT       = 30;
-	private static final int BOOKS_NUMBER	= 31;
+	private static final int E_YAMMIM 	    = 29;
+	private static final int E_MOADIM   	= 30;
+	private static final int E_SIMCHAT     	= 31;
+	private static final int S_SHABAT       = 32;
+	private static final int S_BRACHOT       =33;
+	private static final int S_MOADIM        =34;
+	private static final int S_YAMIM         =35;
+	private static final int S_PESACH        =36;
+	private static final int S_SIMCHAT       =37;
+	private static final int S_TFILA         =38;
+	private static final int S_TFILAT_NASHIM =39;
+	private static final int S_ZMANIM        =40;
+	private static final int R_HAAM         = 41;
+	private static final int R_SHABBAT      = 42;
+	private static final int R_YAMMIM       = 43;
+	private static final int R_SUCOT        = 44;
+	private static final int R_SIMCHAT      = 45;
+	private static final int R_MISHPHACHA   = 46;
+	private static final int R_PESACH       = 47;
+	private static final int R_MOADIM       = 48;
+	private static final int R_TEFILAT_NASHIM=49;
+	private static final int R_TFILA         =50;
+	private static final int R_ZMANIM        =51;
+	private static final int F_TEFILA         =52;
+	private static final int F_MOADIM        =53;
+	private static final int F_SUCOT         =54;
+	private static final int F_ZMANIM        =55;
+	private static final int F_SIMCHAT       =56;
+	private static final int F_PESACH        =57;
+	private static final int F_SHABBAT       =58;
+	private static final int F_YAMMIM        =59;
+	private static final int F_TFILAT_NASHIM =60;
+	private static final int BOOKS_NUMBER	= 61;
 
-	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30*/
-	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+	public static int scrollSpeed=-2;
+
+	/*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29   30  31  32  33  34  35  36  37  38  39  40  41  42  43  44 45  46  47  48  49  50  51  52  53  54 55  56  57  58  59  60*/
+	public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 10 , 13,  9, 30, 18, 13, 10, 16, 10, 26, 24, 17, 10, 30, 10, 8, 10, 10, 16, 13, 24, 26, 17, 26, 13, 8 ,17, 10, 16, 30, 10, 24  };
+	public int[] haveAudio={BRACHOT,HAAMVEHAAREZ,ZMANIM,TAHARAT,YAMIM,KASHRUT_A,KASHRUT_B,MOADIM,SUCOT,PESACH,SHVIIT,SIMCHAT,SHABAT,TEFILA,R_TFILA};
 	public Dialog dialogModes;
-
 	private static final int HEBREW	 = 0;
 	private static final int ENGLISH = 1;
 	private static final int RUSSIAN = 2;
 	private static final int SPANISH = 3;
 	private static final int FRENCH = 4;
-
+	public boolean isNotHeb=true;
+	public static  ImageView scroll;
+	public static Bundle extras;
 	WebView webview;
 	public static int[] book_chapter = new int[2];
-	boolean cameFromSearch = false, firstTime = true, ChangeChapter = false;
+	boolean cameFromSearch = false, firstTime = true, ChangeChapter = false,gi=false;
 	String searchPosition = null, sectionsForToast = null;
 	ImageButton bParagraphs, bSwitchModes, bNext_sec, bPrevious_sec, bNext_page, bPrevious_page, bFindNext, bFindPrevious;
 	LinearLayout llMainLayout;
@@ -152,7 +199,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public int API;
 	static public boolean jumpToSectionFlag = false;
 	public File localFile;
-	public int fontSize;
+
 
 	@TargetApi(Build.VERSION_CODES.KITKAT)
 	@SuppressLint("JavascriptInterface")
@@ -163,21 +210,280 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		final Context context = this;
+
+
+		setContentView(R.layout.text_main_down);
 		loadActivity();
+		if (BlackBackground == 1) {
+			webview.setWebViewClient(new WebViewClient() {
+				public void onPageFinished(WebView view, String url) {
+					view.loadUrl(
+							"javascript:document.body.style.setProperty(\"color\", \"white\");"
+					);
+				}
+			});
+			webview.setBackgroundColor(Color.BLACK);//black
+			//infView.setBackgroundColor(Color.BLACK);
+		}
+;
+
 
 	}//onCreate
+	@Override
+	protected void onDestroy() {
+		if (webview != null)
+			webview.destroy();
+		super.onDestroy();
+	}
+	@Override
+	public void onBackPressed() {
+		if(lnrFindOptions.getTag().equals("vis"))
+		{
+			lnrFindOptions.setVisibility(View.GONE);
+			lnrOptions.setVisibility(View.VISIBLE);
+			lnrFindOptions.setTag("from search");
+			webview.findAllAsync("sdafsdhgfsdagfhgdszgf");
+		}
+		if(lnrFindOptions.getTag().equals("from search"))
+		{
+			Class ourClass = null;
+			Intent ourIntent = null;
+			try {
+				ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+				//book_chapter[0]
 
+				shPrefEditor.putInt("expList", book_chapter[0]);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			ourIntent = new Intent(textMain.this, ourClass);
+			startActivity(ourIntent);
+		}
+
+		else {
+			Class ourClass = null;
+			Intent ourIntent = null;
+			try {
+				ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+				//book_chapter[0]
+
+				shPrefEditor.putInt("expList", book_chapter[0]);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			ourIntent = new Intent(textMain.this, ourClass);
+			ourIntent.putExtra("homePage", false);
+			ourIntent.putExtra("exp", book_chapter[0]);
+			startActivity(ourIntent);
+		}
+	}
+	public void loadWebview(String path, WebView webview)
+	{
+
+		final ProgressDialog downloadWait = ProgressDialog.show(textMain.this, "", "please wait");
+		new Thread() {
+			public void run() {
+				try {
+					textMain.this.runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							File file = new File(path);
+							if(file.exists())
+								webview.loadUrl(path);
+							else
+							{
+								switch (path.split("/")[path.split("/").length-2]) {
+									case "EnglishBooks":
+										unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/en.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks",path.split("/")[path.split("/").length-1]);
+										break;
+									case "RussianBooks":
+										unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/ru.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks",path.split("/")[path.split("/").length-1]);
+										break;
+									case "FrenchBooks":
+										unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/fr.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks",path.split("/")[path.split("/").length-1]);
+										break;
+									case "SpanishBooks":
+										unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/es.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks",path.split("/")[path.split("/").length-1]);
+										break;
+									default:
+										break;
+								}
+								webview.loadUrl(path);webview.loadUrl(path);
+
+								webview.setWebViewClient(new WebViewClient() {
+									public void onPageFinished(WebView view, String url) {
+										if (BlackBackground==1)
+										webview.loadUrl(
+												"javascript:document.body.style.setProperty(\"color\", \"white\");"
+										);
+									}
+								});
+
+							}
+
+						}
+					});
+				} catch (Exception e) {
+
+				}
+				downloadWait.dismiss();
+			}
+		}.start();
+
+	}
+
+	private static void unzip(String zipFile, String location,String specificFile) {
+		try {
+			File f = new File(location);
+			if (!f.isDirectory()) {
+				f.mkdirs();
+			}
+			ZipInputStream zin = new ZipInputStream(new FileInputStream(zipFile));
+			try {
+				ZipEntry ze = null;
+
+				while ((ze = zin.getNextEntry()) != null) {
+					String path = location + File.separator + ze.getName();
+
+					if(ze.getName().equals(specificFile)){
+						if (ze.isDirectory()) {
+							File unzipFile = new File(path);
+							if (!unzipFile.isDirectory()) {
+								unzipFile.mkdirs();
+							}
+						} else {
+							FileOutputStream fout = new FileOutputStream(path, false);
+
+							try {
+								for (int c = zin.read(); c != -1; c = zin.read()) {
+									fout.write(c);
+								}
+								zin.closeEntry();
+							} finally {
+								fout.close();
+							}
+						}
+					}
+				}
+			} finally {
+				zin.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	private void showPopupAutoScroolSettings(View v)
+	{
+		android.support.v7.view.ContextThemeWrapper ctw = new ContextThemeWrapper(textMain.this, R.style.CustomPopupTheme2);
+		PopupMenu popupMenu = new PopupMenu(ctw, v);
+		popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+			@Override
+			public void onDismiss(PopupMenu menu) {
+				scroll.setImageResource(R.drawable.auto_scrool);
+			}
+		});
+		String configHeaders[] = new String[12];
+
+			configHeaders[0] = "                                     ";
+			configHeaders[1] = "                                    0";
+			configHeaders[2] = "                                    1";
+			configHeaders[3] = "                                    2";
+			configHeaders[4] = "                                    3";
+			configHeaders[5] = "                                    4";
+			configHeaders[6] = "                                    5";
+			configHeaders[7] = "                                    6";
+			configHeaders[8] = "                                    7";
+			configHeaders[9] = "                                    8";
+			configHeaders[10] = "                                    9";
+			configHeaders[11] = "                                    10";
+
+
+		popupMenu.getMenu().add(0, 0, 0, configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
+		popupMenu.getMenu().add(0, 1, 1, configHeaders[1]);
+		popupMenu.getMenu().add(0, 2, 2, configHeaders[2]);
+		popupMenu.getMenu().add(0, 3, 3, configHeaders[3]);
+		popupMenu.getMenu().add(0, 4, 4, configHeaders[4]);
+		popupMenu.getMenu().add(0, 5, 5, configHeaders[5]);
+		popupMenu.getMenu().add(0, 6, 6, configHeaders[6]);
+		popupMenu.getMenu().add(0, 7, 7, configHeaders[7]);
+
+
+
+
+
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				WebSettings webSettings = webview.getSettings();
+				webSettings.setMinimumFontSize(mPrefs.getInt("fontSize",20));
+				switch (item.getItemId()) {
+					case 1:
+						scrollSpeed = -1;
+
+						break;
+					case 2:
+						scrollSpeed = 2;
+						runOnUiThread(mScrollDown);
+						break;
+					case 3:
+						scrollSpeed = 4;
+						runOnUiThread(mScrollDown);
+						break;
+					case 4:
+						scrollSpeed = 6;
+						runOnUiThread(mScrollDown);
+						break;
+					case 5:
+						scrollSpeed = 8;
+						runOnUiThread(mScrollDown);
+						break;
+					case 6:
+						scrollSpeed = 10;
+						runOnUiThread(mScrollDown);
+						break;
+					case 7:
+						scrollSpeed = 12;
+						runOnUiThread(mScrollDown);
+						break;
+					case 8:
+						scrollSpeed = 7;
+						runOnUiThread(mScrollDown);
+						break;
+					case 9:
+						scrollSpeed = 16;
+						runOnUiThread(mScrollDown);
+						break;
+					case 10:
+						scrollSpeed = 18;
+						runOnUiThread(mScrollDown);
+						break;
+					case 11:
+
+						scrollSpeed = 20;
+						runOnUiThread(mScrollDown);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}
+		});
+
+		popupMenu.show();
+	}
 	private void loadActivity()
 	{
+
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
-		cbAssistButtons = mPrefs.getInt("cbAssistButtons", 1);
+
 		MyLanguage = mPrefs.getInt("MyLanguage", 0);
 
-		if(cbAssistButtons==0)
-			setContentView(R.layout.text_main);
-		else
-			setContentView(R.layout.text_main_down);
+
+
+
+
 
 		firstTime = true;
 		book_chapter[0] = -1;
@@ -185,7 +491,347 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		int fromBookmarks = 0;
 		lnrOptions = (LinearLayout) findViewById(R.id.lnrOptions);
 		lnrFindOptions = (LinearLayout) findViewById(R.id.lnrFindOptions);
+		ImageView menu= (ImageView) findViewById(R.id.menu);
+		menu.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				android.support.v7.view.ContextThemeWrapper ctw = new ContextThemeWrapper(textMain.this, R.style.CustomPopupTheme);
+				PopupMenu popupMenu = new PopupMenu(ctw, v);
+				//popupMenu.
+
+				if(MyLanguage == ENGLISH) {
+					popupMenu.getMenu().add(0,-1,0,"Homepage");
+					popupMenu.getMenu().add(0,0,0,"Settings");
+					popupMenu.getMenu().add(0,1,0,"Books");
+					popupMenu.getMenu().add(0,2,0,"Daily Study");
+					popupMenu.getMenu().add(0,3,0,"Search");
+					popupMenu.getMenu().add(0,5,0,"Contact Us");
+					popupMenu.getMenu().add(0,6,0,"Purchasing books");
+					popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"About the series");
+					popupMenu.getMenu().add(0,9,0,"About");
+				}
+				else if(MyLanguage == RUSSIAN) {
+					popupMenu.getMenu().add(0,-1,0,"домашняя страница");
+					popupMenu.getMenu().add(0,0,0,"Настройки");
+					popupMenu.getMenu().add(0,1,0,"Книги");
+					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
+					popupMenu.getMenu().add(0,3,0,"Поиск");
+					popupMenu.getMenu().add(0,5,0,"Отзыв");
+					popupMenu.getMenu().add(0,6,0,"Список книг");
+					popupMenu.getMenu().add(0,7,0,"Спросить равина");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"О серии книг");
+					popupMenu.getMenu().add(0,9,0,"О приложении");
+				}
+				else if(MyLanguage == SPANISH) {
+					popupMenu.getMenu().add(0,-1,0,"Página principal");
+					popupMenu.getMenu().add(0,0,0,"Definiciones");
+					popupMenu.getMenu().add(0,1,0,"Libros");
+					popupMenu.getMenu().add(0,2,0,"Estudio diario");
+					popupMenu.getMenu().add(0,3,0,"Búsqueda");
+					popupMenu.getMenu().add(0,5,0,"Retroalimentación");
+					popupMenu.getMenu().add(0,6,0,"Compra de libros");
+					popupMenu.getMenu().add(0,7,0,"Pregúntale al rabino");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"En la serie");
+					popupMenu.getMenu().add(0,9,0,"Sobre");
+				}
+				else if(MyLanguage == FRENCH) {
+					popupMenu.getMenu().add(0,-1,0,"Page d'accueil");
+					popupMenu.getMenu().add(0,0,0,"Réglages");
+					popupMenu.getMenu().add(0,1,0,"Livres");
+					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
+					popupMenu.getMenu().add(0,3,0,"Recherche");
+					popupMenu.getMenu().add(0,5,0,"Contact Us");
+					popupMenu.getMenu().add(0,6,0,"Achat de livres");
+					popupMenu.getMenu().add(0,7,0,"Demander au rav");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"Sur la collection");
+					popupMenu.getMenu().add(0,9,0,"À propos");
+				}
+				else {/*this is the default*/
+					popupMenu.getMenu().add(0,-1,0,"דף הבית");
+					popupMenu.getMenu().add(0,0,0,"הגדרות");
+					popupMenu.getMenu().add(0,1,0,"ספרים");
+					popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
+					popupMenu.getMenu().add(0,3,0,"חיפוש");
+					popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
+					popupMenu.getMenu().add(0,5,0,"משוב");
+					popupMenu.getMenu().add(0,6,0,"רכישת ספרים");
+					popupMenu.getMenu().add(0,7,0,"שאל את הרב");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"על הסדרה");
+					popupMenu.getMenu().add(0,9,0,"אודות");
+				}
+				popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+				{
+
+					@Override
+					public boolean onMenuItemClick(MenuItem item)
+					{
+						Class ourClass = null;
+						Intent ourIntent;
+						Intent intent;
+						switch (item.getItemId())
+						{
+							case -1:/*Home page*/
+
+								try
+								{
+									ourClass = null;
+
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+									ourIntent = new Intent(textMain.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+							case 0:/*settings*/
+
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(textMain.this, ourClass);
+								ourIntent.putExtra("homePage", true);
+								shPrefEditor.putString("where", "textMain");
+								ourIntent.putExtra("book_chapter",extras.getIntArray("book_chapter") );
+								shPrefEditor.commit();
+								startActivity(ourIntent);
+								break;
+
+							case 1:/*to books*/
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(textMain.this, ourClass);
+								ourIntent.putExtra("homePage", false);
+								startActivity(ourIntent);
+								break;
+
+							case 2:/*pninaYomit*/
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(textMain.this, ourClass);
+								startActivity(ourIntent);
+								break;
+
+							case 3:/*search in all books*/
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(textMain.this, ourClass);
+								startActivity(ourIntent);
+
+								break;
+
+							case 4:/*acronyms*/
+								acronymsDecode();
+								break;
+
+							case 5:/*feedback*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+									ourIntent = new Intent(textMain.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+							case 6:/*buy books*/
+								intent = new Intent(Intent.ACTION_VIEW);
+								intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+
+								if(MyLanguage==FRENCH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/fr/"));
+								if(MyLanguage==RUSSIAN)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/ru/"));
+								if(MyLanguage==SPANISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/es/"));
+								if(MyLanguage==ENGLISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
+								startActivity(intent);
+								break;
+
+							case 7:/*ask the rav*/
+								intent = new Intent(Intent.ACTION_VIEW);
+								intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
+								startActivity(intent);
+								break;
+							case 8:/*about pninei*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About_p");
+									ourIntent = new Intent(textMain.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								//case 8:/*hascamot*/
+								//   hascamotDialog();
+								break;
+							case 9:/*about*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+									ourIntent = new Intent(textMain.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+
+
+							default:
+								break;
+						}
+						return true;
+					}
+				});
+
+				popupMenu.show();
+			}
+		});
 		final Context context = this;
+		ImageView searchPage=findViewById(R.id.page_search);
+		searchPage.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				innerSearch();
+			}
+		});
+		scroll=findViewById(R.id.auto_scrool);
+		scroll.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				scroll.setImageResource(R.drawable.fill_auto_scroll);
+				showPopupAutoScroolSettings(findViewById(R.id.auto_scrool));
+			}
+		});
+		ImageView addMark=findViewById(R.id.make_mark);
+		addMark.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				bookmarkDialog = new Dialog(context);
+				if(MyLanguage == ENGLISH)
+					bookmarkDialog.setContentView(R.layout.add_bookmark_english);
+				else if(MyLanguage == RUSSIAN)
+					bookmarkDialog.setContentView(R.layout.add_bookmark_russian);
+				else if(MyLanguage == SPANISH)
+					bookmarkDialog.setContentView(R.layout.add_bookmark_spanish);
+				else if(MyLanguage == FRENCH)
+					bookmarkDialog.setContentView(R.layout.add_bookmark_french);
+				else
+					bookmarkDialog.setContentView(R.layout.add_bookmark);
+				bookmarkDialog.setTitle("הוסף סימניה");
+
+				Button dialogButton = (Button) bookmarkDialog.findViewById(R.id.dialogButtonOK);
+				spinner1 = (Spinner) bookmarkDialog.findViewById(R.id.spinner1);
+				BookmarkName = (EditText) bookmarkDialog.findViewById(R.id.editTextBookmarkName);
+
+				// if button is clicked, close the custom dialog
+				dialogButton.setOnClickListener(new OnClickListener()
+				{
+					@Override
+					public void onClick(View v)
+					{
+						if(BookmarkName.getText().toString().equals(""))
+							Toast.makeText(getApplicationContext(),	"cant be empty", Toast.LENGTH_SHORT).show();
+						else
+						{
+							int index = 0, index_end = 0;
+						String bookmarkText = BookmarkName.getText().toString();
+						bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
+						/*		      bookmark name			book					chapter						scroll							fontSize*/
+						strBookmark = bookmarkText + "," + book_chapter[0] + "," + book_chapter[1] + "," + webview.getScrollY() + "," + mPrefs.getInt("fontSize",20)/*(webview.getScale()*100)*/;
+
+						Bookmarks = mPrefs.getString("Bookmarks", "");
+						if((index = Bookmarks.indexOf(bookmarkText))!=-1)/*if there is already bookmark with the same name override it*/
+						{
+							index_end = index;
+							for(int i=0; i<5; i++)
+							{
+								if(Bookmarks.indexOf(",", index_end+1) != -1)
+									index_end = Bookmarks.indexOf(",", index_end + 1);
+								else/*in case that this is the last bookmark*/
+									index_end = Bookmarks.length();
+							}
+							Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
+							if(MyLanguage == ENGLISH)
+								Toast.makeText(getApplicationContext(),	"Existing bookmark updated", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == RUSSIAN)
+								Toast.makeText(getApplicationContext(),	"Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == SPANISH)
+								Toast.makeText(getApplicationContext(),	"Marcador existente actualizado", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == FRENCH)
+								Toast.makeText(getApplicationContext(),	"Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
+							else
+								Toast.makeText(getApplicationContext(),	"הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
+						}
+						else
+						{
+							Bookmarks += "," + strBookmark;
+							if(MyLanguage == ENGLISH)
+								Toast.makeText(getApplicationContext(),	"New bookmark created", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == RUSSIAN)
+								Toast.makeText(getApplicationContext(),	"Создана новая закладка", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == SPANISH)
+								Toast.makeText(getApplicationContext(),	"Nuevo marcador creado", Toast.LENGTH_SHORT).show();
+							else if(MyLanguage == FRENCH)
+								Toast.makeText(getApplicationContext(),	"Nouveau signet créé", Toast.LENGTH_SHORT).show();
+							else
+								Toast.makeText(getApplicationContext(),	"סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
+						}
+						shPrefEditor.putString("Bookmarks", Bookmarks);
+						shPrefEditor.commit();
+						bookmarkDialog.dismiss();
+					}}
+				});
+
+				fillChaptersNames();
+				BookmarkName.setText(chaptersNames[book_chapter[0]][book_chapter[1]]);
+
+				addItemsOnSpinner();
+
+				spinner1.setOnItemSelectedListener(new OnItemSelectedListener()
+				{
+					boolean first=true;
+					public void onItemSelected(AdapterView<?> parent, View view, int pos,long id)
+					{
+						if (first==false)
+							BookmarkName.setText(parent.getItemAtPosition(pos).toString());
+						first = false;
+					}
+
+					public void onNothingSelected(AdapterView<?> arg0)
+					{
+						// do nothing
+					}
+				});
+
+				bookmarkDialog.show();
+			}
+		});
 
 		webview = (WebView) findViewById(R.id.webView1);
 		WebSettings webSettings = webview.getSettings();
@@ -203,16 +849,46 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		webview.setWebViewClient(new MyWebViewClient());
 
-		bParagraphs    = (ImageButton) findViewById(R.id.ibChapters);
-		bSwitchModes = (ImageButton) findViewById(R.id.switchModes);
+
+
+		bParagraphs    = (ImageButton) findViewById(R.id.to_main);
+		bSwitchModes = (ImageButton) findViewById(R.id.set_note);
 		bNext_sec      = (ImageButton) findViewById(R.id.ibNext);
 		bPrevious_sec  = (ImageButton) findViewById(R.id.ibPrevious);
 		bNext_page     = (ImageButton) findViewById(R.id.ibNextPage);
 		bPrevious_page = (ImageButton) findViewById(R.id.ibPreviousPage);
-		llMainLayout   = (LinearLayout) findViewById(R.id.llMainLayout);
+		llMainLayout   = (LinearLayout) findViewById(R.id.tooBooks);
 		lnrOptions     = (LinearLayout) findViewById(R.id.lnrOptions);
 		bFindNext      = (ImageButton) findViewById(R.id.ibFindNext);
 		bFindPrevious  = (ImageButton) findViewById(R.id.ibFindPrevious);
+		ImageView toMain = (ImageView) findViewById(R.id.too_main);
+
+		if(MyLanguage==ENGLISH)
+			toMain.setImageResource(R.drawable.to_main_e);
+		if(MyLanguage==RUSSIAN)
+			toMain.setImageResource(R.drawable.to_main_r);
+		if(MyLanguage==SPANISH)
+			toMain.setImageResource(R.drawable.to_main_s);
+		if(MyLanguage==FRENCH)
+			toMain.setImageResource(R.drawable.to_main_f);
+		toMain.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try
+				{
+					Class ourClass = null;
+					Intent ourIntent;
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+					ourIntent = new Intent(textMain.this, ourClass);
+					ourIntent.putExtra("goLast",false);
+					startActivity(ourIntent);
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
 
 		bParagraphs.setOnClickListener(this);
 		bSwitchModes.setOnClickListener(this);
@@ -255,8 +931,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						"<head>";
 				if(BlackBackground == 0)
 					content += "<body>";//White background
-				else if(BlackBackground == 1)
+				else if(BlackBackground == 1) {
 					content += "<body style=\"background-color:black;color:white\">";//Black background
+				}
 				ParseTheDoc();
 				headers = doc.select("div#ftn"+note_id);
 				note = headers.get(0).text();
@@ -272,7 +949,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				}
 
 				webviewNote.loadData(content, "text/html; charset=utf-8", "UTF-8");
-				webSettingsNote.setDefaultFontSize(fontSize);
+				webSettingsNote.setDefaultFontSize(mPrefs.getInt("fontSize",20));
 				dialog.show();
 
 				dialog.setOnCancelListener(new DialogInterface.OnCancelListener()
@@ -282,7 +959,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					{
 						//do whatever you want the back key to do
 						dialog.dismiss();
-						scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
+						//scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
 					}
 				});
 			}
@@ -294,6 +971,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			public void run()
 			{
 				// your code here
+
 				try
 				{
 					if ((isConnected())) {
@@ -301,14 +979,16 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						Intent ourIntent = new Intent(textMain.this, ourClass);
 
 						ourIntent.putExtra("audio_id", Integer.parseInt(audio_id));
-			ourIntent.putExtra("book_id", book_chapter[0]);
-									ourIntent.putExtra("chapter_id", book_chapter[1]);
+						ourIntent.putExtra("cameFromText", true);
+						ourIntent.putExtra("MyLanguage", MyLanguage);
+						ourIntent.putExtra("book_id", book_chapter[0]);
+						ourIntent.putExtra("chapter_id", book_chapter[1]);
 						ourIntent.putExtra("chapter_id", book_chapter[1]);
 						ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
 						//ourIntent.putExtra("webLink", localFile.getPath());
 						ourIntent.putExtra("scroolY", webview.getScrollY());
 						ourIntent.putExtra("hearAndRead", false);
-						ourIntent.putExtra("fontSize", fontSize);
+
 						findAllHeaders(ourIntent);
 						startActivity(ourIntent);
 					}
@@ -327,7 +1007,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			@JavascriptInterface
 			public void performClick(String id)
 			{
-				scrollSpeed = 0;
+				//scrollSpeed = 0;
 				setNoteId(id);
 				runOnUiThread(runnableNote);
 			}
@@ -348,34 +1028,139 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
-
+		if(BlackBackground==1)
+		{
+			toMain= (ImageView) findViewById(R.id.too_main);
+			ImageView makeMark= (ImageView) findViewById(R.id.make_mark);
+			ImageView pageSearch= (ImageView) findViewById(R.id.page_search);
+			if(MyLanguage==ENGLISH)
+				toMain.setImageResource(R.drawable.to_main_b_e);
+			if(MyLanguage==RUSSIAN)
+				toMain.setImageResource(R.drawable.to_main_b_r);
+			if(MyLanguage==SPANISH)
+				toMain.setImageResource(R.drawable.to_main_b_s);
+			if(MyLanguage==FRENCH)
+				toMain.setImageResource(R.drawable.to_main_b_f);
+			if(MyLanguage==HEBREW)
+				toMain.setImageResource(R.drawable.to_main_b);
+			LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+			ImageView menu2= (ImageView) findViewById(R.id.menu);
+			TextView bookName= (TextView) findViewById(R.id.bookname);
+			bookName.setTextColor(Color.WHITE);
+			menu2.setImageResource(R.drawable.ic_action_congif_b);
+			makeMark.setImageResource(R.drawable.make_bookmark_b);
+			searchPage.setImageResource(R.drawable.page_search_b);
+			main.setBackgroundColor(Color.rgb(120,1,1));
+		}
 
 		inflater = getMenuInflater();
 		textActionBar = getSupportActionBar();
-		Bundle extras = getIntent().getExtras();
+		extras = getIntent().getExtras();
 		if (extras != null)
 		{
 			cameFromSearch = extras.getBoolean("cameFromSearch",false);
 			searchPosition = extras.getString("searchPosition");
+			String searchText = extras.getString("searchText");
 			if(extras.getIntArray("book_chapter") != null)
 				book_chapter = extras.getIntArray("book_chapter");
 			sectionsForToast = extras.getString("sectionsForToast");
 			if(cameFromSearch == true)
 			{
+				TextView nameBook= findViewById(R.id.bookname);
+				nameBook.setText(searchText);
 				query = extras.getString("query");
 				findBookAndChapter();
-				webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
+
+				//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
+				if(isNotHeb)
+					loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
+
+
+				System.out.println(query);
+				//String s=query.split("l")[2];
 				scrollY = 0;
 				lnrFindOptions.setVisibility(View.VISIBLE);
+				lnrOptions.setVisibility(View.INVISIBLE);
+				lnrFindOptions.setTag("vis");
+				webview.findAllAsync(" "+query+" ");
+				webview.setFindListener(new WebView.FindListener() {
+
+				@Override
+				public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+					if(numberOfMatches==0) {
+						webview.findAllAsync(" " + query + ",");
+						webview.setFindListener(new WebView.FindListener() {
+
+							@Override
+							public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+								if (numberOfMatches == 0) {
+									webview.findAllAsync("," + query + " ");
+									webview.setFindListener(new WebView.FindListener() {
+
+										@Override
+										public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+											if (numberOfMatches == 0) {
+												webview.findAllAsync(query);
+												webview.setFindListener(new WebView.FindListener() {
+
+													@Override
+													public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+														if (numberOfMatches == 0) {
+															webview.findAllAsync(" " + query + "ם");
+															webview.setFindListener(new WebView.FindListener() {
+
+																@Override
+																public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+																	if (numberOfMatches == 0) {
+																		webview.findAllAsync(" " + query + "הם");
+																		webview.setFindListener(new WebView.FindListener() {
+
+																			@Override
+																			public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+																				if (numberOfMatches == 0) {
+																					webview.findAllAsync(" " + query + "יהם");
+																				}
+																			}
+																		});
+																	}
+																}
+															});
+														}
+													}
+												});
+											}
+										}
+									});
+								}
+							}
+						});
+					}
+
+				}
+			});
+
 			}
 			else
 			{
 				lnrFindOptions.setVisibility(View.GONE);
+				lnrFindOptions.setTag("gone");
 				book_chapter = extras.getIntArray("book_chapter");
+				TextView nameBook= findViewById(R.id.bookname);
+				if(convertBookIdToName(book_chapter[0]).equals("לא ידוע"))
+					nameBook.setText(mPrefs.getString("book_name","לא ידוע"));
+				else {
+					shPrefEditor.putString("book_name", convertBookIdToName(book_chapter[0])+" , "+ convertAnchorIdToSection(book_chapter[1]));
+					if(book_chapter[0]<19)
+						nameBook.setText(convertBookIdToName(book_chapter[0])+" , "+ convertAnchorIdToSection(book_chapter[1]));
+					else
+						nameBook.setText(convertBookIdToName(book_chapter[0])+" , "+ book_chapter[1]);
+				}
+
 				fromBookmarks = extras.getInt("fromBookmarks");
 				if(fromBookmarks == 1)/*came from bookmarks*/
 				{
-					webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
+					//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
+					loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
 					scrollY = extras.getInt("bookmarkScrollY");
 				}
 				else if(book_chapter != null)
@@ -385,27 +1170,28 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						bookmark = true;
 						book_chapter[0] = mPrefs.getInt("book", 0);
 						book_chapter[1] = mPrefs.getInt("chapter", 0);
-						webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
+						//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
+						loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
 						scrollY = mPrefs.getInt("scrollY", 0);
 					}
 					else/*the regular choice of chapter*/
 					{
 						bookmark = false;
 						scrollY = 0;
-						webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
+						//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
+						loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
 					}
 				}
 			}
 		}
-		fontSize = mPrefs.getInt("fontSize", 20);
-		if(fontSize > 50)
-			fontSize = 20;
-		webSettings.setDefaultFontSize(fontSize);
+
+		webSettings.setMinimumFontSize(mPrefs.getInt("fontSize",20));
 
 		if(book_chapter[1] == lastChapter[book_chapter[0]])
 			bNext_sec.setEnabled(false);
 		else if(book_chapter[1] == 0)
 			bPrevious_sec.setEnabled(false);
+
 		webview.setWebChromeClient(new WebChromeClient()
 		{
 			@Override
@@ -419,6 +1205,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		});
 
+
 		final WebView wv = new WebView(this);
 		wv.post(new Runnable() {
 			@Override
@@ -426,7 +1213,18 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				wv.loadUrl(fileName);
 			}
 		});
-
+		webview.getSettings().setJavaScriptEnabled(true);
+		webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+		webview.setWebViewClient(new WebViewClient());
+		//webview.setWebChromeClient(new WebChromeClient());
+		//webSettings.setJavaScriptEnabled(true);
+		//webSettings.setPluginState(WebSettings.PluginState.ON);
+		//webview.loadUrl("https://ph.yhb.org.il/pninayomit/");
+		//webview.scrollTo(0,680);
+		//webSettings.setDomStorageEnabled(true);
+		int a;
+		if(!IntStream.of(haveAudio).anyMatch(x -> x ==book_chapter[0]))
+			bSwitchModes.setVisibility(View.GONE);
 
 	}
 
@@ -513,14 +1311,47 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		String input;
 
 		fileName = getClearUrl();
+		String[] splitString = fileName.split("/");
+
 		if ((fileName.equals(lastFileName) == false))
 		{
 			lastFileName = fileName;
-			prefix = "file:///android_asset/";
-			fileNameOnly = fileName.substring(prefix.length());
+
 			try
 			{
-				is = getAssets().open(fileNameOnly);
+				File file=null;
+				switch (splitString[splitString.length-2])
+				{
+					case "EnglishBooks":
+						prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/";
+						fileNameOnly = fileName.substring(prefix.length());
+						file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks/"+fileNameOnly);
+						is = new FileInputStream(file);
+						break;
+					case "RussianBooks":
+						prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/";
+						fileNameOnly = fileName.substring(prefix.length());
+						file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks/"+fileNameOnly);
+						is = new FileInputStream(file);
+						break;
+					case "FrenchBooks":
+						prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/";
+						fileNameOnly = fileName.substring(prefix.length());
+						file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks/"+fileNameOnly);
+						is = new FileInputStream(file);
+						break;
+					case "SpanishBooks":
+						prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/";
+						fileNameOnly = fileName.substring(prefix.length());
+						file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks/"+fileNameOnly);
+						is = new FileInputStream(file);
+						break;
+					default:
+						prefix = "file:///android_asset/";
+						fileNameOnly = fileName.substring(prefix.length());
+						is = getAssets().open(fileNameOnly);
+						break;
+				}
 				size = is.available();
 				buffer = new byte[size];
 				is.read(buffer);
@@ -548,7 +1379,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 		supportInvalidateOptionsMenu();
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
-		SleepScreen = mPrefs.getInt("SleepScreen", 1);
+		SleepScreen = mPrefs.getInt("ScreenOn", 1);
 
 		if(SleepScreen == 0)
 		{
@@ -573,7 +1404,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		shPrefEditor.putInt("book", book_chapter[0]);
 		shPrefEditor.putInt("chapter", book_chapter[1]);
 		shPrefEditor.putInt("scrollY", scrollY);
-		shPrefEditor.putInt("fontSize", fontSize);
+
 
 		shPrefEditor.commit();
 	}//onPaused
@@ -592,11 +1423,17 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		if(BlackBackground == 1)
 		{
 			textActionBar.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-			inflater.inflate(R.menu.actionbar_textmain_black, menu);
 
 			webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left\"); y[0].style.display = 'none';} myFunction(); ");
 			webview.setBackgroundColor(0xFFFFFF);//black
 			llMainLayout.setBackgroundColor(Color.BLACK);
+			webview.setWebViewClient(new WebViewClient() {
+				public void onPageFinished(WebView view, String url) {
+					webview.loadUrl(
+							"javascript:document.body.style.setProperty(\"color\", \"white\");"
+					);
+				}
+			});
 			textActionBar.setTitle(Html.fromHtml("<font color=\"#ffffff\">" + title + "</font>"));
 			bParagraphs.setImageDrawable(resources.getDrawable(R.drawable.ic_action_view_as_list));
 			bSwitchModes.setImageDrawable(resources.getDrawable(R.drawable.ic_action_switches_modes));
@@ -609,9 +1446,24 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				bFindNext.setImageDrawable(resources.getDrawable(R.drawable.ic_action_down_black));
 				bFindPrevious.setImageDrawable(resources.getDrawable(R.drawable.ic_action_up_black));
 			}
+			ImageView toMain= (ImageView) findViewById(R.id.too_main);
+			if(MyLanguage==ENGLISH)
+				toMain.setImageResource(R.drawable.to_main_b_e);
+			if(MyLanguage==RUSSIAN)
+				toMain.setImageResource(R.drawable.to_main_b_r);
+			if(MyLanguage==SPANISH)
+				toMain.setImageResource(R.drawable.to_main_b_s);
+			if(MyLanguage==FRENCH)
+				toMain.setImageResource(R.drawable.to_main_b_f);
+			if(MyLanguage==HEBREW)
+				toMain.setImageResource(R.drawable.to_main_b);
+			LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+			ImageView menu2= (ImageView) findViewById(R.id.menu);
+			menu2.setImageResource(R.drawable.ic_action_congif_b);
+			main.setBackgroundColor(Color.rgb(120,1,1));
 
 		} else {
-			inflater.inflate(R.menu.actionbar_textmain, menu);
+
 			textActionBar.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 			webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"black\";} myFunction(); ");
 			webview.setBackgroundColor(0x000000);//white
@@ -619,6 +1471,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			textActionBar.setTitle(Html.fromHtml("<font color=\"black\">" + title + "</font>"));
 			bParagraphs.setImageDrawable(resources.getDrawable(R.drawable.ic_action_view_as_list));
 			bSwitchModes.setImageDrawable(resources.getDrawable(R.drawable.ic_action_switches_modes));
+
 			bNext_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_next_item));
 			bPrevious_sec.setImageDrawable(resources.getDrawable(R.drawable.ic_action_previous_item));
 			bNext_page.setImageDrawable(resources.getDrawable(R.drawable.ic_action_down));
@@ -630,33 +1483,11 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		}
 
-		MenuInflater DownMenu = getMenuInflater();
-		if(MyLanguage == ENGLISH)
-			DownMenu.inflate(R.menu.down_menu_english, menu);
-		else if(MyLanguage == RUSSIAN)
-			DownMenu.inflate(R.menu.down_menu_russian, menu);
-		else if(MyLanguage == SPANISH)
-			DownMenu.inflate(R.menu.down_menu_spanish, menu);
-		else if(MyLanguage == FRENCH)
-			DownMenu.inflate(R.menu.down_menu_french, menu);
-		else
-			DownMenu.inflate(R.menu.down_menu, menu);
+
 		return true;
 	}//onCreateOptionsMenu
 
-	public void onBackPressed()
-	{
-		if(fullScreenFlag == 1)
-		{
-			fullScreenFlag = 0;
-			getSupportActionBar().show();
-			lnrOptions.setVisibility(View.VISIBLE);
-		}
-		else
-		{
-			super.onBackPressed();
-		}
-	}
+
 
 	public void onConfigurationChanged(Configuration newConfig)
 	{
@@ -696,24 +1527,19 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		}
 	}
 
-	int scrollSpeed=1;
+
 	private Handler mHandler=new Handler();
 	public Runnable mScrollDown = new Runnable()
 	{
-		public void run()
-		{
-			if(scrollSpeed == 0) // in case of note opened
-			{
-				mHandler.postDelayed(this, 200);
-			}
-			else if(scrollSpeed == -1) // in case that "stop" pressed
+		public void run() {
+
+			if (scrollSpeed == -1) // in case that "stop" pressed
 			{
 				webview.scrollBy(0, 0);
-			}
-			else
-			{
+			} else {
 				webview.scrollBy(0, 1);
-				mHandler.postDelayed(this, 200/scrollSpeed);
+				mHandler.removeCallbacks(this);
+				mHandler.postDelayed(this, 200 / scrollSpeed);
 			}
 		}
 	};
@@ -724,79 +1550,44 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	{
 		String currentChapter;
 		// TODO Auto-generated method stub
+
 		switch(view.getId())
 		{
-			case R.id.ibChapters:
+			case R.id.to_main:
 				findHeaders();
 				showPopupMenu(view);
 				break;
 
-			case R.id.switchModes:
-
-
-
-
-
-				final Context context = this;
-				dialogModes = new Dialog(context);
-				dialogModes.setTitle("בחר מצב משתמש");
-				dialogModes.setContentView(R.layout.activity_switch_modes);
-				Button hearAndReadBtn = (Button) dialogModes.findViewById(R.id.hearAndReadBtn);
-				Button hearBtn = (Button) dialogModes.findViewById(R.id.hearBtn);
-				hearAndReadBtn.setOnClickListener(new View.OnClickListener()
-				{
-					@Override
-					public void onClick(View v)
-					{
-						try {
-							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
-							Intent ourIntent = new Intent(textMain.this,ourClass);
-							ourIntent.putExtra("audio_id", Integer.parseInt("1"));
-							ourIntent.putExtra("book_id", book_chapter[0]);
-							ourIntent.putExtra("chapter_id", book_chapter[1]);
-							ourIntent.putExtra("chapter_id", book_chapter[1]);
-							ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
-							ourIntent.putExtra("hearAndRead", true);
-							ourIntent.putExtra("Mylanguage", MyLanguage);
-							ourIntent.putExtra("scroolY", 0);
-							ourIntent.putExtra("fontSize", fontSize);
-							findAllHeaders(ourIntent);
-							startActivity(ourIntent);
-							dialogModes.dismiss();
-						} catch (ClassNotFoundException e) {
-							e.printStackTrace();
-						}
-
-
+			case R.id.set_note:
+				boolean enterForIf=false;
+				for (int i: haveAudio)
+				if(i==book_chapter[0]){
+					enterForIf=true;
+					final Context context = this;
+					Class ourClass = null;
+					try {
+						ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
 					}
-				});
-				hearBtn.setOnClickListener(new View.OnClickListener()
-				{
-					@Override
-					public void onClick(View v)
+					catch (ClassNotFoundException e)
 					{
-						try {
-							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
-							Intent ourIntent = new Intent(textMain.this,ourClass);
-							ourIntent.putExtra("audio_id", Integer.parseInt("1"));
-							ourIntent.putExtra("book_id", book_chapter[0]);
-							ourIntent.putExtra("chapter_id", book_chapter[1]);
-							ourIntent.putExtra("chapter_id", book_chapter[1]);
-							ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
-							ourIntent.putExtra("hearAndRead", false);
-							ourIntent.putExtra("Mylanguage", MyLanguage);
-
-							ourIntent.putExtra("scroolY",0);
-							ourIntent.putExtra("fontSize", 18);
-							findAllHeaders(ourIntent);
-							startActivity(ourIntent);
-							dialogModes.dismiss();
-						} catch (ClassNotFoundException e) {
-							e.printStackTrace();
-						}
+						e.printStackTrace();
 					}
-				});
-				dialogModes.show();
+					Intent ourIntent = new Intent(textMain.this,ourClass);
+					ourIntent.putExtra("cameFromText", true);
+					ourIntent.putExtra("audio_id", Integer.parseInt("1"));
+					ourIntent.putExtra("book_id", book_chapter[0]);
+					ourIntent.putExtra("chapter_id", book_chapter[1]);
+					ourIntent.putExtra("chapter_id", book_chapter[1]);
+					ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
+					ourIntent.putExtra("hearAndRead", true);
+					ourIntent.putExtra("MyLanguage", MyLanguage);
+					ourIntent.putExtra("scroolY", webview.getScrollY());
+
+					findAllHeaders(ourIntent);
+					startActivity(ourIntent);
+				}
+				if(!enterForIf)
+					Toast.makeText(getApplicationContext(),	"לספר זה אין שמע", Toast.LENGTH_SHORT).show();
 
 
 				break;
@@ -807,15 +1598,27 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				currentChapter = getClearUrl();
 				getTheArrayLocation(currentChapter);
 				book_chapter[1] += 1;
-				webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
-				title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
+				TextView bookName= (TextView) findViewById(R.id.bookname);
+				//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
+				loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
+				if(book_chapter[1] == 0) {
+					title = convertBookIdToName(book_chapter[0]);
+					bookName.setText(title);
+				}
+				else {
+					if(book_chapter[0]<19)
+						title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
+					else
+						title = convertBookIdToName(book_chapter[0]) + ": " + book_chapter[1];
+					bookName.setText(title);
+				}
 				if(book_chapter[1] == lastChapter[book_chapter[0]])
 					bNext_sec.setEnabled(false);
 				else
 					bPrevious_sec.setEnabled(true);
 				ChangeChapter = true;
 
-				shPrefEditor.putInt("fontSize", fontSize);/*in order to keep the fontSize when moving to next chapter*/
+				/*in order to keep the fontSize when moving to next chapter*/
 
 				break;
 
@@ -824,19 +1627,28 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				scrollY = 0;/*In order to jump to the beginning of the chapter*/
 				currentChapter = getClearUrl();
 				getTheArrayLocation(currentChapter);
+				bookName= (TextView) findViewById(R.id.bookname);
 				book_chapter[1] -= 1;
-				webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
-				if(book_chapter[1] == 0)
+				//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
+				loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
+				if(book_chapter[1] == 0) {
 					title = convertBookIdToName(book_chapter[0]);
-				else
-					title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
+					bookName.setText(title);
+				}
+				else {
+					if(book_chapter[0]<19)
+						title = convertBookIdToName(book_chapter[0]) + ": " + convertAnchorIdToSection(book_chapter[1]);
+					else
+						title = convertBookIdToName(book_chapter[0]) + ": " + book_chapter[1];
+					bookName.setText(title);
+				}
 				if(book_chapter[1] == 0)
 					bPrevious_sec.setEnabled(false);
 				else
 					bNext_sec.setEnabled(true);
 				ChangeChapter = true;
 
-				shPrefEditor.putInt("fontSize", fontSize);/*in order to keep the fontSize when moving to next chapter*/
+
 				break;
 
 			case R.id.ibNextPage:
@@ -849,6 +1661,8 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 			case R.id.ibFindNext:
 				webview.findNext(true);
+
+
 				break;
 
 			case R.id.ibFindPrevious:
@@ -863,131 +1677,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		final Context context = this;
 
 		// TODO Auto-generated method stub
-		switch (item.getItemId())
-		{
-			case R.id.action_search:
-				innerSearch();
-				break;
-			case R.id.action_add_bookmark:
-				// custom dialog
-				bookmarkDialog = new Dialog(context);
-				if(MyLanguage == ENGLISH)
-					bookmarkDialog.setContentView(R.layout.add_bookmark_english);
-				else if(MyLanguage == RUSSIAN)
-					bookmarkDialog.setContentView(R.layout.add_bookmark_russian);
-				else if(MyLanguage == SPANISH)
-					bookmarkDialog.setContentView(R.layout.add_bookmark_spanish);
-				else if(MyLanguage == FRENCH)
-					bookmarkDialog.setContentView(R.layout.add_bookmark_french);
-				else
-					bookmarkDialog.setContentView(R.layout.add_bookmark);
-				bookmarkDialog.setTitle("הוסף סימניה");
 
-				Button dialogButton = (Button) bookmarkDialog.findViewById(R.id.dialogButtonOK);
-				spinner1 = (Spinner) bookmarkDialog.findViewById(R.id.spinner1);
-				BookmarkName = (EditText) bookmarkDialog.findViewById(R.id.editTextBookmarkName);
-
-				// if button is clicked, close the custom dialog
-				dialogButton.setOnClickListener(new OnClickListener()
-				{
-					@Override
-					public void onClick(View v)
-					{
-						int index = 0, index_end = 0;
-						String bookmarkText = BookmarkName.getText().toString();
-						bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
-						/*		      bookmark name			book					chapter						scroll							fontSize*/
-						strBookmark = bookmarkText + "," + book_chapter[0] + "," + book_chapter[1] + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
-
-						Bookmarks = mPrefs.getString("Bookmarks", "");
-						if((index = Bookmarks.indexOf(bookmarkText))!=-1)/*if there is already bookmark with the same name override it*/
-						{
-							index_end = index;
-							for(int i=0; i<5; i++)
-							{
-								if(Bookmarks.indexOf(",", index_end+1) != -1)
-									index_end = Bookmarks.indexOf(",", index_end + 1);
-								else/*in case that this is the last bookmark*/
-									index_end = Bookmarks.length();
-							}
-							Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
-							if(MyLanguage == ENGLISH)
-								Toast.makeText(getApplicationContext(),	"Existing bookmark updated", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == RUSSIAN)
-								Toast.makeText(getApplicationContext(),	"Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == SPANISH)
-								Toast.makeText(getApplicationContext(),	"Marcador existente actualizado", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == FRENCH)
-								Toast.makeText(getApplicationContext(),	"Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
-							else
-								Toast.makeText(getApplicationContext(),	"הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
-						}
-						else
-						{
-							Bookmarks += "," + strBookmark;
-							if(MyLanguage == ENGLISH)
-								Toast.makeText(getApplicationContext(),	"New bookmark created", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == RUSSIAN)
-								Toast.makeText(getApplicationContext(),	"Создана новая закладка", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == SPANISH)
-								Toast.makeText(getApplicationContext(),	"Nuevo marcador creado", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == FRENCH)
-								Toast.makeText(getApplicationContext(),	"Nouveau signet créé", Toast.LENGTH_SHORT).show();
-							else
-								Toast.makeText(getApplicationContext(),	"סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
-						}
-						shPrefEditor.putString("Bookmarks", Bookmarks);
-						shPrefEditor.commit();
-						bookmarkDialog.dismiss();
-					}
-				});
-
-				fillChaptersNames();
-				BookmarkName.setText(chaptersNames[book_chapter[0]][book_chapter[1]]);
-
-				addItemsOnSpinner();
-
-				spinner1.setOnItemSelectedListener(new OnItemSelectedListener()
-				{
-					boolean first=true;
-					public void onItemSelected(AdapterView<?> parent, View view, int pos,long id)
-					{
-						if (first==false)
-							BookmarkName.setText(parent.getItemAtPosition(pos).toString());
-						first = false;
-					}
-
-					public void onNothingSelected(AdapterView<?> arg0)
-					{
-						// do nothing
-					}
-				});
-
-				bookmarkDialog.show();
-
-				break;
-			case R.id.action_config:
-				showPopupMenuSettings(findViewById(R.id.action_config));
-				break;
-
-			case R.id.play:
-				scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
-				runOnUiThread(mScrollDown);
-				break;
-
-			case R.id.stop:
-				scrollSpeed = -1;
-				break;
-
-			case R.id.autoScrollSpeed:
-				autoScrollSpeedDialog();
-				break;
-			default:
-				break;
-		}
 
 		return true;
 		//return super.onOptionsItemSelected(item);
@@ -1033,12 +1725,19 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			@Override
 			public boolean onMenuItemClick(MenuItem item)
 			{
-				int id = item.getItemId()+1;
-				String s=fileName+ "#" + id;
-				String s2=fileName+ "#" + (id+1);
-				webview.loadUrl(s2);/*Workaround to fix the bug of jumping to same anchor twice*/
-				webview.loadUrl(s);
-				jumpToSectionFlag = true;
+				if(MyLanguage!=HEBREW&& MyLanguage!=ENGLISH) {
+					webview.findAllAsync(item.toString().trim());
+					webview.clearMatches();
+				}
+				else {
+					int id = item.getItemId() + 1;
+					String s = fileName + "#" + id;
+					String s2 = fileName + "#" + (id + 1);
+					webview.loadUrl(s2);/*Workaround to fix the bug of jumping to same anchor twice*/
+					webview.loadUrl(s);
+					jumpToSectionFlag = true;
+					return true;
+				}
 				return true;
 			}
 		});
@@ -1049,12 +1748,48 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private void findHeaders()
 	{
 		String prefix;
+
 		fileName = getClearUrl();
-		prefix = "file:///android_asset/";
-		fileNameOnly = fileName.substring(prefix.length());
+		String[] splitString = fileName.split("/");
 		try
 		{
-			InputStream is = getAssets().open(fileNameOnly);
+			File file=null;
+			InputStream is=null;
+		switch (splitString[splitString.length-2])
+		{
+			case "EnglishBooks":
+				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/";
+				fileNameOnly = fileName.substring(prefix.length());
+				file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks/"+fileNameOnly);
+				is = new FileInputStream(file);
+				break;
+			case "RussianBooks":
+				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/";
+				fileNameOnly = fileName.substring(prefix.length());
+				file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks/"+fileNameOnly);
+				is = new FileInputStream(file);
+				break;
+			case "FrenchBooks":
+				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/";
+				fileNameOnly = fileName.substring(prefix.length());
+				file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks/"+fileNameOnly);
+				is = new FileInputStream(file);
+				break;
+			case "SpanishBooks":
+				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/";
+				fileNameOnly = fileName.substring(prefix.length());
+				file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks/"+fileNameOnly);
+				is = new FileInputStream(file);
+				break;
+			default:
+				prefix = "file:///android_asset/";
+				fileNameOnly = fileName.substring(prefix.length());
+				is = getAssets().open(fileNameOnly);
+				break;
+		}
+
+
+			//InputStream is = getAssets().open(fileNameOnly);
 			int size = is.available();
 			byte[] buffer = new byte[size];
 			is.read(buffer);
@@ -1063,6 +1798,24 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 			Document doc = Jsoup.parse(input);
 			headers = doc.select("h2");
+			if(headers.size()==0){
+				headers = doc.select("p");
+
+				Elements NewHead = new Elements();
+				for(int j = 0; j < headers.size(); j++) {
+					if(headers.get(j).text().length()>1)
+					if(headers.get(j).text().charAt(1)=='.'||headers.get(j).text().charAt(2)=='.'||(MyLanguage==SPANISH&&(headers.get(j).text().charAt(1)==')'||headers.get(j).text().charAt(2)==')')))
+						NewHead.add(headers.get(j));
+				}
+			headers=NewHead;
+			}
+
+
+//				if (headers.get(j).text().contains("Chapitre"))
+//					NewHead.add(headers.get(j + 1));
+//			}
+			//headers=NewHead;
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1398,6 +2151,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[SHABAT][28] = "file:///android_asset/shabat_28.html";
 		chaptersFiles[SHABAT][29] = "file:///android_asset/shabat_29.html";
 		chaptersFiles[SHABAT][30] = "file:///android_asset/shabat_30.html";
+
 		/*SIMCHAT*/
 		chaptersFiles[SIMCHAT][0] = "file:///android_asset/simchat_tochen.html";
 		chaptersFiles[SIMCHAT][1] = "file:///android_asset/simchat_1.html";
@@ -1565,188 +2319,740 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[HAR_SIMCHAT][8] = "file:///android_asset/har_simchat_8.html";
 		chaptersFiles[HAR_SIMCHAT][9] = "file:///android_asset/har_simchat_9.html";
 		chaptersFiles[HAR_SIMCHAT][10] = "file:///android_asset/har_simchat_10.html";
-		/*E_TEFILA*/
-		chaptersFiles[E_TEFILA][0] = "file:///android_asset/E_tefila_tochen.html";
-		chaptersFiles[E_TEFILA][1] = "file:///android_asset/E_tefila_1.html";
-		chaptersFiles[E_TEFILA][2] = "file:///android_asset/E_tefila_2.html";
-		chaptersFiles[E_TEFILA][3] = "file:///android_asset/E_tefila_3.html";
-		chaptersFiles[E_TEFILA][4] = "file:///android_asset/E_tefila_4.html";
-		chaptersFiles[E_TEFILA][5] = "file:///android_asset/E_tefila_5.html";
-		chaptersFiles[E_TEFILA][6] = "file:///android_asset/E_tefila_6.html";
-		chaptersFiles[E_TEFILA][7] = "file:///android_asset/E_tefila_7.html";
-		chaptersFiles[E_TEFILA][8] = "file:///android_asset/E_tefila_8.html";
-		chaptersFiles[E_TEFILA][9] = "file:///android_asset/E_tefila_9.html";
-		chaptersFiles[E_TEFILA][10] = "file:///android_asset/E_tefila_10.html";
-		chaptersFiles[E_TEFILA][11] = "file:///android_asset/E_tefila_11.html";
-		chaptersFiles[E_TEFILA][12] = "file:///android_asset/E_tefila_12.html";
-		chaptersFiles[E_TEFILA][13] = "file:///android_asset/E_tefila_13.html";
-		chaptersFiles[E_TEFILA][14] = "file:///android_asset/E_tefila_14.html";
-		chaptersFiles[E_TEFILA][15] = "file:///android_asset/E_tefila_15.html";
-		chaptersFiles[E_TEFILA][16] = "file:///android_asset/E_tefila_16.html";
-		chaptersFiles[E_TEFILA][17] = "file:///android_asset/E_tefila_17.html";
-		chaptersFiles[E_TEFILA][18] = "file:///android_asset/E_tefila_18.html";
-		chaptersFiles[E_TEFILA][19] = "file:///android_asset/E_tefila_19.html";
-		chaptersFiles[E_TEFILA][20] = "file:///android_asset/E_tefila_20.html";
-		chaptersFiles[E_TEFILA][21] = "file:///android_asset/E_tefila_21.html";
-		chaptersFiles[E_TEFILA][22] = "file:///android_asset/E_tefila_22.html";
-		chaptersFiles[E_TEFILA][23] = "file:///android_asset/E_tefila_23.html";
-		chaptersFiles[E_TEFILA][24] = "file:///android_asset/E_tefila_24.html";
-		chaptersFiles[E_TEFILA][25] = "file:///android_asset/E_tefila_25.html";
-		chaptersFiles[E_TEFILA][26] = "file:///android_asset/E_tefila_26.html";
-		/*E_PESACH*/
-		chaptersFiles[E_PESACH][0] = "file:///android_asset/E_pesach_tochen.html";
-		chaptersFiles[E_PESACH][1] = "file:///android_asset/E_pesach_1.html";
-		chaptersFiles[E_PESACH][2] = "file:///android_asset/E_pesach_2.html";
-		chaptersFiles[E_PESACH][3] = "file:///android_asset/E_pesach_3.html";
-		chaptersFiles[E_PESACH][4] = "file:///android_asset/E_pesach_4.html";
-		chaptersFiles[E_PESACH][5] = "file:///android_asset/E_pesach_5.html";
-		chaptersFiles[E_PESACH][6] = "file:///android_asset/E_pesach_6.html";
-		chaptersFiles[E_PESACH][7] = "file:///android_asset/E_pesach_7.html";
-		chaptersFiles[E_PESACH][8] = "file:///android_asset/E_pesach_8.html";
-		chaptersFiles[E_PESACH][9] = "file:///android_asset/E_pesach_9.html";
-		chaptersFiles[E_PESACH][10] = "file:///android_asset/E_pesach_10.html";
-		chaptersFiles[E_PESACH][11] = "file:///android_asset/E_pesach_11.html";
-		chaptersFiles[E_PESACH][12] = "file:///android_asset/E_pesach_12.html";
-		chaptersFiles[E_PESACH][13] = "file:///android_asset/E_pesach_13.html";
-		chaptersFiles[E_PESACH][14] = "file:///android_asset/E_pesach_14.html";
-		chaptersFiles[E_PESACH][15] = "file:///android_asset/E_pesach_15.html";
-		chaptersFiles[E_PESACH][16] = "file:///android_asset/E_pesach_16.html";
-		/*E_ZMANIM*/
-		chaptersFiles[E_ZMANIM][0] = "file:///android_asset/E_zmanim_tochen.html";
-		chaptersFiles[E_ZMANIM][1] = "file:///android_asset/E_zmanim_1.html";
-		chaptersFiles[E_ZMANIM][2] = "file:///android_asset/E_zmanim_2.html";
-		chaptersFiles[E_ZMANIM][3] = "file:///android_asset/E_zmanim_3.html";
-		chaptersFiles[E_ZMANIM][4] = "file:///android_asset/E_zmanim_4.html";
-		chaptersFiles[E_ZMANIM][5] = "file:///android_asset/E_zmanim_5.html";
-		chaptersFiles[E_ZMANIM][6] = "file:///android_asset/E_zmanim_6.html";
-		chaptersFiles[E_ZMANIM][7] = "file:///android_asset/E_zmanim_7.html";
-		chaptersFiles[E_ZMANIM][8] = "file:///android_asset/E_zmanim_8.html";
-		chaptersFiles[E_ZMANIM][9] = "file:///android_asset/E_zmanim_9.html";
-		chaptersFiles[E_ZMANIM][10] = "file:///android_asset/E_zmanim_10.html";
-		chaptersFiles[E_ZMANIM][11] = "file:///android_asset/E_zmanim_11.html";
-		chaptersFiles[E_ZMANIM][12] = "file:///android_asset/E_zmanim_12.html";
-		chaptersFiles[E_ZMANIM][13] = "file:///android_asset/E_zmanim_13.html";
-		chaptersFiles[E_ZMANIM][14] = "file:///android_asset/E_zmanim_14.html";
-		chaptersFiles[E_ZMANIM][15] = "file:///android_asset/E_zmanim_15.html";
-		/*E_WOMEN_PRAYER*/
-		chaptersFiles[E_WOMEN_PRAYER][0] = "file:///android_asset/e_w_prayer_tochen.html";
-		chaptersFiles[E_WOMEN_PRAYER][1] = "file:///android_asset/e_w_prayer_1.html";
-		chaptersFiles[E_WOMEN_PRAYER][2] = "file:///android_asset/e_w_prayer_2.html";
-		chaptersFiles[E_WOMEN_PRAYER][3] = "file:///android_asset/e_w_prayer_3.html";
-		chaptersFiles[E_WOMEN_PRAYER][4] = "file:///android_asset/e_w_prayer_4.html";
-		chaptersFiles[E_WOMEN_PRAYER][5] = "file:///android_asset/e_w_prayer_5.html";
-		chaptersFiles[E_WOMEN_PRAYER][6] = "file:///android_asset/e_w_prayer_6.html";
-		chaptersFiles[E_WOMEN_PRAYER][7] = "file:///android_asset/e_w_prayer_7.html";
-		chaptersFiles[E_WOMEN_PRAYER][8] = "file:///android_asset/e_w_prayer_8.html";
-		chaptersFiles[E_WOMEN_PRAYER][9] = "file:///android_asset/e_w_prayer_9.html";
-		chaptersFiles[E_WOMEN_PRAYER][10] = "file:///android_asset/e_w_prayer_10.html";
-		chaptersFiles[E_WOMEN_PRAYER][11] = "file:///android_asset/e_w_prayer_11.html";
-		chaptersFiles[E_WOMEN_PRAYER][12] = "file:///android_asset/e_w_prayer_12.html";
-		chaptersFiles[E_WOMEN_PRAYER][13] = "file:///android_asset/e_w_prayer_13.html";
-		chaptersFiles[E_WOMEN_PRAYER][14] = "file:///android_asset/e_w_prayer_14.html";
-		chaptersFiles[E_WOMEN_PRAYER][15] = "file:///android_asset/e_w_prayer_15.html";
-		chaptersFiles[E_WOMEN_PRAYER][16] = "file:///android_asset/e_w_prayer_16.html";
-		chaptersFiles[E_WOMEN_PRAYER][17] = "file:///android_asset/e_w_prayer_17.html";
-		chaptersFiles[E_WOMEN_PRAYER][18] = "file:///android_asset/e_w_prayer_18.html";
-		chaptersFiles[E_WOMEN_PRAYER][19] = "file:///android_asset/e_w_prayer_19.html";
-		chaptersFiles[E_WOMEN_PRAYER][20] = "file:///android_asset/e_w_prayer_20.html";
-		chaptersFiles[E_WOMEN_PRAYER][21] = "file:///android_asset/e_w_prayer_21.html";
-		chaptersFiles[E_WOMEN_PRAYER][22] = "file:///android_asset/e_w_prayer_22.html";
-		chaptersFiles[E_WOMEN_PRAYER][23] = "file:///android_asset/e_w_prayer_23.html";
-		chaptersFiles[E_WOMEN_PRAYER][24] = "file:///android_asset/e_w_prayer_24.html";
-		/*E_SHABAT*/
-		chaptersFiles[E_SHABAT][0] = "file:///android_asset/e_shabbat_tochen.html";
-		chaptersFiles[E_SHABAT][1] = "file:///android_asset/e_shabbat_1.html";
-		chaptersFiles[E_SHABAT][2] = "file:///android_asset/e_shabbat_2.html";
-		chaptersFiles[E_SHABAT][3] = "file:///android_asset/e_shabbat_3.html";
-		chaptersFiles[E_SHABAT][4] = "file:///android_asset/e_shabbat_4.html";
-		chaptersFiles[E_SHABAT][5] = "file:///android_asset/e_shabbat_5.html";
-		chaptersFiles[E_SHABAT][6] = "file:///android_asset/e_shabbat_6.html";
-		chaptersFiles[E_SHABAT][7] = "file:///android_asset/e_shabbat_7.html";
-		chaptersFiles[E_SHABAT][8] = "file:///android_asset/e_shabbat_8.html";
-		chaptersFiles[E_SHABAT][9] = "file:///android_asset/e_shabbat_9.html";
-		chaptersFiles[E_SHABAT][10] = "file:///android_asset/e_shabbat_10.html";
-		chaptersFiles[E_SHABAT][11] = "file:///android_asset/e_shabbat_11.html";
-		chaptersFiles[E_SHABAT][12] = "file:///android_asset/e_shabbat_12.html";
-		chaptersFiles[E_SHABAT][13] = "file:///android_asset/e_shabbat_13.html";
-		chaptersFiles[E_SHABAT][14] = "file:///android_asset/e_shabbat_14.html";
-		chaptersFiles[E_SHABAT][15] = "file:///android_asset/e_shabbat_15.html";
-		chaptersFiles[E_SHABAT][16] = "file:///android_asset/e_shabbat_16.html";
-		chaptersFiles[E_SHABAT][17] = "file:///android_asset/e_shabbat_17.html";
-		chaptersFiles[E_SHABAT][18] = "file:///android_asset/e_shabbat_18.html";
-		chaptersFiles[E_SHABAT][19] = "file:///android_asset/e_shabbat_19.html";
-		chaptersFiles[E_SHABAT][20] = "file:///android_asset/e_shabbat_20.html";
-		chaptersFiles[E_SHABAT][21] = "file:///android_asset/e_shabbat_21.html";
-		chaptersFiles[E_SHABAT][22] = "file:///android_asset/e_shabbat_22.html";
-		chaptersFiles[E_SHABAT][23] = "file:///android_asset/e_shabbat_23.html";
-		chaptersFiles[E_SHABAT][24] = "file:///android_asset/e_shabbat_24.html";
-		chaptersFiles[E_SHABAT][25] = "file:///android_asset/e_shabbat_25.html";
-		chaptersFiles[E_SHABAT][26] = "file:///android_asset/e_shabbat_26.html";
-		chaptersFiles[E_SHABAT][27] = "file:///android_asset/e_shabbat_27.html";
-		chaptersFiles[E_SHABAT][28] = "file:///android_asset/e_shabbat_28.html";
-		chaptersFiles[E_SHABAT][29] = "file:///android_asset/e_shabbat_29.html";
-		chaptersFiles[E_SHABAT][30] = "file:///android_asset/e_shabbat_30.html";
-		/*F_TEFILA*/
-		chaptersFiles[F_TEFILA][0] = "file:///android_asset/F_tefila_tochen.html";
-		chaptersFiles[F_TEFILA][1] = "file:///android_asset/F_tefila_1.html";
-		chaptersFiles[F_TEFILA][2] = "file:///android_asset/F_tefila_2.html";
-		chaptersFiles[F_TEFILA][3] = "file:///android_asset/F_tefila_3.html";
-		chaptersFiles[F_TEFILA][4] = "file:///android_asset/F_tefila_4.html";
-		chaptersFiles[F_TEFILA][5] = "file:///android_asset/F_tefila_5.html";
-		chaptersFiles[F_TEFILA][6] = "file:///android_asset/F_tefila_6.html";
-		chaptersFiles[F_TEFILA][7] = "file:///android_asset/F_tefila_7.html";
-		chaptersFiles[F_TEFILA][8] = "file:///android_asset/F_tefila_8.html";
-		chaptersFiles[F_TEFILA][9] = "file:///android_asset/F_tefila_9.html";
-		chaptersFiles[F_TEFILA][10] = "file:///android_asset/F_tefila_10.html";
-		chaptersFiles[F_TEFILA][11] = "file:///android_asset/F_tefila_11.html";
-		chaptersFiles[F_TEFILA][12] = "file:///android_asset/F_tefila_12.html";
-		chaptersFiles[F_TEFILA][13] = "file:///android_asset/F_tefila_13.html";
-		chaptersFiles[F_TEFILA][14] = "file:///android_asset/F_tefila_14.html";
-		chaptersFiles[F_TEFILA][15] = "file:///android_asset/F_tefila_15.html";
-		chaptersFiles[F_TEFILA][16] = "file:///android_asset/F_tefila_16.html";
-		chaptersFiles[F_TEFILA][17] = "file:///android_asset/F_tefila_17.html";
-		chaptersFiles[F_TEFILA][18] = "file:///android_asset/F_tefila_18.html";
-		chaptersFiles[F_TEFILA][19] = "file:///android_asset/F_tefila_19.html";
-		chaptersFiles[F_TEFILA][20] = "file:///android_asset/F_tefila_20.html";
-		chaptersFiles[F_TEFILA][21] = "file:///android_asset/F_tefila_21.html";
-		chaptersFiles[F_TEFILA][22] = "file:///android_asset/F_tefila_22.html";
-		chaptersFiles[F_TEFILA][23] = "file:///android_asset/F_tefila_23.html";
-		chaptersFiles[F_TEFILA][24] = "file:///android_asset/F_tefila_24.html";
-		chaptersFiles[F_TEFILA][25] = "file:///android_asset/F_tefila_25.html";
-		chaptersFiles[F_TEFILA][26] = "file:///android_asset/F_tefila_26.html";
 
+		/*E_TEFILA*/
+		chaptersFiles[E_TEFILA][0] = "file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_tochen.html";
+		chaptersFiles[E_TEFILA][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_1.html";
+		chaptersFiles[E_TEFILA][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_2.html";
+		chaptersFiles[E_TEFILA][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_3.html";
+		chaptersFiles[E_TEFILA][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_4.html";
+		chaptersFiles[E_TEFILA][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_5.html";
+		chaptersFiles[E_TEFILA][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_6.html";
+		chaptersFiles[E_TEFILA][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_7.html";
+		chaptersFiles[E_TEFILA][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_8.html";
+		chaptersFiles[E_TEFILA][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_9.html";
+		chaptersFiles[E_TEFILA][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_10.html";
+		chaptersFiles[E_TEFILA][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_11.html";
+		chaptersFiles[E_TEFILA][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_12.html";
+		chaptersFiles[E_TEFILA][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_13.html";
+		chaptersFiles[E_TEFILA][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_14.html";
+		chaptersFiles[E_TEFILA][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_15.html";
+		chaptersFiles[E_TEFILA][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_16.html";
+		chaptersFiles[E_TEFILA][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_17.html";
+		chaptersFiles[E_TEFILA][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_18.html";
+		chaptersFiles[E_TEFILA][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_19.html";
+		chaptersFiles[E_TEFILA][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_20.html";
+		chaptersFiles[E_TEFILA][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_21.html";
+		chaptersFiles[E_TEFILA][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_22.html";
+		chaptersFiles[E_TEFILA][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_23.html";
+		chaptersFiles[E_TEFILA][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_24.html";
+		chaptersFiles[E_TEFILA][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_25.html";
+		chaptersFiles[E_TEFILA][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_26.html";
+		/*E_PESACH*/
+		chaptersFiles[E_PESACH][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_tochen.html";
+		chaptersFiles[E_PESACH][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_1.html";
+		chaptersFiles[E_PESACH][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_2.html";
+		chaptersFiles[E_PESACH][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_3.html";
+		chaptersFiles[E_PESACH][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_4.html";
+		chaptersFiles[E_PESACH][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_5.html";
+		chaptersFiles[E_PESACH][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_6.html";
+		chaptersFiles[E_PESACH][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_7.html";
+		chaptersFiles[E_PESACH][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_8.html";
+		chaptersFiles[E_PESACH][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_9.html";
+		chaptersFiles[E_PESACH][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_10.html";
+		chaptersFiles[E_PESACH][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_11.html";
+		chaptersFiles[E_PESACH][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_12.html";
+		chaptersFiles[E_PESACH][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_13.html";
+		chaptersFiles[E_PESACH][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_14.html";
+		chaptersFiles[E_PESACH][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_15.html";
+		chaptersFiles[E_PESACH][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_16.html";
+		/*E_ZMANIM*/
+		chaptersFiles[E_ZMANIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_tochen.html";
+		chaptersFiles[E_ZMANIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_1.html";
+		chaptersFiles[E_ZMANIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_2.html";
+		chaptersFiles[E_ZMANIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_3.html";
+		chaptersFiles[E_ZMANIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_4.html";
+		chaptersFiles[E_ZMANIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_5.html";
+		chaptersFiles[E_ZMANIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_6.html";
+		chaptersFiles[E_ZMANIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_7.html";
+		chaptersFiles[E_ZMANIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_8.html";
+		chaptersFiles[E_ZMANIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_9.html";
+		chaptersFiles[E_ZMANIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_10.html";
+		chaptersFiles[E_ZMANIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_11.html";
+		chaptersFiles[E_ZMANIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_12.html";
+		chaptersFiles[E_ZMANIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_13.html";
+		chaptersFiles[E_ZMANIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_14.html";
+		chaptersFiles[E_ZMANIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_15.html";
+		/*E_WOMEN_PRAYER*/
+		chaptersFiles[E_WOMEN_PRAYER][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_tochen.html";
+		chaptersFiles[E_WOMEN_PRAYER][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_1.html";
+		chaptersFiles[E_WOMEN_PRAYER][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_2.html";
+		chaptersFiles[E_WOMEN_PRAYER][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_3.html";
+		chaptersFiles[E_WOMEN_PRAYER][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_4.html";
+		chaptersFiles[E_WOMEN_PRAYER][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_5.html";
+		chaptersFiles[E_WOMEN_PRAYER][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_6.html";
+		chaptersFiles[E_WOMEN_PRAYER][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_7.html";
+		chaptersFiles[E_WOMEN_PRAYER][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_8.html";
+		chaptersFiles[E_WOMEN_PRAYER][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_9.html";
+		chaptersFiles[E_WOMEN_PRAYER][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_10.html";
+		chaptersFiles[E_WOMEN_PRAYER][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_11.html";
+		chaptersFiles[E_WOMEN_PRAYER][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_12.html";
+		chaptersFiles[E_WOMEN_PRAYER][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_13.html";
+		chaptersFiles[E_WOMEN_PRAYER][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_14.html";
+		chaptersFiles[E_WOMEN_PRAYER][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_15.html";
+		chaptersFiles[E_WOMEN_PRAYER][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_16.html";
+		chaptersFiles[E_WOMEN_PRAYER][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_17.html";
+		chaptersFiles[E_WOMEN_PRAYER][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_18.html";
+		chaptersFiles[E_WOMEN_PRAYER][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_19.html";
+		chaptersFiles[E_WOMEN_PRAYER][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_20.html";
+		chaptersFiles[E_WOMEN_PRAYER][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_21.html";
+		chaptersFiles[E_WOMEN_PRAYER][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_22.html";
+		chaptersFiles[E_WOMEN_PRAYER][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_23.html";
+		chaptersFiles[E_WOMEN_PRAYER][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_24.html";
+		/*E_SHABAT*/
+		chaptersFiles[E_SHABAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_tochen.html";
+		chaptersFiles[E_SHABAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_1.html";
+		chaptersFiles[E_SHABAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_2.html";
+		chaptersFiles[E_SHABAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_3.html";
+		chaptersFiles[E_SHABAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_4.html";
+		chaptersFiles[E_SHABAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_5.html";
+		chaptersFiles[E_SHABAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_6.html";
+		chaptersFiles[E_SHABAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_7.html";
+		chaptersFiles[E_SHABAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_8.html";
+		chaptersFiles[E_SHABAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_9.html";
+		chaptersFiles[E_SHABAT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_10.html";
+		chaptersFiles[E_SHABAT][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_11.html";
+		chaptersFiles[E_SHABAT][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_12.html";
+		chaptersFiles[E_SHABAT][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_13.html";
+		chaptersFiles[E_SHABAT][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_14.html";
+		chaptersFiles[E_SHABAT][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_15.html";
+		chaptersFiles[E_SHABAT][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_16.html";
+		chaptersFiles[E_SHABAT][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_17.html";
+		chaptersFiles[E_SHABAT][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_18.html";
+		chaptersFiles[E_SHABAT][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_19.html";
+		chaptersFiles[E_SHABAT][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_20.html";
+		chaptersFiles[E_SHABAT][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_21.html";
+		chaptersFiles[E_SHABAT][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_22.html";
+		chaptersFiles[E_SHABAT][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_23.html";
+		chaptersFiles[E_SHABAT][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_24.html";
+		chaptersFiles[E_SHABAT][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_25.html";
+		chaptersFiles[E_SHABAT][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_26.html";
+		chaptersFiles[E_SHABAT][27] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_27.html";
+		chaptersFiles[E_SHABAT][28] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_28.html";
+		chaptersFiles[E_SHABAT][29] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_29.html";
+		chaptersFiles[E_SHABAT][30] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_30.html";
+		/*E_yammim*/
+		chaptersFiles[E_YAMMIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_tochen.html";
+		chaptersFiles[E_YAMMIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_1.html";
+		chaptersFiles[E_YAMMIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_2.html";
+		chaptersFiles[E_YAMMIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_3.html";
+		chaptersFiles[E_YAMMIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_4.html";
+		chaptersFiles[E_YAMMIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_5.html";
+		chaptersFiles[E_YAMMIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_6.html";
+		chaptersFiles[E_YAMMIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_7.html";
+		chaptersFiles[E_YAMMIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_8.html";
+		chaptersFiles[E_YAMMIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_9.html";
+		chaptersFiles[E_YAMMIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_10.html";
+		/*E_moadim*/
+		chaptersFiles[E_MOADIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_tochen.html";
+		chaptersFiles[E_MOADIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_1.html";
+		chaptersFiles[E_MOADIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_2.html";
+		chaptersFiles[E_MOADIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_3.html";
+		chaptersFiles[E_MOADIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_4.html";
+		chaptersFiles[E_MOADIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_5.html";
+		chaptersFiles[E_MOADIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_6.html";
+		chaptersFiles[E_MOADIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_7.html";
+		chaptersFiles[E_MOADIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_8.html";
+		chaptersFiles[E_MOADIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_9.html";
+		chaptersFiles[E_MOADIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_10.html";
+		chaptersFiles[E_MOADIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_11.html";
+		chaptersFiles[E_MOADIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_12.html";
+		chaptersFiles[E_MOADIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_13.html";
+		/*E_simchat*/
+		chaptersFiles[E_SIMCHAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_tochen.html";
+		chaptersFiles[E_SIMCHAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_1.html";
+		chaptersFiles[E_SIMCHAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_2.html";
+		chaptersFiles[E_SIMCHAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_3.html";
+		chaptersFiles[E_SIMCHAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_4.html";
+		chaptersFiles[E_SIMCHAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_5.html";
+		chaptersFiles[E_SIMCHAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_6.html";
+		chaptersFiles[E_SIMCHAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_7.html";
+		chaptersFiles[E_SIMCHAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_8.html";
+		chaptersFiles[E_SIMCHAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_9.html";
+		/*F_TEFILA*/
+		chaptersFiles[F_TEFILA][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_tochen.html";
+		chaptersFiles[F_TEFILA][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_1.html";
+		chaptersFiles[F_TEFILA][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_2.html";
+		chaptersFiles[F_TEFILA][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_3.html";
+		chaptersFiles[F_TEFILA][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_4.html";
+		chaptersFiles[F_TEFILA][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_5.html";
+		chaptersFiles[F_TEFILA][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_6.html";
+		chaptersFiles[F_TEFILA][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_7.html";
+		chaptersFiles[F_TEFILA][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_8.html";
+		chaptersFiles[F_TEFILA][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_9.html";
+		chaptersFiles[F_TEFILA][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_10.html";
+		chaptersFiles[F_TEFILA][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_11.html";
+		chaptersFiles[F_TEFILA][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_12.html";
+		chaptersFiles[F_TEFILA][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_13.html";
+		chaptersFiles[F_TEFILA][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_14.html";
+		chaptersFiles[F_TEFILA][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_15.html";
+		chaptersFiles[F_TEFILA][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_16.html";
+		chaptersFiles[F_TEFILA][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_17.html";
+		chaptersFiles[F_TEFILA][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_18.html";
+		chaptersFiles[F_TEFILA][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_19.html";
+		chaptersFiles[F_TEFILA][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_20.html";
+		chaptersFiles[F_TEFILA][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_21.html";
+		chaptersFiles[F_TEFILA][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_22.html";
+		chaptersFiles[F_TEFILA][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_23.html";
+		chaptersFiles[F_TEFILA][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_24.html";
+		chaptersFiles[F_TEFILA][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_25.html";
+		chaptersFiles[F_TEFILA][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_26.html";
+		/*F_Moadim*/
+		chaptersFiles[F_MOADIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_tochen.html";
+		chaptersFiles[F_MOADIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_1.html";
+		chaptersFiles[F_MOADIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_2.html";
+		chaptersFiles[F_MOADIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_3.html";
+		chaptersFiles[F_MOADIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_4.html";
+		chaptersFiles[F_MOADIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_5.html";
+		chaptersFiles[F_MOADIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_6.html";
+		chaptersFiles[F_MOADIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_7.html";
+		chaptersFiles[F_MOADIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_8.html";
+		chaptersFiles[F_MOADIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_9.html";
+		chaptersFiles[F_MOADIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_10.html";
+		chaptersFiles[F_MOADIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_11.html";
+		chaptersFiles[F_MOADIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_12.html";
+		chaptersFiles[F_MOADIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_13.html";
+		/*F_SUCOT*/
+		chaptersFiles[F_SUCOT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_tochen.html";
+		chaptersFiles[F_SUCOT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_1.html";
+		chaptersFiles[F_SUCOT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_2.html";
+		chaptersFiles[F_SUCOT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_3.html";
+		chaptersFiles[F_SUCOT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_4.html";
+		chaptersFiles[F_SUCOT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_5.html";
+		chaptersFiles[F_SUCOT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_6.html";
+		chaptersFiles[F_SUCOT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_7.html";
+		chaptersFiles[F_SUCOT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_8.html";
+		chaptersFiles[F_SUCOT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_9.html";
+		chaptersFiles[F_SUCOT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_10.html";
+		chaptersFiles[F_SUCOT][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_11.html";
+		chaptersFiles[F_SUCOT][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_12.html";
+		chaptersFiles[F_SUCOT][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_13.html";
+		/*F_ZMANIM*/
+		chaptersFiles[F_ZMANIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_tochen.html";
+		chaptersFiles[F_ZMANIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_1.html";
+		chaptersFiles[F_ZMANIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_2.html";
+		chaptersFiles[F_ZMANIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_3.html";
+		chaptersFiles[F_ZMANIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_4.html";
+		chaptersFiles[F_ZMANIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_5.html";
+		chaptersFiles[F_ZMANIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_6.html";
+		chaptersFiles[F_ZMANIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_7.html";
+		chaptersFiles[F_ZMANIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_8.html";
+		chaptersFiles[F_ZMANIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_9.html";
+		chaptersFiles[F_ZMANIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_10.html";
+		chaptersFiles[F_ZMANIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_11.html";
+		chaptersFiles[F_ZMANIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_12.html";
+		chaptersFiles[F_ZMANIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_13.html";
+		chaptersFiles[F_ZMANIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_14.html";
+		chaptersFiles[F_ZMANIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_15.html";
+		chaptersFiles[F_ZMANIM][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_16.html";
+		chaptersFiles[F_ZMANIM][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_17.html";
+		/*F_SIMCHAT*/
+		chaptersFiles[F_SIMCHAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_tochen.html";
+		chaptersFiles[F_SIMCHAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_1.html";
+		chaptersFiles[F_SIMCHAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_2.html";
+		chaptersFiles[F_SIMCHAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_3.html";
+		chaptersFiles[F_SIMCHAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_4.html";
+		chaptersFiles[F_SIMCHAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_5.html";
+		chaptersFiles[F_SIMCHAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_6.html";
+		chaptersFiles[F_SIMCHAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_7.html";
+		chaptersFiles[F_SIMCHAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_8.html";
+		chaptersFiles[F_SIMCHAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_9.html";
+		chaptersFiles[F_SIMCHAT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_10.html";
+		/*F_ZMANIM*/
+		chaptersFiles[F_PESACH][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_tochen.html";
+		chaptersFiles[F_PESACH][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_1.html";
+		chaptersFiles[F_PESACH][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_2.html";
+		chaptersFiles[F_PESACH][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_3.html";
+		chaptersFiles[F_PESACH][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_4.html";
+		chaptersFiles[F_PESACH][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_5.html";
+		chaptersFiles[F_PESACH][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_6.html";
+		chaptersFiles[F_PESACH][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_7.html";
+		chaptersFiles[F_PESACH][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_8.html";
+		chaptersFiles[F_PESACH][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_9.html";
+		chaptersFiles[F_PESACH][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_10.html";
+		chaptersFiles[F_PESACH][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_11.html";
+		chaptersFiles[F_PESACH][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_12.html";
+		chaptersFiles[F_PESACH][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_13.html";
+		chaptersFiles[F_PESACH][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_14.html";
+		chaptersFiles[F_PESACH][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_15.html";
+		chaptersFiles[F_PESACH][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_16.html";
+		/*F_TFILAT_NASHIM*/
+		chaptersFiles[F_TFILAT_NASHIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_tochen.html";
+		chaptersFiles[F_TFILAT_NASHIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_1.html";
+		chaptersFiles[F_TFILAT_NASHIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_2.html";
+		chaptersFiles[F_TFILAT_NASHIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_3.html";
+		chaptersFiles[F_TFILAT_NASHIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_4.html";
+		chaptersFiles[F_TFILAT_NASHIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_5.html";
+		chaptersFiles[F_TFILAT_NASHIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_6.html";
+		chaptersFiles[F_TFILAT_NASHIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_7.html";
+		chaptersFiles[F_TFILAT_NASHIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_8.html";
+		chaptersFiles[F_TFILAT_NASHIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_9.html";
+		chaptersFiles[F_TFILAT_NASHIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_10.html";
+		chaptersFiles[F_TFILAT_NASHIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_11.html";
+		chaptersFiles[F_TFILAT_NASHIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_12.html";
+		chaptersFiles[F_TFILAT_NASHIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_13.html";
+		chaptersFiles[F_TFILAT_NASHIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_14.html";
+		chaptersFiles[F_TFILAT_NASHIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_15.html";
+		chaptersFiles[F_TFILAT_NASHIM][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_16.html";
+		chaptersFiles[F_TFILAT_NASHIM][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_17.html";
+		chaptersFiles[F_TFILAT_NASHIM][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_18.html";
+		chaptersFiles[F_TFILAT_NASHIM][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_19.html";
+		chaptersFiles[F_TFILAT_NASHIM][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_20.html";
+		chaptersFiles[F_TFILAT_NASHIM][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_21.html";
+		chaptersFiles[F_TFILAT_NASHIM][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_22.html";
+		chaptersFiles[F_TFILAT_NASHIM][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_23.html";
+		chaptersFiles[F_TFILAT_NASHIM][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_24.html";
+		chaptersFiles[F_TFILAT_NASHIM][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_25.html";
+		chaptersFiles[F_TFILAT_NASHIM][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_26.html";
+		/*F_SHABAT*/
+		chaptersFiles[F_SHABBAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_tochen.html";
+		chaptersFiles[F_SHABBAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_1.html";
+		chaptersFiles[F_SHABBAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_2.html";
+		chaptersFiles[F_SHABBAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_3.html";
+		chaptersFiles[F_SHABBAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_4.html";
+		chaptersFiles[F_SHABBAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_5.html";
+		chaptersFiles[F_SHABBAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_6.html";
+		chaptersFiles[F_SHABBAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_7.html";
+		chaptersFiles[F_SHABBAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_8.html";
+		chaptersFiles[F_SHABBAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_9.html";
+		chaptersFiles[F_SHABBAT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_10.html";
+		chaptersFiles[F_SHABBAT][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_11.html";
+		chaptersFiles[F_SHABBAT][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_12.html";
+		chaptersFiles[R_SHABBAT][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_13.html";
+		chaptersFiles[F_SHABBAT][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_14.html";
+		chaptersFiles[F_SHABBAT][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_15.html";
+		chaptersFiles[F_SHABBAT][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_16.html";
+		chaptersFiles[F_SHABBAT][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_17.html";
+		chaptersFiles[F_SHABBAT][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_18.html";
+		chaptersFiles[F_SHABBAT][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_19.html";
+		chaptersFiles[F_SHABBAT][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_20.html";
+		chaptersFiles[F_SHABBAT][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_21.html";
+		chaptersFiles[F_SHABBAT][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_22.html";
+		chaptersFiles[F_SHABBAT][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_23.html";
+		chaptersFiles[F_SHABBAT][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_24.html";
+		chaptersFiles[F_SHABBAT][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_25.html";
+		chaptersFiles[F_SHABBAT][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_26.html";
+		chaptersFiles[F_SHABBAT][27] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_27.html";
+		chaptersFiles[F_SHABBAT][28] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_28.html";
+		chaptersFiles[F_SHABBAT][29] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_29.html";
+		chaptersFiles[F_SHABBAT][30] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_30.html";
+
+		/*F_YAMIM*/
+		chaptersFiles[F_YAMMIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_tochen.html";
+		chaptersFiles[F_YAMMIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_1.html";
+		chaptersFiles[F_YAMMIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_2.html";
+		chaptersFiles[F_YAMMIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_3.html";
+		chaptersFiles[F_YAMMIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_4.html";
+		chaptersFiles[F_YAMMIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_5.html";
+		chaptersFiles[F_YAMMIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_6.html";
+		chaptersFiles[F_YAMMIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_7.html";
+		chaptersFiles[F_YAMMIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_8.html";
+		chaptersFiles[F_YAMMIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_9.html";
+		chaptersFiles[F_YAMMIM][10]= "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_10.html";
+		
 		/*S_SHABAT*/
-		chaptersFiles[S_SHABAT][0] = "file:///android_asset/s_shabat_tochen.html";
-		chaptersFiles[S_SHABAT][1] = "file:///android_asset/s_shabat_1.html";
-		chaptersFiles[S_SHABAT][2] = "file:///android_asset/s_shabat_2.html";
-		chaptersFiles[S_SHABAT][3] = "file:///android_asset/s_shabat_3.html";
-		chaptersFiles[S_SHABAT][4] = "file:///android_asset/s_shabat_4.html";
-		chaptersFiles[S_SHABAT][5] = "file:///android_asset/s_shabat_5.html";
-		chaptersFiles[S_SHABAT][6] = "file:///android_asset/s_shabat_6.html";
-		chaptersFiles[S_SHABAT][7] = "file:///android_asset/s_shabat_7.html";
-		chaptersFiles[S_SHABAT][8] = "file:///android_asset/s_shabat_8.html";
-		chaptersFiles[S_SHABAT][9] = "file:///android_asset/s_shabat_9.html";
-		chaptersFiles[S_SHABAT][10] = "file:///android_asset/s_shabat_10.html";
-		chaptersFiles[S_SHABAT][11] = "file:///android_asset/s_shabat_11.html";
-		chaptersFiles[S_SHABAT][12] = "file:///android_asset/s_shabat_12.html";
-		chaptersFiles[S_SHABAT][13] = "file:///android_asset/s_shabat_13.html";
-		chaptersFiles[S_SHABAT][14] = "file:///android_asset/s_shabat_14.html";
-		chaptersFiles[S_SHABAT][15] = "file:///android_asset/s_shabat_15.html";
-		chaptersFiles[S_SHABAT][16] = "file:///android_asset/s_shabat_16.html";
-		chaptersFiles[S_SHABAT][17] = "file:///android_asset/s_shabat_17.html";
-		chaptersFiles[S_SHABAT][18] = "file:///android_asset/s_shabat_18.html";
-		chaptersFiles[S_SHABAT][19] = "file:///android_asset/s_shabat_19.html";
-		chaptersFiles[S_SHABAT][20] = "file:///android_asset/s_shabat_20.html";
-		chaptersFiles[S_SHABAT][21] = "file:///android_asset/s_shabat_21.html";
-		chaptersFiles[S_SHABAT][22] = "file:///android_asset/s_shabat_22.html";
-		chaptersFiles[S_SHABAT][23] = "file:///android_asset/s_shabat_23.html";
-		chaptersFiles[S_SHABAT][24] = "file:///android_asset/s_shabat_24.html";
-		chaptersFiles[S_SHABAT][25] = "file:///android_asset/s_shabat_25.html";
-		chaptersFiles[S_SHABAT][26] = "file:///android_asset/s_shabat_26.html";
-		chaptersFiles[S_SHABAT][27] = "file:///android_asset/s_shabat_27.html";
-		chaptersFiles[S_SHABAT][28] = "file:///android_asset/s_shabat_28.html";
-		chaptersFiles[S_SHABAT][29] = "file:///android_asset/s_shabat_29.html";
-		chaptersFiles[S_SHABAT][30] = "file:///android_asset/s_shabat_30.html";
+		chaptersFiles[S_SHABAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_tochen.html";
+		chaptersFiles[S_SHABAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_1.html";
+		chaptersFiles[S_SHABAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_2.html";
+		chaptersFiles[S_SHABAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_3.html";
+		chaptersFiles[S_SHABAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_4.html";
+		chaptersFiles[S_SHABAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_5.html";
+		chaptersFiles[S_SHABAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_6.html";
+		chaptersFiles[S_SHABAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_7.html";
+		chaptersFiles[S_SHABAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_8.html";
+		chaptersFiles[S_SHABAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_9.html";
+		chaptersFiles[S_SHABAT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_10.html";
+		chaptersFiles[S_SHABAT][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_11.html";
+		chaptersFiles[S_SHABAT][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_12.html";
+		chaptersFiles[S_SHABAT][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_13.html";
+		chaptersFiles[S_SHABAT][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_14.html";
+		chaptersFiles[S_SHABAT][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_15.html";
+		chaptersFiles[S_SHABAT][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_16.html";
+		chaptersFiles[S_SHABAT][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_17.html";
+		chaptersFiles[S_SHABAT][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_18.html";
+		chaptersFiles[S_SHABAT][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_19.html";
+		chaptersFiles[S_SHABAT][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_20.html";
+		chaptersFiles[S_SHABAT][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_21.html";
+		chaptersFiles[S_SHABAT][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_22.html";
+		chaptersFiles[S_SHABAT][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_23.html";
+		chaptersFiles[S_SHABAT][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_24.html";
+		chaptersFiles[S_SHABAT][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_25.html";
+		chaptersFiles[S_SHABAT][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_26.html";
+		chaptersFiles[S_SHABAT][27] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_27.html";
+		chaptersFiles[S_SHABAT][28] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_28.html";
+		chaptersFiles[S_SHABAT][29] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_29.html";
+		chaptersFiles[S_SHABAT][30] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_30.html";
+
+		/*S_BRACHOT*/
+		chaptersFiles[S_BRACHOT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_tochen.html";
+		chaptersFiles[S_BRACHOT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_1.html";
+		chaptersFiles[S_BRACHOT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_2.html";
+		chaptersFiles[S_BRACHOT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_3.html";
+		chaptersFiles[S_BRACHOT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_4.html";
+		chaptersFiles[S_BRACHOT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_5.html";
+		chaptersFiles[S_BRACHOT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_6.html";
+		chaptersFiles[S_BRACHOT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_7.html";
+		chaptersFiles[S_BRACHOT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_8.html";
+		chaptersFiles[S_BRACHOT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_9.html";
+		chaptersFiles[S_BRACHOT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_10.html";
+		chaptersFiles[S_BRACHOT][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_11.html";
+		chaptersFiles[S_BRACHOT][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_12.html";
+		chaptersFiles[S_BRACHOT][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_13.html";
+		chaptersFiles[S_BRACHOT][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_14.html";
+		chaptersFiles[S_BRACHOT][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_15.html";
+		chaptersFiles[S_BRACHOT][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_16.html";
+		chaptersFiles[S_BRACHOT][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_17.html";
+		chaptersFiles[S_BRACHOT][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_18.html";
+
+		/*S_MOADIM*/
+		chaptersFiles[S_MOADIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_tochen.html";
+		chaptersFiles[S_MOADIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_1.html";
+		chaptersFiles[S_MOADIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_2.html";
+		chaptersFiles[S_MOADIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_3.html";
+		chaptersFiles[S_MOADIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_4.html";
+		chaptersFiles[S_MOADIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_5.html";
+		chaptersFiles[S_MOADIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_6.html";
+		chaptersFiles[S_MOADIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_7.html";
+		chaptersFiles[S_MOADIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_8.html";
+		chaptersFiles[S_MOADIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_9.html";
+		chaptersFiles[S_MOADIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_10.html";
+		chaptersFiles[S_MOADIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_11.html";
+		chaptersFiles[S_MOADIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_12.html";
+		chaptersFiles[S_MOADIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_13.html";
+		/*S_YAMIM*/
+		chaptersFiles[S_YAMIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_tochen.html";
+		chaptersFiles[S_YAMIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_1.html";
+		chaptersFiles[S_YAMIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_2.html";
+		chaptersFiles[S_YAMIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_3.html";
+		chaptersFiles[S_YAMIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_4.html";
+		chaptersFiles[S_YAMIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_5.html";
+		chaptersFiles[S_YAMIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_6.html";
+		chaptersFiles[S_YAMIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_7.html";
+		chaptersFiles[S_YAMIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_8.html";
+		chaptersFiles[S_YAMIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_9.html";
+		chaptersFiles[S_YAMIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_10.html";
+		/*S_PESACH*/
+		chaptersFiles[S_PESACH][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_tochen.html";
+		chaptersFiles[S_PESACH][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_1.html";
+		chaptersFiles[S_PESACH][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_2.html";
+		chaptersFiles[S_PESACH][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_3.html";
+		chaptersFiles[S_PESACH][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_4.html";
+		chaptersFiles[S_PESACH][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_5.html";
+		chaptersFiles[S_PESACH][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_6.html";
+		chaptersFiles[S_PESACH][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_7.html";
+		chaptersFiles[S_PESACH][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_8.html";
+		chaptersFiles[S_PESACH][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_9.html";
+		chaptersFiles[S_PESACH][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_10.html";
+		chaptersFiles[S_PESACH][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_11.html";
+		chaptersFiles[S_PESACH][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_12.html";
+		chaptersFiles[S_PESACH][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_13.html";
+		chaptersFiles[S_PESACH][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_14.html";
+		chaptersFiles[S_PESACH][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_15.html";
+		chaptersFiles[S_PESACH][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_16.html";
+		/*S_simchat*/
+		chaptersFiles[S_SIMCHAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_tochen.html";
+		chaptersFiles[S_SIMCHAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_1.html";
+		chaptersFiles[S_SIMCHAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_2.html";
+		chaptersFiles[S_SIMCHAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_3.html";
+		chaptersFiles[S_SIMCHAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_4.html";
+		chaptersFiles[S_SIMCHAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_5.html";
+		chaptersFiles[S_SIMCHAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_6.html";
+		chaptersFiles[S_SIMCHAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_7.html";
+		chaptersFiles[S_SIMCHAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_8.html";
+		chaptersFiles[S_SIMCHAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_9.html";
+		chaptersFiles[S_SIMCHAT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_10.html";
+		/*S_TFILA*/
+		chaptersFiles[S_TFILA][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_tochen.html";
+		chaptersFiles[S_TFILA][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_1.html";
+		chaptersFiles[S_TFILA][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_2.html";
+		chaptersFiles[S_TFILA][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_3.html";
+		chaptersFiles[S_TFILA][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_4.html";
+		chaptersFiles[S_TFILA][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_5.html";
+		chaptersFiles[S_TFILA][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_6.html";
+		chaptersFiles[S_TFILA][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_7.html";
+		chaptersFiles[S_TFILA][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_8.html";
+		chaptersFiles[S_TFILA][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_9.html";
+		chaptersFiles[S_TFILA][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_10.html";
+		chaptersFiles[S_TFILA][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_11.html";
+		chaptersFiles[S_TFILA][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_12.html";
+		chaptersFiles[S_TFILA][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_13.html";
+		chaptersFiles[S_TFILA][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_14.html";
+		chaptersFiles[S_TFILA][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_15.html";
+		chaptersFiles[S_TFILA][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_16.html";
+		chaptersFiles[S_TFILA][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_17.html";
+		chaptersFiles[S_TFILA][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_18.html";
+		chaptersFiles[S_TFILA][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_19.html";
+		chaptersFiles[S_TFILA][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_20.html";
+		chaptersFiles[S_TFILA][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_21.html";
+		chaptersFiles[S_TFILA][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_22.html";
+		chaptersFiles[S_TFILA][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_23.html";
+		chaptersFiles[S_TFILA][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_24.html";
+		chaptersFiles[S_TFILA][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_25.html";
+		chaptersFiles[S_TFILA][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_26.html";
+		/*S_TFILAT_NASHIM*/
+		chaptersFiles[S_TFILAT_NASHIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_tochen.html";
+		chaptersFiles[S_TFILAT_NASHIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_1.html";
+		chaptersFiles[S_TFILAT_NASHIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_2.html";
+		chaptersFiles[S_TFILAT_NASHIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_3.html";
+		chaptersFiles[S_TFILAT_NASHIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_4.html";
+		chaptersFiles[S_TFILAT_NASHIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_5.html";
+		chaptersFiles[S_TFILAT_NASHIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_6.html";
+		chaptersFiles[S_TFILAT_NASHIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_7.html";
+		chaptersFiles[S_TFILAT_NASHIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_8.html";
+		chaptersFiles[S_TFILAT_NASHIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_9.html";
+		chaptersFiles[S_TFILAT_NASHIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_10.html";
+		chaptersFiles[S_TFILAT_NASHIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_11.html";
+		chaptersFiles[S_TFILAT_NASHIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_12.html";
+		chaptersFiles[S_TFILAT_NASHIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_13.html";
+		chaptersFiles[S_TFILAT_NASHIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_14.html";
+		chaptersFiles[S_TFILAT_NASHIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_15.html";
+		chaptersFiles[S_TFILAT_NASHIM][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_16.html";
+		chaptersFiles[S_TFILAT_NASHIM][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_17.html";
+		chaptersFiles[S_TFILAT_NASHIM][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_18.html";
+		chaptersFiles[S_TFILAT_NASHIM][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_19.html";
+		chaptersFiles[S_TFILAT_NASHIM][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_20.html";
+		chaptersFiles[S_TFILAT_NASHIM][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_21.html";
+		chaptersFiles[S_TFILAT_NASHIM][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_22.html";
+		chaptersFiles[S_TFILAT_NASHIM][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_t_nashim23.html";
+		chaptersFiles[S_TFILAT_NASHIM][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_t_nashim24.html";
+		/*S_ZMANIM*/
+		chaptersFiles[S_ZMANIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_tochen.html";
+		chaptersFiles[S_ZMANIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_1.html";
+		chaptersFiles[S_ZMANIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_2.html";
+		chaptersFiles[S_ZMANIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_3.html";
+		chaptersFiles[S_ZMANIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_4.html";
+		chaptersFiles[S_ZMANIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_5.html";
+		chaptersFiles[S_ZMANIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_6.html";
+		chaptersFiles[S_ZMANIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_7.html";
+		chaptersFiles[S_ZMANIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_8.html";
+		chaptersFiles[S_ZMANIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_9.html";
+		chaptersFiles[S_ZMANIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_10.html";
+		chaptersFiles[S_ZMANIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_11.html";
+		chaptersFiles[S_ZMANIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_12.html";
+		chaptersFiles[S_ZMANIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_13.html";
+		chaptersFiles[S_ZMANIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_14.html";
+		chaptersFiles[S_ZMANIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_15.html";
+		chaptersFiles[S_ZMANIM][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_16.html";
+		chaptersFiles[S_ZMANIM][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_17.html";
+			
+		/*r_HAAM*/
+		chaptersFiles[R_HAAM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_tochen.html";
+		chaptersFiles[R_HAAM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_1.html";
+		chaptersFiles[R_HAAM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_2.html";
+		chaptersFiles[R_HAAM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_3.html";
+		chaptersFiles[R_HAAM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_4.html";
+		chaptersFiles[R_HAAM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_5.html";
+		chaptersFiles[R_HAAM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_6.html";
+		chaptersFiles[R_HAAM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_7.html";
+		chaptersFiles[R_HAAM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_8.html";
+		chaptersFiles[R_HAAM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_9.html";
+		chaptersFiles[R_HAAM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_10.html";
+
+		/*R_SHABAT*/
+		chaptersFiles[R_SHABBAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_tochen.html";
+		chaptersFiles[R_SHABBAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_1.html";
+		chaptersFiles[R_SHABBAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_2.html";
+		chaptersFiles[R_SHABBAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_3.html";
+		chaptersFiles[R_SHABBAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_4.html";
+		chaptersFiles[R_SHABBAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_5.html";
+		chaptersFiles[R_SHABBAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_6.html";
+		chaptersFiles[R_SHABBAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_7.html";
+		chaptersFiles[R_SHABBAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_8.html";
+		chaptersFiles[R_SHABBAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_9.html";
+		chaptersFiles[R_SHABBAT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_10.html";
+		chaptersFiles[R_SHABBAT][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_11.html";
+		chaptersFiles[R_SHABBAT][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_12.html";
+		chaptersFiles[R_SHABBAT][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_13.html";
+		chaptersFiles[R_SHABBAT][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_14.html";
+		chaptersFiles[R_SHABBAT][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_15.html";
+		chaptersFiles[R_SHABBAT][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_16.html";
+		chaptersFiles[R_SHABBAT][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_17.html";
+		chaptersFiles[R_SHABBAT][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_18.html";
+		chaptersFiles[R_SHABBAT][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_19.html";
+		chaptersFiles[R_SHABBAT][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_20.html";
+		chaptersFiles[R_SHABBAT][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_21.html";
+		chaptersFiles[R_SHABBAT][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_22.html";
+		chaptersFiles[R_SHABBAT][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_23.html";
+		chaptersFiles[R_SHABBAT][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_24.html";
+		chaptersFiles[R_SHABBAT][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_25.html";
+		chaptersFiles[R_SHABBAT][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_26.html";
+		chaptersFiles[R_SHABBAT][27] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_27.html";
+		chaptersFiles[R_SHABBAT][28] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_28.html";
+		chaptersFiles[R_SHABBAT][29] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_29.html";
+		chaptersFiles[R_SHABBAT][30] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_30.html";
+
+		/*r_YAMIM*/
+		chaptersFiles[R_YAMMIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_tochen.html";
+		chaptersFiles[R_YAMMIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_1.html";
+		chaptersFiles[R_YAMMIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_2.html";
+		chaptersFiles[R_YAMMIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_3.html";
+		chaptersFiles[R_YAMMIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_4.html";
+		chaptersFiles[R_YAMMIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_5.html";
+		chaptersFiles[R_YAMMIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_6.html";
+		chaptersFiles[R_YAMMIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_7.html";
+		chaptersFiles[R_YAMMIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_8.html";
+		chaptersFiles[R_YAMMIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_9.html";
+		chaptersFiles[R_YAMMIM][10]= "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_10.html";
+
+		/*r_SUCOT*/
+		chaptersFiles[R_SUCOT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_tochen.html";
+		chaptersFiles[R_SUCOT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_1.html";
+		chaptersFiles[R_SUCOT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_2.html";
+		chaptersFiles[R_SUCOT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_3.html";
+		chaptersFiles[R_SUCOT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_4.html";
+		chaptersFiles[R_SUCOT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_5.html";
+		chaptersFiles[R_SUCOT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_6.html";
+		chaptersFiles[R_SUCOT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_7.html";
+		chaptersFiles[R_SUCOT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_8.html";
+
+		/*r_SIMCHAT*/
+		chaptersFiles[R_SIMCHAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_tochen.html";
+		chaptersFiles[R_SIMCHAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_1.html";
+		chaptersFiles[R_SIMCHAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_2.html";
+		chaptersFiles[R_SIMCHAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_3.html";
+		chaptersFiles[R_SIMCHAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_4.html";
+		chaptersFiles[R_SIMCHAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_5.html";
+		chaptersFiles[R_SIMCHAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_6.html";
+		chaptersFiles[R_SIMCHAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_7.html";
+		chaptersFiles[R_SIMCHAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_8.html";
+		chaptersFiles[R_SIMCHAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_9.html";
+		chaptersFiles[R_SIMCHAT][10] ="file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_10.html";
+
+		/*r_MISHPACHA*/
+		chaptersFiles[R_MISHPHACHA][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_tochen.html";
+		chaptersFiles[R_MISHPHACHA][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_1.html";
+		chaptersFiles[R_MISHPHACHA][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_2.html";
+		chaptersFiles[R_MISHPHACHA][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_3.html";
+		chaptersFiles[R_MISHPHACHA][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_4.html";
+		chaptersFiles[R_MISHPHACHA][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_5.html";
+		chaptersFiles[R_MISHPHACHA][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_6.html";
+		chaptersFiles[R_MISHPHACHA][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_7.html";
+		chaptersFiles[R_MISHPHACHA][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_8.html";
+		chaptersFiles[R_MISHPHACHA][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_9.html";
+		chaptersFiles[R_MISHPHACHA][10] ="file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_10.html";
+
+		/*R_pesach*/
+		chaptersFiles[R_PESACH][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_tochen.html";
+		chaptersFiles[R_PESACH][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_1.html";
+		chaptersFiles[R_PESACH][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_2.html";
+		chaptersFiles[R_PESACH][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_3.html";
+		chaptersFiles[R_PESACH][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach.html";
+		chaptersFiles[R_PESACH][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_5.html";
+		chaptersFiles[R_PESACH][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_6.html";
+		chaptersFiles[R_PESACH][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_7.html";
+		chaptersFiles[R_PESACH][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_8.html";
+		chaptersFiles[R_PESACH][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_9.html";
+		chaptersFiles[R_PESACH][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_10.html";
+		chaptersFiles[R_PESACH][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_11.html";
+		chaptersFiles[R_PESACH][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_12.html";
+		chaptersFiles[R_PESACH][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_13.html";
+		chaptersFiles[R_PESACH][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_14.html";
+		chaptersFiles[R_PESACH][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_15.html";
+		chaptersFiles[R_PESACH][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_16.html";
+		chaptersFiles[R_PESACH][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_17.html";
+
+		/*R_moadim*/
+		chaptersFiles[R_MOADIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_tochen.html";
+		chaptersFiles[R_MOADIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_1.html";
+		chaptersFiles[R_MOADIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_2.html";
+		chaptersFiles[R_MOADIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_3.html";
+		chaptersFiles[R_MOADIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_4.html";
+		chaptersFiles[R_MOADIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_5.html";
+		chaptersFiles[R_MOADIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_6.html";
+		chaptersFiles[R_MOADIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_7.html";
+		chaptersFiles[R_MOADIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_8.html";
+		chaptersFiles[R_MOADIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_9.html";
+		chaptersFiles[R_MOADIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_9.html";
+		chaptersFiles[R_MOADIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_10.html";
+		chaptersFiles[R_MOADIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_11.html";
+		chaptersFiles[R_MOADIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_12.html";
+		chaptersFiles[R_MOADIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_13.html";
+
+		/*R_tfilat_nashim*/
+		chaptersFiles[R_TEFILAT_NASHIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_tochen.html";
+		chaptersFiles[R_TEFILAT_NASHIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_1.html";
+		chaptersFiles[R_TEFILAT_NASHIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_2.html";
+		chaptersFiles[R_TEFILAT_NASHIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_3.html";
+		chaptersFiles[R_TEFILAT_NASHIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_4.html";
+		chaptersFiles[R_TEFILAT_NASHIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_5.html";
+		chaptersFiles[R_TEFILAT_NASHIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_6.html";
+		chaptersFiles[R_TEFILAT_NASHIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_7.html";
+		chaptersFiles[R_TEFILAT_NASHIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_8.html";
+		chaptersFiles[R_TEFILAT_NASHIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_9.html";
+		chaptersFiles[R_TEFILAT_NASHIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_10.html";
+		chaptersFiles[R_TEFILAT_NASHIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_11.html";
+		chaptersFiles[R_TEFILAT_NASHIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_12.html";
+		chaptersFiles[R_TEFILAT_NASHIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_13.html";
+		chaptersFiles[R_TEFILAT_NASHIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_14.html";
+		chaptersFiles[R_TEFILAT_NASHIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_15.html";
+		chaptersFiles[R_TEFILAT_NASHIM][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_16.html";
+		chaptersFiles[R_TEFILAT_NASHIM][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_17.html";
+		chaptersFiles[R_TEFILAT_NASHIM][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_18.html";
+		chaptersFiles[R_TEFILAT_NASHIM][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_19.html";
+		chaptersFiles[R_TEFILAT_NASHIM][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_20.html";
+		chaptersFiles[R_TEFILAT_NASHIM][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_21.html";
+		chaptersFiles[R_TEFILAT_NASHIM][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_22.html";
+		chaptersFiles[R_TEFILAT_NASHIM][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_23.html";
+		chaptersFiles[R_TEFILAT_NASHIM][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_24.html";
+
+		/*R_tfila*/
+		chaptersFiles[R_TFILA][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_tochen.html";
+		chaptersFiles[R_TFILA][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_1.html";
+		chaptersFiles[R_TFILA][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_2.html";
+		chaptersFiles[R_TFILA][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_3.html";
+		chaptersFiles[R_TFILA][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_4.html";
+		chaptersFiles[R_TFILA][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_5.html";
+		chaptersFiles[R_TFILA][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_6.html";
+		chaptersFiles[R_TFILA][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_7.html";
+		chaptersFiles[R_TFILA][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_8.html";
+		chaptersFiles[R_TFILA][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_9.html";
+		chaptersFiles[R_TFILA][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_10.html";
+		chaptersFiles[R_TFILA][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_11.html";
+		chaptersFiles[R_TFILA][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_12.html";
+		chaptersFiles[R_TFILA][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_13.html";
+		chaptersFiles[R_TFILA][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_14.html";
+		chaptersFiles[R_TFILA][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_15.html";
+		chaptersFiles[R_TFILA][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_16.html";
+		chaptersFiles[R_TFILA][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_17.html";
+		chaptersFiles[R_TFILA][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_18.html";
+		chaptersFiles[R_TFILA][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_19.html";
+		chaptersFiles[R_TFILA][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_20.html";
+		chaptersFiles[R_TFILA][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_21.html";
+		chaptersFiles[R_TFILA][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_22.html";
+		chaptersFiles[R_TFILA][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_23.html";
+		chaptersFiles[R_TFILA][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_24.html";
+		chaptersFiles[R_TFILA][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_25.html";
+		chaptersFiles[R_TFILA][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_26.html";
+
+		/*R_zmanim*/
+		chaptersFiles[R_ZMANIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_tochen.html";
+		chaptersFiles[R_ZMANIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_1.html";
+		chaptersFiles[R_ZMANIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_2.html";
+		chaptersFiles[R_ZMANIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_3.html";
+		chaptersFiles[R_ZMANIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_4.html";
+		chaptersFiles[R_ZMANIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_5.html";
+		chaptersFiles[R_ZMANIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_6.html";
+		chaptersFiles[R_ZMANIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_7.html";
+		chaptersFiles[R_ZMANIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_8.html";
+		chaptersFiles[R_ZMANIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_9.html";
+		chaptersFiles[R_ZMANIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_10.html";
+		chaptersFiles[R_ZMANIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_11.html";
+		chaptersFiles[R_ZMANIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_12.html";
+		chaptersFiles[R_ZMANIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_13.html";
+		chaptersFiles[R_ZMANIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_14.html";
+		chaptersFiles[R_ZMANIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_15.html";
+		chaptersFiles[R_ZMANIM][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_16.html";
+		chaptersFiles[R_ZMANIM][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_17.html";
 	}
 
 
@@ -1834,7 +3140,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			public boolean onMenuItemClick(MenuItem item)
 			{
 				WebSettings webSettings = webview.getSettings();
-				fontSize = webSettings.getDefaultFontSize();
+				webSettings.setMinimumFontSize(mPrefs.getInt("fontSize",20));
 				switch (item.getItemId())
 				{
 					case 0:/*settings*/
@@ -1890,88 +3196,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						acronymsDecode();
 						break;
 					case 5:/*increase text*/
-						if(fontSize <= 47) {
-							fontSize += 3;
-							webSettings.setDefaultFontSize(fontSize);
-							shPrefEditor.putInt("fontSize", fontSize);
-							shPrefEditor.commit();
-							switch (MyLanguage){
-								case ENGLISH:
-									Toast.makeText(getApplicationContext(),	"Font size - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case RUSSIAN:
-									Toast.makeText(getApplicationContext(),	"Размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case SPANISH:
-									Toast.makeText(getApplicationContext(),	"Tamaño de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case FRENCH:
-									Toast.makeText(getApplicationContext(),	"Taille de police - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								default:
-									Toast.makeText(getApplicationContext(),	"גודל גופן - "+fontSize, Toast.LENGTH_SHORT).show();
-							}
-						}
-						else{
-							switch (MyLanguage){
-								case ENGLISH:
-									Toast.makeText(getApplicationContext(),	"Maximum font size - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case RUSSIAN:
-									Toast.makeText(getApplicationContext(),	"Максимальный размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case SPANISH:
-									Toast.makeText(getApplicationContext(),	"Tamaño máximo de la fuente - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case FRENCH:
-									Toast.makeText(getApplicationContext(),	"Taille maximale de la police - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								default:
-									Toast.makeText(getApplicationContext(),	"גודל גופן מקסימלי", Toast.LENGTH_SHORT).show();
-							}
-						}
+
 						break;
 					case 6:/*decrease text*/
-						if(fontSize >= 10 ) {
-							fontSize -= 3;
-							webSettings.setDefaultFontSize(fontSize);
-							shPrefEditor.putInt("fontSize", fontSize);
-							shPrefEditor.commit();
-							switch (MyLanguage){
-								case ENGLISH:
-									Toast.makeText(getApplicationContext(),	"Font size - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case RUSSIAN:
-									Toast.makeText(getApplicationContext(),	"Размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case SPANISH:
-									Toast.makeText(getApplicationContext(),	"Tamaño de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case FRENCH:
-									Toast.makeText(getApplicationContext(),	"Taille de police - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								default:
-									Toast.makeText(getApplicationContext(),	"גודל גופן - "+fontSize, Toast.LENGTH_SHORT).show();
-							}
-						}
-						else{
-							switch (MyLanguage){
-								case ENGLISH:
-									Toast.makeText(getApplicationContext(),	"Minimum font size - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case RUSSIAN:
-									Toast.makeText(getApplicationContext(),	"Минимальный размер шрифта - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case SPANISH:
-									Toast.makeText(getApplicationContext(),	"Tamaño mínimo de fuente - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								case FRENCH:
-									Toast.makeText(getApplicationContext(),	"Taille de police minimale - "+fontSize, Toast.LENGTH_SHORT).show();
-									break;
-								default:
-									Toast.makeText(getApplicationContext(),	"גודל גופן מינימלי", Toast.LENGTH_SHORT).show();
-							}
-						}
+
 						break;
 					default:
 						break;
@@ -1983,7 +3211,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		popupMenu.show();
 	}//showPopupMenuSettings
 
-	private class MyWebViewClient extends WebViewClient
+	class MyWebViewClient extends WebViewClient
 	{
 		@SuppressLint("NewApi")
 		@Override
@@ -1993,12 +3221,12 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			super.onPageFinished(view, url);
 			String strToastSearch;
 			WebSettings webSettings = webview.getSettings();
+			webSettings.setMinimumFontSize(mPrefs.getInt("fontSize",20));
 
 			if(firstTime == true || ChangeChapter == true)
 			{
 				firstTime = false;
 
-				webSettings.setDefaultFontSize(fontSize);
 
 				if(cameFromSearch == true)
 				{
@@ -2030,6 +3258,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				{
 					//webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";var y = document.getElementsByClassName(\"left_white\"); y[0].style.display = 'none';} myFunction(); ");
 					webview.loadUrl("javascript:function myFunction() {var x = document.body;x.style.color = \"white\";} myFunction(); ");
+					webview.loadUrl("javascript:document.body.style.setProperty(\"color\", \"white\");");
 					llMainLayout.setBackgroundColor(Color.BLACK);
 					webview.setBackgroundColor(0xFFFFFF);//black
 					//	textActionBar.setTitle(Html.fromHtml("<font color=\"white\">" + title + "</font>"));
@@ -2050,34 +3279,40 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public void findBookAndChapter()
 	{
 		String bookAndChapter;
-
-		int length= searchPosition.lastIndexOf("#");
-		if(length == -1)/*it means that all the results are in notes*/
+		System.out.println(searchPosition);
+		if(searchPosition.charAt(19)=='0'||searchPosition.charAt(18)=='0')
 		{
-			length = searchPosition.lastIndexOf(":");
-			noteStr = searchPosition.substring(length+1,searchPosition.length());
-			searchPosition = searchPosition.substring(0, length);
-			bookAndChapter = searchPosition;
+			loadWebview((searchPosition.split(":")[0]),webview);
+			isNotHeb=false;
 		}
-		else
-		{
-			length= searchPosition.lastIndexOf("#");
-			bookAndChapter = searchPosition.substring(0, length);
-		}
+			int length = searchPosition.lastIndexOf("#");
+			if (length == -1)/*it means that all the results are in notes*/ {
 
-		book_chapter = new int[2];
-		for (int i=0; i<=BOOKS_HEB_NUMBER; i++)
-			for (int j=1; j<=lastChapter[i]; j++)
-				if(bookAndChapter.equals(chaptersFiles[i][j]))
-				{
-					book_chapter[0] = i;
-					book_chapter[1] = j;
-					return;
-				}
+				length = searchPosition.lastIndexOf(":");
+				noteStr = searchPosition.substring(length + 1, searchPosition.length());
+				searchPosition = searchPosition.substring(0, length);
+
+				bookAndChapter = searchPosition;
+			} else {
+				length = searchPosition.lastIndexOf("#");
+				bookAndChapter = searchPosition.substring(0, length);
+			}
+
+			book_chapter = new int[2];
+			for (int i = 0; i <= BOOKS_HEB_NUMBER; i++)
+				for (int j = 1; j <= lastChapter[i]; j++)
+					if (bookAndChapter.equals(chaptersFiles[i][j])) {
+						book_chapter[0] = i;
+						book_chapter[1] = j;
+						return;
+					}
+
 	}
 
 	public String convertAnchorIdToSection(int Id)
 	{
+		if (MyLanguage!=HEBREW)
+			return String.valueOf(Id);
 		if(book_chapter[0] == KASHRUT_B && Id != 0)//for KASHRUT_B start from chapter 20
 			Id = Id + 19;
 		switch (Id)
@@ -2168,7 +3403,6 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				return "תת";
 		}
 	}
-
 	public String convertBookIdToName(int bookId)
 	{
 		switch (bookId)
@@ -2222,19 +3456,79 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			case HAR_BRACHOT:
 				return "הר' ברכות";
 			case E_TEFILA:
-				return "Tefila";
+				return "Tefila(en)";
 			case E_PESACH:
-				return "Pesach";
+				return "Pesach(en)";
 			case E_ZMANIM:
-				return "Zmanim";
+				return "Zmanim(en)";
 			case E_WOMEN_PRAYER:
-				return "Women’s Prayer";
+				return "Women’s Prayer(en)";
 			case E_SHABAT:
-				return "Shabbat";
+				return "Shabbat(en)";
+			case E_YAMMIM:
+				return "yammim(en)";
+			case E_MOADIM:
+				return "moadim(en)";
+			case E_SIMCHAT:
+				return "simchat habait(en)";
 			case F_TEFILA:
-				return "La prière d’Israël";
+				return "La prière d’Israël(fr)";
+			case F_MOADIM:
+				return "moadim(fr)";
+			case F_SUCOT:
+				return "sucot(fr)";
+			case F_ZMANIM:
+				return "zmanim(fr)";
+			case F_SIMCHAT:
+				return "simchat habait(fr)";
+			case F_PESACH:
+				return "pesach(fr)";
+			case F_SHABBAT:
+				return "shabbat(fr)";
+			case F_TFILAT_NASHIM:
+				return "tfilat nashim(fr)";
+			case F_YAMMIM:
+				return "yammim noraiim(fr)";
 			case S_SHABAT:
-				return "Shabbat (Español)";
+				return "Shabbat (Es)";
+			case S_BRACHOT:
+				return "Brachot (Es)";
+			case S_MOADIM:
+				return "Moadim (Es)";
+			case S_YAMIM:
+				return "Yamim noriim(Es)";
+			case S_PESACH:
+				return "Pesach (Es)";
+			case S_SIMCHAT:
+				return "Simchat habit (Es)";
+			case S_TFILA:
+				return "Tfila (Es)";
+			case S_TFILAT_NASHIM:
+				return "Tfilat nashim (Es)";
+			case S_ZMANIM:
+				return "Zmanim (Es)";
+			case R_HAAM:
+				return "haam vehaarez(ru)";
+			case R_SHABBAT:
+				return "shabbat(ru)";
+			case R_YAMMIM:
+				return "yamim noriim(ru)";
+			case R_SUCOT:
+				return "sucot(ru)";
+			case R_SIMCHAT:
+				return "simchat habiit(ru)";
+			case R_MISHPHACHA:
+				return "mishpacha(ru)";
+			case R_PESACH:
+				return "pesach(ru)";
+			case R_MOADIM:
+				return "moadim(ru)";
+			case R_TEFILAT_NASHIM:
+				return "tfilat nashim(ru)";
+			case R_TFILA:
+				return "tfila(ru)";
+			case R_ZMANIM:
+				return "zmanim(ru)";
 			default:
 				return "לא ידוע";
 		}
@@ -2243,7 +3537,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	private void fillChaptersNames()
 	{
 		/*BRACHOT*/
-		chaptersNames[BRACHOT][1] = "ברכות: א - פתיחה";
+		chaptersNames[BRACHOT][1] = "ברכות: א - שילה";
 		chaptersNames[BRACHOT][2] = "ברכות: ב - נטילת ידיים לסעודה";
 		chaptersNames[BRACHOT][3] = "ברכות: ג - ברכת המוציא";
 		chaptersNames[BRACHOT][4] = "ברכות: ד - ברכת המזון";
@@ -2634,6 +3928,193 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersNames[HAR_YAMIM][8] = "הר' ימים נוראים: ח - דיני התענית";
 		chaptersNames[HAR_YAMIM][9] = "הר' ימים נוראים: ט - שאר עינויים";
 		chaptersNames[HAR_YAMIM][10] = "הר' ימים נוראים: י - עבודת יום הכיפורים";
+
+		chaptersNames[R_HAAM][1]="Глава 1. Величие Земли Израиля";
+		chaptersNames[R_HAAM][2]="Глава 2. Святое и будничное в заселении Земли Израиля";
+		chaptersNames[R_HAAM][3]="Глава 3. Заповедь заселения Земли Израиля";
+		chaptersNames[R_HAAM][4]="Глава 4. Законы, связанные с воинской службой и ведением войны";
+		chaptersNames[R_HAAM][5]="Глава 5. Сохранение Земли Израиля";
+		chaptersNames[R_HAAM][6]="Глава 6. Некоторые законы, связанные с еврейским государством";
+		chaptersNames[R_HAAM][7]="Глава 7. Взаимная ответственность евреев друг за друга";
+		chaptersNames[R_HAAM][8]="Глава 8. Еврейский труд";
+		chaptersNames[R_HAAM][9]="Глава 9. Память о Храме";
+		chaptersNames[R_HAAM][10]="Глава 10. Законы, связанные с переходом в иудаизм и приобщением к еврейскому народу";
+
+
+		chaptersNames[R_SHABBAT][1]="Глава 1. Введение ";
+		chaptersNames[R_SHABBAT][2]="Глава 2. Приготовления к субботе";
+		chaptersNames[R_SHABBAT][3]="Глава 3. Время наступления субботы";
+		chaptersNames[R_SHABBAT][4]="Глава 4. Зажигание субботних свечей";
+		chaptersNames[R_SHABBAT][5]="Глава 5. Изучение Торы и молитва в субботу";
+		chaptersNames[R_SHABBAT][6]="Глава 6. Законы кидуша";
+		chaptersNames[R_SHABBAT][7]="Глава 7. Субботние трапезы и «проводы субботы» (мелаве малка)";
+		chaptersNames[R_SHABBAT][8]="Глава 8. Ѓавдала и исход субботы";
+		chaptersNames[R_SHABBAT][9]="Глава 9. Работы, запрещенные в субботу (мелахот): общие поло-жения";
+		chaptersNames[R_SHABBAT][10]="Глава 10. Приготовление пищи в субботу";
+		chaptersNames[R_SHABBAT][11]="Глава 11. Запрет отбора в субботу (борер)";
+		chaptersNames[R_SHABBAT][12]="Глава 12. Приготовление различных блюд в субботу";
+		chaptersNames[R_SHABBAT][13]="Глава 13. Работы (мелахот), связанные с одеждой";
+		chaptersNames[R_SHABBAT][14]="Глава 14. Уход за телом";
+		chaptersNames[R_SHABBAT][15]="Глава 15. Запреты строительства (боне) и разрушения постро енного (сотер) применительно к дому и предметам домашнего обихода";
+		chaptersNames[R_SHABBAT][16]="Глава 16. Зажигание и тушение огня";
+		chaptersNames[R_SHABBAT][17]="Глава 17. Электричество и электроприборы";
+		chaptersNames[R_SHABBAT][18]="Глава 18. Запреты письма (котев), стирания написанного (мохек) и окрашивания (цовеа)";
+		chaptersNames[R_SHABBAT][19]="Глава 19. Работы (мелахот), связанные с растениями";
+		chaptersNames[R_SHABBAT][20]="Глава 20. Работы (мелахот), связанные с животными";
+		chaptersNames[R_SHABBAT][21]="Глава 21. Законы перенесения предметов из одного владения в другое";
+		chaptersNames[R_SHABBAT][22]="Глава 22. Субботняя атмосфера";
+		chaptersNames[R_SHABBAT][23]="Глава 23. Запрет мукце";
+		chaptersNames[R_SHABBAT][24]="Глава 24. Законы, связанные с детьми";
+		chaptersNames[R_SHABBAT][25]="Глава 25. Работы (мелахот), выполняемые неевреем";
+		chaptersNames[R_SHABBAT][26]="Глава 26. Работа (мелаха), выполненная в субботу, и запрет «пред слепым не клади преткновения»";
+		chaptersNames[R_SHABBAT][27]="Глава 27. Спасение жизни (пикуах нефеш); законы в отношении больного";
+		chaptersNames[R_SHABBAT][28]="Глава 28. Законы в отношении человека, больного неопасной бо- лезнью";
+		chaptersNames[R_SHABBAT][29]="Глава 29. Законы эрува";
+		chaptersNames[R_SHABBAT][30]="Глава 30. Субботний предел";
+
+
+		chaptersNames[R_YAMMIM][1]="Глава 1  Высший суд, награда и наказание  ";
+		chaptersNames[R_YAMMIM][2]="Глава 2  Слихот (молитвы, призывающие к раскаянию) ";
+		chaptersNames[R_YAMMIM][3]="Глава 3  Рош ѓа-Шана   ";
+		chaptersNames[R_YAMMIM][4]="Глава 4  Заповедь трубления в шофар";
+		chaptersNames[R_YAMMIM][5]="Глава 5  Десять дней покаяния";
+		chaptersNames[R_YAMMIM][6]="Глава 6  Йом Кипур";
+		chaptersNames[R_YAMMIM][7]="Глава 7  Законы Йом Кипура  ";
+		chaptersNames[R_YAMMIM][8]="Глава 8  Законы поста в Йом Кипур";
+		chaptersNames[R_YAMMIM][9]="Глава 9  Остальные запреты Йом Кипура";
+		chaptersNames[R_YAMMIM][10]="Глава 10  Храмовое служение в Йом Кипур";
+
+		chaptersNames[R_SUCOT][1]="Глава 1  Праздник Суккот";
+		chaptersNames[R_SUCOT][2]="Глава 2  Законы сукки";
+		chaptersNames[R_SUCOT][3]="Глава 3  Заповедь жить в сукке    ";
+		chaptersNames[R_SUCOT][4]="Глава 4  Четыре вида растений (арбаат ѓа-миним)";
+		chaptersNames[R_SUCOT][5]="Глава 5  Заповедь лулава (нетилат лулав";
+		chaptersNames[R_SUCOT][6]="Глава 6  Ѓошана раба – седьмой день праздника Суккот";
+		chaptersNames[R_SUCOT][7]="Глава 7  Шмини Ацерет";
+		chaptersNames[R_SUCOT][8]="Глава 8  Ѓакѓель";
+
+		chaptersNames[R_SIMCHAT][1]="Глава 1. Заповедь супружеской близости (мицват она)";
+		chaptersNames[R_SIMCHAT][1]="Глава 2. Законы исполнения заповеди супружеской близости";
+		chaptersNames[R_SIMCHAT][1]="Глава 3. Святость и душевный настрой (кавана) при исполнении заповеди супружеской близости";
+		chaptersNames[R_SIMCHAT][1]="Глава 4. Соблюдение Священного завета";
+		chaptersNames[R_SIMCHAT][1]="Глава 5. Заповедь «плодитесь и размножайтесь» ";
+		chaptersNames[R_SIMCHAT][1]="Глава 6. Различные трудности и бесплодие";
+		chaptersNames[R_SIMCHAT][1]="Глава 7. Проблемы мужского бесплодия: увечье,кастрация и стерилизация";
+		chaptersNames[R_SIMCHAT][1]="Глава 8. Слова поддержки и утешения бездетным парам";
+		chaptersNames[R_SIMCHAT][1]="Глава 9. Прерывание беременности ";
+		chaptersNames[R_SIMCHAT][1]="Глава 10. Мужчина и женщина";
+
+		chaptersNames[R_MISHPHACHA][1]="Глава 1. Заповедь почтения к родителям ";
+		chaptersNames[R_MISHPHACHA][2]="Глава 2. Заповедь вступления в брак";
+		chaptersNames[R_MISHPHACHA][3]="Глава 3. Сватовство";
+		chaptersNames[R_MISHPHACHA][4]="Глава 4. Кидушин и ктуба";
+		chaptersNames[R_MISHPHACHA][5]="Глава 5. Свадебные законы и обычаи";
+		chaptersNames[R_MISHPHACHA][6]="Глава 6. Запрещенные интимные связи";
+		chaptersNames[R_MISHPHACHA][7]="Глава 7. Законы скромности";
+		chaptersNames[R_MISHPHACHA][8]="Глава 8. Заповедь обрезания (Брит мила)";
+		chaptersNames[R_MISHPHACHA][9]="Глава 9. Выкуп первенцев";
+		chaptersNames[R_MISHPHACHA][10]="Глава 10. Законы траура";
+
+		chaptersNames[R_PESACH][1]="Глава 1. Смысл праздника Песах";
+		chaptersNames[R_PESACH][2]="Глава 2. Правила, связанные с запретом на квасное (хамец)";
+		chaptersNames[R_PESACH][3]="Глава 3. Заповедь устранения квасного (биур хамец)";
+		chaptersNames[R_PESACH][4]="Глава 4. Проверка владений еврея на наличие квасного (бдикат хамец)";
+		chaptersNames[R_PESACH][5]="Глава 5. Аннулирование квасного (битуль хамец) и его уничтожение";
+		chaptersNames[R_PESACH][6]="Глава 6. Продажа квасного";
+		chaptersNames[R_PESACH][7]="Глава 7. Смесь квасного с пищей, кошерной на Песах (тааровет хамец)";
+		chaptersNames[R_PESACH][8]="Глава 8. Некоторые законы кашрута на Песах.";
+		chaptersNames[R_PESACH][9]="Глава 9. Обычай запрета китнийот в Песах";
+		chaptersNames[R_PESACH][10]="Глава 10. Общие правила кошерования посуды к Песаху";
+		chaptersNames[R_PESACH][11]="Глава 11. Кошерование кухни к Песаху";
+		chaptersNames[R_PESACH][12]="Глава 12. Законы, связанные с мацой";
+		chaptersNames[R_PESACH][13]="Глава 13. Законы и обычаи кануна Песаха";
+		chaptersNames[R_PESACH][14]="Глава 14. Если канун Песаха выпадает на субботу";
+		chaptersNames[R_PESACH][15]="Глава 15. Пасхальная Агада";
+		chaptersNames[R_PESACH][16]="Глава 16. Пасхальный Седер";
+
+		chaptersNames[R_MOADIM][1]="Глава 1. Вступление";
+		chaptersNames[R_MOADIM][2]="Глава 2. Заповеди-предписания (мицвот асэ),действующие в йом тов";
+		chaptersNames[R_MOADIM][3]="Глава 3. Запрет выполнения созидательной работы (мелаха) в йом тов";
+		chaptersNames[R_MOADIM][4]="Глава 4. Виды созидательной работы (мелаха),связанной с приготовлением пищи";
+		chaptersNames[R_MOADIM][5]="Глава 5. Зажигание и тушение огня; использование электричества в йом тов";
+		chaptersNames[R_MOADIM][6]="Глава 6. Перенесение предметов из одного владения в другое; закон мукце";
+		chaptersNames[R_MOADIM][7]="ГГлава 7. Некоторые законы йом това";
+		chaptersNames[R_MOADIM][8]="Глава 8. Эрув тавшилин";
+		chaptersNames[R_MOADIM][9]="Глава 9. Второй йом тов за пределами Земли Израиля";
+		chaptersNames[R_MOADIM][10]="Глава 10. Заповеди холь ѓа-моэда";
+		chaptersNames[R_MOADIM][11]="Глава 11. Созидательная работа (мелаха) в холь ѓа-моэд";
+		chaptersNames[R_MOADIM][12]="Глава 12. Какая работа разрешена в холь ѓа-моэд";
+		chaptersNames[R_MOADIM][13]="Глава 13 Шавуот";
+
+		chaptersNames[R_TEFILAT_NASHIM][1]="Глава 1  Основы законов молитвы ";
+		chaptersNames[R_TEFILAT_NASHIM][2]="Глава 2  Заповедь молитвы для женщин";
+		chaptersNames[R_TEFILAT_NASHIM][3]="Глава 3  Смысл заповедей, обязательных для женщин";
+		chaptersNames[R_TEFILAT_NASHIM][4]="Глава 4  Утреннее пробуждение";
+		chaptersNames[R_TEFILAT_NASHIM][5]="Глава 5  Утреннее омовение рук";
+		chaptersNames[R_TEFILAT_NASHIM][6]="ГГлава 6  Утренние благословения (Биркот ѓа-шахар) ";
+		chaptersNames[R_TEFILAT_NASHIM][7]="Глава 7  Благословения Торы (Биркот ѓа-Тора) ";
+		chaptersNames[R_TEFILAT_NASHIM][8]="Глава 8  Утренняя молитвенная служба (шахарит) и законы, связанные с подготовкой к ней";
+		chaptersNames[R_TEFILAT_NASHIM][9]="Глава 9  Телесная подготовка к молитве ";
+		chaptersNames[R_TEFILAT_NASHIM][10]="Глава 10  Подготовка души к молитве; одежда, подобающая молитве  ";
+		chaptersNames[R_TEFILAT_NASHIM][11]="Глава 11  Место молитвы ";
+		chaptersNames[R_TEFILAT_NASHIM][12]="Глава 12  Молитва амида ";
+		chaptersNames[R_TEFILAT_NASHIM][13]="Глава 13  Ошибки при чтении молитвы амида ";
+		chaptersNames[R_TEFILAT_NASHIM][14]="Глава 14  Почтительное отношение к молитве ";
+		chaptersNames[R_TEFILAT_NASHIM][15]="Глава 15  Отрывки о жертвоприношениях (Корбанот) и «Хвалебные гимны» (Псукей де-зимра) ";
+		chaptersNames[R_TEFILAT_NASHIM][16]="Глава 16  Шма Исраэль и сопутствующие благословения ";
+		chaptersNames[R_TEFILAT_NASHIM][17]="Глава 17  Молитвы, читаемые после амиды";
+		chaptersNames[R_TEFILAT_NASHIM][18]="Глава 18  Послеполуденная и вечерняя молитвы (минха и арвит) ";
+		chaptersNames[R_TEFILAT_NASHIM][19]="Глава 19  Чтение Шма Исраэль перед отходом ко сну ";
+		chaptersNames[R_TEFILAT_NASHIM][20]="Глава 20  Отдельные законы молитвы в миньяне ";
+		chaptersNames[R_TEFILAT_NASHIM][21]="Глава 21  Отдельные законы, связанные с синагогой ";
+		chaptersNames[R_TEFILAT_NASHIM][22]="Глава 22  Молитва и кидуш в субботу";
+		chaptersNames[R_TEFILAT_NASHIM][23]="Глава 23  Отдельные законы праздников и памятных дней";
+		chaptersNames[R_TEFILAT_NASHIM][24]="Глава 24  Молитвенные каноны и обычаи разных общин ";
+
+		chaptersNames[R_TFILA][1]="Глава 1 Основы законов молитвы ";
+		chaptersNames[R_TFILA][2]="Глава 2 Миньян";
+		chaptersNames[R_TFILA][3]="Глава 3 Место молитвы";
+		chaptersNames[R_TFILA][4]="Глава 4 Кантор и кадиш скорбящих";
+		chaptersNames[R_TFILA][5]="Глава 5 Подготовка к молитве";
+		chaptersNames[R_TFILA][6]="Глава 6 Молитвенные каноны и обычаи разных общин ";
+		chaptersNames[R_TFILA][7]="Глава 7 Утреннее пробуждение";
+		chaptersNames[R_TFILA][8]="Глава 8 Утреннее омовение рук";
+		chaptersNames[R_TFILA][9]="Глава 9 Утренние благословения (Биркот ѓа-шахар)";
+		chaptersNames[R_TFILA][10]="Глава 10 Благословения Торы (Биркот ѓа-Тора)";
+		chaptersNames[R_TFILA][11]="Глава 11 Время чтения Шма Исраэль и утренней молитвы ( шахарит)";
+		chaptersNames[R_TFILA][12]="Глава 12 Подготовка к утренней молитве";
+		chaptersNames[R_TFILA][13]="Глава 13 Порядок жертвоприношений (Корбанот)";
+		chaptersNames[R_TFILA][14]="Глава 14 Хвалебные гимны (Псукей де-зимра)";
+		chaptersNames[R_TFILA][15]="Глава 15 Шма Исраэль ";
+		chaptersNames[R_TFILA][16]="Глава 16 Благословения, сопровождающие чтение Шма Исраэль";
+		chaptersNames[R_TFILA][17]="Глава 17 Молитва амида";
+		chaptersNames[R_TFILA][18]="Глава 18 Ошибки при чтении молитвы амида";
+		chaptersNames[R_TFILA][19]="Глава 19 Повторение кантором молитвы амида";
+		chaptersNames[R_TFILA][20]="Глава 20 Благословение народа коѓенами (Биркат коѓаним)";
+		chaptersNames[R_TFILA][21]="Глава 21 Таханун и Нефилат апаим";
+		chaptersNames[R_TFILA][22]="Глава 22 Некоторые законы чтения Торы";
+		chaptersNames[R_TFILA][23]="Глава 23 Окончание утренней молитвы и законы кадиша";
+		chaptersNames[R_TFILA][24]="Глава 24 Минха - послеполуденная молитва ";
+		chaptersNames[R_TFILA][25]="Глава 25 Арвит - вечерняя молитва ";
+		chaptersNames[R_TFILA][26]="Глава 26 Чтение Шма Исраэль перед отходом ко сну";
+
+		chaptersNames[R_ZMANIM][1]="Глава 1. Новомесячье (рош ходеш)";
+		chaptersNames[R_ZMANIM][2]="Глава 2. Законы отсчета омера (сфират ѓа-омер)";
+		chaptersNames[R_ZMANIM][3]="Глава 3. Траурные обычаи в период отсчета омера";
+		chaptersNames[R_ZMANIM][4]="Глава 4. День независимости Израиля, День освобождения Иерусалима и дни памяти";
+		chaptersNames[R_ZMANIM][5]="Глава 5. Лаг ба-омер";
+		chaptersNames[R_ZMANIM][6]="Глава 6. Четыре поста в память о разрушении Храма";
+		chaptersNames[R_ZMANIM][7]="Глава 7. Законы малых постов";
+		chaptersNames[R_ZMANIM][8]="Глава 8. Обычаи трех траурных недель бейн ѓа-мецарим";
+		chaptersNames[R_ZMANIM][9]="Глава 9. Канун поста 9 ава";
+		chaptersNames[R_ZMANIM][10]="Глава 10. Законы поста 9 ава";
+		chaptersNames[R_ZMANIM][11]="Глава 11. Дни Хануки";
+		chaptersNames[R_ZMANIM][12]="Глава 12. Зажигание ханукальных свечей";
+		chaptersNames[R_ZMANIM][13]="Глава 13. Законы места и времени";
+		chaptersNames[R_ZMANIM][14]="Глава 14. Месяц адар";
+		chaptersNames[R_ZMANIM][15]="Глава 15. Пурим и чтение Свитка Эстер";
+		chaptersNames[R_ZMANIM][16]="Глава 16. Заповеди радости и милосердия";
+		chaptersNames[R_ZMANIM][17]="Глава 17. Законы городов, обнесенных и не обнесенных стеной";
 	}
 
 	void innerSearch()
@@ -2644,9 +4125,56 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		innerSearchDialog = new Dialog(context);
 		innerSearchDialog.setContentView(R.layout.inner_search);
 		innerSearchDialog.setTitle("חיפוש בפרק הנוכחי");
+		Window window = innerSearchDialog.getWindow();
 
-		Button dialogButton = (Button) innerSearchDialog.findViewById(R.id.dialogButtonOK);
-		TextToSearch = (EditText) innerSearchDialog.findViewById(R.id.editTextTextToSearch );
+		window.setGravity(Gravity.TOP);
+		//window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+		//window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+
+		ImageView dialogButton =  innerSearchDialog.findViewById(R.id.goSearch);
+		TextToSearch = (EditText) innerSearchDialog.findViewById(R.id.title );
+		TextToSearch.setOnEditorActionListener(
+				new EditText.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+								actionId == EditorInfo.IME_ACTION_DONE ||
+								event != null &&
+										event.getAction() == KeyEvent.ACTION_DOWN &&
+										event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+							if (event == null || !event.isShiftPressed()) {
+								// the user is done typing.
+
+								innerSearchText = TextToSearch.getText().toString();
+
+								innerSearchDialog.dismiss();
+								lnrFindOptions.setVisibility(View.VISIBLE);
+								lnrFindOptions.setTag("vis");
+								if(API < 16)
+								{
+									int a=webview.findAll(/*"כל"*/innerSearchText);
+									/*to highlight the searched text*/
+									try
+									{
+										Method m = WebView.class.getMethod("setFindIsUp", Boolean.TYPE);
+										m.invoke(webview, true);
+									}
+									catch (Throwable ignored){}
+								}
+								else
+								{
+									webview.findAllAsync(/*"כל"*/innerSearchText);
+								}
+
+								return true; // consume.
+							}
+						}
+						return false; // pass on to other listeners.
+					}
+				}
+		);
+		ImageView clearBtn = innerSearchDialog.findViewById(R.id.clear);
 
 		// if button is clicked
 		dialogButton.setOnClickListener(new OnClickListener()
@@ -2659,6 +4187,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 
 				innerSearchDialog.dismiss();
 				lnrFindOptions.setVisibility(View.VISIBLE);
+				lnrFindOptions.setTag("vis");
 				if(API < 16)
 				{
 					int a=webview.findAll(/*"כל"*/innerSearchText);
@@ -2674,6 +4203,13 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				{
 					webview.findAllAsync(/*"כל"*/innerSearchText);
 				}
+			}
+		});
+		clearBtn.setOnClickListener(new View.OnClickListener() {
+			@SuppressLint("NewApi")
+			@Override
+			public void onClick(View v) {
+				TextToSearch.setText("");
 			}
 		});
 		innerSearchDialog.show();
@@ -2767,14 +4303,14 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 		});
 		spinnerAutoScroll = (Spinner) autoScrollDialog.findViewById(R.id.spinner_auto_scroll);
-		scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
-		spinnerAutoScroll.setSelection((scrollSpeed / 2) - 1);
+		//scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
+		//spinnerAutoScroll.setSelection((scrollSpeed / 2) - 1);
 		spinnerAutoScroll.setOnItemSelectedListener(new OnItemSelectedListener() {
 			boolean first = true;
 
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				scrollSpeed = (pos + 1) * 2;
-				shPrefEditor.putInt("scrollSpeed", scrollSpeed);
+				//scrollSpeed = (pos + 1) * 2;
+				//shPrefEditor.putInt("scrollSpeed", scrollSpeed);
 				shPrefEditor.commit();
 			}
 

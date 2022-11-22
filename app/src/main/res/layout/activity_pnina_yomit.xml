@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tooBooks"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".pninaYomit"
+    android:theme="@style/Theme.AppCompat.NoActionBar"
+    android:background="#970606">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp">
+
+            <LinearLayout
+                android:id="@+id/lnrOption3"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="#FFF7EC"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/to_main"
+                    android:layout_width="170dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="110dp"
+                    android:layout_marginLeft="110dp"
+                    android:scaleX="1"
+                    android:scaleY="1"
+                    android:src="@drawable/to_main"
+                    android:tag="4" />
+
+                <ImageView
+                    android:id="@+id/menu"
+                    android:layout_width="69dp"
+                    android:layout_height="40dp"
+
+                    android:layout_marginStart="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:paddingRight="15dp"
+                    android:scaleX="0.6"
+                    android:scaleY="0.6"
+                    android:src="@drawable/action_config"
+                    android:tag="4" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/b_chap2"
+                android:layout_width="30000dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="50dp"
+                android:scaleX="80000"
+                android:src="@drawable/head_shaddow"
+                android:tag="4" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrOptions"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#970606"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/set_note"
+            android:layout_width="181dp"
+            android:layout_height="29dp"
+            android:background="@drawable/h_pnina_reminder"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingRight="70dp"
+            android:text="קבע תזכורת"
+            android:textColor="#FFFFFF"
+            android:textSize="17dp" />
+        <TextView
+            android:id="@+id/set_note_en"
+            android:layout_width="181dp"
+            android:layout_height="29dp"
+            android:background="@drawable/h_pnina_reminder"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingRight="70dp"
+            android:paddingTop="2dp"
+            android:text="   set a reminder"
+            android:textColor="#FFFFFF"
+            android:textSize="15dp"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/set_note_r"
+            android:layout_width="181dp"
+            android:layout_height="29dp"
+            android:background="@drawable/h_pnina_reminder"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingRight="70dp"
+            android:paddingTop="3dp"
+            android:text="  напоминание"
+            android:textColor="#FFFFFF"
+            android:textSize="16dp"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/set_note_f"
+            android:layout_width="181dp"
+            android:layout_height="29dp"
+            android:background="@drawable/h_pnina_reminder"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingRight="70dp"
+            android:paddingTop="2dp"
+            android:text="   rappel"
+            android:textColor="#FFFFFF"
+            android:textSize="17dp"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/set_note_es"
+            android:layout_width="181dp"
+            android:layout_height="29dp"
+            android:background="@drawable/h_pnina_reminder"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingRight="70dp"
+            android:paddingTop="3dp"
+            android:text="   recordatorio"
+            android:textColor="#FFFFFF"
+            android:textSize="17dp"
+            android:visibility="gone"
+            />
+        <ImageButton
+            android:id="@+id/deleteReminder"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:background="#00FFFFFF"
+            android:src="@drawable/delete_reminder" />
+
+        <NumberPicker
+            android:id="@+id/etH"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:paddingTop="5dp"
+            android:theme="@style/AppTheme.Picker"
+            android:scaleY="1.2"
+
+/>
+
+        <ImageButton
+            android:id="@+id/sep"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:background="#970606"
+            android:src="@drawable/pnina_sep" />
+
+        <NumberPicker
+            android:id="@+id/etM"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:paddingTop="5dp"
+            android:theme="@style/AppTheme.Picker"
+            android:scaleY="1.2"
+
+            />
+
+
+
+    </LinearLayout>
+
+    <WebView
+        android:id="@+id/webView1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

@@ -1,19 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:showDividers="middle|end"
-    tools:context=".Settings" >
+    android:background="#FFFFFF"
+     >
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp">
+
+        <LinearLayout
+            android:id="@+id/lnrOption3"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="#FFF7EC"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/to_main"
+                android:layout_width="170dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="110dp"
+                android:layout_marginLeft="110dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/to_main"
+                android:tag="4" />
+
+            <ImageView
+                android:id="@+id/menu"
+                android:layout_width="69dp"
+                android:layout_height="40dp"
+
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:paddingRight="15dp"
+                android:scaleX="0.6"
+                android:scaleY="0.6"
+                android:src="@drawable/action_config"
+                android:tag="4" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/b_chap2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="50dp"
+            android:scaleX="800"
+            android:src="@drawable/head_shaddow"
+            android:tag="4" />
+    </RelativeLayout>
     <ListView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/Bookmarkslist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:divider="#FFF7EC"
+        >
     </ListView>
-
     <Button
         android:id="@+id/buttonDeleteAll"
         android:layout_width="wrap_content"

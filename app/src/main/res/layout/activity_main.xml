@@ -2,27 +2,84 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/app_name"
+
     tools:context=".MainActivity" >
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:orientation="horizontal"
-        >
-        
-</LinearLayout>
+        android:layout_height="58dp">
 
-    <ExpandableListView
-        android:id="@+id/lvExp"
+        <LinearLayout
+            android:id="@+id/lnrOption3"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="#FFF7EC"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/to_main"
+                android:layout_width="170dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="110dp"
+                android:layout_marginLeft="110dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/to_main"
+                android:tag="4" />
+
+            <ImageView
+                android:id="@+id/menu"
+                android:layout_width="69dp"
+                android:layout_height="40dp"
+
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:paddingRight="30dp"
+                android:scaleX="0.6"
+                android:scaleY="0.6"
+                android:src="@drawable/action_config"
+                android:tag="4" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/b_chap2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="50dp"
+            android:scaleX="800"
+            android:src="@drawable/head_shaddow"
+            android:tag="4" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/linearLayout1"
-        android:layout_below="@+id/linearLayout1"
-         >
-    </ExpandableListView>
+        android:layout_height="match_parent"
+        android:layout_marginTop="52dp"
+
+        android:background="#F5EDE6">
+
+        <ExpandableListView
+            android:id="@+id/lvExp"
+            android:layout_width="409dp"
+            android:layout_height="match_parent"
+
+
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="0dp"
+            android:background="#00131515"
+            android:cacheColorHint="#DC0A0A"
+            android:divider="#00FFFFFF"
+            android:dividerHeight="2px"
+
+
+            android:groupIndicator="@null"
+
+
+            ></ExpandableListView>
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -3,9 +3,22 @@ package com.rafraph.pnineyHalachaHashalem;
 
 
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.os.Handler;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +29,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -24,20 +38,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.RadioButton;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +59,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
 {
+	private HashMap<String,Integer> numbook=new HashMap<>();
 	private static final int BRACHOT      	= 0;
 	private static final int HAAMVEHAAREZ 	= 1;
 	private static final int ZMANIM    		= 2;
@@ -69,34 +84,69 @@ public class MainActivity extends AppCompatActivity
 	private static final int HAR_SUCOT      = 21;
 	private static final int HAR_SHABAT     = 22;
 	private static final int HAR_SIMCHAT    = 23;
-	private static final int BOOKS_HEB_NUMBER	= 24;
+	private static final int BOOKS_HEB_NUMBER=24;
 	private static final int E_TEFILA       = 24;
 	private static final int E_PESACH       = 25;
 	private static final int E_ZMANIM       = 26;
 	private static final int E_WOMEN_PRAYER = 27;
 	private static final int E_SHABAT       = 28;
-	private static final int F_TEFILA       = 29;
-	private static final int S_SHABAT       = 30;
-	private static final int BOOKS_NUMBER	= 31;
-
-
+	private static final int E_YAMMIM 	    = 29;
+	private static final int E_MOADIM   	= 30;
+	private static final int E_SIMCHAT     	= 31;
+	private static final int S_SHABAT       = 32;
+	private static final int S_BRACHOT       =33;
+	private static final int S_MOADIM        =34;
+	private static final int S_YAMIM         =35;
+	private static final int S_PESACH        =36;
+	private static final int S_SIMCHAT       =37;
+	private static final int S_TFILA         =38;
+	private static final int S_TFILAT_NASHIM =39;
+	private static final int S_ZMANIM        =40;
+	private static final int R_HAAM         = 41;
+	private static final int R_SHABBAT      = 42;
+	private static final int R_YAMMIM       = 43;
+	private static final int R_SUCOT        = 44;
+	private static final int R_SIMCHAT      = 45;
+	private static final int R_MISHPHACHA   = 46;
+	private static final int R_PESACH       = 47;
+	private static final int R_MOADIM       = 48;
+	private static final int R_TEFILAT_NASHIM=49;
+	private static final int R_TFILA         =50;
+	private static final int R_ZMANIM        =51;
+	private static final int F_TFILA         =52;
+	private static final int F_MOADIM        =53;
+	private static final int F_SUCOT         =54;
+	private static final int F_ZMANIM        =55;
+	private static final int F_SIMCHAT       =56;
+	private static final int F_PESACH        =57;
+	private static final int F_SHABBAT       =58;
+	private static final int F_YAMMIM        =59;
+	private static final int F_TFILAT_NASHIM =60;
+	private static final int BOOKS_NUMBER	= 61;
 	private static final int HEBREW	 = 0;
 	private static final int ENGLISH = 1;
 	private static final int RUSSIAN = 2;
 	private static final int SPANISH = 3;
 	private static final int FRENCH = 4;
-
+	public  static  int pop=0;
+	public static int nowExp=-1;
+	private SeekBar seekbar;
+	private static int heS=0,heE=23,enS=24,enE=31,esS=32,esE=40,ruS=41,ruE=51,frS=52,frE=60;
+	private TextView cb;
+	public static Bundle extras;
+	private static  boolean  hebDisplay = true;
+	private List<String> books = new ArrayList<String>();
 	public ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
 	LinearLayout LinearLayoutListGroup;
-	List<String> listDataHeader;
+	List<String> listDataHeader,listDisplay;
 	HashMap<String, List<String>> listDataChild;
 	public static final String PREFS_NAME = "MyPrefsFile";
 	static SharedPreferences mPrefs;
 	SharedPreferences.Editor shPrefEditor;
 	public int BlackBackground=0, SleepScreen=1, MyLanguage = -1;
 	public MenuInflater inflater;
-	public ActionBar ab;
+	public ActionBar actionBar;
 	public Menu abMenu=null;
 	public EditText TextToDecode;
 	public Dialog acronymsDialog, newVersionDialog, simchatDialog, languageDialog, booksDownloadDialog;
@@ -104,40 +154,411 @@ public class MainActivity extends AppCompatActivity
 	public int StartInLastLocation = 1;
 	public boolean newVersion = false;
 	public Context context;
+	public boolean changeL=false;
+	public String tochen="";
+	public String HneedPr="זקוקה הרשאה",Hmassage="הרשאה זו נצרכת בשביל להוריד  את הספרים",Hconfirm="אשר",Hcancel="סרב";
+	public String EnSureDel="books Deleted",EnmassageDel="this book will deleted",EnconfirmDel="confirm",EncancelDel="cancel";
+	private int STORAGE_PREMISSION_CODE=1;
+	public boolean HomePage;
 	//private StorageReference storageRef;
 	//private FirebaseStorage storage;
 	//private FirebaseAuth mAuth;
-
+	@Override
+	public void onBackPressed() {
+		//if(nowExp==-1) {  // change to this for only close the inner list and not go to the home page
+		if(true) {
+			try {
+				Class ourClass = null;
+				Intent ourIntent;
+				ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+				ourIntent = new Intent(MainActivity.this, ourClass);
+				startActivity(ourIntent);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			expListView.collapseGroup(nowExp);
+			shPrefEditor.putInt("expList",-1);
+			System.out.println(mPrefs.getInt("expList",-1));
+			expListView.setSelection(0);
+			nowExp=-1;
+		}
+	}
+	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+//		if (mPrefs.getInt("BlackBackground", 0)==0)
+//			Toast.makeText(getApplicationContext(), "אין חיבור אינטרנט", Toast.LENGTH_LONG).show();
 		context = this;
 		mPrefs = getSharedPreferences(PREFS_NAME, 0);
 		shPrefEditor = mPrefs.edit();
 		BlackBackground = mPrefs.getInt("BlackBackground", 0);
 		StartInLastLocation = mPrefs.getInt("StartInLastLocation", 1);
 		MyLanguage = mPrefs.getInt("MyLanguage", -1);
+
+
 		//storage = FirebaseStorage.getInstance();
 		// Create a storage reference from our app
 		//StorageReference storageRef = storage.getReference();
 
 		//mAuth = FirebaseAuth.getInstance();
 
-		ab = getSupportActionBar();
+		actionBar = getSupportActionBar();
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.lvExp);
+		expListView.setGroupIndicator(null);
 
 		// preparing list data
 		prepareListData();
+		if(hebDisplay) {
+			for (int i = heS; i <= heE; i++)
+				listDisplay.add(listDataHeader.get(i));
+		}
+		ImageView toMain= (ImageView) findViewById(R.id.to_main);
+		if(MyLanguage==ENGLISH)
+			toMain.setImageResource(R.drawable.to_main_e);
+		if(MyLanguage==RUSSIAN)
+			toMain.setImageResource(R.drawable.to_main_r);
+		if(MyLanguage==SPANISH)
+			toMain.setImageResource(R.drawable.to_main_s);
+		if(MyLanguage==FRENCH)
+			toMain.setImageResource(R.drawable.to_main_f);
+		toMain.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try
+				{
+					Class ourClass = null;
+					Intent ourIntent;
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+					ourIntent = new Intent(MainActivity.this, ourClass);
+					startActivity(ourIntent);
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+		ImageView menu= (ImageView) findViewById(R.id.menu);
 
-		listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+		menu.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ContextThemeWrapper ctw = new ContextThemeWrapper(MainActivity.this, R.style.CustomPopupTheme);
+				PopupMenu popupMenu = new PopupMenu(ctw, v);
+				//popupMenu.
+
+				if(MyLanguage == ENGLISH) {
+					popupMenu.getMenu().add(0,-1,0,"Homepage");
+					popupMenu.getMenu().add(0,0,0,"Settings");
+					popupMenu.getMenu().add(0,1,0,"Books");
+					popupMenu.getMenu().add(0,2,0,"Daily Study");
+					popupMenu.getMenu().add(0,3,0,"Search");
+					popupMenu.getMenu().add(0,5,0,"Contact Us");
+					popupMenu.getMenu().add(0,6,0,"Purchasing books");
+					popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"About the series");
+					popupMenu.getMenu().add(0,9,0,"About");
+				}
+				else if(MyLanguage == RUSSIAN) {
+					popupMenu.getMenu().add(0,-1,0,"домашняя страница");
+					popupMenu.getMenu().add(0,0,0,"Настройки");
+					popupMenu.getMenu().add(0,1,0,"Книги");
+					popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
+					popupMenu.getMenu().add(0,3,0,"Поиск");
+					popupMenu.getMenu().add(0,5,0,"Отзыв");
+					popupMenu.getMenu().add(0,6,0,"Список книг");
+					popupMenu.getMenu().add(0,7,0,"Спросить равина");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"О серии книг");
+					popupMenu.getMenu().add(0,9,0,"О приложении");
+				}
+				else if(MyLanguage == SPANISH) {
+					popupMenu.getMenu().add(0,-1,0,"Página principal");
+					popupMenu.getMenu().add(0,0,0,"Definiciones");
+					popupMenu.getMenu().add(0,1,0,"Libros");
+					popupMenu.getMenu().add(0,2,0,"Estudio diario");
+					popupMenu.getMenu().add(0,3,0,"Búsqueda");
+					popupMenu.getMenu().add(0,5,0,"Retroalimentación");
+					popupMenu.getMenu().add(0,6,0,"Compra de libros");
+					popupMenu.getMenu().add(0,7,0,"Pregúntale al rabino");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"En la serie");
+					popupMenu.getMenu().add(0,9,0,"Sobre");
+				}
+				else if(MyLanguage == FRENCH) {
+					popupMenu.getMenu().add(0,-1,0,"Page d'accueil");
+					popupMenu.getMenu().add(0,0,0,"Réglages");
+					popupMenu.getMenu().add(0,1,0,"Livres");
+					popupMenu.getMenu().add(0,2,0,"étude quotidienne");
+					popupMenu.getMenu().add(0,3,0,"Recherche");
+					popupMenu.getMenu().add(0,5,0,"Contact Us");
+					popupMenu.getMenu().add(0,6,0,"Achat de livres");
+					popupMenu.getMenu().add(0,7,0,"Demander au rav");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"Sur la collection");
+					popupMenu.getMenu().add(0,9,0,"À propos");
+				}
+				else {/*this is the default*/
+					popupMenu.getMenu().add(0,-1,0,"דף הבית");
+					popupMenu.getMenu().add(0,0,0,"הגדרות");
+					popupMenu.getMenu().add(0,1,0,"ספרים");
+					popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
+					popupMenu.getMenu().add(0,3,0,"חיפוש");
+					popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
+					popupMenu.getMenu().add(0,5,0,"משוב");
+					popupMenu.getMenu().add(0,6,0,"רכישת ספרים");
+					popupMenu.getMenu().add(0,7,0,"שאל את הרב");
+					//booksDownload configHeaders[6] = "ספרים להורדה";
+					popupMenu.getMenu().add(0,8,0,"על הסדרה");
+					popupMenu.getMenu().add(0,9,0,"אודות");
+				}
+				popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+				{
+
+					@Override
+					public boolean onMenuItemClick(MenuItem item)
+					{
+						Class ourClass = null;
+						Intent ourIntent;
+						Intent intent;
+						switch (item.getItemId())
+						{
+							case -1:/*Home page*/
+
+								try
+								{
+									ourClass = null;
+
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+									ourIntent = new Intent(MainActivity.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+
+							case 0:/*settings*/
+
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(MainActivity.this, ourClass);
+								ourIntent.putExtra("homePage", true);
+								startActivity(ourIntent);
+								break;
+
+							case 1:/*to books*/
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(MainActivity.this, ourClass);
+								ourIntent.putExtra("homePage", false);
+								startActivity(ourIntent);
+								break;
+
+							case 2:/*pninaYomit*/
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(MainActivity.this, ourClass);
+								startActivity(ourIntent);
+								break;
+
+							case 3:/*search in all books*/
+								try {
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+								} catch (ClassNotFoundException e) {
+									e.printStackTrace();
+								}
+								ourIntent = new Intent(MainActivity.this, ourClass);
+								startActivity(ourIntent);
+
+								break;
+
+							case 4:/*acronyms*/
+								acronymsDecode();
+								break;
+
+							case 5:/*feedback*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+									ourIntent = new Intent(MainActivity.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+							case 6:/*buy books*/
+								intent = new Intent(Intent.ACTION_VIEW);
+								intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+
+								if(MyLanguage==FRENCH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/fr/"));
+								if(MyLanguage==RUSSIAN)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/ru/"));
+								if(MyLanguage==SPANISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/es/"));
+								if(MyLanguage==ENGLISH)
+									intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
+								startActivity(intent);
+								break;
+
+							case 7:/*ask the rav*/
+								intent = new Intent(Intent.ACTION_VIEW);
+								intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
+								startActivity(intent);
+								break;
+							case 8:/*about pninei*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About_p");
+									ourIntent = new Intent(MainActivity.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								//case 8:/*hascamot*/
+								//   hascamotDialog();
+								 break;
+							case 9:/*about*/
+								try
+								{
+									ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+									ourIntent = new Intent(MainActivity.this, ourClass);
+									startActivity(ourIntent);
+								}
+								catch (ClassNotFoundException e)
+								{
+									e.printStackTrace();
+								}
+								break;
+
+
+							default:
+								break;
+						}
+						return true;
+					}
+				});
+
+				popupMenu.show();
+			}
+		});
+
+		File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
+		if(fileEn.exists()&&isPremissionGranted(getApplicationContext()))
+			for (int i = enS; i <= enE; i++)
+				listDisplay.add(listDataHeader.get(i));
+		File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
+		if(fileEs.exists()&&isPremissionGranted(getApplicationContext()))
+			for (int i = esS; i <= esE; i++)
+				listDisplay.add(listDataHeader.get(i));
+		File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
+		if(fileR.exists()&&isPremissionGranted(getApplicationContext()))
+			for (int i = ruS; i <= ruE; i++)
+				listDisplay.add(listDataHeader.get(i));
+		File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
+		if(fileF.exists()&&isPremissionGranted(getApplicationContext()))
+			for (int i = frS; i <= frE; i++)
+				listDisplay.add(listDataHeader.get(i));
+		listAdapter = new ExpandableListAdapter(this, listDisplay, listDataChild);
+
+
 
 		// setting list adapter
 		expListView.setAdapter(listAdapter);
+		expListView.setSelected(true);
 
+		//.ex
+
+
+
+
+		if(BlackBackground == 1)
+		{
+			//actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
+			//inflater.inflate(R.menu.tochen_actionbar_black, menu);
+			//actionBar.setTitle(Html.fromHtml("<font color=\"white\">" + tochen + "</font>"));
+			listAdapter.setTextColor(Color.WHITE);
+			//to set the list text color
+			expListView.setAdapter(listAdapter);
+			expListView.setBackgroundColor(Color.BLACK);
+			if(MyLanguage==ENGLISH)
+				toMain.setImageResource(R.drawable.to_main_b_e);
+			if(MyLanguage==RUSSIAN)
+				toMain.setImageResource(R.drawable.to_main_b_r);
+			if(MyLanguage==SPANISH)
+				toMain.setImageResource(R.drawable.to_main_b_s);
+			if(MyLanguage==FRENCH)
+				toMain.setImageResource(R.drawable.to_main_b_f);
+			if(MyLanguage==HEBREW)
+				toMain.setImageResource(R.drawable.to_main_b);
+			LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+			menu= (ImageView) findViewById(R.id.menu);
+			menu.setImageResource(R.drawable.ic_action_congif_b);
+			main.setBackgroundColor(Color.rgb(120,1,1));//to set the list text color
+		}
+		else
+		{
+			//.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,247,236) ));
+			//inflater.inflate(R.menu.tochen_actionbar, menu);
+			//actionBar.setTitle(Html.fromHtml("<font color=\"black\">" + tochen + "</font>"));
+			listAdapter.setTextColor(Color.BLACK);//to set the list text color
+			expListView.setAdapter(listAdapter);//to set the list text color
+		}
+		extras = getIntent().getExtras();
+		int pos=extras.getInt("exp",-1);
+		if(pos!=-1) {
+			expListView.expandGroup(pos);
+			nowExp = pos;
+			expListView.setSelection(pos);
+
+		}
+		expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+			@Override
+			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+				if(nowExp==-1)
+						nowExp=groupPosition;
+				else
+				{
+					if (nowExp==groupPosition) {
+						expListView.collapseGroup(nowExp);
+						nowExp=-1;
+					}
+					else
+						{
+					expListView.collapseGroup(nowExp);
+					nowExp=groupPosition;
+					expListView.expandGroup(groupPosition);}
+					//expListView.setScrollY(400);
+					return true;
+				}
+
+				return false;
+			}
+		});
 		// Listview on child click listener
 		expListView.setOnChildClickListener(new OnChildClickListener()
 		{
@@ -146,18 +567,26 @@ public class MainActivity extends AppCompatActivity
 										int groupPosition, int childPosition, long id)
 			{
 				// TODO Auto-generated method stub
+				 pop=0;
 
-				Toast.makeText(getApplicationContext(), listDataHeader.get(groupPosition) + " : "
-						+ listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition), Toast.LENGTH_SHORT).show();
+
+
+				Toast.makeText(getApplicationContext(), listDataHeader.indexOf(listDisplay.get(groupPosition)) + " : "
+						+ listDataChild.get(listDataHeader.get(listDataHeader.indexOf(listDisplay.get(groupPosition)))).get(childPosition), Toast.LENGTH_SHORT).show();
 				try
 				{
-					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
-					Intent ourIntent = new Intent(MainActivity.this, ourClass);
-					int[] book_chapter = new int[2];
-					book_chapter[0] = groupPosition;
-					book_chapter[1] = childPosition;
-					ourIntent.putExtra("book_chapter", book_chapter);
-					startActivity(ourIntent);
+					//this if is for the pnina hayomit.(not ready)
+
+						Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
+						Intent ourIntent = new Intent(MainActivity.this, ourClass);
+
+						int[] book_chapter = new int[2];
+						book_chapter[0] = listDataHeader.indexOf(listDisplay.get(groupPosition));
+						book_chapter[1] = childPosition;
+						ourIntent.putExtra("book_chapter", book_chapter);
+						//ourIntent.putExtra("readonly", true);
+						startActivity(ourIntent);
+
 				}
 				catch (ClassNotFoundException e)
 				{
@@ -171,9 +600,12 @@ public class MainActivity extends AppCompatActivity
 		/* Choose language*/
 		if(MyLanguage == -1)
 		{
-			languageDialog(context);
+			languageDialog(context,0);
 		}
-
+		 extras = getIntent().getExtras();
+		 HomePage = extras.getBoolean("homePage", false);
+		if(HomePage)
+			languageDialog(context,1);
 		/*display the new features of this version*/
 		PackageManager packageManager = context.getPackageManager();
 		String packageName = context.getPackageName();
@@ -182,7 +614,7 @@ public class MainActivity extends AppCompatActivity
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-			if(mPrefs.getString("Version", "").equals("3.2") == false)
+			if(mPrefs.getString("Version", "").equals("4.1.16") == false)
 			{
 				newVersion = true;
 				shPrefEditor.putString("Version", version);
@@ -209,8 +641,9 @@ public class MainActivity extends AppCompatActivity
 		{
 			e.printStackTrace();
 		}
-		if(StartInLastLocation == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && newVersion == false)/*check if book and chapter are 0 so this is the first time the user open the application so don't go to the last location*/
+		if(changeL&&StartInLastLocation == 1 && !(mPrefs.getInt("book", 0) == 0 && mPrefs.getInt("chapter", 0) == 0) && newVersion == false)/*check if book and chapter are 0 so this is the first time the user open the application so don't go to the last location*/
 		{
+			changeL=false;
 			goToLastLocation();
 		}
 	}//onCreate
@@ -223,22 +656,8 @@ public class MainActivity extends AppCompatActivity
 		// Inflate the menu; this adds items to the action bar if it is present.
 		inflater = getMenuInflater();
 
-		if(BlackBackground == 1)
-		{
-			ab.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-			inflater.inflate(R.menu.tochen_actionbar_black, menu);
-			ab.setTitle(Html.fromHtml("<font color=\"white\">" + "תוכן" + "</font>"));
-			listAdapter.setTextColor(Color.WHITE);//to set the list text color
-			expListView.setAdapter(listAdapter);//to set the list text color
-		}
-		else
-		{
-			ab.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-			inflater.inflate(R.menu.tochen_actionbar, menu);
-			ab.setTitle(Html.fromHtml("<font color=\"black\">" + "תוכן" + "</font>"));
-			listAdapter.setTextColor(Color.BLACK);//to set the list text color
-			expListView.setAdapter(listAdapter);//to set the list text color
-		}
+
+
 
 		return true;
 	}//onCreateOptionsMenu
@@ -255,32 +674,6 @@ public class MainActivity extends AppCompatActivity
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		// TODO Auto-generated method stub
-		switch (item.getItemId())
-		{
-			case R.id.action_search:
-				onSearchRequested();
-				break;
-			case R.id.action_bookmarks:
-				try
-				{
-					Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.BookmarkActivity");
-					Intent ourIntent = new Intent(MainActivity.this, ourClass);
-					startActivity(ourIntent);
-				}
-				catch (ClassNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				break;
-			case R.id.action_place:
-				goToLastLocation();
-				break;
-			case R.id.action_config:
-				showPopupMenuSettings(findViewById(R.id.action_config));
-				break;
-			default:
-				break;
-		}
 
 		return true;
 		//return super.onOptionsItemSelected(item);
@@ -290,7 +683,6 @@ public class MainActivity extends AppCompatActivity
 	{
 		PopupMenu popupMenu = new PopupMenu(MainActivity.this, v);
 		//  popupMenu.getMenuInflater().inflate(R.menu.popupmenu, popupMenu.getMenu());
-
 		String configHeaders[] = new String[8];
 		if(MyLanguage == ENGLISH) {
 			configHeaders[0] = "Settings";
@@ -346,7 +738,10 @@ public class MainActivity extends AppCompatActivity
 		popupMenu.getMenu().add(0,4,4,configHeaders[4]);
 		popupMenu.getMenu().add(0,5,5,configHeaders[5]);
 		popupMenu.getMenu().add(0,6,6,configHeaders[6]);
+
 		//booksDownload popupMenu.getMenu().add(0,7,7,configHeaders[7]);
+
+
 
 		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
 		{
@@ -356,23 +751,15 @@ public class MainActivity extends AppCompatActivity
 				switch (item.getItemId())
 				{
 					case 0:/*settings*/
-						try
-						{
-							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Settings");
-							Intent ourIntent = new Intent(MainActivity.this, ourClass);
-							startActivity(ourIntent);
-						}
-						catch (ClassNotFoundException e)
-						{
-							e.printStackTrace();
-						}
-
+						languageDialog(context,1);//1 is  for users that not new
 						break;
 					case 1:/*about*/
 						try
 						{
 							Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
 							Intent ourIntent = new Intent(MainActivity.this, ourClass);
+							shPrefEditor.putString("where", "MainActivity");
+							shPrefEditor.commit();
 							startActivity(ourIntent);
 						}
 						catch (ClassNotFoundException e)
@@ -412,11 +799,9 @@ public class MainActivity extends AppCompatActivity
 						hascamotDialog();
 						break;
 					case 6:/*language*/
-						languageDialog(context);
+						languageDialog(context,1);
 						break;
-					case 7:/*booksDownload*/
-						booksDownloadDialog(context);
-						break;
+
 
 					default:
 						break;
@@ -431,41 +816,75 @@ public class MainActivity extends AppCompatActivity
 	/*Preparing the list data*/
 	private void prepareListData()
 	{
+
 		listDataHeader = new ArrayList<String>();
+		listDisplay = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
 
 		// Adding child data
-		listDataHeader.add("ברכות");
-		listDataHeader.add("העם והארץ");
-		listDataHeader.add("זמנים");
-		listDataHeader.add("טהרת המשפחה");
-		listDataHeader.add("ימים נוראים");
-		listDataHeader.add("כשרות א - הצומח והחי");
-		listDataHeader.add("כשרות ב - המזון והמטבח");
-		listDataHeader.add("ליקוטים א");
-		listDataHeader.add("ליקוטים ב");
-		listDataHeader.add("מועדים");
-		listDataHeader.add("משפחה");
-		listDataHeader.add("סוכות");
-		listDataHeader.add("פסח");
-		listDataHeader.add("שביעית ויובל");
-		listDataHeader.add("שבת");
-		listDataHeader.add("שמחת הבית וברכתו");
-		listDataHeader.add("תפילה");
-		listDataHeader.add("תפילת נשים");
-		listDataHeader.add("הרחבות ברכות");
-		listDataHeader.add("הרחבות ימים נוראים");
-		listDataHeader.add("הרחבות מועדים");
-		listDataHeader.add("הרחבות סוכות");
-		listDataHeader.add("הרחבות שבת");
-		listDataHeader.add("הרחבות שמחת הבית וברכתו");
-		listDataHeader.add("Tefila");
-		listDataHeader.add("Pesaĥ");
-		listDataHeader.add("Z’manim");
-		listDataHeader.add("Laws of Women’s Prayer");
-		listDataHeader.add("Laws of Shabbat");
-		listDataHeader.add("La prière d’Israël");
-		listDataHeader.add("Shabbat (Español)");
+			listDataHeader.add("ברכות");
+			listDataHeader.add("העם והארץ");
+			listDataHeader.add("זמנים");
+			listDataHeader.add("טהרת המשפחה");
+			listDataHeader.add("ימים נוראים");
+			listDataHeader.add("כשרות א - הצומח והחי");
+			listDataHeader.add("כשרות ב - המזון והמטבח");
+			listDataHeader.add("ליקוטים א");
+			listDataHeader.add("ליקוטים ב");
+			listDataHeader.add("מועדים");
+			listDataHeader.add("משפחה");
+			listDataHeader.add("סוכות");
+			listDataHeader.add("פסח");
+			listDataHeader.add("שביעית ויובל");
+			listDataHeader.add("שבת");
+			listDataHeader.add("שמחת הבית וברכתו");
+			listDataHeader.add("תפילה");
+			listDataHeader.add("תפילת נשים");
+			listDataHeader.add("הרחבות ברכות");
+			listDataHeader.add("הרחבות ימים נוראים");
+			listDataHeader.add("הרחבות מועדים");
+			listDataHeader.add("הרחבות סוכות");
+			listDataHeader.add("הרחבות שבת");
+			listDataHeader.add("הרחבות שמחת הבית וברכתו");
+			listDataHeader.add("Tefila (en)");
+			listDataHeader.add("Pesaĥ (en)");
+			listDataHeader.add("Z’manim (en)");
+			listDataHeader.add("Laws of Women’s Prayer (en)");
+			listDataHeader.add("Laws of Shabbat (en)");
+			listDataHeader.add("yammim noraiim (en)");
+			listDataHeader.add("moadim (en)");
+			listDataHeader.add("simchat habait (en)");
+			listDataHeader.add("Shabbat (Es)");
+			listDataHeader.add("brachot (Es)");
+			listDataHeader.add("moadim (Es)");
+			listDataHeader.add("Yamim noraiim (Es)");
+			listDataHeader.add("peasch (Es)");
+			listDataHeader.add("simchat habait (Es)");
+			listDataHeader.add("tfila (Es)");
+			listDataHeader.add("tfilat nashim (Es)");
+			listDataHeader.add("zmanim(Es)");
+			listDataHeader.add("haam vehaarez(ru)");
+			listDataHeader.add("shabaat(ru)");
+			listDataHeader.add("Yammim Noraiim(ru)");
+			listDataHeader.add("sucot(ru)");
+			listDataHeader.add("simchat habait(ru)");
+			listDataHeader.add("mishpacha(ru)");
+			listDataHeader.add("pesach(ru)");
+			listDataHeader.add("moadim(ru)");
+			listDataHeader.add("tfilat_nashim(ru)");
+			listDataHeader.add("tfila(ru)");
+			listDataHeader.add("zmanim(ru)");
+			listDataHeader.add("La prière d’Israël (fr)");
+			listDataHeader.add("moadim(fr)");
+			listDataHeader.add("sucot(fr)");
+			listDataHeader.add("zmanim(fr)");
+			listDataHeader.add("simchat habait(fr)");
+			listDataHeader.add("pesach(fr)");
+			listDataHeader.add("shabbat(fr)");
+			listDataHeader.add("yammim(fr)");
+			listDataHeader.add("tfilat nashim(fr)");
+
+		;
 
 
 		// Adding child data
@@ -1034,6 +1453,45 @@ public class MainActivity extends AppCompatActivity
 		E_Shabat.add("28 - Illness That Is Not Life-Threatening");
 		E_Shabat.add("29 - Eruvin");
 		E_Shabat.add("30 - Teĥum Shabbat ");
+		List<String> e_yammim = new ArrayList<String>();
+		e_yammim.add("Contents, Introduction");
+		e_yammim.add("1 - Judgment, Reward, and Punishment");
+		e_yammim.add("2 - Seliḥot and Prayers");
+		e_yammim.add("3 - Rosh Ha-shana");
+		e_yammim.add("4 - The Mitzva of Shofar");
+		e_yammim.add("5 - The Ten Days of Repentance");
+		e_yammim.add("6 - Yom Kippur");
+		e_yammim.add("7 - Laws of Yom Kippur");
+		e_yammim.add("8 - The Laws of the Fast");
+		e_yammim.add("9 - The Other Deprivations");
+		e_yammim.add("10 - The Yom Kippur Avoda");
+		List<String> e_moadim = new ArrayList<String>();
+		e_moadim.add("Contents, Introduction");
+		e_moadim.add("1 - Introduction");
+		e_moadim.add("2 - Positive Yom Tov Obligations");
+		e_moadim.add("3 - The Principles of the Melakhot");
+		e_moadim.add("4 - Melakhot Pertaining to Food");
+		e_moadim.add("5 - Mav’ir, Mekhabeh, and Electricity");
+		e_moadim.add("6 - Hotza’ah and Muktzeh");
+		e_moadim.add("7 - Various Laws of Yom Tov");
+		e_moadim.add("8 - Eruv Tavshilin");
+		e_moadim.add("9 - Yom Tov Sheni");
+		e_moadim.add("10 - The Mitzvot of Ḥol Ha-mo’ed");
+		e_moadim.add("11 - Melakha on Ḥol Ha-mo’ed");
+		e_moadim.add("12 - When Work Is Permitted on Ḥol Ha-mo’ed");
+		e_moadim.add("13 - Shavu’ot");
+		List<String> e_simchat = new ArrayList<String>();
+		e_simchat.add("Contents, Introduction");
+		e_simchat.add("1 - The Mitzva of Marital Sexual Relations");
+		e_simchat.add("2 - The Laws of Ona");
+		e_simchat.add("3 - Sanctity and Intention");
+		e_simchat.add("4 - Safeguarding the Covenant of Circumcision");
+		e_simchat.add("5 - Procreation");
+		e_simchat.add("6 - Complications and Infertility");
+		e_simchat.add("7 - Castration and Sterilization");
+		e_simchat.add("8 – Consolation for the Childless");
+		e_simchat.add("9 - Terminating Pregnancy");
+
 
 		List<String> F_tefila = new ArrayList<String>();
 		F_tefila.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
@@ -1064,19 +1522,170 @@ public class MainActivity extends AppCompatActivity
 		F_tefila.add("25 - L’office d’Arvit");
 		F_tefila.add("26 - Prière du coucher");
 
+		List<String> f_moadim = new ArrayList<String>();
+		f_moadim.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_moadim.add("Chapitre 1 : Introduction");
+		f_moadim.add("Chapitre 2 : Mitsvot positives des jours de fête");
+		f_moadim.add("Chapitre 3 : Généralités sur les travaux interdits");
+		f_moadim.add("Chapitre 4 : Travaux relatifs aux aliments");
+		f_moadim.add("Chapitre 5 : Allumage, extinction et électricité");
+		f_moadim.add("Chapitre 6 : Port d’objets (hotsaa) et mouqtsé");
+		f_moadim.add("Chapitre 7 : Quelques-unes des lois de Yom tov");
+		f_moadim.add("Chapitre 8 : Érouv tavchilin");
+		f_moadim.add("Chapitre 9 : Second jour de Yom tov en diaspora");
+		f_moadim.add("Chapitre 10 : La mitsva de ‘Hol hamo’ed");
+		f_moadim.add("Chapitre 11 : Le travail exécuté à ‘Hol hamo’ed");
+		f_moadim.add("Chapitre 12 : Cas d’autorisation du travail à ‘Hol hamo’ed");
+		f_moadim.add("Chapitre 13 : Chavou’ot");
+
+		List<String> f_sucot = new ArrayList<String>();
+		f_sucot.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_sucot.add("Chapitre 1 : La fête de Soukot");
+		f_sucot.add("Chapitre 2 : Lois de la souka");
+		f_sucot.add("Chapitre 3 : Résider sous la souka");
+		f_sucot.add("Chapitre 4 : Les quatre espèces (arba’a minim) ");
+		f_sucot.add("Chapitre 5 : La mitsva d’agiter le loulav (nétilat loulav)");
+		f_sucot.add("Chapitre 6 : Hocha’na rabba");
+		f_sucot.add("Chapitre 7 : Chemini ‘atséret ");
+		f_sucot.add("Chapitre 8 : Le Haqhel");
+
+		List<String> f_zmanim = new ArrayList<String>();
+		f_zmanim.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_zmanim.add("Chapitre 1 : Roch ‘hodech (la néoménie)");
+		f_zmanim.add("Chapitre 2 : Lois du compte de l’omer");
+		f_zmanim.add("Chapitre 3 : Usages de deuil pendant l’omer");
+		f_zmanim.add("Chapitre 4 : Yom Ha’atsmaout ");
+		f_zmanim.add("Chapitre 5 : Lag ba’omer");
+		f_zmanim.add("Chapitre 6 : Les quatre jeûnes de deuil");
+		f_zmanim.add("Chapitre 7 : Règles des jeûnes légers");
+		f_zmanim.add("Chapitre 8 : Coutumes des trois semaines");
+		f_zmanim.add("Chapitre 9 : Veille du 9 av");
+		f_zmanim.add("Chapitre 10 : Lois du 9 av");
+		f_zmanim.add("Chapitre 11 : ‘Hanouka");
+		f_zmanim.add("Chapitre 12 : L’allumage des veilleuses de ‘Hanouka");
+		f_zmanim.add("Chapitre 13 : Le lieu et le temps de l’allumage");
+		f_zmanim.add("Chapitre 14 : Le mois d’adar");
+		f_zmanim.add("Chapitre 15 : Pourim et la lecture de la Méguila");
+		f_zmanim.add("Chapitre 16 : Mitsvot de la joie et de la bienfaisance");
+		f_zmanim.add("Chapitre 17 : Villes ouvertes et villes fortifiées");
+
+		List<String> f_simchat = new ArrayList<String>();
+		f_simchat.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_simchat.add("Chapitre 1 : Le devoir conjugal (mitsvat ‘ona)");
+		f_simchat.add("Chapitre 2 : Règles de l’union conjugale");
+		f_simchat.add("Chapitre 3 : Sainteté et intention");
+		f_simchat.add("Chapitre 4 : Préservation de l’alliance ");
+		f_simchat.add("Chapitre 5 : Croissez et multiplier");
+		f_simchat.add("Chapitre 6 : Difficultés et stérilité");
+		f_simchat.add("Chapitre 7 : Castration et mutilation");
+		f_simchat.add("Chapitre 8 : Consolation de ceux qui n’ont pas d’enfants");
+		f_simchat.add("Chapitre 9 : Interruption de grossesse");
+		f_simchat.add("Chapitre 10 : L’homme et la femme");
+
+		List<String> f_pesach = new ArrayList<String>();
+		f_pesach.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_pesach.add("Chapitre 1 : Signification de la fête");
+		f_pesach.add("Chapitre 2 : L’interdit du ‘hamets");
+		f_pesach.add("Chapitre 3 : La mitsva d’éliminer le ‘hamets");
+		f_pesach.add("Chapitre 4 : Recherche du ‘hamets ");
+		f_pesach.add("Chapitre 5 : Annulation et destruction du ‘hamets");
+		f_pesach.add("Chapitre 6 : Vente du ‘hamets");
+		f_pesach.add("Chapitre 7 : Le mélange de ‘hamets");
+		f_pesach.add("Chapitre 8 : Quelques règles de cacheroute à Pessa’h");
+		f_pesach.add("Chapitre 9 : Les kitniot (légumineuses)");
+		f_pesach.add("Chapitre 10 : Cachérisation des ustensiles");
+		f_pesach.add("Chapitre 11 : Cachérisation de la cuisine en vue de Pessa’h");
+		f_pesach.add("Chapitre 12 : Lois de la matsa");
+		f_pesach.add("Chapitre 13 : Veille de Pessa’h");
+		f_pesach.add("Chapitre 14 : Veille de Pessa’h ayant lieu le Chabbat");
+		f_pesach.add("Chapitre 15 : La Haggada");
+		f_pesach.add("Chapitre 16 : La soirée du séder");
+
+		List<String> f_shabbat = new ArrayList<String>();
+		f_shabbat.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_shabbat.add("Chapitre 1 : Ouverture");
+		f_shabbat.add("Chapitre 2 : Préparatifs du Chabbat");
+		f_shabbat.add("Chapitre 3 : Horaires du Chabbat");
+		f_shabbat.add("Chapitre 4 : Allumage des veilleuses (hadlaqat nérot)");
+		f_shabbat.add("Chapitre 5 : Etude de la Torah et prière, le Chabbat");
+		f_shabbat.add("Chapitre 6 : Règles du Qidouch");
+		f_shabbat.add("Chapitre 7 : Repas de Chabbat et mélavé malka");
+		f_shabbat.add("Chapitre 8 : Havdala et issue de Chabbat");
+		f_shabbat.add("Chapitre 9 : Généralités sur les travaux interdits (mélakhot)");
+		f_shabbat.add("Chapitre 10 : Cuisson (bichoul)");
+		f_shabbat.add("Chapitre 11 : Tri (borer)");
+		f_shabbat.add("Chapitre 12 : Préparation de la nourriture");
+		f_shabbat.add("Chapitre 13 : Travaux relatifs au vêtement");
+		f_shabbat.add("Chapitre 14 : Soins corporels");
+		f_shabbat.add("Chapitre 15 : Construire, détruire, un immeuble ou un objet");
+		f_shabbat.add("Chapitre 16 : Allumer, éteindre un feu");
+		f_shabbat.add("Chapitre 17 : Electricité et appareils électriques");
+		f_shabbat.add("Chapitre 18 : Ecrire, effacer et teindre");
+		f_shabbat.add("Chapitre 19 : Travaux liés aux végétaux");
+		f_shabbat.add("Chapitre 20 : Animaux");
+		f_shabbat.add("Chapitre 21 : Transfert et port d’objets (hotsaa)");
+		f_shabbat.add("Chapitre 22 : Le caractère du Chabbat");
+		f_shabbat.add("Chapitre 23 : Le mouqtsé");
+		f_shabbat.add("Chapitre 24 : Règles applicables au mineur");
+		f_shabbat.add("Chapitre 25 : Travaux exécutés par un non-Juif");
+		f_shabbat.add("Chapitre 26 : Travail exécuté pendant Chabbat et interdit d’induire son prochain à la faute");
+		f_shabbat.add("Chapitre 27 : Préservation de la vie humaine, cas du malade");
+		f_shabbat.add("Chapitre 28 : Malades dont l’état n’est pas dangereux");
+		f_shabbat.add("Chapitre 29 : L’érouv : jonction des domaines");
+		f_shabbat.add("Chapitre 30 : Zones d’habitation sabbatique (te’houmin)");
+
+		List<String> f_yammim = new ArrayList<String>();
+		f_yammim.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		f_yammim.add("Chapitre 1 : Jugement, récompense et punition");
+		f_yammim.add("Chapitre 2 : Les Seli’hot et autres prières");
+		f_yammim.add("Chapitre 3 : Roch hachana");
+		f_yammim.add("Chapitre 4 :La mitsva du chofar");
+		f_yammim.add("Chapitre 5 : Les dix jours de pénitence");
+		f_yammim.add("Chapitre 6 : Le jour de Kipour");
+		f_yammim.add("Chapitre 7 : Lois du jour de Kipour");
+		f_yammim.add("Chapitre 8 :Lois du jeûne de Kipour");
+		f_yammim.add("Chapitre 9 : Autres abstentions de Kipour");
+		f_yammim.add("Chapitre 10 : Le service de Yom Kipour à l’époque du sanctuaire");
+
+		List<String> F_tfilat_nashim = new ArrayList<String>();
+		F_tfilat_nashim.add("Table des matières, Préfaces, Avant-propos, Note du traducteur and Index ");
+		F_tfilat_nashim.add("1 - Bases des lois de la prière");
+		F_tfilat_nashim.add("2 - Les femmes et la mitsva de la prière");
+		F_tfilat_nashim.add("3 - Le lieu de la prière");
+		F_tfilat_nashim.add("4 - Le lever matinal");
+		F_tfilat_nashim.add("5 - Nétilat yadaïm , l’ablution matinale des mains");
+		F_tfilat_nashim.add("6 - Birkot hacha’har , les bénédictions du matin");
+		F_tfilat_nashim.add("7 - Birkot ha-Torah, les bénédictions de la Torah");
+		F_tfilat_nashim.add("8 - Office de Cha’harit et règles qui le précèdent");
+		F_tfilat_nashim.add("9 - Préparation corporelle");
+		F_tfilat_nashim.add("10 - Préparation spirituelle et vestimentaire");
+		F_tfilat_nashim.add("11 - Lieu de la prière");
+		F_tfilat_nashim.add("12 - La ‘Amida");
+		F_tfilat_nashim.add("13 - Erreurs et oublis dans la récitation de la ‘Amida");
+		F_tfilat_nashim.add("14 -  L’Honneur dû à la prière");
+		F_tfilat_nashim.add("15 - Qorbanot et Pessouqé dezimra");
+		F_tfilat_nashim.add("16 -Le Chéma et ses bénédictions");
+		F_tfilat_nashim.add("17 - Prières qui suivent la ‘Amida de Cha’harit");
+		F_tfilat_nashim.add("18 -  Min’ha et Arvit");
+		F_tfilat_nashim.add("19 -  Prière du coucher Qriat Chéma ‘al hamita");
+		F_tfilat_nashim.add("20 -  Quelques règles relatives à la prière en minyan");
+		F_tfilat_nashim.add("21 - La synagogue, les tsitsit et les téphilines");
+		F_tfilat_nashim.add("22 - Prière et Qidouch de Chabbat");
+		F_tfilat_nashim.add("23 - Quelques règles relatives aux fêtes");
+		F_tfilat_nashim.add("24 - Rituels et coutumes des communautés");
 		List<String> S_shabat = new ArrayList<String>();
 		S_shabat.add("Índice Detallado, Prólogo");
 		S_shabat.add("1 - Introducción");
 		S_shabat.add("2 - Los preparativos previos al Shabat");
-		S_shabat.add("3 - Los preparativos previos al Shabat");
+		S_shabat.add("3 - Los horarios de Shabat");
 		S_shabat.add("4 - El encendido de las velas de Shabat");
-		S_shabat.add("5 - El encendido de las velas de Shabat");
+		S_shabat.add("5 - Torá y Tefilá (rezos) en Shabat");
 		S_shabat.add("6 - Leyes referentes al Kidush");
-		S_shabat.add("7 - Leyes referentes al Kidush");
+		S_shabat.add("7 - Las comidas de Shabat y el “Melavé Malká”");
 		S_shabat.add("8 - Havdalá y la conclusión del Shabat");
-		S_shabat.add("9 - Havdalá y la conclusión del Shabat");
+		S_shabat.add("9 - Las reglas generales de la realización de labores (“Melajot”).");
 		S_shabat.add("10 - Cocinar");
-		S_shabat.add("11 - Cocinar");
+		S_shabat.add("11 - Seleccionar (“Borer”)");
 		S_shabat.add("12 - La preparación de alimentos");
 		S_shabat.add("13 - Labores necesarias para la confección de vestimenta");
 		S_shabat.add("14 - El cuidado corporal");
@@ -1097,37 +1706,434 @@ public class MainActivity extends AppCompatActivity
 		S_shabat.add("29 - Eruvín");
 		S_shabat.add("30 - Las \"áreas (\"tjumim\") del Shabat\"");
 
-		listDataChild.put(listDataHeader.get(BRACHOT), brachot); // Header, Child data
-		listDataChild.put(listDataHeader.get(HAAMVEHAAREZ), haam);
-		listDataChild.put(listDataHeader.get(ZMANIM), zmanim);
-		listDataChild.put(listDataHeader.get(TAHARAT), taharat);
-		listDataChild.put(listDataHeader.get(YAMIM), yamim);
-		listDataChild.put(listDataHeader.get(KASHRUT_A), kashrut_a);
-		listDataChild.put(listDataHeader.get(KASHRUT_B), kashrut_b);
-		listDataChild.put(listDataHeader.get(LIKUTIM_A), likutimA);
-		listDataChild.put(listDataHeader.get(LIKUTIM_B), likutimB);
-		listDataChild.put(listDataHeader.get(MOADIM), moadim);
-		listDataChild.put(listDataHeader.get(MISHPACHA), mishpacha);
-		listDataChild.put(listDataHeader.get(SUCOT), sucot);
-		listDataChild.put(listDataHeader.get(PESACH), pesach);
-		listDataChild.put(listDataHeader.get(SHVIIT), shviit);
-		listDataChild.put(listDataHeader.get(SHABAT), shabat);
-		listDataChild.put(listDataHeader.get(SIMCHAT), simchat);
-		listDataChild.put(listDataHeader.get(TEFILA), tefila);
-		listDataChild.put(listDataHeader.get(TEFILAT_NASHIM), tefilatNashim);
-		listDataChild.put(listDataHeader.get(HAR_BRACHOT), harchavot_brachot);
-		listDataChild.put(listDataHeader.get(HAR_YAMIM), harchavot_yamim);
-		listDataChild.put(listDataHeader.get(HAR_MOADIM), harchavot_moadim);
-		listDataChild.put(listDataHeader.get(HAR_SUCOT), harchavot_sucot);
-		listDataChild.put(listDataHeader.get(HAR_SHABAT), harchavot_shabat);
-		listDataChild.put(listDataHeader.get(HAR_SIMCHAT), harchavot_simchat);
-		listDataChild.put(listDataHeader.get(E_TEFILA), E_tefila);
-		listDataChild.put(listDataHeader.get(E_PESACH), E_pesach);
-		listDataChild.put(listDataHeader.get(E_ZMANIM), E_zmanim);
-		listDataChild.put(listDataHeader.get(E_WOMEN_PRAYER), E_Women_Prayer);
-		listDataChild.put(listDataHeader.get(E_SHABAT), E_Shabat);
-		listDataChild.put(listDataHeader.get(F_TEFILA), F_tefila);
-		listDataChild.put(listDataHeader.get(S_SHABAT), S_shabat);
+		List<String> s_brachot = new ArrayList<String>();
+		s_brachot.add("Índice Detallado, Prólogo");
+		s_brachot.add("1 - Introducción");
+		s_brachot.add("2 - Lavado o ablución de manos previo a la comida");
+		s_brachot.add("3 - La bendición de Hamotzí");
+		s_brachot.add("4 - Birkat Hamazón (La bendición posterior a la comida)");
+		s_brachot.add("5 - La convocatoria para bendecir: el Zimún");
+		s_brachot.add("6 - Las cinco especies de cereales.");
+		s_brachot.add("7 - La bendición por el vino");
+		s_brachot.add("8 - La bendición por los frutos y Shehakol");
+		s_brachot.add("9 - Reglas relativas a la bendición anterior a la ingestión (Berajá Rishoná).");
+		s_brachot.add("10 - Bendición final (Berajá Ajaroná).");
+		s_brachot.add("11 - Principal y secundario (Ykar Vetafel).");
+		s_brachot.add("12 - Reglas referentes a las bendiciones");
+		s_brachot.add("13 - Aspectos éticos y buenos modales (Derej Eretz).");
+		s_brachot.add("14 - Bendición por el aroma");
+		s_brachot.add("15 - Bendiciones por la visión de situaciones extraordinarias y conmovedoras");
+		s_brachot.add("16 - Bendición de agradecimiento por una salvación (Birkat Hagomel)");
+		s_brachot.add("17 - Bendiciones de agradecimiento y por una alegría");
+		s_brachot.add("18 - Tefilat Haderej (La plegaria del viajero)");
+
+		List<String> s_moadim = new ArrayList<String>();
+		s_moadim.add("Índice Detallado, Prólogo");
+		s_moadim.add("1 - Introducción");
+		s_moadim.add("2 - Reglas de preceptos positivos en las festividades");
+		s_moadim.add("3 - Reglas relativas a las labores");
+		s_moadim.add("4 - Las labores de los alimentos");
+		s_moadim.add("5 - Encender fuego, apagarlo y la electricidad");
+		s_moadim.add("6 - Transportar y Muktzé");
+		s_moadim.add("7 - Algunas leyes de Yom Tov");
+		s_moadim.add("8 - Eruv Tavshilín");
+		s_moadim.add("9 - Segundo día festivo de las diásporas");
+		s_moadim.add("10 - Preceptos de Jol HaMo’ed");
+		s_moadim.add("11 - La realización de labores durante Jol HaMo’ed");
+		s_moadim.add("12 - Permisos para trabajar en Jol HaMo’ed");
+		s_moadim.add("13 - Shavu’ot");
+
+		List<String> s_yamim = new ArrayList<String>();
+		s_yamim.add("Índice Detallado, Prólogo");
+		s_yamim.add("1 – El Juicio Divino, la recompensa y el castigo.");
+		s_yamim.add("2 - Selijot, las súplicas y las plegarias");
+		s_yamim.add("3 - Rosh HaShaná");
+		s_yamim.add("4 -El precepto del Shofar");
+		s_yamim.add("5 - Los Diez días del Retorno (teshuvá)");
+		s_yamim.add("6 - Yom Kipur");
+		s_yamim.add("7 - Reglas (halajot) de Yom Kipur");
+		s_yamim.add("8 - Las leyes del ayuno");
+		s_yamim.add("9 -  Las otras aflicciones");
+		s_yamim.add("10 -  La «Avodá» –la labor sagrada- en el Templo en Yom Kipur");
+
+		List<String> s_pesach = new ArrayList<String>();
+		s_pesach.add("Índice Detallado, Prólogo");
+		s_pesach.add("1 - El significado de la fiesta");
+		s_pesach.add("2 - Las reglas referentes a la prohibición de jametz");
+		s_pesach.add("3 - El precepto de cesar el jametz – “hashbatat jametz”");
+		s_pesach.add("4 - La revisación del jametz");
+		s_pesach.add("5 - La anulación del jametz y su eliminación");
+		s_pesach.add("6 - Venta de Jametz");
+		s_pesach.add("7 - Mezclas que contienen jametz");
+		s_pesach.add("8 - Leyes referentes a la kashrut en Pesaj");
+		s_pesach.add("9 - La costumbre de abstenerse de comer legumbres («kitniot»)");
+		s_pesach.add("10 - Reglas referentes a la kasherización de utensilios para Pesaj mediante inmersión en agua hirviendo («Hag´alát Kelím»)");
+		s_pesach.add("11 - Kasherización de la cocina para Pesaj");
+		s_pesach.add("12 - Leyes referentes a la matzá");
+		s_pesach.add("13 - Reglas referentes a la víspera de Pesaj y sus costumbres");
+		s_pesach.add("14 - Víspera de Pesaj que cae en Shabat");
+		s_pesach.add("15 - La Hagadá");
+		s_pesach.add("16 - La noche del Seder");
+
+		List<String> s_simchat = new ArrayList<String>();
+		s_simchat.add("Índice Detallado, Prólogo");
+		s_simchat.add("1 - El precepto de satisfacer sexualmente a la esposa (Oná)");
+		s_simchat.add("2 - Reglas referentes al cumplimiento del precepto de Oná");
+		s_simchat.add("3 - Santidad e intención (kavaná)");
+		s_simchat.add("4 - El cuidado del pacto");
+		s_simchat.add("5 - «Creced y multiplicaos» («Prú Urbú»)");
+		s_simchat.add("6 - Esterilidad y otras dificultades");
+		s_simchat.add("7 -  El caso del eunuco y otro tipo de daños");
+		s_simchat.add("8 - Un consuelo para quienes carecen de descendencia");
+		s_simchat.add("9 - La interrupción del embarazo");
+		s_simchat.add("10 - El hombre y la mujer");
+
+		List<String> s_tfila = new ArrayList<String>();
+		s_tfila.add("Índice Detallado, Prólogo");
+		s_tfila.add("1 - Las bases de las leyes referentes a la plegaria (Tefilá).");
+		s_tfila.add("2 - El «Minián»");
+		s_tfila.add("3 - El lugar del rezo.");
+		s_tfila.add("4 - El oficiante (jazán) y el «Kadish» de los que están de duelo.");
+		s_tfila.add("5 - Los preparativos previos al rezo.");
+		s_tfila.add("6 - Las diferentes versiones del rezo y las costumbres de las diversas comunidades.");
+		s_tfila.add("7 - Al despertar por la mañana");
+		s_tfila.add("8 - Lavado (ablución) de manos matinal.");
+		s_tfila.add("9 - Las bendiciones matinales («Birkot Hashajar»)");
+		s_tfila.add("10 -  La bendición por la Torá");
+		s_tfila.add("11 -  Los horarios de recitado del Shemá y el rezo matinal (Shajarit)");
+		s_tfila.add("12 - Antes de Shajarit");
+		s_tfila.add("13 - Las ofrendas («Korbanot»)");
+		s_tfila.add("14 - Los cánticos de alabanza (Pesukei dezimrá).");
+		s_tfila.add("15 - El recitado del Shemá.");
+		s_tfila.add("16 -  Las bendiciones del recitado del «Shemá»");
+		s_tfila.add("17 - La «Amidá» (el rezo de pie y en silencio).");
+		s_tfila.add("18 - Errores, olvidos y menciones");
+		s_tfila.add("19 - La repetición de la Amidá por parte del oficiante.");
+		s_tfila.add("20 -  La bendición sacerdotal (Birkat Cohanim).");
+		s_tfila.add("21 - La inclinación sobre el rostro («Nefilat Apáim») y las súplicas («Tajanunim»).");
+		s_tfila.add("22 - La lectura de la Torá.");
+		s_tfila.add("23 - La finalización del servicio de Shajarit y las leyes del Kadish.");
+		s_tfila.add("24 - El servicio de Minjá.");
+		s_tfila.add("25 -  El servicio de Arvit.");
+		s_tfila.add("26 -  El recitado del «Shemá» al acostarse");
+
+		List<String> s_tfilat_nashim = new ArrayList<String>();
+		s_tfilat_nashim.add("Índice Detallado, Prólogo");
+		s_tfilat_nashim.add("1 - Las bases de las leyes referentes a la plegaria (Tefilá)");
+		s_tfilat_nashim.add("2 -El precepto de rezar en las mujeres.");
+		s_tfilat_nashim.add("3 - El significado de los preceptos de las mujeres.");
+		s_tfilat_nashim.add("4 - Al despertar por la mañana.");
+		s_tfilat_nashim.add("5 - Lavado (ablución) de manos matinal.");
+		s_tfilat_nashim.add("6 - Las bendiciones matinales («Birkot Hashajar»)");
+		s_tfilat_nashim.add("7 - Las Bendiciones por la Torá.");
+		s_tfilat_nashim.add("8 - El rezo de Shajarit y  reglas previo a su recitado.");
+		s_tfilat_nashim.add("9 - La preparación corporal previa al rezo.");
+		s_tfilat_nashim.add("10 - Los preparativos emocionales y de indumentaria previa al rezo.");
+		s_tfilat_nashim.add("11 - El sitio del rezo.");
+		s_tfilat_nashim.add("12 - La «Amidá» (el rezo de pie y en silencio).");
+		s_tfilat_nashim.add("13 - Errores, olvidos y menciones.");
+		s_tfilat_nashim.add("14 - El respeto por la Tefilá.");
+		s_tfilat_nashim.add("15 - Ofrendas y cánticos de alabanza.");
+		s_tfilat_nashim.add("16 -  El recitado del «Shemá» y sus bendiciones");
+		s_tfilat_nashim.add("17 - Los pasajes posteriores a la Amidá");
+		s_tfilat_nashim.add("18 - Minjá y Arvit.");
+		s_tfilat_nashim.add("19 - El recitado del «Shemá» previo a dormir.");
+		s_tfilat_nashim.add("20 -  Leyes referentes al rezo con «Minián»");
+		s_tfilat_nashim.add("21 - Beit Kneset, Tzitzit y Tefilín.");
+		s_tfilat_nashim.add("22 - Rezo y Kidush en Shabat");
+		s_tfilat_nashim.add("23 - Leyes referentes a las fiestas y días festivos.");
+		s_tfilat_nashim.add("24 - Las diferentes versiones del rezo y las costumbres de las diversas comunidades.");
+
+		List<String> s_zmanim = new ArrayList<String>();
+		s_zmanim.add("Índice Detallado, Prólogo");
+		s_zmanim.add("1 - Rosh Jodesh (Novilunio)");
+		s_zmanim.add("2 - Las reglas del Conteo del “Omer”.");
+		s_zmanim.add("3 - Costumbres luctuosas durante el período de la Cuenta del “Omer”.");
+		s_zmanim.add("4 - Yom Haatzmaut, Yom Yerushalaim y los días de recordación.");
+		s_zmanim.add("5 - Lag Ba´Omer.");
+		s_zmanim.add("6 - Los cuatro ayunos por la destrucción del Templo.");
+		s_zmanim.add("7 - Leyes referentes a los ayunos menores");
+		s_zmanim.add("8 - Las costumbres de las «Tres Semanas»");
+		s_zmanim.add("9 - Víspera del 9 de Av.");
+		s_zmanim.add("10 - Leyes referentes al 9 de Av.");
+		s_zmanim.add("11 -  Januca");
+		s_zmanim.add("12 - El encendido de las velas de Januca.");
+		s_zmanim.add("13 - Leyes referentes a la ubicación de las velas y el horario de su encendido.");
+		s_zmanim.add("14 - El mes de Adar");
+		s_zmanim.add("15 - Purim y la lectura de la Meguilá (rollo del libro de Esther");
+		s_zmanim.add("16 - La alegría y la generosidad como preceptos");
+		s_zmanim.add("17 - Purim en ciudades con y sin murallas");
+
+		List<String> r_haam = new ArrayList<String>();
+		r_haam.add("Содержание");
+		r_haam.add("Глава 1. Величие Земли Израиля");
+		r_haam.add("Глава 2. Святое и будничное в заселении Земли Израиля");
+		r_haam.add("Глава 3. Заповедь заселения Земли Израиля");
+		r_haam.add("Глава 4. Законы, связанные с воинской службой и ведением войны");
+		r_haam.add("Глава 5. Сохранение Земли Израиля");
+		r_haam.add("Глава 6. Некоторые законы, связанные с еврейским государством");
+		r_haam.add("Глава 7. Взаимная ответственность евреев друг за друга");
+		r_haam.add("Глава 8. Еврейский труд");
+		r_haam.add("Глава 9. Память о Храме");
+		r_haam.add("Глава 10. Законы, связанные с переходом в иудаизм и приобщением к еврейскому народу");
+
+		List<String> r_shabat = new ArrayList<String>();
+		r_shabat.add("Содержание");
+		r_shabat.add("Глава 1. Введение ");
+		r_shabat.add("Глава 2. Приготовления к субботе");
+		r_shabat.add("Глава 3. Время наступления субботы");
+		r_shabat.add("Глава 4. Зажигание субботних свечей");
+		r_shabat.add("Глава 5. Изучение Торы и молитва в субботу");
+		r_shabat.add("Глава 6. Законы кидуша");
+		r_shabat.add("Глава 7. Субботние трапезы и «проводы субботы» (мелаве малка)");
+		r_shabat.add("Глава 8. Ѓавдала и исход субботы");
+		r_shabat.add("Глава 9. Работы, запрещенные в субботу (мелахот): общие поло-жения");
+		r_shabat.add("Глава 10. Приготовление пищи в субботу");
+		r_shabat.add("Глава 11. Запрет отбора в субботу (борер)");
+		r_shabat.add("Глава 12. Приготовление различных блюд в субботу");
+		r_shabat.add("Глава 13. Работы (мелахот), связанные с одеждой");
+		r_shabat.add("Глава 14. Уход за телом");
+		r_shabat.add("Глава 15. Запреты строительства (боне) и разрушения постро енного (сотер) применительно к дому и предметам домашнего обихода");
+		r_shabat.add("Глава 16. Зажигание и тушение огня");
+		r_shabat.add("Глава 17. Электричество и электроприборы");
+		r_shabat.add("Глава 18. Запреты письма (котев), стирания написанного (мохек) и окрашивания (цовеа)");
+		r_shabat.add("Глава 19. Работы (мелахот), связанные с растениями");
+		r_shabat.add("Глава 20. Работы (мелахот), связанные с животными");
+		r_shabat.add("Глава 21. Законы перенесения предметов из одного владения в другое");
+		r_shabat.add("Глава 22. Субботняя атмосфера");
+		r_shabat.add("Глава 23. Запрет мукце");
+		r_shabat.add("Глава 24. Законы, связанные с детьми");
+		r_shabat.add("Глава 25. Работы (мелахот), выполняемые неевреем");
+		r_shabat.add("Глава 26. Работа (мелаха), выполненная в субботу, и запрет «пред слепым не клади преткновения»");
+		r_shabat.add("Глава 27. Спасение жизни (пикуах нефеш); законы в отношении больного");
+		r_shabat.add("Глава 28. Законы в отношении человека, больного неопасной бо- лезнью");
+		r_shabat.add("Глава 29. Законы эрува");
+		r_shabat.add("Глава 30. Субботний предел");
+
+		List<String> r_yammim = new ArrayList<String>();
+		r_yammim.add("Содержание");
+		r_yammim.add("Глава 1  Высший суд, награда и наказание  ");
+		r_yammim.add("Глава 2  Слихот (молитвы, призывающие к раскаянию) ");
+		r_yammim.add("Глава 3  Рош ѓа-Шана   ");
+		r_yammim.add("Глава 4  Заповедь трубления в шофар");
+		r_yammim.add("Глава 5  Десять дней покаяния");
+		r_yammim.add("Глава 6  Йом Кипур");
+		r_yammim.add("Глава 7  Законы Йом Кипура  ");
+		r_yammim.add("Глава 8  Законы поста в Йом Кипур");
+		r_yammim.add("Глава 9  Остальные запреты Йом Кипура");
+		r_yammim.add("Глава 10  Храмовое служение в Йом Кипур");
+
+		List<String> r_sucot = new ArrayList<String>();
+		r_sucot.add("Содержание");
+		r_sucot.add("Глава 1  Праздник Суккот");
+		r_sucot.add("Глава 2  Законы сукки");
+		r_sucot.add("Глава 3  Заповедь жить в сукке    ");
+		r_sucot.add("Глава 4  Четыре вида растений (арбаат ѓа-миним)");
+		r_sucot.add("Глава 5  Заповедь лулава (нетилат лулав");
+		r_sucot.add("Глава 6  Ѓошана раба – седьмой день праздника Суккот");
+		r_sucot.add("Глава 7  Шмини Ацерет");
+		r_sucot.add("Глава 8  Ѓакѓель");
+
+		List<String> r_simchat = new ArrayList<String>();
+		r_simchat.add("Содержание");
+		r_simchat.add("Глава 1. Заповедь супружеской близости (мицват она)");
+		r_simchat.add("Глава 2. Законы исполнения заповеди супружеской близости");
+		r_simchat.add("Глава 3. Святость и душевный настрой (кавана) при исполнении заповеди супружеской близости");
+		r_simchat.add("Глава 4. Соблюдение Священного завета");
+		r_simchat.add("Глава 5. Заповедь «плодитесь и размножайтесь» ");
+		r_simchat.add("Глава 6. Различные трудности и бесплодие");
+		r_simchat.add("Глава 7. Проблемы мужского бесплодия: увечье,кастрация и стерилизация");
+		r_simchat.add("Глава 8. Слова поддержки и утешения бездетным парам");
+		r_simchat.add("Глава 9. Прерывание беременности ");
+		r_simchat.add("Глава 10. Мужчина и женщина");
+
+		List<String> r_mispacha = new ArrayList<String>();
+		r_mispacha.add("Содержание");
+		r_mispacha.add("Глава 1. Заповедь почтения к родителям ");
+		r_mispacha.add("Глава 2. Заповедь вступления в брак");
+		r_mispacha.add("Глава 3. Сватовство");
+		r_mispacha.add("Глава 4. Кидушин и ктуба");
+		r_mispacha.add("Глава 5. Свадебные законы и обычаи");
+		r_mispacha.add("Глава 6. Запрещенные интимные связи");
+		r_mispacha.add("Глава 7. Законы скромности");
+		r_mispacha.add("Глава 8. Заповедь обрезания (Брит мила)");
+		r_mispacha.add("Глава 9. Выкуп первенцев");
+		r_mispacha.add("Глава 10. Законы траура");
+
+
+		List<String> r_pesach = new ArrayList<String>();
+		r_pesach.add("Содержание");
+		r_pesach.add("Глава 1. Смысл праздника Песах");
+		r_pesach.add("Глава 2. Правила, связанные с запретом на квасное (хамец)");
+		r_pesach.add("Глава 3. Заповедь устранения квасного (биур хамец)");
+		r_pesach.add("Глава 4. Проверка владений еврея на наличие квасного (бдикат хамец)");
+		r_pesach.add("Глава 5. Аннулирование квасного (битуль хамец) и его уничтожение");
+		r_pesach.add("Глава 6. Продажа квасного");
+		r_pesach.add("Глава 7. Смесь квасного с пищей, кошерной на Песах (тааровет хамец)");
+		r_pesach.add("Глава 8. Некоторые законы кашрута на Песах");
+		r_pesach.add("Глава 9. Обычай запрета китнийот в Песах");
+		r_pesach.add("Глава 10. Общие правила кошерования посуды к Песаху");
+		r_pesach.add("Глава 11. Кошерование кухни к Песаху");
+		r_pesach.add("Глава 12. Законы, связанные с мацой");
+		r_pesach.add("Глава 13. Законы и обычаи кануна Песаха");
+		r_pesach.add("Глава 14. Если канун Песаха выпадает на субботу");
+		r_pesach.add("Глава 15. Пасхальная Агада");
+		r_pesach.add("Глава 16. Пасхальный Седер");
+
+		List<String> r_moadim = new ArrayList<String>();
+		r_moadim.add("Содержание");
+		r_moadim.add("Глава 1. Вступление");
+		r_moadim.add("Глава 2. Заповеди-предписания (мицвот асэ),действующие в йом тов");
+		r_moadim.add("Глава 3. Запрет выполнения созидательной работы (мелаха) в йом тов");
+		r_moadim.add("Глава 4. Виды созидательной работы (мелаха),связанной с приготовлением пищи");
+		r_moadim.add("Глава 5. Зажигание и тушение огня; использование электричества в йом тов");
+		r_moadim.add("Глава 6. Перенесение предметов из одного владения в другое; закон мукце");
+		r_moadim.add("ГГлава 7. Некоторые законы йом това");
+		r_moadim.add("Глава 8. Эрув тавшилин");
+		r_moadim.add("Глава 9. Второй йом тов за пределами Земли Израиля");
+		r_moadim.add("Глава 10. Заповеди холь ѓа-моэда");
+		r_moadim.add("Глава 11. Созидательная работа (мелаха) в холь ѓа-моэд");
+		r_moadim.add("Глава 12. Какая работа разрешена в холь ѓа-моэд");
+		r_moadim.add("Глава 13 Шавуот");
+
+		List<String> r_tfilat_nashim = new ArrayList<String>();
+		r_tfilat_nashim.add("Содержание");
+		r_tfilat_nashim.add("Глава 1  Основы законов молитвы ");
+		r_tfilat_nashim.add("Глава 2  Заповедь молитвы для женщин");
+		r_tfilat_nashim.add("Глава 3  Смысл заповедей, обязательных для женщин");
+		r_tfilat_nashim.add("Глава 4  Утреннее пробуждение");
+		r_tfilat_nashim.add("Глава 5  Утреннее омовение рук");
+		r_tfilat_nashim.add("Глава 6  Утренние благословения (Биркот ѓа-шахар) ");
+		r_tfilat_nashim.add("Глава 7  Благословения Торы (Биркот ѓа-Тора) ");
+		r_tfilat_nashim.add("Глава 8  Утренняя молитвенная служба (шахарит) и законы, связанные с подготовкой к ней");
+		r_tfilat_nashim.add("Глава 9  Телесная подготовка к молитве ");
+		r_tfilat_nashim.add("Глава 10  Подготовка души к молитве; одежда, подобающая молитве  ");
+		r_tfilat_nashim.add("Глава 11  Место молитвы ");
+		r_tfilat_nashim.add("Глава 12  Молитва амида ");
+		r_tfilat_nashim.add("Глава 13  Ошибки при чтении молитвы амида ");
+		r_tfilat_nashim.add("Глава 14  Почтительное отношение к молитве ");
+		r_tfilat_nashim.add("Глава 15  Отрывки о жертвоприношениях (Корбанот) и «Хвалебные гимны» (Псукей де-зимра) ");
+		r_tfilat_nashim.add("Глава 16  Шма Исраэль и сопутствующие благословения ");
+		r_tfilat_nashim.add("Глава 17  Молитвы, читаемые после амиды");
+		r_tfilat_nashim.add("Глава 18  Послеполуденная и вечерняя молитвы (минха и арвит) ");
+		r_tfilat_nashim.add("Глава 19  Чтение Шма Исраэль перед отходом ко сну ");
+		r_tfilat_nashim.add("Глава 20  Отдельные законы молитвы в миньяне ");
+		r_tfilat_nashim.add("Глава 21  Отдельные законы, связанные с синагогой ");
+		r_tfilat_nashim.add("Глава 22  Молитва и кидуш в субботу");
+		r_tfilat_nashim.add("Глава 23  Отдельные законы праздников и памятных дней");
+		r_tfilat_nashim.add("Глава 24  Молитвенные каноны и обычаи разных общин ");
+
+		List<String> r_tfila = new ArrayList<String>();
+		r_tfila.add("Содержание");
+		r_tfila.add("Глава 1 Основы законов молитвы ");
+		r_tfila.add("Глава 2 Миньян");
+		r_tfila.add("Глава 3 Место молитвы");
+		r_tfila.add("Глава 4 Кантор и кадиш скорбящих");
+		r_tfila.add("Глава 5 Подготовка к молитве");
+		r_tfila.add("Глава 6 Молитвенные каноны и обычаи разных общин ");
+		r_tfila.add("Глава 7 Утреннее пробуждение");
+		r_tfila.add("Глава 8 Утреннее омовение рук");
+		r_tfila.add("Глава 9 Утренние благословения (Биркот ѓа-шахар)");
+		r_tfila.add("Глава 10 Благословения Торы (Биркот ѓа-Тора)");
+		r_tfila.add("Глава 11 Время чтения Шма Исраэль и утренней молитвы ( шахарит)");
+		r_tfila.add("Глава 12 Подготовка к утренней молитве");
+		r_tfila.add("Глава 13 Порядок жертвоприношений (Корбанот)");
+		r_tfila.add("Глава 14 Хвалебные гимны (Псукей де-зимра)");
+		r_tfila.add("Глава 15 Шма Исраэль ");
+		r_tfila.add("Глава 16 Благословения, сопровождающие чтение Шма Исраэль");
+		r_tfila.add("Глава 17 Молитва амида");
+		r_tfila.add("Глава 18 Ошибки при чтении молитвы амида");
+		r_tfila.add("Глава 19 Повторение кантором молитвы амида");
+		r_tfila.add("Глава 20 Благословение народа коѓенами (Биркат коѓаним)");
+		r_tfila.add("Глава 21 Таханун и Нефилат апаим");
+		r_tfila.add("Глава 22 Некоторые законы чтения Торы");
+		r_tfila.add("Глава 23 Окончание утренней молитвы и законы кадиша");
+		r_tfila.add("Глава 24 Минха - послеполуденная молитва ");
+		r_tfila.add("Глава 25 Арвит - вечерняя молитва ");
+		r_tfila.add("Глава 26 Чтение Шма Исраэль перед отходом ко сну");
+
+		List<String> r_zmanim = new ArrayList<String>();
+		r_zmanim.add("Содержание");
+		r_zmanim.add("Глава 1. Новомесячье (рош ходеш)");
+		r_zmanim.add("Глава 2. Законы отсчета омера (сфират ѓа-омер)");
+		r_zmanim.add("Глава 3. Траурные обычаи в период отсчета омера");
+		r_zmanim.add("Глава 4. День независимости Израиля, День освобождения Иерусалима и дни памяти");
+		r_zmanim.add("Глава 5. Лаг ба-омер");
+		r_zmanim.add("Глава 6. Четыре поста в память о разрушении Храма");
+		r_zmanim.add("Глава 7. Законы малых постов");
+		r_zmanim.add("Глава 8. Обычаи трех траурных недель бейн ѓа-мецарим");
+		r_zmanim.add("Глава 9. Канун поста 9 ава");
+		r_zmanim.add("Глава 10. Законы поста 9 ава");
+		r_zmanim.add("Глава 11. Дни Хануки");
+		r_zmanim.add("Глава 12. Зажигание ханукальных свечей");
+		r_zmanim.add("Глава 13. Законы места и времени");
+		r_zmanim.add("Глава 14. Месяц адар");
+		r_zmanim.add("Глава 15. Пурим и чтение Свитка Эстер");
+		r_zmanim.add("Глава 16. Заповеди радости и милосердия");
+		r_zmanim.add("Глава 17. Законы городов, обнесенных и не обнесенных стеной");
+
+
+			listDataChild.put(listDataHeader.get(BRACHOT), brachot); // Header, Child data
+			listDataChild.put(listDataHeader.get(HAAMVEHAAREZ), haam);
+			listDataChild.put(listDataHeader.get(ZMANIM), zmanim);
+			listDataChild.put(listDataHeader.get(TAHARAT), taharat);
+			listDataChild.put(listDataHeader.get(YAMIM), yamim);
+			listDataChild.put(listDataHeader.get(KASHRUT_A), kashrut_a);
+			listDataChild.put(listDataHeader.get(KASHRUT_B), kashrut_b);
+			listDataChild.put(listDataHeader.get(LIKUTIM_A), likutimA);
+			listDataChild.put(listDataHeader.get(LIKUTIM_B), likutimB);
+			listDataChild.put(listDataHeader.get(MOADIM), moadim);
+			listDataChild.put(listDataHeader.get(MISHPACHA), mishpacha);
+			listDataChild.put(listDataHeader.get(SUCOT), sucot);
+			listDataChild.put(listDataHeader.get(PESACH), pesach);
+			listDataChild.put(listDataHeader.get(SHVIIT), shviit);
+			listDataChild.put(listDataHeader.get(SHABAT), shabat);
+			listDataChild.put(listDataHeader.get(SIMCHAT), simchat);
+			listDataChild.put(listDataHeader.get(TEFILA), tefila);
+			listDataChild.put(listDataHeader.get(TEFILAT_NASHIM), tefilatNashim);
+			listDataChild.put(listDataHeader.get(HAR_BRACHOT), harchavot_brachot);
+			listDataChild.put(listDataHeader.get(HAR_YAMIM), harchavot_yamim);
+			listDataChild.put(listDataHeader.get(HAR_MOADIM), harchavot_moadim);
+			listDataChild.put(listDataHeader.get(HAR_SUCOT), harchavot_sucot);
+			listDataChild.put(listDataHeader.get(HAR_SHABAT), harchavot_shabat);
+			listDataChild.put(listDataHeader.get(HAR_SIMCHAT), harchavot_simchat);
+			listDataChild.put(listDataHeader.get(E_TEFILA), E_tefila);
+			listDataChild.put(listDataHeader.get(E_PESACH), E_pesach);
+			listDataChild.put(listDataHeader.get(E_ZMANIM), E_zmanim);
+			listDataChild.put(listDataHeader.get(E_WOMEN_PRAYER), E_Women_Prayer);
+			listDataChild.put(listDataHeader.get(E_SHABAT), E_Shabat);
+			listDataChild.put(listDataHeader.get(E_YAMMIM), e_yammim);
+			listDataChild.put(listDataHeader.get(E_MOADIM), e_moadim);
+			listDataChild.put(listDataHeader.get(E_SIMCHAT), e_simchat);
+			listDataChild.put(listDataHeader.get(F_TFILA), F_tefila);
+			listDataChild.put(listDataHeader.get(F_MOADIM), f_moadim);
+			listDataChild.put(listDataHeader.get(F_SUCOT), f_sucot);
+			listDataChild.put(listDataHeader.get(F_ZMANIM), f_zmanim);
+			listDataChild.put(listDataHeader.get(F_SIMCHAT), f_simchat);
+			listDataChild.put(listDataHeader.get(F_PESACH), f_pesach);
+			listDataChild.put(listDataHeader.get(F_SHABBAT), f_shabbat);
+			listDataChild.put(listDataHeader.get(F_YAMMIM), f_yammim);
+			listDataChild.put(listDataHeader.get(F_TFILAT_NASHIM), F_tfilat_nashim);
+			listDataChild.put(listDataHeader.get(S_SHABAT), S_shabat);
+			listDataChild.put(listDataHeader.get(S_BRACHOT), s_brachot);
+			listDataChild.put(listDataHeader.get(S_MOADIM), s_moadim);
+			listDataChild.put(listDataHeader.get(S_YAMIM), s_yamim);
+			listDataChild.put(listDataHeader.get(S_PESACH), s_pesach);
+			listDataChild.put(listDataHeader.get(S_SIMCHAT), s_simchat);
+			listDataChild.put(listDataHeader.get(S_TFILA), s_tfila);
+			listDataChild.put(listDataHeader.get(S_TFILAT_NASHIM), s_tfilat_nashim);
+			listDataChild.put(listDataHeader.get(S_ZMANIM), s_zmanim);
+			listDataChild.put(listDataHeader.get(R_HAAM), r_haam);
+			listDataChild.put(listDataHeader.get(R_SHABBAT), r_shabat);
+			listDataChild.put(listDataHeader.get(R_YAMMIM), r_yammim);
+			listDataChild.put(listDataHeader.get(R_SUCOT), r_sucot);
+			listDataChild.put(listDataHeader.get(R_SIMCHAT), r_simchat);
+			listDataChild.put(listDataHeader.get(R_MISHPHACHA), r_mispacha);
+			listDataChild.put(listDataHeader.get(R_PESACH), r_pesach);
+			listDataChild.put(listDataHeader.get(R_MOADIM), r_moadim);
+			listDataChild.put(listDataHeader.get(R_TEFILAT_NASHIM), r_tfilat_nashim);
+			listDataChild.put(listDataHeader.get(R_TFILA), r_tfila);
+			listDataChild.put(listDataHeader.get(R_ZMANIM), r_zmanim);
 
 	}//prepareListData
 
@@ -1238,117 +2244,1209 @@ public class MainActivity extends AppCompatActivity
 		dialog.show();
 	}
 
-	void languageDialog(Context context)
+	public static boolean isPremissionGranted(Context context)
 	{
-		languageDialog = new Dialog(context);
-		languageDialog.setContentView(R.layout.language);
+		if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.R)
+			return Environment.isExternalStorageManager();
+		else
+			return ContextCompat.checkSelfPermission(context,Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED;
+	}
+	public static boolean isChecked=false;
+	public void sureToDelete(String needPre,String message,String confirm,String cancel,File file,ImageView img, int resId)
+	{
 
-		Button ButtonSetLanguage = (Button) languageDialog.findViewById(R.id.dialogButtonOK);
-		final RadioButton radioHebrew = (RadioButton) languageDialog.findViewById(R.id.radioHebrew);
-		final RadioButton radioEnglish = (RadioButton) languageDialog.findViewById(R.id.radioEnglish);
-		final RadioButton radioRussian = (RadioButton) languageDialog.findViewById(R.id.radioRussian);
-		final RadioButton radioSpanish = (RadioButton) languageDialog.findViewById(R.id.radioSpanish);
-		final RadioButton radioFrench = (RadioButton) languageDialog.findViewById(R.id.radioFrench);
+		new AlertDialog.Builder(MainActivity.this).setTitle(needPre).setMessage(message)
+				.setPositiveButton(confirm, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						deleteRecursive(file);
+						img.setImageResource(resId);
+					}
+				})
+				.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				})
+				.create().show();
 
-		if(MyLanguage == -1)
+	}
+	public  void getPremission(String needPre,String message,String confirm,String cancel)
+	{
+		if(!isPremissionGranted(getApplicationContext())) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+				new AlertDialog.Builder(MainActivity.this).setTitle(needPre).setMessage(message)
+						.setPositiveButton(confirm, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								try {
+
+
+									Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+									intent.addCategory("android.intent.category.DEFAULT");
+									Uri uri = Uri.fromParts("package", getPackageName(), null);
+									intent.setData(uri);
+									startActivityForResult(intent, 101);
+								} catch (Exception e) {
+									e.printStackTrace();
+									Intent intent = new Intent();
+									intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+									startActivityForResult(intent, 101);
+								}
+							}
+						})
+						.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						})
+						.create().show();
+			}
+			else if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+				new AlertDialog.Builder(MainActivity.this).setTitle(needPre).setMessage(message)
+						.setPositiveButton(confirm, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PREMISSION_CODE);
+								Boolean confirm=true;
+							}
+						})
+						.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						})
+						.create().show();
+			} else
+				ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PREMISSION_CODE);
+		}
+
+
+		File file=new File(Environment.getExternalStorageDirectory().toString() + "/pnineyHalacha");
+		file.mkdirs();
+	}
+
+	public  void downloadBooks2(String langString,HashMap<String,Integer> specific_numbook,List<String> books,String folder) throws InterruptedException, IOException {
+		DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString));
+		request.setDescription("please  wait");
+		//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+		request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString);
+		DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+		downloadManager.enqueue(request);
+	}
+//	public  void downloadBooks(String langString,HashMap<String,Integer> specific_numbook,List<String> books,String folder) throws InterruptedException {
+//		File file4=null;
+//		File file5=null;
+//		File file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder);
+//		if (!file.exists())
+//			file.mkdirs();
+//		for (String book : books) {
+//			file4 = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder, langString +book + "_tochen.html");
+//			if (!file4.exists()) {
+//					DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString + book + "_tochen.html"));
+//					request.setDescription("please  wait");
+//					//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString + book + "_tochen.html");
+//					DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+//					downloadManager.enqueue(request);
+//			}
+//			for (int i = 1; i <= specific_numbook.get(book); i++) {
+//				 file5 = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+folder, langString+book + "_" + i + ".html");
+//				if (!file5.exists()) {
+//					DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://ph.yhb.org.il/wp-content/themes/s/"+langString + book + "_" + i + ".html"));
+//					request.setDescription("please  wait");
+//					//request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/"+folder+"/"+langString + book + "_" + i + ".html");
+//					DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+//					downloadManager.enqueue(request);
+//				}
+//
+//			}
+//
+//		}
+//	}
+private void initializeSeekBar()
+{
+
+			seekbar.setOnSeekBarChangeListener(
+			new SeekBar.OnSeekBarChangeListener() {
+				int userSelectedPosition = 0;
+				boolean mUserIsSeeking = false;
+
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar) {
+
+				}
+
+				@Override
+				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+					cb.setTextSize(progress);
+					shPrefEditor.putInt("fontSize",progress);
+					shPrefEditor.commit();
+
+				}
+
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) {
+
+				}
+			});
+}
+	void deleteRecursive(File fileOrDirectory) {
+		if (fileOrDirectory.isDirectory())
+			for (File child : fileOrDirectory.listFiles())
+				deleteRecursive(child);
+
+		fileOrDirectory.delete();
+	}
+	void languageDialog(Context context,int firstLang) {
+		PackageManager packageManager = context.getPackageManager();
+		String packageName = context.getPackageName();
+		String version;
+		try
 		{
-			MyLanguage = HEBREW; /*default value*/
+			version = packageManager.getPackageInfo(packageName, 0).versionName;
+
+			if(mPrefs.getString("Version", "").equals("4.1.16") == false)
+			{
+				firstLang=0;
+			}
+		}
+		catch (PackageManager.NameNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		if(firstLang==0) {
+			languageDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+			languageDialog.setContentView(R.layout.language);
+
+			TextView welcome =languageDialog.findViewById(R.id.chooseTochen);
+			TextView pickBooks =languageDialog.findViewById(R.id.pickBooks);
+			switch (Locale.getDefault().getLanguage()) {
+				case "en":
+					MyLanguage = ENGLISH;
+					welcome.setText("Welcome to the \"Peninei Halakha\" App");
+					pickBooks.setText("Select the desired book language to download to your device:");
+					HneedPr="Need permission";
+					Hmassage="This permission is required to download the books";
+					Hconfirm="Confirmation";
+					Hcancel="cancelation";
+
+					break;
+				case "es":
+					MyLanguage = SPANISH;
+					welcome.setText("Bienvenido a la aplicación Pninei Halaja");
+					pickBooks.setText("Seleccione el idioma del libro deseado para descargarlo en su dispositivo:");
+					HneedPr="Necesito permiso";
+					Hmassage="Este permiso es necesario para descargar los libros.";
+					Hconfirm="Confirmación";
+					Hcancel="cancelación";
+					EnSureDel="books Deleted";
+					break;
+				case "ru":
+					MyLanguage = RUSSIAN;
+					welcome.setText("Добро пожаловать в приложение \"Жемчужины Галахи\"");
+					pickBooks.setText("Выберите язык книг для загрузки на Ваше устройство:");
+					HneedPr="Требуется разрешение";
+					Hmassage="Разрешить загрузку книг";
+					Hconfirm="Разрешение";
+					Hcancel="Отмена";
+					break;
+				case "fr":
+					MyLanguage = FRENCH;
+					welcome.setText("Welcome to the \"Peninei Halakha\" App");
+					pickBooks.setText("Select the desired book language to download to your device:");
+					HneedPr="Nécessite une autorisation";
+					Hmassage="Cette autorisation est nécessaire pour le téléchargement des livres";
+					Hconfirm="Confirmation ";
+					Hcancel="Annulation";
+					break;
+				default:
+					MyLanguage = HEBREW;
+					break;
+			}
 			shPrefEditor.putInt("MyLanguage", MyLanguage);
 			shPrefEditor.commit();
+
 		}
 		else
 		{
-			if(MyLanguage == HEBREW)
-				radioHebrew.setChecked(true);
-			else if(MyLanguage == ENGLISH)
-				radioEnglish.setChecked(true);
-			else if(MyLanguage == RUSSIAN)
-				radioRussian.setChecked(true);
-			else if(MyLanguage == SPANISH)
-				radioSpanish.setChecked(true);
-			else if(MyLanguage == FRENCH)
-				radioFrench.setChecked(true);
+			languageDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+			languageDialog.setContentView(R.layout.activity_settings);
+			TextView langOf=(TextView) languageDialog.findViewById(R.id.langof);
+			TextView chooseTochen=(TextView) languageDialog.findViewById(R.id.chooseTochen);
+			TextView chooseSize=(TextView) languageDialog.findViewById(R.id.chooseSize);
+			TextView textSizeExm=(TextView) languageDialog.findViewById(R.id.textSizeExm);
+			TextView chooseBlack=(TextView) languageDialog.findViewById(R.id.blackScreen);
+			TextView chooseLastLoc=(TextView) languageDialog.findViewById(R.id.lastLocation);
+
+			//LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption2);
+			//	LinearLayout main3=(LinearLayout) findViewById(R.id.lnrOption3);
+			//	LinearLayout main4=(LinearLayout) findViewById(R.id.lnrOption7);
+			//	LinearLayout main5=(LinearLayout) findViewById(R.id.lnrOption8);
+			RelativeLayout main=(RelativeLayout) languageDialog.findViewById(R.id.layout_root);
+			LinearLayout main2=(LinearLayout) languageDialog.findViewById(R.id.main);
+			LinearLayout partA=(LinearLayout) languageDialog.findViewById(R.id.lnrOptions);
+			LinearLayout partB=(LinearLayout) languageDialog.findViewById(R.id.lnrOption2);
+			LinearLayout partC=(LinearLayout) languageDialog.findViewById(R.id.lnrOption5);
+			LinearLayout partD=(LinearLayout) languageDialog.findViewById(R.id.lnrOption6);
+			LinearLayout partE=(LinearLayout) languageDialog.findViewById(R.id.lnrOption7);
+			LinearLayout partF=(LinearLayout) languageDialog.findViewById(R.id.lnrOption8);
+			TextView screenOn=(TextView) languageDialog.findViewById(R.id.screenOn);
+			TextView brightScreen=(TextView) languageDialog.findViewById(R.id.brightScreen);
+			if (mPrefs.getInt("BlackBackground", 0)==1)
+			{
+				langOf.setTextColor(Color.WHITE);
+				chooseBlack.setTextColor(Color.WHITE);
+				chooseTochen.setTextColor(Color.WHITE);
+				chooseSize.setTextColor(Color.WHITE);
+				textSizeExm.setTextColor(Color.WHITE);
+				chooseLastLoc.setTextColor(Color.WHITE);
+				screenOn.setTextColor(Color.WHITE);
+				brightScreen.setTextColor(Color.WHITE);
+				main.setBackgroundColor(Color.BLACK);
+				main2.setBackgroundColor(Color.BLACK);
+				partA.setBackgroundColor(Color.BLACK);
+				partB.setBackgroundColor(Color.BLACK);
+				partC.setBackgroundColor(Color.BLACK);
+				partD.setBackgroundColor(Color.BLACK);
+				partE.setBackgroundColor(Color.BLACK);
+				partF.setBackgroundColor(Color.BLACK);
+
+				//main3.setBackgroundColor(Color.BLACK);
+				//main4.setBackgroundColor(Color.BLACK);
+				//main5.setBackgroundColor(Color.BLACK);
+
+			}
 		}
 
-		// if button is clicked
-		ButtonSetLanguage.setOnClickListener(new OnClickListener()
-		{
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v)
-			{
-				if(radioHebrew.isChecked())
-				{
-					MyLanguage = HEBREW;
-				}
-				else if(radioEnglish.isChecked())
-				{
-					MyLanguage = ENGLISH;
-				}
-				else if(radioRussian.isChecked())
-				{
-					MyLanguage = RUSSIAN;
-				}
-				else if(radioSpanish.isChecked())
-				{
-					MyLanguage = SPANISH;
-				}
-				else if(radioFrench.isChecked())
-				{
-					MyLanguage = FRENCH;
-				}
 
+
+		//Button ButtonSetLanguage = (Button) languageDialog.findViewById(R.id.dialogButtonOK);
+		//ImageView h_imv=(ImageView) languageDialog.findViewById(R.id.im_h);
+		ImageView h_imv_down = (ImageView) languageDialog.findViewById(R.id.too_py);
+		ImageView dialog_x = (ImageView) languageDialog.findViewById(R.id.dialog_x);
+		//ImageView dialog_x2 = (ImageView) languageDialog.findViewById(R.id.dialog_x2);
+		//ImageView r_imv=(ImageView) languageDialog.findViewById(R.id.im_r);
+		ImageView r_imv_down = (ImageView) languageDialog.findViewById(R.id.my_marks);
+		//ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
+		ImageView es_imv_down = (ImageView) languageDialog.findViewById(R.id.im_es_down);
+		//ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
+		ImageView en_imv_down = (ImageView) languageDialog.findViewById(R.id.settings);
+		//ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
+		ImageView f_imv_down = (ImageView) languageDialog.findViewById(R.id.im_f_down);
+		if(firstLang==1)
+		{
+			ImageView h_imv=(ImageView) languageDialog.findViewById(R.id.im_h);
+			ImageView r_imv=(ImageView) languageDialog.findViewById(R.id.im_r);
+			ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
+			ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
+			ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
+			ImageView im_black_screen=(ImageView) languageDialog.findViewById(R.id.im_black_screen);
+			ImageView im_white_screen=(ImageView) languageDialog.findViewById(R.id.im_white_screen);
+			ImageView im_last_loc=(ImageView) languageDialog.findViewById(R.id.im_last_location);
+			ImageView im_screenOn=(ImageView) languageDialog.findViewById(R.id.im_so);
+			if (mPrefs.getInt("BlackBackground", 0) == 1)
+			{
+				im_black_screen.setImageResource(R.drawable.check_fill);
+				im_white_screen.setImageResource(R.drawable.check);
+				im_black_screen.setTag("3");
+				im_white_screen.setTag("4");
+			}
+			else
+			{
+				im_black_screen.setImageResource(R.drawable.check);
+				im_white_screen.setImageResource(R.drawable.check_fill);
+				im_black_screen.setTag("4");
+				im_white_screen.setTag("3");
+			}
+			if (mPrefs.getInt("StartInLastLocation", 1) == 1)
+			{
+				im_last_loc.setImageResource(R.drawable.checkbox_fill);
+				im_last_loc.setTag("3");
+			}
+			else
+			{
+				im_last_loc.setImageResource(R.drawable.checkbox);
+				im_last_loc.setTag("4");
+			}
+
+			if (mPrefs.getInt("ScreenOn", 1) == 1)
+			{
+				im_screenOn.setImageResource(R.drawable.checkbox_fill);
+				im_screenOn.setTag("3");
+			}
+			else
+			{
+				im_screenOn.setImageResource(R.drawable.checkbox);
+				im_screenOn.setTag("4");
+			}
+
+			seekbar = (SeekBar) languageDialog.findViewById(R.id.seekBar6);
+			seekbar.setMax(77);
+			seekbar.setProgress(mPrefs.getInt("fontSize",20));
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+				seekbar.setMin(15);
+			}
+			cb 		= (TextView) languageDialog.findViewById(R.id.textSizeExm);
+			cb.setTextSize(mPrefs.getInt("fontSize",20)*2);
+			initializeSeekBar();
+			TextView langOf=languageDialog.findViewById(R.id.langof);
+			TextView chooseTochenLang=languageDialog.findViewById(R.id.chooseTochen);
+			TextView chooseSize=languageDialog.findViewById(R.id.chooseSize);
+			TextView exm=languageDialog.findViewById(R.id.textSizeExm);
+			TextView blackScreen=languageDialog.findViewById(R.id.blackScreen);
+			TextView brightScreen=languageDialog.findViewById(R.id.brightScreen);
+			TextView screenOn=languageDialog.findViewById(R.id.screenOn);
+			TextView lastLoc=languageDialog.findViewById(R.id.lastLocation);
+			if (MyLanguage == HEBREW)
+				h_imv.setImageResource(R.drawable.h_b_2);
+			else if (MyLanguage == RUSSIAN)
+			{
+				r_imv.setImageResource(R.drawable.r_b_2);
+				langOf.setText("Язык приложения");
+				chooseTochenLang.setText("Выбор языка книг");
+                chooseTochenLang.setPadding(0,0,500,0);
+				chooseSize.setText("Выбрать размер текста");
+				exm.setText("Жемчужины Галахи");
+				screenOn.setText("Темная тема отмена");
+				blackScreen.setText("темный");
+				brightScreen.setText("яркий   :Режим отображения");
+				lastLoc.setText("При загрузке приложения возвращаться на последнее место чтения");
+			}
+			else if (MyLanguage == SPANISH)
+			{
+				es_imv.setImageResource(R.drawable.es_b_2);
+				langOf.setText("El idioma de la aplicación");
+				chooseTochenLang.setText("Selección del contenido de los idiomas en los libros.");
+				chooseSize.setText("Establecer tamaño de texto");
+				exm.setText("Pninei Halaja");
+				screenOn.setText("cancelar el sueño del monitor");
+				blackScreen.setText("oscura");
+				brightScreen.setText("brillante   :modo de visualización");
+				lastLoc.setText("Al abrir la aplicación, salta a la última ubicación");
+			}
+			else if (MyLanguage == FRENCH)
+			{
+				f_imv.setImageResource(R.drawable.f_b_2);
+				langOf.setText("Language de l'appplication");
+				chooseTochenLang.setText("Selection du contenu des langues des livres");
+				chooseSize.setText("Définir la taille du texte");
+				exm.setText("Pninei Halakha");
+				screenOn.setText("Annuler mode veille");
+				blackScreen.setText("foncée");
+				brightScreen.setText("brillante   :mode d'affichage");
+				lastLoc.setText("À l'ouverture de l'application, passez directement au dernier emplacement visité");
+
+			}
+			else if (MyLanguage == ENGLISH)
+			{
+				en_imv.setImageResource(R.drawable.en_b_2);
+				langOf.setText("language of the application");
+				chooseTochenLang.setText("Selecting the content of the languages in the books");
+				chooseSize.setText("Set text size");
+				exm.setText("Pninei Halakha");
+				screenOn.setText("Cancel monitor sleep");
+				blackScreen.setText("Dark");
+				brightScreen.setText("bright   :Display mode selection");
+				lastLoc.setText("When opening the app, skip to the last location");
+			}
+			shPrefEditor.putInt("MyLanguage", MyLanguage);
+			shPrefEditor.commit();
+			im_black_screen.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+
+					if (im_black_screen.getTag().equals("4")) {
+						im_black_screen.setImageResource(R.drawable.check_fill);
+						im_white_screen.setImageResource(R.drawable.check);
+						im_black_screen.setTag("3");
+						im_white_screen.setTag("4");
+						shPrefEditor.putInt("BlackBackground", 1);
+						TextView chooseBlack=(TextView) languageDialog.findViewById(R.id.blackScreen);
+						TextView chooseTochen=(TextView) languageDialog.findViewById(R.id.chooseTochen);
+						TextView textSizeExm=(TextView) languageDialog.findViewById(R.id.textSizeExm);
+						TextView chooseLastLoc=(TextView) languageDialog.findViewById(R.id.lastLocation);
+						TextView screenOn=(TextView) languageDialog.findViewById(R.id.screenOn);
+						TextView brightScreen=(TextView) languageDialog.findViewById(R.id.brightScreen);
+						RelativeLayout main=(RelativeLayout) languageDialog.findViewById(R.id.layout_root);
+						LinearLayout main2=(LinearLayout) languageDialog.findViewById(R.id.main);
+						LinearLayout partA=(LinearLayout) languageDialog.findViewById(R.id.lnrOptions);
+						LinearLayout partB=(LinearLayout) languageDialog.findViewById(R.id.lnrOption2);
+						LinearLayout partC=(LinearLayout) languageDialog.findViewById(R.id.lnrOption5);
+						LinearLayout partD=(LinearLayout) languageDialog.findViewById(R.id.lnrOption6);
+						LinearLayout partE=(LinearLayout) languageDialog.findViewById(R.id.lnrOption7);
+						LinearLayout partF=(LinearLayout) languageDialog.findViewById(R.id.lnrOption8);
+							langOf.setTextColor(Color.WHITE);
+							chooseBlack.setTextColor(Color.WHITE);
+							chooseTochen.setTextColor(Color.WHITE);
+							chooseSize.setTextColor(Color.WHITE);
+							textSizeExm.setTextColor(Color.WHITE);
+							chooseLastLoc.setTextColor(Color.WHITE);
+							screenOn.setTextColor(Color.WHITE);
+							brightScreen.setTextColor(Color.WHITE);
+							main.setBackgroundColor(Color.BLACK);
+							main2.setBackgroundColor(Color.BLACK);
+							partA.setBackgroundColor(Color.BLACK);
+							partB.setBackgroundColor(Color.BLACK);
+							partC.setBackgroundColor(Color.BLACK);
+							partD.setBackgroundColor(Color.BLACK);
+							partE.setBackgroundColor(Color.BLACK);
+							partF.setBackgroundColor(Color.BLACK);
+
+
+					}
+				}
+			});
+			im_white_screen.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+
+					if (im_white_screen.getTag().equals("4")) {
+						im_black_screen.setImageResource(R.drawable.check);
+						im_white_screen.setImageResource(R.drawable.check_fill);
+						im_black_screen.setTag("4");
+						im_white_screen.setTag("3");
+						shPrefEditor.putInt("BlackBackground", 0);
+						TextView chooseBlack=(TextView) languageDialog.findViewById(R.id.blackScreen);
+						TextView chooseTochen=(TextView) languageDialog.findViewById(R.id.chooseTochen);
+						TextView textSizeExm=(TextView) languageDialog.findViewById(R.id.textSizeExm);
+						TextView chooseLastLoc=(TextView) languageDialog.findViewById(R.id.lastLocation);
+						TextView screenOn=(TextView) languageDialog.findViewById(R.id.screenOn);
+						TextView brightScreen=(TextView) languageDialog.findViewById(R.id.brightScreen);
+						RelativeLayout main=(RelativeLayout) languageDialog.findViewById(R.id.layout_root);
+						LinearLayout main2=(LinearLayout) languageDialog.findViewById(R.id.main);
+						LinearLayout partA=(LinearLayout) languageDialog.findViewById(R.id.lnrOptions);
+						LinearLayout partB=(LinearLayout) languageDialog.findViewById(R.id.lnrOption2);
+						LinearLayout partC=(LinearLayout) languageDialog.findViewById(R.id.lnrOption5);
+						LinearLayout partD=(LinearLayout) languageDialog.findViewById(R.id.lnrOption6);
+						LinearLayout partE=(LinearLayout) languageDialog.findViewById(R.id.lnrOption7);
+						LinearLayout partF=(LinearLayout) languageDialog.findViewById(R.id.lnrOption8);
+						langOf.setTextColor(Color.BLACK);
+						chooseBlack.setTextColor(Color.BLACK);
+						chooseTochen.setTextColor(Color.BLACK);
+						chooseSize.setTextColor(Color.BLACK);
+						screenOn.setTextColor(Color.BLACK);
+						brightScreen.setTextColor(Color.BLACK);
+						chooseLastLoc.setTextColor(Color.BLACK);
+						main.setBackgroundColor(Color.WHITE);
+						main2.setBackgroundColor(Color.WHITE);
+						partA.setBackgroundColor(Color.WHITE);
+						partB.setBackgroundColor(Color.WHITE);
+						partC.setBackgroundColor(Color.WHITE);
+						partD.setBackgroundColor(Color.WHITE);
+						partE.setBackgroundColor(Color.WHITE);
+						partF.setBackgroundColor(Color.WHITE);
+					}
+				}
+			});
+			im_last_loc.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+
+					if (im_last_loc.getTag().equals("4")) {
+						im_last_loc.setImageResource(R.drawable.checkbox_fill);
+						im_last_loc.setTag("3");
+						shPrefEditor.putInt("StartInLastLocation", 1);
+
+					} else {
+						im_last_loc.setImageResource(R.drawable.checkbox);
+						im_last_loc.setTag("4");
+						shPrefEditor.putInt("StartInLastLocation", 0);
+					}
+
+				}
+			});
+
+			im_screenOn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+
+					if (im_screenOn.getTag().equals("4")) {
+						im_screenOn.setImageResource(R.drawable.checkbox_fill);
+						im_screenOn.setTag("3");
+						shPrefEditor.putInt("ScreenOn", 1);
+
+					} else {
+						im_screenOn.setImageResource(R.drawable.checkbox);
+						im_screenOn.setTag("4");
+						shPrefEditor.putInt("ScreenOn", 0);
+					}
+
+				}
+			});
+			h_imv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MyLanguage = HEBREW;
+				h_imv.setImageResource(R.drawable.h_b_2);
+				r_imv.setImageResource(R.drawable.r_b_1);
+				es_imv.setImageResource(R.drawable.es_b_1);
+				en_imv.setImageResource(R.drawable.en_b_1);
+				f_imv.setImageResource(R.drawable.f_b_1);
+				langOf.setText("שפת האפליקציה");
+				chooseTochenLang.setText("בחירת תוכן השפות בספרים");
+				chooseSize.setText("קביעת גודל טקסט");
+				exm.setText("פניני הלכה");
+				blackScreen.setText("חשוך");
+				brightScreen.setText("בחירת מצב תצוגה:   בהיר");
+				lastLoc.setText("בפתיחת האפליקציה דלג למיקום אחרון");
+				screenOn.setText("ביטול החשכת מסך");
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
+			}
+		});
+		r_imv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MyLanguage = RUSSIAN;
+				h_imv.setImageResource(R.drawable.h_b_1);
+				r_imv.setImageResource(R.drawable.r_b_2);
+				es_imv.setImageResource(R.drawable.es_b_1);
+				en_imv.setImageResource(R.drawable.en_b_1);
+				f_imv.setImageResource(R.drawable.f_b_1);
+				langOf.setText("Язык приложения");
+				chooseTochenLang.setText("Выбор языка книг");
+				chooseSize.setText("Выбрать размер текста");
+				exm.setText("Жемчужины Галахи");
+				blackScreen.setText("темный");
+				brightScreen.setText("яркий   :Режим отображения");
+				screenOn.setText("Темная тема отмена");
+				lastLoc.setText("При загрузке приложения возвращаться на последнее место чтения");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
 
-				languageDialog.dismiss();
+			}
+		});
+		es_imv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MyLanguage = SPANISH;
+				h_imv.setImageResource(R.drawable.h_b_1);
+				r_imv.setImageResource(R.drawable.r_b_1);
+				es_imv.setImageResource(R.drawable.es_b_2);
+				en_imv.setImageResource(R.drawable.en_b_1);
+				f_imv.setImageResource(R.drawable.f_b_1);
+				langOf.setText("El idioma de la aplicación");
+				chooseTochenLang.setText("Selección del contenido de los idiomas en los libros.");
+				chooseSize.setText("Establecer tamaño de texto");
+				exm.setText("Pninei Halaja");
+				blackScreen.setText("oscura");
+				brightScreen.setText("brillante   :modo de visualización");
+				screenOn.setText("cancelar el sueño del monitor");
+				lastLoc.setText("Al abrir la aplicación, salta a la última ubicación");
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
+			}
+		});
+		en_imv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MyLanguage = ENGLISH;
+				h_imv.setImageResource(R.drawable.h_b_1);
+				r_imv.setImageResource(R.drawable.r_b_1);
+				es_imv.setImageResource(R.drawable.es_b_1);
+				en_imv.setImageResource(R.drawable.en_b_2);
+				f_imv.setImageResource(R.drawable.f_b_1);
+				langOf.setText("language of the application");
+				chooseTochenLang.setText("Selecting the content of the languages in the books");
+				chooseSize.setText("Set text size");
+				exm.setText("Pninei Halakha");
+				blackScreen.setText("Dark");
+				screenOn.setText("Cancel monitor sleep");
+				brightScreen.setText("bright   :Display mode selection");
+				lastLoc.setText("When opening the app, skip to the last location");
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
+			}
+		});
+		f_imv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MyLanguage = FRENCH;;
+				h_imv.setImageResource(R.drawable.h_b_1);
+				r_imv.setImageResource(R.drawable.r_b_1);
+				es_imv.setImageResource(R.drawable.es_b_1);
+				en_imv.setImageResource(R.drawable.en_b_1);
+				f_imv.setImageResource(R.drawable.f_b_2);
+				langOf.setText("Language de l'appplication");
+				chooseTochenLang.setText("Selection du contenu des langues des livres");
+				chooseSize.setText("Définir la taille du texte");
+				exm.setText("Pninei Halakha");
+				blackScreen.setText("foncée");
+				screenOn.setText("Annuler mode veille");
+				brightScreen.setText("brillante   :mode d'affichage");
+				lastLoc.setText("À l'ouverture de l'application, passez directement au dernier emplacement visité");
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
 			}
 		});
 
-		languageDialog.show();
-	}
+		}
+		if (!hebDisplay)
+			h_imv_down.setImageResource(R.drawable.h_b_3);
+		else
+			h_imv_down.setImageResource(R.drawable.h_b_4);
+
+		//final CheckBox chkFr=(CheckBox) languageDialog.findViewById(R.id.checkBoxFR);
+		//final CheckBox chkEs=(CheckBox) languageDialog.findViewById(R.id.checkBoxES);
+		if(MyLanguage==-1) {
+			switch (Locale.getDefault().getLanguage()) {
+				case "en":
+					MyLanguage = ENGLISH;
+					break;
+				case "es":
+					MyLanguage = SPANISH;
+					break;
+				case "ru":
+					MyLanguage = RUSSIAN;
+				case "fr":
+					MyLanguage = FRENCH;
+					break;
+				default:
+					MyLanguage = HEBREW;
+					break;
+			}
+			shPrefEditor.putInt("MyLanguage", MyLanguage);
+			shPrefEditor.commit();
+		}
+		//else {
 
 
-	void booksDownloadDialog(Context context)
-	{
-		booksDownloadDialog = new Dialog(context);
-		booksDownloadDialog.setContentView(R.layout.books_download);
 
-		Button ButtonDownloadBooks = (Button) booksDownloadDialog.findViewById(R.id.dialogButtonDownload);
-		final CheckBox CheckBoxEnglish = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxEnglish);
-		final CheckBox CheckBoxRussian = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxRussian);
-		final CheckBox CheckBoxSpanish = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxSpanish);
-		final CheckBox CheckBoxFrench  = (CheckBox) booksDownloadDialog.findViewById(R.id.checkBoxFrench);
+		refresh(1000);
+		File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
+		if (fileF.exists()) {
+
+			if(!isPremissionGranted(getApplicationContext())){
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+			}
+			else
+				f_imv_down.setImageResource(R.drawable.f_b_4);
+
+		}
+		File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
+		if (fileEs.exists()){
+
+			if(!isPremissionGranted(getApplicationContext())){
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+
+			}
+			else
+				es_imv_down.setImageResource(R.drawable.es_b_4);
+
+		}
+
+		File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
+		if (fileEn.exists()){
+
+			if(!isPremissionGranted(getApplicationContext())){
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+			}
+			else
+				en_imv_down.setImageResource(R.drawable.en_b_4);
+		}
+
+		File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
+		if (fileR.exists()){
+			if(!isPremissionGranted(getApplicationContext())){
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+			}
+			else
+				r_imv_down.setImageResource(R.drawable.r_b_4);
+
+
+		}
+
+		dialog_x.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				pop = 0;
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
+				changeL = true;
+
+				//mPrefs.getString("where","HomePage");
+				Class ourClass = null;
+				try {
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem."+mPrefs.getString("where","HomePage"));
+				}
+				catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				shPrefEditor.putString("where", "HomePage");
+				shPrefEditor.commit();
+				Intent ourIntent = new Intent(MainActivity.this, ourClass);
+				int[] book_chapter = new int[2];
+				book_chapter[0] = 0xFFFF;
+				book_chapter[1] = 0xFFFF;
+				ourIntent.putExtra("book_chapter", mPrefs.getInt("h&rChapId",1));
+				ourIntent.putExtra("audio_id", mPrefs.getInt("h&rAI",1));
+				ourIntent.putExtra("MyLanguage", MyLanguage);
+				ourIntent.putExtra("book_id", mPrefs.getInt("h&rBookId",1));
+				ourIntent.putExtra("chapter_id", mPrefs.getInt("h&rChapId",1));
+				ourIntent.putExtra("webLink", mPrefs.getString("h&rWebLink",""));
+				//ourIntent.putExtra("webLink", localFile.getPath());
+				ourIntent.putExtra("scroolY", mPrefs.getInt("h&rScrool",0));
+				ourIntent.putExtra("hearAndRead", mPrefs.getBoolean("hearAndRead",true));
+				ourIntent.putExtra("book_chapter",extras.getIntArray("book_chapter") );
+				System.out.println("shilo77777777777777777777777777777777777777777777777777777"+"sections_" + mPrefs.getInt("h&rChapId",1));
+				ourIntent.putExtra("sections_" + 1,extras.getStringArrayList("sections_" + 1));
+				ourIntent.putExtra("sections_" + 2,extras.getStringArrayList("sections_" + 2));
+				ourIntent.putExtra("sections_" + 3,extras.getStringArrayList("sections_" + 3));
+				ourIntent.putExtra("sections_" + 4,extras.getStringArrayList("sections_" + 4));
+				ourIntent.putExtra("sections_" + 5,extras.getStringArrayList("sections_" + 5));
+				ourIntent.putExtra("sections_" + 6,extras.getStringArrayList("sections_" + 6));
+				ourIntent.putExtra("sections_" + 7,extras.getStringArrayList("sections_" + 7));
+				ourIntent.putExtra("sections_" + 8,extras.getStringArrayList("sections_" + 8));
+				ourIntent.putExtra("sections_" + 9,extras.getStringArrayList("sections_" + 9));
+				ourIntent.putExtra("sections_" + 10,extras.getStringArrayList("sections_" + 10));
+				ourIntent.putExtra("sections_" + 11,extras.getStringArrayList("sections_" + 11));
+				ourIntent.putExtra("sections_" + 12,extras.getStringArrayList("sections_" + 12));
+				ourIntent.putExtra("sections_" + 13,extras.getStringArrayList("sections_" + 13));
+				ourIntent.putExtra("sections_" + 14,extras.getStringArrayList("sections_" + 14));
+				ourIntent.putExtra("sections_" + 15,extras.getStringArrayList("sections_" + 15));
+				ourIntent.putExtra("sections_" + 16,extras.getStringArrayList("sections_" + 16));
+				ourIntent.putExtra("sections_" + 17,extras.getStringArrayList("sections_" + 17));
+				ourIntent.putExtra("sections_" + 18,extras.getStringArrayList("sections_" + 18));
+				ourIntent.putExtra("sections_" + 19,extras.getStringArrayList("sections_" + 19));
+				ourIntent.putExtra("sections_" + 20,extras.getStringArrayList("sections_" + 20));
+				ourIntent.putExtra("sections_" + 21,extras.getStringArrayList("sections_" + 21));
+				ourIntent.putExtra("sections_" + 22,extras.getStringArrayList("sections_" + 22));
+				ourIntent.putExtra("sections_" + 23,extras.getStringArrayList("sections_" + 23));
+				ourIntent.putExtra("sections_" + 24,extras.getStringArrayList("sections_" + 24));
+				ourIntent.putExtra("sections_" + 25,extras.getStringArrayList("sections_" + 25));
+				ourIntent.putExtra("sections_" + 26,extras.getStringArrayList("sections_" + 26));
+				ourIntent.putExtra("sections_" + 27,extras.getStringArrayList("sections_" + 27));
+				ourIntent.putExtra("sections_" + 28,extras.getStringArrayList("sections_" + 28));
+				ourIntent.putExtra("sections_" + 29,extras.getStringArrayList("sections_" + 29));
+				ourIntent.putExtra("sections_" + 30,extras.getStringArrayList("sections_" + 30));
+				ourIntent.putExtra("sections_" + 31,extras.getStringArrayList("sections_" + 31));
+				ourIntent.putExtra("sections_" + 32,extras.getStringArrayList("sections_" + 32));
+				ourIntent.putExtra("sections_" + 33,extras.getStringArrayList("sections_" + 33));
+				ourIntent.putExtra("sections_" + 34,extras.getStringArrayList("sections_" + 34));
+				ourIntent.putExtra("sections_" + 35,extras.getStringArrayList("sections_" + 35));
+				ourIntent.putExtra("sections_" + 36,extras.getStringArrayList("sections_" + 36));
+				ourIntent.putExtra("sections_" + 37,extras.getStringArrayList("sections_" + 37));
+				ourIntent.putExtra("sections_" + 38,extras.getStringArrayList("sections_" + 38));
+				ourIntent.putExtra("sections_" + 39,extras.getStringArrayList("sections_" + 39));
+				ourIntent.putExtra("sections_" + 40,extras.getStringArrayList("sections_" + 40));
+				startActivity(ourIntent);
+			}
+		});
+		if(firstLang==0) {
+
+		}
+		h_imv_down.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+
+				if (h_imv_down.getTag().equals("4")) {
+					h_imv_down.setImageResource(R.drawable.h_b_3);
+					h_imv_down.setTag("3");
+					hebDisplay = false;
+				} else {
+					h_imv_down.setImageResource(R.drawable.h_b_4);
+					h_imv_down.setTag("4");
+					hebDisplay = true;
+				}
+
+			}
+		});
+
+		es_imv_down.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+				int count = 0;
+
+
+				if (isPremissionGranted(getApplicationContext())) {
+					if (!fileEs.exists()) {
+						books.clear();
+						books.add("brachot");
+						//books.add("haamvehaarez");
+						//books.add("kashrut");
+						//books.add("likutim_a");
+						//books.add("likutim_b");
+						//books.add("mishpacha");
+						books.add("moadim");
+						books.add("pesach");
+						books.add("shabat");
+						//books.add("shviit");
+						books.add("simchat");
+						//books.add("sucot");
+						//books.add("taharat");
+						books.add("tfila");
+						books.add("tfilat_nashim");
+						books.add("yamim");
+						books.add("zmanim");
+						numbook = new HashMap<>();
+						numbook.put("brachot", 18);
+						//numbook.put("haamvehaarez", 11);
+						//numbook.put("kashrut", 38);
+						//numbook.put("likutim_a", 13);
+						//numbook.put("likutim_b", 16);
+						//numbook.put("mishpacha", 10);
+						numbook.put("moadim", 13);
+						numbook.put("pesach", 16);
+						numbook.put("shabat", 30);
+						//numbook.put("shviit", 11);
+						numbook.put("simchat", 10);
+						//numbook.put("sucot", 8);
+						//numbook.put("taharat", 10);
+						numbook.put("tfila", 26);
+						numbook.put("tfilat_nashim", 24);
+						numbook.put("yamim", 10);
+						numbook.put("zmanim", 17);
+						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
+						new Thread() {
+							public void run() {
+								try {
+									MainActivity.this.runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											try {
+												downloadBooks2("es.zip", numbook, books, "SpanishBooks");
+											} catch (InterruptedException | IOException e) {
+												e.printStackTrace();
+											}
+											es_imv_down.setImageResource(R.drawable.es_b_4);
+										}
+									});
+								} catch (Exception e) {
+
+								}
+								downloadWait.dismiss();
+							}
+						}.start();
+					} else {
+						sureToDelete(EnSureDel, EnmassageDel, EnconfirmDel, EncancelDel, fileEs, es_imv_down, R.drawable.es_b_3);
+						//es_imv_down.setImageResource(R.drawable.es_b_3);
+					}
+				}
+
+			}
+		});
+		r_imv_down.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+				int count = 0;
+
+
+				if (isPremissionGranted(getApplicationContext())) {
+					if (!fileR.exists()) {
+						books.clear();
+						//books.add("brachot");
+						books.add("haamvehaarez");
+						//books.add("kashrut");
+						//books.add("likutim_a");
+						//books.add("likutim_b");
+						books.add("misphacha");
+						books.add("moadim");
+						books.add("pesach");
+						books.add("shabbat");
+						//books.add("shviit");
+						books.add("simchat");
+						books.add("sucot");
+						//books.add("taharat");
+						books.add("tfila");
+						books.add("tfilat_nashim");
+						books.add("yammim");
+						books.add("zmanim");
+						numbook = new HashMap<>();
+						//numbook.put("brachot", 18);
+						numbook.put("haamvehaarez", 11);
+						//numbook.put("kashrut", 38);
+						//numbook.put("likutim_a", 13);
+						//numbook.put("likutim_b", 16);
+						numbook.put("misphacha", 10);
+						numbook.put("moadim", 13);
+						numbook.put("pesach", 16);
+						numbook.put("shabbat", 30);
+						//numbook.put("shviit", 11);
+						numbook.put("simchat", 10);
+						numbook.put("sucot", 8);
+						//numbook.put("taharat", 10);
+						numbook.put("tfila", 26);
+						numbook.put("tfilat_nashim", 24);
+						numbook.put("yammim", 10);
+						numbook.put("zmanim", 17);
+						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
+						new Thread() {
+							public void run() {
+								try {
+									MainActivity.this.runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											try {
+												downloadBooks2("ru.zip", numbook, books, "RussianBooks");
+											} catch (InterruptedException | IOException e) {
+												e.printStackTrace();
+											}
+											r_imv_down.setImageResource(R.drawable.r_b_4);
+										}
+									});
+								} catch (Exception e) {
+
+								}
+								downloadWait.dismiss();
+							}
+						}.start();
+					} else {
+						sureToDelete(EnSureDel, EnmassageDel, EnconfirmDel, EncancelDel, fileR, r_imv_down, R.drawable.r_b_3);
+						//es_imv_down.setImageResource(R.drawable.es_b_3);
+					}
+				}
+
+			}
+		});
+		f_imv_down.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+				int count = 0;
+
+
+				if (isPremissionGranted(getApplicationContext())) {
+					if (!fileF.exists()) {
+						books.clear();
+						//books.add("brachot");
+						//books.add("haamvehaarez");
+						//books.add("kashrut");
+						//books.add("likutim_a");
+						//books.add("likutim_b");
+						//books.add("misphacha");
+						books.add("moadim");
+						books.add("pesach");
+						books.add("shabbat");
+						//books.add("shviit");
+						books.add("simchat");
+						books.add("sucot");
+						//books.add("taharat");
+						books.add("tefila");
+						books.add("tfilat_nashim");
+						books.add("yammim");
+						books.add("zmanim");
+						numbook = new HashMap<>();
+						//numbook.put("brachot", 18);
+						//numbook.put("haamvehaarez", 11);
+						//numbook.put("kashrut", 38);
+						//numbook.put("likutim_a", 13);
+						//numbook.put("likutim_b", 16);
+						//numbook.put("mishpacha", 10);
+						numbook.put("moadim", 13);
+						numbook.put("pesach", 16);
+						numbook.put("shabbat", 30);
+						//numbook.put("shviit", 11);
+						numbook.put("simchat", 10);
+						numbook.put("sucot", 8);
+						//numbook.put("taharat", 10);
+						numbook.put("tefila", 26);
+						numbook.put("tfilat_nashim", 24);
+						numbook.put("yammim", 10);
+						numbook.put("zmanim", 17);
+						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
+						new Thread() {
+							public void run() {
+								try {
+									MainActivity.this.runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											try {
+												downloadBooks2("fr.zip", numbook, books, "FrenchBooks");
+											} catch (InterruptedException | IOException e) {
+												e.printStackTrace();
+											}
+											f_imv_down.setImageResource(R.drawable.f_b_4);
+										}
+									});
+								} catch (Exception e) {
+
+								}
+								downloadWait.dismiss();
+							}
+						}.start();
+					} else {
+						sureToDelete(EnSureDel, EnmassageDel, EnconfirmDel, EncancelDel, fileF, f_imv_down, R.drawable.f_b_3);
+						//es_imv_down.setImageResource(R.drawable.es_b_3);
+					}
+				}
+
+			}
+		});
+		en_imv_down.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getPremission(HneedPr, Hmassage, Hconfirm, Hcancel);
+				int count = 0;
+
+
+				if (isPremissionGranted(getApplicationContext())) {
+					if (!fileEn.exists()) {
+						books.clear();
+						//books.add("brachot");
+						//books.add("haamvehaarez");
+						//books.add("kashrut");
+						//books.add("likutim_a");
+						//books.add("likutim_b");
+						//books.add("misphacha");
+						//books.add("moadim");
+						books.add("pesach");
+						books.add("shabbat");
+						//books.add("shviit");
+						//books.add("simchat");
+						//books.add("sucot");
+						//books.add("taharat");
+						books.add("tefila");
+						books.add("w_prayer");
+						//books.add("yammim");
+						books.add("zmanim");
+						numbook = new HashMap<>();
+						//numbook.put("brachot", 18);
+						//numbook.put("haamvehaarez", 11);
+						//numbook.put("kashrut", 38);
+						//numbook.put("likutim_a", 13);
+						//numbook.put("likutim_b", 16);
+						//numbook.put("mishpacha", 10);
+						//numbook.put("moadim", 13);
+						numbook.put("pesach", 16);
+						numbook.put("shabbat", 30);
+						//numbook.put("shviit", 11);
+						//numbook.put("simchat", 10);
+						//numbook.put("sucot", 8);
+						//numbook.put("taharat", 10);
+						numbook.put("tefila", 26);
+						numbook.put("w_prayer", 24);
+						//numbook.put("yamim", 10);
+						numbook.put("zmanim", 17);
+						final ProgressDialog downloadWait = ProgressDialog.show(MainActivity.this, "", "מוריד ספרים אנא המתן");
+						new Thread() {
+							public void run() {
+								try {
+									MainActivity.this.runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											try {
+												downloadBooks2("en.zip", numbook, books, "EnglishBooks");
+											} catch (InterruptedException | IOException e) {
+												e.printStackTrace();
+											}
+											en_imv_down.setImageResource(R.drawable.en_b_4);
+										}
+									});
+								} catch (Exception e) {
+
+								}
+								downloadWait.dismiss();
+							}
+						}.start();
+					} else {
+						sureToDelete(EnSureDel, EnmassageDel, EnconfirmDel, EncancelDel, fileEn, en_imv_down, R.drawable.en_b_3);
+						//es_imv_down.setImageResource(R.drawable.es_b_3);
+					}
+				}
+
+			}
+
+		});
+		languageDialog.dismiss();
+
 
 		// if button is clicked
-		ButtonDownloadBooks.setOnClickListener(new OnClickListener()
-		{
-			@SuppressLint("NewApi")
+		languageDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 			@Override
-			public void onClick(View v)
-			{
-				if(CheckBoxEnglish.isChecked())
-				{
-					downloadEnglishBooks();
-				}
-				if(CheckBoxRussian.isChecked())
-				{
+			public void onDismiss(DialogInterface dialog) {
+				pop = 0;
+				shPrefEditor.putInt("MyLanguage", MyLanguage);
+				shPrefEditor.commit();
+				changeL = true;
 
+				//mPrefs.getString("where","HomePage");
+				Class ourClass = null;
+				try {
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem."+mPrefs.getString("where","HomePage"));
 				}
-				if(CheckBoxSpanish.isChecked())
-				{
-
+				catch (ClassNotFoundException e) {
+					e.printStackTrace();
 				}
-				if(CheckBoxFrench.isChecked())
-				{
+				shPrefEditor.putString("where", "HomePage");
+				shPrefEditor.commit();
+				Intent ourIntent = new Intent(MainActivity.this, ourClass);
+				int[] book_chapter = new int[2];
+				book_chapter[0] = 0xFFFF;
+				book_chapter[1] = 0xFFFF;
+				ourIntent.putExtra("book_chapter", mPrefs.getInt("h&rChapId",1));
+				ourIntent.putExtra("audio_id", mPrefs.getInt("h&rAI",1));
+				ourIntent.putExtra("MyLanguage", MyLanguage);
+				ourIntent.putExtra("book_id", mPrefs.getInt("h&rBookId",1));
+				ourIntent.putExtra("chapter_id", mPrefs.getInt("h&rChapId",1));
+				ourIntent.putExtra("webLink", mPrefs.getString("h&rWebLink",""));
+				//ourIntent.putExtra("webLink", localFile.getPath());
+				ourIntent.putExtra("scroolY", mPrefs.getInt("h&rScrool",0));
+				ourIntent.putExtra("hearAndRead", mPrefs.getBoolean("hearAndRead",true));
+				ourIntent.putExtra("book_chapter",extras.getIntArray("book_chapter") );
+				System.out.println("shilo77777777777777777777777777777777777777777777777777777"+"sections_" + mPrefs.getInt("h&rChapId",1));
+				ourIntent.putExtra("sections_" + 1,extras.getStringArrayList("sections_" + 1));
+				ourIntent.putExtra("sections_" + 2,extras.getStringArrayList("sections_" + 2));
+				ourIntent.putExtra("sections_" + 3,extras.getStringArrayList("sections_" + 3));
+				ourIntent.putExtra("sections_" + 4,extras.getStringArrayList("sections_" + 4));
+				ourIntent.putExtra("sections_" + 5,extras.getStringArrayList("sections_" + 5));
+				ourIntent.putExtra("sections_" + 6,extras.getStringArrayList("sections_" + 6));
+				ourIntent.putExtra("sections_" + 7,extras.getStringArrayList("sections_" + 7));
+				ourIntent.putExtra("sections_" + 8,extras.getStringArrayList("sections_" + 8));
+				ourIntent.putExtra("sections_" + 9,extras.getStringArrayList("sections_" + 9));
+				ourIntent.putExtra("sections_" + 10,extras.getStringArrayList("sections_" + 10));
+				ourIntent.putExtra("sections_" + 11,extras.getStringArrayList("sections_" + 11));
+				ourIntent.putExtra("sections_" + 12,extras.getStringArrayList("sections_" + 12));
+				ourIntent.putExtra("sections_" + 13,extras.getStringArrayList("sections_" + 13));
+				ourIntent.putExtra("sections_" + 14,extras.getStringArrayList("sections_" + 14));
+				ourIntent.putExtra("sections_" + 15,extras.getStringArrayList("sections_" + 15));
+				ourIntent.putExtra("sections_" + 16,extras.getStringArrayList("sections_" + 16));
+				ourIntent.putExtra("sections_" + 17,extras.getStringArrayList("sections_" + 17));
+				ourIntent.putExtra("sections_" + 18,extras.getStringArrayList("sections_" + 18));
+				ourIntent.putExtra("sections_" + 19,extras.getStringArrayList("sections_" + 19));
+				ourIntent.putExtra("sections_" + 20,extras.getStringArrayList("sections_" + 20));
+				ourIntent.putExtra("sections_" + 21,extras.getStringArrayList("sections_" + 21));
+				ourIntent.putExtra("sections_" + 22,extras.getStringArrayList("sections_" + 22));
+				ourIntent.putExtra("sections_" + 23,extras.getStringArrayList("sections_" + 23));
+				ourIntent.putExtra("sections_" + 24,extras.getStringArrayList("sections_" + 24));
+				ourIntent.putExtra("sections_" + 25,extras.getStringArrayList("sections_" + 25));
+				ourIntent.putExtra("sections_" + 26,extras.getStringArrayList("sections_" + 26));
+				ourIntent.putExtra("sections_" + 27,extras.getStringArrayList("sections_" + 27));
+				ourIntent.putExtra("sections_" + 28,extras.getStringArrayList("sections_" + 28));
+				ourIntent.putExtra("sections_" + 29,extras.getStringArrayList("sections_" + 29));
+				ourIntent.putExtra("sections_" + 30,extras.getStringArrayList("sections_" + 30));
+				ourIntent.putExtra("sections_" + 31,extras.getStringArrayList("sections_" + 31));
+				ourIntent.putExtra("sections_" + 32,extras.getStringArrayList("sections_" + 32));
+				ourIntent.putExtra("sections_" + 33,extras.getStringArrayList("sections_" + 33));
+				ourIntent.putExtra("sections_" + 34,extras.getStringArrayList("sections_" + 34));
+				ourIntent.putExtra("sections_" + 35,extras.getStringArrayList("sections_" + 35));
+				ourIntent.putExtra("sections_" + 36,extras.getStringArrayList("sections_" + 36));
+				ourIntent.putExtra("sections_" + 37,extras.getStringArrayList("sections_" + 37));
+				ourIntent.putExtra("sections_" + 38,extras.getStringArrayList("sections_" + 38));
+				ourIntent.putExtra("sections_" + 39,extras.getStringArrayList("sections_" + 39));
+				ourIntent.putExtra("sections_" + 40,extras.getStringArrayList("sections_" + 40));
+				startActivity(ourIntent);
 
-				}
 
-				booksDownloadDialog.dismiss();
+
 			}
 		});
-
-		booksDownloadDialog.show();
+		languageDialog.show();
 	}
 
 
@@ -1369,71 +3467,49 @@ public class MainActivity extends AppCompatActivity
 			e.printStackTrace();
 		}
 	}
-
-	void downloadEnglishBooks()
+	private void refresh(int millisec) {
+		final Handler handler = new Handler();
+		final Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				//speed = sppedArray[spinner.getSelectedItemPosition()];
+				content();
+			}
+		};
+		handler.postDelayed(runnable, millisec);
+	}
+	public void content()
 	{
-		File f = null;
 
-		f = new File("ftp_brachot.html");
-		// find the absolute path
-		String a = f.getAbsolutePath();
-		// prints absolute path
-		System.out.print(a);
+		if(isPremissionGranted(getApplicationContext()))
+		{
+			ImageView r_imv_down = (ImageView) languageDialog.findViewById(R.id.my_marks);
+			//ImageView es_imv=(ImageView) languageDialog.findViewById(R.id.im_es);
+			ImageView es_imv_down = (ImageView) languageDialog.findViewById(R.id.im_es_down);
+			//ImageView en_imv=(ImageView) languageDialog.findViewById(R.id.im_en);
+			ImageView en_imv_down = (ImageView) languageDialog.findViewById(R.id.settings);
+			//ImageView f_imv=(ImageView) languageDialog.findViewById(R.id.im_f);
+			ImageView f_imv_down = (ImageView) languageDialog.findViewById(R.id.im_f_down);
+			File fileR = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks");
+			if (fileR.exists())
+				r_imv_down.setImageResource(R.drawable.r_b_4);
+			File fileEn = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks");
+			if (fileEn.exists())
+				en_imv_down.setImageResource(R.drawable.en_b_4);
+			File fileEs = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks");
+			if (fileEs.exists())
+				es_imv_down.setImageResource(R.drawable.es_b_4);
+			File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks");
+			if (fileF.exists())
+				f_imv_down.setImageResource(R.drawable.f_b_4);
+		}
+		refresh(1000);
 
-		//  try {
-		downloadAndSaveFile("ftp.hesder.org", 21,
-				"pnineyapp@hesder.org", "pnineyapp312", "brachot_1.html", f);
-        /*}
-        catch (IOException e){
-            e.printStackTrace();
-        }*/
 	}
 
-   /* private void signInAnonymously(){
-        mtAuh.signInAnonymously().addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
-            @Override public void onSuccess(AuthResult authResult) {
-                // do your stuff
-                Log.i("TAG", "signInAnonymously:SUCCESS");
-            }
-        }) .addOnFailureListener(this, new OnFailureListener() {
-            @Override public void onFailure(@NonNull Exception exception) {
-                Log.e("TAG", "signInAnonymously:FAILURE", exception);
-            }
-        });
-    }*/
 
 	static final String LOG_TAG = "MyFtpTest";
 
-	private void downloadAndSaveFile(String server, int portNumber,
-									 String user, String password, String filename, File localFile){}
-			/*throws IOException {
-		try{
-		File fileFromFB = File.createTempFile("E_pesach_1", "html");
-//            signInAnonymously();
 
-// Create a reference to a file from a Google Cloud Storage URI
-        StorageReference gsReference = storage.getReferenceFromUrl("gs://pnineyhalachahashalem.appspot.com/English/E_pesach_1.html");
-
-		//StorageReference riversRef = mStorageRef.child("brachot_1.html");
-            gsReference.getFile(fileFromFB)
-				.addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-					@Override
-					public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-						Log.d(LOG_TAG, "Successfully downloaded data to local file");
-
-					}
-				}).addOnFailureListener(new OnFailureListener() {
-
-			@Override
-			public void onFailure(@NonNull Exception exception) {
-				Log.d(LOG_TAG, "Handle failed download");
-
-			}
-		});
-		}
-		catch (IOException e){
-			e.printStackTrace();
-		}
-	}*/
 
 }

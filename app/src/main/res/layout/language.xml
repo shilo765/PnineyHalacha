@@ -1,103 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_root"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
+    android:background="#FFF7EC"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:background="#F6EBCD"
-    >
-    
-<LinearLayout
-     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:padding="10dp">
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Choose Language / בחר שפה"
-        android:textSize="20dp"
-        android:textColor="#00546c"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <LinearLayout
+        android:layout_width="401dp"
+        android:layout_height="600dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="66dp"
+        android:layout_marginBottom="103dp"
+        android:background="#FFF7EC"
+        android:orientation="vertical">
 
-    <RadioGroup
-        android:id="@+id/radios"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_gravity="right"
-        android:inputType="text"
-        android:orientation="vertical"
-        android:layout_marginTop="30dp">
+        <ImageView
+            android:id="@+id/dialog_x"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            app:srcCompat="@drawable/dialog_x" />
 
-        <RadioButton
-            android:id="@+id/radioHebrew"
+        <RadioGroup
+            android:id="@+id/radios"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_gravity="right"
-            android:button="@null"
-            android:drawablePadding="30dp"
-            android:drawableRight="@android:drawable/btn_radio"
-            android:text="עברית"
-            android:textSize="25dip"
-            android:gravity="right"/>
+            android:layout_marginTop="30dp"
+            android:inputType="text"
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/radioEnglish"
-            android:layout_width="fill_parent"
+            <LinearLayout
+                android:id="@+id/lnrOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF7EC"
+                android:gravity="center" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/pickBooks"
+            android:layout_width="382dp"
             android:layout_height="wrap_content"
-            android:button="@null"
-            android:drawablePadding="30dp"
-            android:drawableRight="@android:drawable/btn_radio"
-            android:text="English"
-            android:textSize="25dp"
-            android:gravity="right"/>
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:text="בחרו את שפת הספרים המבוקשת להורדה למכשירכם:"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-        <RadioButton
-            android:id="@+id/radioRussian"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:id="@+id/lnrOption2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:button="@null"
-            android:drawablePadding="30dp"
-            android:drawableRight="@android:drawable/btn_radio"
-            android:text="русский"
-            android:textSize="25dp"
-            android:gravity="right"/>
+            android:background="#FFF7EC"
+            android:gravity="center">
 
-        <RadioButton
-            android:id="@+id/radioSpanish"
-            android:layout_width="fill_parent"
+            <ImageView
+                android:id="@+id/settings"
+                android:layout_width="70dp"
+                android:layout_height="126dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                app:srcCompat="@drawable/en_b_3" />
+
+            <ImageView
+                android:id="@+id/too_py"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:tag="4"
+                app:srcCompat="@drawable/h_b_4" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/lnrOption3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:button="@null"
-            android:drawablePadding="30dp"
-            android:drawableRight="@android:drawable/btn_radio"
-            android:text="Español"
-            android:textSize="25dp"
-            android:gravity="right"/>
+            android:background="#FFF7EC"
+            android:gravity="center">
 
-        <RadioButton
-            android:id="@+id/radioFrench"
-            android:layout_width="fill_parent"
+            <ImageView
+                android:id="@+id/im_es_down"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                app:srcCompat="@drawable/es_b_3" />
+
+            <ImageView
+                android:id="@+id/my_marks"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                app:srcCompat="@drawable/r_b_3" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnrOption4"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:button="@null"
-            android:drawablePadding="30dp"
-            android:drawableRight="@android:drawable/btn_radio"
-            android:text="français"
-            android:textSize="25dp"
-            android:gravity="right"/>
-    </RadioGroup>
+            android:background="#FFF7EC"
+            android:gravity="center">
 
-    <Button
-        android:id="@+id/dialogButtonOK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:text=" OK "/>
+            <ImageView
+                android:id="@+id/im_f_down"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="120dp"
+                android:layout_marginLeft="120dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                app:srcCompat="@drawable/f_b_3" />
 
-</LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnrOption5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFF7EC"
+            android:gravity="center"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

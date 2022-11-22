@@ -1,22 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llMainLayout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tooBooks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#003349">
+    android:background="#eed7d5">
+
+    <LinearLayout
+        android:id="@+id/lnrOption3"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="#FFF7EC"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/make_mark"
+            android:layout_width="43dp"
+            android:layout_height="40dp"
+
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:src="@drawable/make_bookmark"
+            android:tag="4" />
+
+        <ImageView
+            android:id="@+id/page_search"
+            android:layout_width="46dp"
+            android:layout_height="40dp"
+
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="0dp"
+
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:src="@drawable/page_search"
+            android:tag="4" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/bookname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="33dp"
+                android:text="hi" />
+
+            <ImageView
+                android:id="@+id/too_main"
+                android:layout_width="164dp"
+                android:layout_height="31dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="0dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/to_main"
+                android:tag="4" />
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_width="69dp"
+            android:layout_height="40dp"
+
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:paddingRight="0dp"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:src="@drawable/action_config"
+            android:tag="4" />
+
+
+
+    </LinearLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <WebView
         android:id="@+id/webView1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="77dp" />
 
     <LinearLayout
         android:id="@+id/lnrOptions"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#003349"
+        android:layout_height="77dp"
+        android:layout_alignParentBottom="true"
+        android:background="#970606"
         android:gravity="center">
 
         <ImageButton
@@ -36,60 +123,79 @@
             android:src="@drawable/ic_action_up" />
 
 
-
         <ImageButton
             android:id="@+id/ibNext"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/Next"
-            android:src="@drawable/ic_action_next_item"/>
+            android:src="@drawable/ic_action_next_item" />
+
         <ImageButton
             android:id="@+id/ibPrevious"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/Previous"
-            android:src="@drawable/ic_action_previous_item"
-            />
+            android:src="@drawable/ic_action_previous_item" />
 
         <ImageButton
-            android:id="@+id/switchModes"
+            android:id="@+id/set_note"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:background="#00FFFFFF"
             android:src="@drawable/ic_action_switches_modes" />
 
         <ImageButton
-            android:id="@+id/ibChapters"
+            android:id="@+id/to_main"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/Chapters"
             android:src="@drawable/ic_action_view_as_list" />
+
+        <ImageButton
+            android:id="@+id/auto_scrool"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/Chapters"
+            android:scaleType="centerInside"
+            android:src="@drawable/auto_scrool" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/lnrFindOptions"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center" >
+        android:layout_height="77dp"
+        android:layout_alignParentBottom="true"
+
+        android:visibility="gone"
+        android:tag="gone"
+        tools:visibility="gone">
+        <ImageButton
+            android:id="@+id/ibFindPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="77dp"
+            android:layout_weight="0.5"
+            android:background="#970606"
+            android:contentDescription="@string/PreviousPage"
+
+            android:src="@drawable/ic_action_up"
+             />
 
         <ImageButton
             android:id="@+id/ibFindNext"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="77dp"
             android:layout_weight="0.5"
+            android:background="#970606"
             android:contentDescription="@string/NextPage"
-            android:src="@drawable/ic_action_down" />
 
-        <ImageButton
-            android:id="@+id/ibFindPrevious"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:contentDescription="@string/PreviousPage"
-            android:src="@drawable/ic_action_up" />
+            android:src="@drawable/ic_action_down"
+            />
+
     </LinearLayout>
 
+</RelativeLayout>
 </LinearLayout>

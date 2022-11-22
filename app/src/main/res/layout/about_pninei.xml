@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+
+    tools:context=".About_p">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp">
+
+            <LinearLayout
+                android:id="@+id/lnrOption3"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="#FFF7EC"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/to_main"
+                    android:layout_width="170dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="110dp"
+                    android:layout_marginLeft="110dp"
+                    android:scaleX="1"
+                    android:scaleY="1"
+                    android:src="@drawable/to_main"
+                    android:tag="4" />
+
+                <ImageView
+                    android:id="@+id/menu"
+                    android:layout_width="69dp"
+                    android:layout_height="40dp"
+
+                    android:layout_marginStart="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:paddingRight="15dp"
+                    android:scaleX="0.6"
+                    android:scaleY="0.6"
+                    android:src="@drawable/action_config"
+                    android:tag="4" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/b_chap2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="50dp"
+                android:scaleX="800"
+                android:src="@drawable/head_shaddow"
+                android:tag="4" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/books"
+                android:layout_width="wrap_content"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/pn_books"
+                android:tag="4" />
+            <TextView
+                android:id="@+id/about_pn"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:textColor="#970606"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="על הסדרה"
+                android:textSize="24dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/headr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:text="'פניני הלכה' פרי יצירתו של הרב אליעזר מלמד שליט''א, מגישה את מסורת הפסיקה ההלכתית ברוח ארצישראלית רעננה. הספרים כתובים בלשון בהירה ועדכנית, המאירה את ההלכות בטעמן הרוחני, ומתייחסים למנהגי העדות השונות. ההלכות מבוארות מן הכללים אל הפרטים ובדגש על סוגיות אקטואליות שהתחדשו בעת האחרונה."
+            android:textColor="#000000"
+            android:textSize="16dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+
+            <ImageView
+                android:id="@+id/rav"
+                android:layout_width="wrap_content"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/rav"
+                android:tag="4" />
+
+            <TextView
+                android:id="@+id/about_rav"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:text="על המחבר"
+                android:textColor="#970606"
+                android:textSize="24dp" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:text="הרב אליעזר מלמד שליט''א, ראש ישיבת הר ברכה ורב הישוב. מבכירי פוסקי ההלכה בציונות הדתית ובעל טור 'רביבים' בעיתון 'בשבע'.
+הרב הינו בוגר ישיבת מרכז הרב ומתלמידי הרצי''ה. בין ספריו: 'פניני הלכה' וספר 'המסורת היהודית'.
+"
+            android:textColor="#000000"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+
+        <TextView
+            android:id="@+id/textViewDecodedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </LinearLayout>
+
+</RelativeLayout>

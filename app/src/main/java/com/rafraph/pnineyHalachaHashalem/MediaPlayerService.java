@@ -7,13 +7,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.PlaybackParams;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 
@@ -28,15 +31,18 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MediaPlayerService extends Service implements MediaPlayer.OnCompletionListener,
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnSeekCompleteListener,
         MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener, AudioManager.OnAudioFocusChangeListener {
 
-    /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29*/
-    public int[] lastChapter = {18, 11, 17, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
+    /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  31  32  33 34  35  36  37  38  39  40  41  42  42  44  45  46  47  48*/
+    public int[] lastChapter = {18, 11, 17, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30 ,0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 26};
 
     private MediaPlayer mediaPlayer;
     private String mediaUrl;
@@ -74,7 +80,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private Handler durationHandler = new Handler();
     Intent serviceIntent;
     boolean wasPlaying = false;
-
+    public static final String PREFS_NAME = "MyPrefsFile";
+    static SharedPreferences mPrefs;
+    SharedPreferences.Editor shPrefEditor;
     public static final String Broadcast_SERVICE_SKIP_NEXT = "com.rafraph.ph_beta.ServiceSkipNext";
     public   static float speed=1f;
     private static final int BRACHOT      	= 0;
@@ -95,16 +103,33 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private static final int SIMCHAT		= 15;
     private static final int TEFILA			= 16;
     private static final int TEFILAT_NASHIM	= 17;
+    private static final int F_TFILA	= 48;
+
 
     @Override
     public IBinder onBind(Intent intent) {
         return iBinder;
     }
-
+    public int getSection()
+    {
+        return section;
+    }
+    public void setSection(int sec){this.section=sec;}
+    public int getChapter()
+    {
+        return chapter;
+    }
+    public int getBook()
+    {
+        return book;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
+
         // Perform one-time setup procedures
+        float defSpeed=getSharedPreferences("MyPrefsFile",0).getFloat("audioSpeed",1);
+
 
         // Manage incoming phone calls during playback.
         // Pause MediaPlayer on incoming call,
@@ -118,6 +143,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         if (mediaPlayer != null) {
             stopMedia();
             mediaPlayer.release();
@@ -145,9 +171,20 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             chapter = intent.getExtras().getInt("chapter_id");
             section = intent.getExtras().getInt("audio_id");
             convert_book_id();
+
             sections = new ArrayList<String>();
             sections = serviceIntent.getExtras().getStringArrayList("sections_"+chapter);
-            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+            if (book_audio_id!=F_TFILA) {
+               // File fileF = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/audio/10-02-03.mp3");
+               // if (fileF.exists()) {
+                   // mediaUrl =Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/audio/10-02-02.mp3";
+
+                  //  }
+               // else
+                    mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section);
+            }
+            else
+                mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-%02d-%02d-%02d.mp3" ,2, chapter, section);
         } catch (NullPointerException e) {
             stopSelf();
         }
@@ -287,6 +324,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             mediaPlayer.setDataSource(mediaUrl);
             mediaPlayer.getCurrentPosition();
             PlaybackParams playbackParams;
+            IntentFilter intentFilter = new IntentFilter(myAudio.Broadcast_Speed);
+
             playbackParams = mediaPlayer.getPlaybackParams().setSpeed(speed);
             mediaPlayer.setPlaybackParams(playbackParams);
 
@@ -421,11 +460,13 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
         public void onReceive(Context context, Intent intent) {
             //check if we can go forward at forwardTime seconds before song ends
-            float sp=intent.getFloatExtra("speed",1f);
+            mPrefs = getSharedPreferences(PREFS_NAME, 0);
+            shPrefEditor = mPrefs.edit();
+            float mesdiaSpeed=intent.getFloatExtra("speed",1f);
             int play=intent.getIntExtra("play",1);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(sp));
+//shPrefEditor.putInt("rotate", getResources().getConfiguration().orientation);
+                mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(mPrefs.getFloat("audioSpeed",1f)));
                 //else
                 if (play!=1)
                     mediaPlayer.pause();
@@ -478,9 +519,14 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     };
 
     private BroadcastReceiver BR_skipToNext = new BroadcastReceiver() {
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void onReceive(Context context, Intent intent) {
-            skipToNext();
+            try {
+                skipToNext();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     };
 
@@ -513,10 +559,18 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
     };
 
-    private void skipToNext() {
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void skipToNext() throws IOException {
+        //stopMedia();
+        if (mediaPlayer==null){
+            initMediaPlayer();
+            mediaPlayer.start();
+
+        }
         stopMedia();
         mediaPlayer.reset();
-
+        if (book!=48)
+        //this if crash in russian(dont know whi
         if(section == sections.size())//if it the last section
         {
             if(chapter == lastChapter[book])//if it the last chapter
@@ -534,9 +588,29 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
         else
             section++;
+        else
+        {
+            int []r_tfilae={10,10,11,8,11,9,3,8,6,7,12,10,6,6,12,7,21,10,9,11,8,9,12,7,9,3};
+            if(section<r_tfilae[chapter-1])
+            {
+                section++;
+            }
+            else {
+                section = 1;
+                if(chapter<26)
+                    chapter++;
+                else
+                    chapter=1;
+            }
+        }
+        if (book_audio_id!=48)
+            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3",book_audio_id, chapter, section );
+        else
+            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-%02d-%02d-%02d.mp3" ,2, chapter, section);
 
-        mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
-
+        //else
+           // mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+            //mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-02-%02d-%02d.mp3" , chapter, section );
         Intent intent = new Intent("chapterUpdate");
         intent.putExtra("chapter", chapter);
         intent.putExtra("section", section);
@@ -568,7 +642,10 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
         else
             section--;
-        mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+        if (book_audio_id!=48)
+            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3",book_audio_id, chapter, section );
+        else
+            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-%02d-%02d-%02d.mp3" ,2, chapter, section);
 
         Intent intent = new Intent("chapterUpdate");
         intent.putExtra("chapter", chapter);
@@ -587,8 +664,10 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private void skipToSpecificSection() {
         stopMedia();
         mediaPlayer.reset();
-
+        if(book_audio_id!=48)
         mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/%02d-%02d-%02d.mp3", book_audio_id, chapter, section );
+        else
+            mediaUrl = String.format("https://cdn1.yhb.org.il/mp3/ru/ru-%02d-%02d-%02d.mp3" ,2, chapter, section);
 
        /* Intent intent = new Intent("chapterUpdate");
         intent.putExtra("chapter", chapter);
@@ -621,7 +700,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
 
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),
-                R.drawable.ic_launcher); //replace with your own image
+                R.drawable.pniney_icon); //replace with your own image
 
         // Create a new Notification
         /*NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
@@ -751,9 +830,12 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             case TEFILA:
                 book_audio_id = 2;
                 return;
+            case 48:
+                book_audio_id=48;
 //            case TEFILAT_NASHIM:
 //                book_audio_id = 99;
 //                return;
+
         }
     }
 

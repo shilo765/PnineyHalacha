@@ -8,19 +8,33 @@
 
         <ImageView
             android:id="@+id/ListHeaderIconPlay"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/play"
-            android:tint="#4169E1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
+
+            android:src="@drawable/hear_and_read"
+
+            />
+
+        <ImageView
+            android:id="@+id/ListHeaderIconPlay2"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:src="@drawable/audio_book"
+
             />
 
         <TextView
             android:id="@+id/lblListHeader"
-            android:layout_width="wrap_content"
+            android:layout_width="228dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fadingEdge="none"
             android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-            android:textSize="22sp"
-            android:textColor="#eeeeee"
-            android:layout_weight="1"/>
+            android:textColor="#00EEEEEE"
+            android:textColorHighlight="#00FFFFFF"
+            android:textColorHint="#00FFFFFF"
+            android:textColorLink="#00FFFFFF"
+            android:textSize="22sp" />
 
 </LinearLayout>

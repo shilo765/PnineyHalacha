@@ -1,90 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/feedback_design"
-    tools:context=".Feedback" >
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#FFFFFF"
+	android:orientation="vertical"
+	android:paddingTop="0dp"
+	tools:context=".Feedback">
 
-	<ScrollView
-		android:layout_width="fill_parent"
-		android:layout_height="0dp"
-		android:layout_weight="90">
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="58dp">
 
 		<LinearLayout
+			android:id="@+id/lnrOption3"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:orientation="vertical">
+			android:layout_height="52dp"
+			android:background="#FFF7EC"
+			android:gravity="center">
 
-			<TextView
-				android:id="@+id/tvName"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="right"
-				android:layout_marginTop="44dp"
-				android:text="שם" />
+			<ImageView
+				android:id="@+id/to_main"
+				android:layout_width="170dp"
+				android:layout_height="40dp"
+				android:layout_marginStart="110dp"
+				android:layout_marginLeft="110dp"
+				android:scaleX="1"
+				android:scaleY="1"
+				android:src="@drawable/to_main"
+				android:tag="4" />
 
-			<EditText
-				android:id="@+id/etName"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_gravity="right"
-				android:ems="10" />
+			<ImageView
+				android:id="@+id/menu"
+				android:layout_width="69dp"
+				android:layout_height="40dp"
 
-			<TextView
-				android:id="@+id/tvHeader"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/textView2"
-				android:layout_alignLeft="@+id/textView2"
-				android:layout_gravity="right"
-				android:layout_marginTop="24dp"
-				android:text="כותרת" />
-
-			<EditText
-				android:id="@+id/etHeader"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_gravity="right" />
-
-			<TextView
-				android:id="@+id/tvContent"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/textView2"
-				android:layout_alignLeft="@+id/textView2"
-				android:layout_gravity="right"
-				android:layout_marginTop="24dp"
-				android:text="תוכן הפניה" />
-
-			<EditText
-				android:id="@+id/etContent"
-				android:layout_width="match_parent"
-				android:layout_height="100dp"
-				android:layout_gravity="right"
-				android:ems="10"
-				android:inputType="textMultiLine"></EditText>
-
+				android:layout_marginStart="50dp"
+				android:layout_marginLeft="50dp"
+				android:paddingRight="15dp"
+				android:scaleX="0.6"
+				android:scaleY="0.6"
+				android:src="@drawable/action_config"
+				android:tag="4" />
 		</LinearLayout>
 
-	</ScrollView>
+		<ImageView
+			android:id="@+id/b_chap2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="0dp"
+			android:layout_marginLeft="0dp"
+			android:layout_marginTop="50dp"
+			android:scaleX="800"
+			android:src="@drawable/head_shaddow"
+			android:tag="4" />
+	</RelativeLayout>
+
+	<TextView
+		android:id="@+id/headr"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="20dp"
+		android:paddingRight="10dp"
+		android:paddingLeft="10dp"
+		android:text="יש לך בעיה עם האפליקציה? אנחנו נעזור!"
+		android:textColor="#121010"
+		android:textStyle="bold" />
+
+	<EditText
+		android:id="@+id/last_search"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/w_r_rec"
+		android:ems="10"
+		android:gravity="start"
+		android:inputType="textPersonName"
+		android:paddingLeft="20dp"
+		android:paddingTop="10dp"
+		android:paddingRight="20dp"
+		android:layout_marginBottom="20dp"
+		android:hint="שם:"
+		android:textAlignment="viewStart" />
+
+	<EditText
+		android:id="@+id/title"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/w_r_rec"
+		android:ems="10"
+		android:gravity="start"
+		android:inputType="textPersonName"
+		android:paddingLeft="20dp"
+		android:paddingTop="10dp"
+		android:paddingRight="20dp"
+		android:layout_marginBottom="20dp"
+		android:hint="כותרת:"
+		android:textAlignment="viewStart" />
+
+
+	<EditText
+		android:id="@+id/etContent"
+		android:layout_width="match_parent"
+		android:layout_height="174dp"
+		android:layout_marginBottom="20dp"
+		android:background="@drawable/big_rec"
+		android:ems="10"
+		android:gravity="start"
+		android:inputType="textMultiLine"
+		android:paddingLeft="20dp"
+		android:paddingTop="10dp"
+		android:paddingRight="20dp"
+		android:hint="תוכן הפניה:"
+		android:textAlignment="viewStart" />
+
+	<TextView
+		android:id="@+id/send_feedback"
+		android:layout_width="138dp"
+		android:layout_height="29dp"
+		android:layout_gravity="center_horizontal"
+		android:layout_marginBottom="50dp"
+		android:background="@drawable/r_rec"
+		android:ems="10"
+		android:inputType="textPersonName"
+		android:paddingRight="20dp"
+		android:text="שלח משוב"
+		android:textColor="#FFFFFF"
+		android:textSize="20dp" />
 
 	<Button
-	    android:id="@+id/bSendEmail"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="center_horizontal"
-	    android:layout_margin="10dp"
-	    android:text="שלח משוב"
-	    android:textSize="30sp" />
+		android:id="@+id/bContentFix"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="#970606"
+		android:textColor="#FFFFFF"
+		android:text="להצעת תיקון בתוכן הספרים - לחץ כאן"
+		android:textSize="19sp" />
 
-	<Button
-	    android:id="@+id/bContentFix"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:background="#87CEFA"
-	    android:text="להצעת תיקון בתוכן הספרים - לחץ כאן" 
-	    android:textSize="19sp"/>
-				
-</LinearLayout >
+</LinearLayout>

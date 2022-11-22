@@ -1,7 +1,11 @@
 package com.rafraph.pnineyHalachaHashalem;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,17 +14,29 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.Environment;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.format.Time;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -30,15 +46,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -61,9 +82,11 @@ import org.jsoup.select.Elements;
 public class myAudio extends Activity implements AdapterView.OnItemSelectedListener {
     private static int API;
 
-    /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30*/
-    public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30};
-    String[][] chaptersNames = new String[BOOKS_NUMBER][31];
+    /*							0	1	2	3	4	5	6	7	8	9  10  11  12  13  14  15  16  17  18 19  20  21  22  23  24  25  26  27  28  29  30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48*/
+    public int[] lastChapter = {18, 11, 17, 10, 10, 19, 19, 13, 16, 13, 10, 8, 16, 11, 30, 10, 26, 24, 17, 10, 12, 8, 30, 10, 26, 16, 15, 24, 30, 26, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10};
+    String[][] chaptersNames = new String[BOOKS_NUMBER][32];
+    public  static int rotateState;
+
     private static final int BRACHOT = 0;
     private static final int HAAMVEHAAREZ = 1;
     private static final int ZMANIM = 2;
@@ -96,7 +119,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private static final int E_SHABAT = 28;
     private static final int F_TEFILA = 29;
     private static final int S_SHABAT = 30;
-    private static final int BOOKS_NUMBER = 31;
+    private static final int R_TFILA = 48;
+    private static final int BOOKS_NUMBER = 49;
     private static final int HEBREW = 0;
     private static final int ENGLISH = 1;
     private static final int RUSSIAN = 2;
@@ -104,6 +128,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private static final int FRENCH = 4;
     public boolean firstChap = true;
     float speed;
+    public static boolean restart=false;
+    public static Intent broadcastIntent;
+    public static String[] ToAudio={"שמע:","audio:","","",""};
     String fileName, fileNameOnly, lastFileName = null;
     public TextView duration, duration2;
     private double timeElapsed = 0, finalTime = 0;
@@ -115,6 +142,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private int book;
     private int chapter;
     private int section;
+    public int lastSec;
     ArrayList<String> sections;
     View view;
     public int refreshCount=0;
@@ -126,7 +154,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public String book_name;
     public TextView playerInfo;
     Bundle extras;
-    private MediaPlayerService playerService;
+    public TextView[] v1=new TextView[50];
+    private MediaPlayerService  playerService;
     boolean serviceBound = false;
     boolean firstCall;
     private Intent playerIntent;
@@ -150,21 +179,27 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     static SharedPreferences mPrefs;
     SharedPreferences.Editor shPrefEditor;
     public int BlackBackground = 0;
-    public float[] sppedArray = {2f, 1.5f, 1f, 0.75f};
+    public float[] sppedArray = {2f,1.75f, 1.5f,1.25f, 1f, 0.75f};
     public String innerSearchText, webLink;
     public Dialog innerSearchDialog, bookmarkDialog, acronymsDialog, autoScrollDialog;
     public int MyLanguage;
     public EditText TextToSearch, BookmarkName, TextToDecode;
     public Spinner spinnerAddMark, spinnerAutoScroll;
     public String strBookmark, Bookmarks;
-    public int fontSize = 18;
+    public int fontSize = 20;
     public LayoutInflater inf;
     public View infView;
     public RelativeLayout rl;
+    public  LinearLayout ll;
     public String acronymsText;
+    public static  ImageView scroll;
     public Date time = new Date();
     public int lastScrool = 0;
     public int lastChap=1;
+    public boolean team=false;
+    public int scrollPos=0;
+    public Boolean finishLoad=false;
+    public static String head;
 
     void ParseTheDoc()
     {
@@ -204,7 +239,45 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public void setNoteId(String id) {
         note_id = id;
     }
+    @Override
+    public void onBackPressed() {
+        if(playing==0)
+            playPause(view);
+        playPause(view);
+        //playPause(view);
+        extras = getIntent().getExtras();
 
+        boolean fromText = extras.getBoolean("cameFromText");
+        if(fromText){
+        try {
+            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.textMain");
+            Intent ourIntent = new Intent(myAudio.this, ourClass);
+            int[] book_chapter = new int[2];
+            book_chapter[0] = 0xFFFF;
+            book_chapter[1] = 0xFFFF;
+            ourIntent.putExtra("book_chapter", book_chapter);
+            finish();
+            startActivity(ourIntent);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        }
+        else
+        {
+            Class ourClass = null;
+            try {
+                ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            Intent ourIntent = new Intent(myAudio.this, ourClass);
+
+            ourIntent.putExtra("homePage", false);
+            ourIntent.putExtra("newV", true);
+            finish();
+            startActivity(ourIntent);
+        }
+    }
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         // TODO Auto-generated method stub
@@ -218,211 +291,809 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         return super.dispatchTouchEvent(ev);
     }
 
+    public void isConnected() throws ClassNotFoundException {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if(networkInfo!=null){
+            if(!networkInfo.isConnected())
+            {
+                Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.ExpandableListAdapter");
+                Intent ourIntent = new Intent(myAudio.this, ourClass);
+                ourIntent.putExtra("connect", 0);
+                finish();
+                startActivity(ourIntent);
+            }
+
+        }else
+        {
+            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.ExpandableListAdapter");
+            Intent ourIntent = new Intent(myAudio.this, ourClass);
+            ourIntent.putExtra("connect", 0);
+            finish();
+            startActivity(ourIntent);
+        }
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //rotateState=getResources().getConfiguration().orientation;
         extras = getIntent().getExtras();
-        MyLanguage = extras.getInt("MyLanguage");
-        hearAndRead = extras.getBoolean("hearAndRead");
-        //PRAPRE TO READ AND LISTEN VIEW
-        if (hearAndRead)
-            setContentView(R.layout.text_main_audio);
-        else
-            setContentView(R.layout.activity_audio);
+
         mPrefs = getSharedPreferences(PREFS_NAME, 0);
         shPrefEditor = mPrefs.edit();
-        if (hearAndRead) {
-            inf = getLayoutInflater();
-            infView = inf.inflate(R.layout.tochen_actionbar_lay, null);
-            rl = (RelativeLayout) findViewById(R.id.content);
-            infView.setVisibility(View.VISIBLE);
-            rl.addView(infView);
-        }
-        context = this;
+        rotateState=mPrefs.getInt("rotate",-1);
+        MyLanguage = mPrefs.getInt("MyLanguage", 0);
+        fontSize =mPrefs.getInt("fontSize",20);
 
-        //to swich to read and hear mode change here and 269+- to if(true)
-        if (hearAndRead) {
+        //if u wont rotate modecheck if(rotateState==getResources().getConfiguration().orientation)
+        if (true) {
+            shPrefEditor.putInt("rotate", getResources().getConfiguration().orientation);
+            hearAndRead = extras.getBoolean("hearAndRead");
+            //PRAPRE TO READ AND LISTEN VIEW
+            if (hearAndRead)
+                setContentView(R.layout.text_main_audio);
+            else {
+                setContentView(R.layout.activity_audio);
+                ImageView toMain2 = (ImageView) findViewById(R.id.to_main);
+                if(MyLanguage==ENGLISH)
+                    toMain2.setImageResource(R.drawable.to_main_e);
+                if(MyLanguage==RUSSIAN)
+                    toMain2.setImageResource(R.drawable.to_main_r);
+                if(MyLanguage==SPANISH)
+                    toMain2.setImageResource(R.drawable.to_main_s);
+                if(MyLanguage==FRENCH)
+                    toMain2.setImageResource(R.drawable.to_main_f);
+                toMain2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        if(playing==0)
+                            playPause(view);
+                        playPause(view);
+                        playPause(v);
 
-            webview = (WebView) findViewById(R.id.webView1);
-            webSettings = webview.getSettings();
-            webSettings.setMinimumFontSize(20);
-            webSettings.setDefaultTextEncodingName("utf-8");
-            webSettings.setJavaScriptEnabled(true);
-            webSettings.setSupportZoom(true);
-            API = android.os.Build.VERSION.SDK_INT;
-            if (API < 19)
-                webSettings.setBuiltInZoomControls(true);
-            webview.requestFocusFromTouch();
-            webview.getSettings().setAllowFileAccess(true);
-            webLink = getIntent().getStringExtra("webLink");
-            webview.loadUrl(webLink);
-            webview.setY(80);
-            BlackBackground = mPrefs.getInt("BlackBackground", 0);
-            if (BlackBackground == 1) {
-                webview.setWebViewClient(new WebViewClient() {
-                    public void onPageFinished(WebView view, String url) {
-                        view.loadUrl(
-                                "javascript:document.body.style.setProperty(\"color\", \"white\");"
-                        );
+                        Class ourClass = null;
+                        try {
+                            ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        Intent ourIntent = new Intent(myAudio.this, ourClass);
+                        ourIntent.putExtra("goLast", true);
+
+                        finish();
+                        startActivity(ourIntent);
                     }
                 });
-                webview.setBackgroundColor(Color.BLACK);//black
-                infView.setBackgroundColor(Color.BLACK);
             }
+            mPrefs = getSharedPreferences(PREFS_NAME, 0);
+            shPrefEditor = mPrefs.edit();
+            ImageView menu= (ImageView) findViewById(R.id.menu);
+            menu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ContextThemeWrapper ctw = new ContextThemeWrapper(myAudio.this, R.style.CustomPopupTheme);
+                    PopupMenu popupMenu = new PopupMenu(ctw, v);
+                    //popupMenu.
 
-            final Runnable runnableNote = new Runnable() {
-                public void run() {
-                    String note, content = null;
-                    int intNoteId;
-                    final Dialog dialog = new Dialog(context);
-                    WebView webviewNote;
-                    WebSettings webSettingsNote;
-                    dialog.setContentView(R.layout.note);
-                    intNoteId = Integer.parseInt(note_id) - 1000;
-                    note_id = Integer.toString(intNoteId);
-                    dialog.setTitle("        הערה " + note_id);
-                    webviewNote = (WebView) dialog.findViewById(R.id.webViewNote1);
-                    webSettingsNote = webviewNote.getSettings();
-                    webSettingsNote.setDefaultTextEncodingName("utf-8");
-                    webviewNote.requestFocusFromTouch();
-                    if (API < 19)
-                        webSettingsNote.setBuiltInZoomControls(true);
+                    if(MyLanguage == ENGLISH) {
+                        popupMenu.getMenu().add(0,-1,0,"Homepage");
+                        popupMenu.getMenu().add(0,0,0,"Settings");
+                        popupMenu.getMenu().add(0,1,0,"Books");
+                        popupMenu.getMenu().add(0,2,0,"Daily Study");
+                        popupMenu.getMenu().add(0,3,0,"Search");
+                        popupMenu.getMenu().add(0,5,0,"Contact Us");
+                        popupMenu.getMenu().add(0,6,0,"Purchasing books");
+                        popupMenu.getMenu().add(0,7,0,"Ask the Rabbi");
+                        //booksDownload configHeaders[6] = "ספרים להורדה";
+                        popupMenu.getMenu().add(0,8,0,"About the series");
+                        popupMenu.getMenu().add(0,9,0,"About");
+                    }
+                    else if(MyLanguage == RUSSIAN) {
+                        popupMenu.getMenu().add(0,-1,0,"домашняя страница");
+                        popupMenu.getMenu().add(0,0,0,"Настройки");
+                        popupMenu.getMenu().add(0,1,0,"Книги");
+                        popupMenu.getMenu().add(0,2,0,"Ежедневное изучение");
+                        popupMenu.getMenu().add(0,3,0,"Поиск");
+                        popupMenu.getMenu().add(0,5,0,"Отзыв");
+                        popupMenu.getMenu().add(0,6,0,"Список книг");
+                        popupMenu.getMenu().add(0,7,0,"Спросить равина");
+                        //booksDownload configHeaders[6] = "ספרים להורדה";
+                        popupMenu.getMenu().add(0,8,0,"О серии книг");
+                        popupMenu.getMenu().add(0,9,0,"О приложении");
+                    }
+                    else if(MyLanguage == SPANISH) {
+                        popupMenu.getMenu().add(0,-1,0,"Página principal");
+                        popupMenu.getMenu().add(0,0,0,"Definiciones");
+                        popupMenu.getMenu().add(0,1,0,"Libros");
+                        popupMenu.getMenu().add(0,2,0,"Estudio diario");
+                        popupMenu.getMenu().add(0,3,0,"Búsqueda");
+                        popupMenu.getMenu().add(0,5,0,"Retroalimentación");
+                        popupMenu.getMenu().add(0,6,0,"Compra de libros");
+                        popupMenu.getMenu().add(0,7,0,"Pregúntale al rabino");
+                        //booksDownload configHeaders[6] = "ספרים להורדה";
+                        popupMenu.getMenu().add(0,8,0,"En la serie");
+                        popupMenu.getMenu().add(0,9,0,"Sobre");
+                    }
+                    else if(MyLanguage == FRENCH) {
+                        popupMenu.getMenu().add(0,-1,0,"Page d'accueil");
+                        popupMenu.getMenu().add(0,0,0,"Réglages");
+                        popupMenu.getMenu().add(0,1,0,"Livres");
+                        popupMenu.getMenu().add(0,2,0,"étude quotidienne");
+                        popupMenu.getMenu().add(0,3,0,"Recherche");
+                        popupMenu.getMenu().add(0,5,0,"Contact Us");
+                        popupMenu.getMenu().add(0,6,0,"Achat de livres");
+                        popupMenu.getMenu().add(0,7,0,"Demander au rav");
+                        //booksDownload configHeaders[6] = "ספרים להורדה";
+                        popupMenu.getMenu().add(0,8,0,"Sur la collection");
+                        popupMenu.getMenu().add(0,9,0,"À propos");
+                    }
+                    else {/*this is the default*/
+                        popupMenu.getMenu().add(0,-1,0,"דף הבית");
+                        popupMenu.getMenu().add(0,0,0,"הגדרות");
+                        popupMenu.getMenu().add(0,1,0,"ספרים");
+                        popupMenu.getMenu().add(0,2,0,"הלימוד היומי");
+                        popupMenu.getMenu().add(0,3,0,"חיפוש");
+                        popupMenu.getMenu().add(0,4,0,"ראשי תיבות");
+                        popupMenu.getMenu().add(0,5,0,"משוב");
+                        popupMenu.getMenu().add(0,6,0,"רכישת ספרים");
+                        popupMenu.getMenu().add(0,7,0,"שאל את הרב");
+                        //booksDownload configHeaders[6] = "ספרים להורדה";
+                        popupMenu.getMenu().add(0,8,0,"על הסדרה");
+                        popupMenu.getMenu().add(0,9,0,"אודות");
+                    }
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+                    {
 
-                    content = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
-                            "<html><head>" +
-                            "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />" +
-                            "<head>";
-                    if (mPrefs.getInt("BlackBackground", 0) == 0)
-                        content += "<body>";//White background
-                    else
-                        content += "<body style=\"background-color:black;color:white\">";//Black background
-
-                    ParseTheDoc();
-                    headers = doc.select("div#ftn" + 1);
-                    note = headers.get(0).text();
-                    content += "<p dir=\"RTL\">" + note + "</p> </body></html>";
-                    webviewNote.loadData(content, "text/html; charset=utf-8", "UTF-8");
-                    webSettingsNote.setDefaultFontSize(18);
-                    dialog.show();
-
-                    dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
-                        public void onCancel(DialogInterface dialog) {
-                            //do whatever you want the back key to do
-                            dialog.dismiss();
+                        public boolean onMenuItemClick(MenuItem item)
+                        {
+                            if(playing==0)
+                                playPause(view);
+                            playPause(view);
+                            Class ourClass = null;
+                            Intent ourIntent;
+                            Intent intent;
+                            switch (item.getItemId())
+                            {
+                                case -1:/*Home page*/
 
+                                    try
+                                    {
+                                        ourClass = null;
+
+                                        ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+                                        ourIntent = new Intent(myAudio.this, ourClass);
+                                        finish();
+                                        startActivity(ourIntent);
+                                    }
+                                    catch (ClassNotFoundException e)
+                                    {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+
+                                case 0:/*settings*/
+
+                                    try {
+                                        ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+                                    } catch (ClassNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+                                    ourIntent = new Intent(myAudio.this, ourClass);
+                                    ourIntent.putExtra("homePage", true);
+                                    shPrefEditor.putString("where", "myAudio");
+                                    shPrefEditor.putString("h&rWebLink", webLink);
+                                    shPrefEditor.putBoolean("hearAndRead", hearAndRead);
+                                    if(hearAndRead)
+                                        shPrefEditor.putInt("h&rScrool", webview.getScrollY());
+                                    shPrefEditor.putInt("h&rAI", section);
+                                    ourIntent.putExtra("sections_" + 1,extras.getStringArrayList("sections_" + 1));
+                                    ourIntent.putExtra("sections_" + 2,extras.getStringArrayList("sections_" + 2));
+                                    ourIntent.putExtra("sections_" + 3,extras.getStringArrayList("sections_" + 3));
+                                    ourIntent.putExtra("sections_" + 4,extras.getStringArrayList("sections_" + 4));
+                                    ourIntent.putExtra("sections_" + 5,extras.getStringArrayList("sections_" + 5));
+                                    ourIntent.putExtra("sections_" + 6,extras.getStringArrayList("sections_" + 6));
+                                    ourIntent.putExtra("sections_" + 7,extras.getStringArrayList("sections_" + 7));
+                                    ourIntent.putExtra("sections_" + 8,extras.getStringArrayList("sections_" + 8));
+                                    ourIntent.putExtra("sections_" + 9,extras.getStringArrayList("sections_" + 9));
+                                    ourIntent.putExtra("sections_" + 10,extras.getStringArrayList("sections_" + 10));
+                                    ourIntent.putExtra("sections_" + 11,extras.getStringArrayList("sections_" + 11));
+                                    ourIntent.putExtra("sections_" + 12,extras.getStringArrayList("sections_" + 12));
+                                    ourIntent.putExtra("sections_" + 13,extras.getStringArrayList("sections_" + 13));
+                                    ourIntent.putExtra("sections_" + 14,extras.getStringArrayList("sections_" + 14));
+                                    ourIntent.putExtra("sections_" + 15,extras.getStringArrayList("sections_" + 15));
+                                    ourIntent.putExtra("sections_" + 16,extras.getStringArrayList("sections_" + 16));
+                                    ourIntent.putExtra("sections_" + 17,extras.getStringArrayList("sections_" + 17));
+                                    ourIntent.putExtra("sections_" + 18,extras.getStringArrayList("sections_" + 18));
+                                    ourIntent.putExtra("sections_" + 19,extras.getStringArrayList("sections_" + 19));
+                                    ourIntent.putExtra("sections_" + 20,extras.getStringArrayList("sections_" + 20));
+                                    ourIntent.putExtra("sections_" + 21,extras.getStringArrayList("sections_" + 21));
+                                    ourIntent.putExtra("sections_" + 22,extras.getStringArrayList("sections_" + 22));
+                                    ourIntent.putExtra("sections_" + 23,extras.getStringArrayList("sections_" + 23));
+                                    ourIntent.putExtra("sections_" + 24,extras.getStringArrayList("sections_" + 24));
+                                    ourIntent.putExtra("sections_" + 25,extras.getStringArrayList("sections_" + 25));
+                                    ourIntent.putExtra("sections_" + 26,extras.getStringArrayList("sections_" + 26));
+                                    ourIntent.putExtra("sections_" + 27,extras.getStringArrayList("sections_" + 27));
+                                    ourIntent.putExtra("sections_" + 28,extras.getStringArrayList("sections_" + 28));
+                                    ourIntent.putExtra("sections_" + 29,extras.getStringArrayList("sections_" + 29));
+                                    ourIntent.putExtra("sections_" + 30,extras.getStringArrayList("sections_" + 30));
+                                    ourIntent.putExtra("sections_" + 31,extras.getStringArrayList("sections_" + 31));
+                                    ourIntent.putExtra("sections_" + 32,extras.getStringArrayList("sections_" + 32));
+                                    ourIntent.putExtra("sections_" + 33,extras.getStringArrayList("sections_" + 33));
+                                    ourIntent.putExtra("sections_" + 34,extras.getStringArrayList("sections_" + 34));
+                                    ourIntent.putExtra("sections_" + 35,extras.getStringArrayList("sections_" + 35));
+                                    ourIntent.putExtra("sections_" + 36,extras.getStringArrayList("sections_" + 36));
+                                    ourIntent.putExtra("sections_" + 37,extras.getStringArrayList("sections_" + 37));
+                                    ourIntent.putExtra("sections_" + 38,extras.getStringArrayList("sections_" + 38));
+                                    ourIntent.putExtra("sections_" + 39,extras.getStringArrayList("sections_" + 39));
+                                    ourIntent.putExtra("sections_" + 40,extras.getStringArrayList("sections_" + 40));
+                                    shPrefEditor.putInt("h&rChapId", chapter);
+                                    shPrefEditor.putInt("h&rBookId", book);
+                                    shPrefEditor.commit();
+                                    finish();
+                                    startActivity(ourIntent);
+                                    break;
+
+                                case 1:/*to books*/
+                                    try {
+                                        ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+                                    } catch (ClassNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+                                    ourIntent = new Intent(myAudio.this, ourClass);
+                                    ourIntent.putExtra("homePage", false);
+                                    finish();
+                                    startActivity(ourIntent);
+                                    break;
+
+                                case 2:/*pninaYomit*/
+                                    try {
+                                        ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.pninaYomit");
+                                    } catch (ClassNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+                                    ourIntent = new Intent(myAudio.this, ourClass);
+                                    finish();
+                                    startActivity(ourIntent);
+                                    break;
+
+                                case 3:/*search in all books*/
+                                    try {
+                                        ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+                                    } catch (ClassNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+                                    ourIntent = new Intent(myAudio.this, ourClass);
+                                    finish();
+                                    startActivity(ourIntent);
+
+                                    break;
+
+                                case 4:/*acronyms*/
+                                    acronymsDecode();
+                                    break;
+
+                                case 5:/*feedback*/
+                                    try
+                                    {
+                                        ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+                                        ourIntent = new Intent(myAudio.this, ourClass);
+                                        finish();
+                                        startActivity(ourIntent);
+                                    }
+                                    catch (ClassNotFoundException e)
+                                    {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+                                case 6:/*buy books*/
+                                    intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.setData(Uri.parse("https://shop.yhb.org.il/"));
+
+                                    if(MyLanguage==FRENCH)
+                                        intent.setData(Uri.parse("https://shop.yhb.org.il/fr/"));
+                                    if(MyLanguage==RUSSIAN)
+                                        intent.setData(Uri.parse("https://shop.yhb.org.il/ru/"));
+                                    if(MyLanguage==SPANISH)
+                                        intent.setData(Uri.parse("https://shop.yhb.org.il/es/"));
+                                    if(MyLanguage==ENGLISH)
+                                        intent.setData(Uri.parse("https://shop.yhb.org.il/en/"));
+                                    finish();
+                                    startActivity(intent);
+                                    break;
+
+                                case 7:/*ask the rav*/
+                                    intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.setData(Uri.parse("https://yhb.org.il/שאל-את-הרב-2/"));
+                                    finish();
+                                    startActivity(intent);
+                                    break;
+                                case 8:/*about pninei*/
+                                    try
+                                    {
+                                        ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About_p");
+                                        ourIntent = new Intent(myAudio.this, ourClass);
+                                        finish();
+                                        startActivity(ourIntent);
+                                    }
+                                    catch (ClassNotFoundException e)
+                                    {
+                                        e.printStackTrace();
+                                    }
+                                    //case 8:/*hascamot*/
+                                    //   hascamotDialog();
+                                      break;
+                                case 9:/*about*/
+                                    try
+                                    {
+                                        ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+                                        ourIntent = new Intent(myAudio.this, ourClass);
+                                        finish();
+                                        startActivity(ourIntent);
+                                    }
+                                    catch (ClassNotFoundException e)
+                                    {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+
+
+                                default:
+                                    break;
+                            }
+                            return true;
                         }
                     });
+
+                    popupMenu.show();
                 }
-            };
-            final Runnable runnableAudio = new Runnable() {
-                public void run() {
-                    sendSectionIdAndPlay(Integer.parseInt(audio_id));
-                }
-            };
-            webview.addJavascriptInterface(new Object() {
-                @JavascriptInterface
-                public <var> void performClick(String id) {
-                    setNoteId(id);
-                    runOnUiThread(runnableNote);
-                }
-            }, "ok");
-            webview.addJavascriptInterface(new Object() {
-                @JavascriptInterface
-                public void performClick(String id) {
-                    setAudioId(id);
-                    runOnUiThread(runnableAudio);
-                    playing = 0;
-                    playPause(view);
-                }
-            }, "audio");
-            createActionBar();
-        }
+            });
 
-        firstCall = true;
-        registerAllBroadcast();
-        initializeViews();
-        playerInfo = (TextView) findViewById(R.id.playerInfo);
-        extras = getIntent().getExtras();
-        sections = new ArrayList<String>();
-        book = extras.getInt("book_id");
-        chapter = extras.getInt("chapter_id");
-        if (hearAndRead) {
-            
-            webview.scrollTo(0, lastScrool );
-            fontSize = extras.getInt("fontSize");
-            webSettings.setMinimumFontSize(fontSize);
+            if (hearAndRead) {
+                inf = getLayoutInflater();
+                infView = inf.inflate(R.layout.tochen_actionbar_lay, null);
+                rl = (RelativeLayout) findViewById(R.id.content);
+                infView.setVisibility(View.VISIBLE);
+                rl.addView(infView);
+                scroll=findViewById(R.id.auto_scrool2);
+                scroll.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-        }
+                        scroll.setImageResource(R.drawable.fill_auto_scroll);
 
-        if (book == KASHRUT_B)//KASHRUT_B is starting from chapter 20
-            chapter += 19;
-        section = extras.getInt("audio_id");
-        sections = extras.getStringArrayList("sections_" + chapter);
-        book_name = get_book_name_by_id();
-        playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section));
-        List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
+                        showPopupAutoScroolSettings(findViewById(R.id.auto_scrool2));
 
-        for (int i = 0; i < sections.size(); i++) {
-            HashMap<String, String> hm = new HashMap<String, String>();
-            hm.put("listview_title", sections.get(i));
-            aList.add(hm);
-        }
 
-        String[] from = {"listview_title"};
-        int[] to = {R.id.listview_item_title};
-        SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
-        listview = (ListView) findViewById(R.id.list_view);
-        listview.setAdapter(simpleAdapter);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listview.setSelected(true);
-                listview.setSelection(position);
-                if (clickOnItemFromList == true)
-                    sendSectionIdAndPlay(position + 1);
-                playPause(view);
-                clickOnItemFromList = true;//change it back to true. In cases that it is not came directly from click om list item, it will be changed to false in this cases
+                    }
+                });
             }
-        });
-        buttonNext = (ImageButton) findViewById(R.id.media_next);
-        buttonPrevious = (ImageButton) findViewById(R.id.media_prev);
-        initializeSeekBar();
-        while (playing == 1)
-        {
+            context = this;
+            ll = (LinearLayout) findViewById(R.id.hi);
+            //ll.setVisibility(View.INVISIBLE);
+            //to swich to read and hear mode change here and 269+- to if(true)
+            if (hearAndRead) {
+
+                webview = (WebView) findViewById(R.id.webView1);
+                webSettings = webview.getSettings();
+                webSettings.setMinimumFontSize(20);
+                webSettings.setDefaultTextEncodingName("utf-8");
+                webSettings.setJavaScriptEnabled(true);
+
+                webSettings.setSupportZoom(true);
+                API = android.os.Build.VERSION.SDK_INT;
+                if (API < 19)
+                    webSettings.setBuiltInZoomControls(true);
+                webview.requestFocusFromTouch();
+                webview.getSettings().setAllowFileAccess(true);
+                finishLoad=false;
+                webLink = getIntent().getStringExtra("webLink");
+                getIntent().putExtra("WebLink",webLink);
+                webview.loadUrl(webLink);
+                webview.setWebViewClient(new WebViewClient() {
+
+                    public void onPageFinished(WebView view, String url) {
+                        // do your stuff here
+                        finishLoad=true;
+                    }
+                });
+
+                webview.setY(80);
+                BlackBackground = mPrefs.getInt("BlackBackground", 0);
+                if (BlackBackground == 1) {
+                    webview.setWebViewClient(new WebViewClient() {
+                        public void onPageFinished(WebView view, String url) {
+                            view.loadUrl(
+                                    "javascript:document.body.style.setProperty(\"color\", \"white\");"
+                            );
+                        }
+                    });
+                    webview.setBackgroundColor(Color.BLACK);//black
+                    infView.setBackgroundColor(Color.BLACK);
+                }
+
+                final Runnable runnableNote = new Runnable() {
+                    public void run() {
+                        String note, content = null;
+                        int intNoteId;
+                        final Dialog dialog = new Dialog(context);
+                        WebView webviewNote;
+                        WebSettings webSettingsNote;
+                        dialog.setContentView(R.layout.note);
+                        intNoteId = Integer.parseInt(note_id) - 1000;
+                        note_id = Integer.toString(intNoteId);
+                        dialog.setTitle("        הערה " + note_id);
+                        webviewNote = (WebView) dialog.findViewById(R.id.webViewNote1);
+                        webSettingsNote = webviewNote.getSettings();
+                        webSettingsNote.setDefaultTextEncodingName("utf-8");
+                        webviewNote.requestFocusFromTouch();
+                        if (API < 19)
+                            webSettingsNote.setBuiltInZoomControls(true);
+
+                        content = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
+                                "<html><head>" +
+                                "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />" +
+                                "<head>";
+                        if (mPrefs.getInt("BlackBackground", 0) == 0)
+                            content += "<body>";//White background
+                        else
+                            content += "<body style=\"background-color:black;color:white\">";//Black background
+
+                        ParseTheDoc();
+                        headers = doc.select("div#ftn" + note_id);
+                        note = headers.get(0).text();
+                        content += "<p dir=\"RTL\">" + note + "</p> </body></html>";
+                        webviewNote.loadData(content, "text/html; charset=utf-8", "UTF-8");
+                        webSettingsNote.setDefaultFontSize(18);
+                        dialog.show();
+
+                        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                //do whatever you want the back key to do
+                                dialog.dismiss();
+
+                            }
+                        });
+                    }
+                };
+                final Runnable runnableAudio = new Runnable() {
+                    public void run() {
+                        sendSectionIdAndPlay(Integer.parseInt(audio_id));
+                    }
+                };
+                webview.addJavascriptInterface(new Object() {
+                    @JavascriptInterface
+                    public <var> void performClick(String id) {
+                        setNoteId(id);
+                        runOnUiThread(runnableNote);
+                    }
+                }, "ok");
+                webview.addJavascriptInterface(new Object() {
+                    @JavascriptInterface
+                    public void performClick(String id) {
+                        setAudioId(id);
+                        runOnUiThread(runnableAudio);
+                        playing = 0;
+                        playPause(view);
+                    }
+                }, "audio");
+                createActionBar();
+//                ImageView scroll=findViewById(R.id.auto_scrool);
+//                scroll.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        autoScrollSpeedDialog();
+//                    }
+//                });
+            }
+
+            firstCall = true;
+            spinner = findViewById(R.id.myspinner);
+            spinner.setSelected(true);
+            final List<String> states= Arrays.asList("x2","x1.75","x1.5","x1.25","x1","x0.75");
+             ArrayAdapter simpleadapter = new ArrayAdapter(this, R.layout.spinner_des, states);
+
+            simpleadapter.setDropDownViewResource((android.R.layout.simple_list_item_1));
+            spinner.setAdapter(simpleadapter);
+            float tempSpeed=mPrefs.getFloat("audioSpeed",1f);
+            if (tempSpeed==0.75f)
+                spinner.setSelection(5);
+            if (tempSpeed==1f)
+                spinner.setSelection(4);
+            if (tempSpeed==1.25f)
+                spinner.setSelection(3);
+            if (tempSpeed==1.5f)
+                spinner.setSelection(2);
+            if (tempSpeed==1.75f)
+                spinner.setSelection(1);
+            if (tempSpeed==2f)
+                spinner.setSelection(0);
+            spinner.setOnItemSelectedListener(this);
+            registerAllBroadcast();
+            initializeViews();
+            playerInfo = (TextView) findViewById(R.id.playerInfo);
+            extras = getIntent().getExtras();
+            sections = new ArrayList<String>();
+            book = extras.getInt("book_id");
+
+            chapter = extras.getInt("chapter_id");
+
+            if (hearAndRead) {
+                scrollPos = getIntent().getIntExtra("scroolY", 0);
+                fontSize = mPrefs.getInt("fontSize",20);
+                webSettings.setMinimumFontSize(fontSize);
+
+            }
+
+            if (book == KASHRUT_B)//KASHRUT_B is starting from chapter 20
+                chapter += 19;
+            section = extras.getInt("audio_id");
+            sections = extras.getStringArrayList("sections_" + chapter);
+            book_name = get_book_name_by_id();
+            //shilo
+            playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section));
+            List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
+            List<TextView> txtvList = new ArrayList<TextView>();
+            TextView textView = new TextView(getBaseContext());
+            for (int i = 0; i < sections.size(); i++) {
+                HashMap<String, String> hm = new HashMap<String, String>();
+                hm.put("listview_title", sections.get(i));
+                //aList.add(hm);
+                textView = new TextView(getBaseContext());
+                //String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
+                //String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
+                textView.setText("   " + sections.get(i) + "\n");
+                //textView.setText("shilo");
+                //textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
+                if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                    textView.setTextColor(Color.WHITE);
+                    // listview.setBackgroundColor(Color.BLACK);
+                } else
+                    textView.setTextColor(Color.BLACK);
+                textView.setTextSize(24);
+                if ((textView.getText().charAt(2) == 'א') && i != 0)
+                    break;
+                txtvList.add(textView);
+                // listview.addFooterView(textView);
+            }
+            lastSec=txtvList.size();
+
+            String[] from = {"listview_title"};
+            int[] to = {R.id.listview_item_title};
+            ArrayAdapter adapter;
+            adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, aList);
+            listview = (ListView) findViewById(R.id.list_view);
+            listview.setAdapter(adapter);
+
+            if (mPrefs.getInt("BlackBackground", 0) == 1)
+                listview.setBackgroundColor(Color.BLACK);
+            else
+                listview.setBackgroundColor(Color.WHITE);
+            for (int i = 0; i <txtvList.size(); i++) {
+
+                listview.addHeaderView(txtvList.get(i));
+                v1[i]=txtvList.get(i);
+
+            }
+            for(int i=0;i<50;i++)
+            {
+                if(v1[i]!=null) {
+                    if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                        v1[i].setBackgroundColor(Color.BLACK);
+                        v1[i].setTextColor(Color.WHITE);
+                    } else {
+                        v1[i].setBackgroundColor(Color.WHITE);
+                        v1[i].setTextColor(Color.BLACK);
+                    }
+                }
+            }
             try {
-                wait(1000);
-                Intent broadcastIntent = new Intent(Broadcast_FORWARD_10);
-                sendBroadcast(broadcastIntent);
+                v1[section-2].setBackgroundColor(Color.rgb(151, 6, 6));
+                v1[section-2].setTextColor(Color.WHITE);
+            }
+            catch (Exception exp) {
+                v1[section - 1].setBackgroundColor(Color.rgb(151, 6, 6));
+                v1[section - 1].setTextColor(Color.WHITE);
+            }
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+
+
+
+            listview.setCacheColorHint(Color.WHITE);
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    listview.setSelected(true);
+                    listview.setSelection(position);
+
+                    //listview.setSelection(position);
+
+                    if (clickOnItemFromList == true) {
+                        sendSectionIdAndPlay(position + 1);
+                        for (int i = 0; i < txtvList.size(); i++)
+                            if (i == position){
+                                txtvList.get(position).setBackgroundColor(Color.rgb(151, 6, 6));
+                                txtvList.get(position).setTextColor(Color.WHITE);}
+                            else if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                                txtvList.get(i).setBackgroundColor(Color.BLACK);
+                                txtvList.get(i).setTextColor(Color.WHITE);
+                            }
+                            else {
+                                txtvList.get(i).setBackgroundColor(Color.WHITE);
+                                txtvList.get(i).setTextColor(Color.BLACK);
+
+                            }
+
+                        listview = (ListView) findViewById(R.id.list_view);
+                        listview.setAdapter(adapter);
+                        listview.setBackgroundColor(Color.WHITE);
+                        listview.setSelection(position);
+
+                        playing = 1;
+                        buttonPlayPause.setImageResource(R.drawable.baseline_pause_circle_outline_white_48);
+
+                        //for (int i=0;i<txtvList.size();i++)
+                        //  listview.addHeaderView(txtvList.get(i));
+                        broadcastIntent = new Intent(Broadcast_Speed);
+                        sendBroadcast(broadcastIntent);
+                        broadcastIntent = new Intent(Broadcast_Speed);
+                        int choice = spinner.getSelectedItemPosition();
+                        speed = sppedArray[choice];
+                        shPrefEditor.putFloat("audioSpeed", speed);
+                        shPrefEditor.commit();
+                    }
+
+                    //playPause(view);
+                    clickOnItemFromList = true;//change it back to true. In cases that it is not came directly from click om list item, it will be changed to false in this cases
+                }
+            });
+            buttonNext = (ImageButton) findViewById(R.id.media_next);
+            buttonPrevious = (ImageButton) findViewById(R.id.media_prev);
+            head = ((TextView) findViewById(R.id.playerInfo)).getText().toString();
+            initializeSeekBar();
+            while (playing == 1) {
+                try {
+                    wait(1000);
+                    broadcastIntent = new Intent(Broadcast_FORWARD_10);
+                    //broadcastIntent.putExtra("section", section);
+                    sendBroadcast(broadcastIntent);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
+            sendBroadcast(broadcastIntent);
+            broadcastIntent = new Intent(Broadcast_Speed);
+            int choice = spinner.getSelectedItemPosition();
+            speed = sppedArray[choice];
+            shPrefEditor.putFloat("audioSpeed", speed);
+            shPrefEditor.commit();
+            if (playing == 0)
+                broadcastIntent.putExtra("play", 0);
+            sendBroadcast(broadcastIntent);
+            playing = 1;
+            buttonPlayPause.setImageResource(R.drawable.baseline_pause_circle_outline_white_48);
+            refresh(2000);
+
+        }
+
+        if(false) //downaudio
+        {
+            final ProgressDialog downloadWait = ProgressDialog.show(myAudio.this, "", "מוריד ספרים אנא המתן");
+            new Thread() {
+                public void run() {
+                    try {
+                        myAudio.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                try {
+                                    downloadBooks2(book,chapter,section, "audio");
+                                } catch (InterruptedException | IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    } catch (Exception e) {
+
+                    }
+                    downloadWait.dismiss();
+                }
+            }.start();
+        }
+    }
+    public  void downloadBooks2(int downBook,int downChap,int downSec ,String folder) throws InterruptedException, IOException {
+
+        if(downSec>1) {
+            File file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+ folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec-1)).substring(0, 2) + ".mp3");
+            if(!file.exists()) {
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://cdn1.yhb.org.il/mp3/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec - 1)).substring(0, 2) + ".mp3"));
+                request.setDescription("please  wait");
+                //request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/" + folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec - 1)).substring(0, 2) + ".mp3");
+                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                downloadManager.enqueue(request);
+                shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark2",""));
+                shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark3",""));
+                shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark4",""));
+                shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark5",""));
+                shPrefEditor.putString("Bookmark5",("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec - 1)).substring(0, 2) + ".mp3");
+                shPrefEditor.commit();
             }
         }
-        spinner = findViewById(R.id.myspinner);
-        spinner.setSelected(true);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.speed_audio_array, android.R.layout.simple_list_item_1);
-        adapter.setDropDownViewResource((android.R.layout.simple_list_item_1));
-        spinner.setAdapter(adapter);
-        spinner.setSelection(2);
-        spinner.setOnItemSelectedListener(this);
-        Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
-        sendBroadcast(broadcastIntent);
-        broadcastIntent = new Intent(Broadcast_Speed);
-        int choice = spinner.getSelectedItemPosition();
-        speed = sppedArray[choice];
-        broadcastIntent.putExtra("speed", speed);
-        if (playing == 0)
-            broadcastIntent.putExtra("play", 0);
-        sendBroadcast(broadcastIntent);
-        refresh(2000);
-    }
+        File file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+ folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec)).substring(0, 2) + ".mp3");
+        if(!file.exists()) {
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://cdn1.yhb.org.il/mp3/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec)).substring(0, 2) + ".mp3"));
+            request.setDescription("please  wait");
+            //request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/" + folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec)).substring(0, 2) + ".mp3");
+            DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+            downloadManager.enqueue(request);
+            shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark2",""));
+            shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark3",""));
+            shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark4",""));
+            shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark5",""));
+            shPrefEditor.putString("Bookmark5",("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec )).substring(0, 2) + ".mp3");
+            shPrefEditor.commit();
+        }
 
+        if(downSec<lastSec) {
+             file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+ folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec+1)).substring(0, 2) + ".mp3");
+            if(!file.exists()) {
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://cdn1.yhb.org.il/mp3/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec + 1)).substring(0, 2) + ".mp3"));
+                request.setDescription("please  wait");
+                //request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/" + folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec + 1)).substring(0, 2) + ".mp3");
+                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                downloadManager.enqueue(request);
+                shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark2",""));
+                shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark3",""));
+                shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark4",""));
+                shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark5",""));
+                shPrefEditor.putString("Bookmark5",("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec +1)).substring(0, 2) + ".mp3");
+                shPrefEditor.commit();
+            }
+        }
+        if(downSec<lastSec-1) {
+             file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+ folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec+2)).substring(0, 2) + ".mp3");
+            if(!file.exists()) {
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://cdn1.yhb.org.il/mp3/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec + 2)).substring(0, 2) + ".mp3"));
+                request.setDescription("please  wait");
+                //request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DCIM, "pnineyHalacha/" + folder + "/" + ("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec + 2)).substring(0, 2) + ".mp3");
+                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                downloadManager.enqueue(request);
+                shPrefEditor.putString("Bookmark1",mPrefs.getString("Bookmark2",""));
+                shPrefEditor.putString("Bookmark2",mPrefs.getString("Bookmark3",""));
+                shPrefEditor.putString("Bookmark3",mPrefs.getString("Bookmark4",""));
+                shPrefEditor.putString("Bookmark4",mPrefs.getString("Bookmark5",""));
+                shPrefEditor.putString("Bookmark5",("0" + (downBook)).substring(0, 2) + "-" + ("0" + (downChap)).substring(0, 2) + "-" + ("0" + (downSec +2)).substring(0, 2) + ".mp3");
+                shPrefEditor.commit();
+            }
+        }
+        file=new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/"+ folder);
+        File[] list = file.listFiles();
+        int count = 0;
+        if(list!=null)
+        for (File f: list){
+            String name = f.getName();
+            if(!name.equals(mPrefs.getString("Bookmark1",""))&&!name.equals(mPrefs.getString("Bookmark2",""))&&!name.equals(mPrefs.getString("Bookmark3",""))&&!name.equals(mPrefs.getString("Bookmark4",""))&&!name.equals(mPrefs.getString("Bookmark5","")))
+                file.delete();
+        }
+
+    }
     private void refresh(int millisec) {
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                speed = sppedArray[spinner.getSelectedItemPosition()];
                 content();
             }
         };
@@ -433,21 +1104,23 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     {
         if (hearAndRead) {
 
-              if(lastChap!=chapter){
+              if(lastChap!=chapter&&finishLoad){
                 lastScrool=webview.getScrollY();
                 webview.loadUrl(webLink.substring(0, webLink.lastIndexOf('_')) + "_" + (chapter) + ".html");
                 webview.setWebViewClient(new WebViewClient(){
 
                     @Override
                     public void onPageFinished(WebView view, String url) {
-                        webview.setY(80);
+                        webview.setY(100);
+                        webview.scrollTo(0,scrollPos);
+                        scrollPos=0;
                         super.onPageFinished(view, url);
                     }
                 });
                 lastChap=chapter;
               }
             if (webview.getScrollY()==0)
-                webview.setY(80);
+                webview.setY(100);
 
 
 
@@ -475,24 +1148,86 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     public void createActionBar()
     {
+        scrollSpeed=-1;
         infView.setVisibility(View.VISIBLE);
-        ImageButton searchBtn = infView.findViewById(R.id.searchBtn);
+        ImageView searchBtn = infView.findViewById(R.id.page_search);
+
         final ImageButton searchBtnDown = infView.findViewById(R.id.ibFindNext);
         final ImageButton searchBtnUp = infView.findViewById(R.id.ibFindPrevious);
-        final ImageButton addBookMark = infView.findViewById(R.id.action_add_bookmark);
+        final ImageView addBookMark = infView.findViewById(R.id.make_mark);
 
-        final ImageButton config = infView.findViewById(R.id.action_config);
-        final ImageButton scrollBtn = infView.findViewById(R.id.action_auto_scrool);
+
+
+
+        final ImageView toMain = infView.findViewById(R.id.to_main);
+        final ImageView menu = infView.findViewById(R.id.menu);
+        final LinearLayout main = infView.findViewById(R.id.lnrOption3);
+        if(MyLanguage==ENGLISH)
+            toMain.setImageResource(R.drawable.to_main_e);
+        if(MyLanguage==RUSSIAN)
+            toMain.setImageResource(R.drawable.to_main_r);
+        if(MyLanguage==SPANISH)
+            toMain.setImageResource(R.drawable.to_main_s);
+        if(MyLanguage==FRENCH)
+            toMain.setImageResource(R.drawable.to_main_f);
+        if(BlackBackground==1)
+        {
+            main.setBackgroundColor(Color.rgb(120,1,1));
+            if(MyLanguage==ENGLISH)
+                toMain.setImageResource(R.drawable.to_main_b_e);
+            if(MyLanguage==RUSSIAN)
+                toMain.setImageResource(R.drawable.to_main_b_r);
+            if(MyLanguage==SPANISH)
+                toMain.setImageResource(R.drawable.to_main_b_s);
+            if(MyLanguage==FRENCH)
+                toMain.setImageResource(R.drawable.to_main_b_f);
+            if(MyLanguage==HEBREW)
+                toMain.setImageResource(R.drawable.to_main_b);
+            if(hearAndRead)
+            {
+                final ImageView pageSearch = infView.findViewById(R.id.page_search);
+                final ImageView makeMark = infView.findViewById(R.id.make_mark);
+                pageSearch.setImageResource(R.drawable.page_search_b);
+                makeMark.setImageResource(R.drawable.make_bookmark_b);
+            }
+            menu.setImageResource(R.drawable.ic_action_congif_b);
+        }
+        //searchBtn.setVisibility(View.GONE);
+        //addBookMark.setVisibility(View.GONE);
+        //config.setVisibility(View.GONE);
+        //scrollBtn.setVisibility(View.GONE);
         searchBtnDown.setVisibility(View.GONE);
         searchBtnUp.setVisibility(View.GONE);
-        config.setOnClickListener(new View.OnClickListener() {
+
+
+        toMain.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showPopupMenuSettings(findViewById(R.id.action_config));
-    }
-});
-        scrollBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                showPopupAutoScroolSettings(findViewById(R.id.action_auto_scrool));
+
+                if(playing==0)
+                    playPause(view);
+                playPause(view);
+                playPause(v);
+                Class ourClass = null;
+                if (serviceBound) {
+                    unbindService(serviceConnection);
+                    //service is active
+                    stopService(playerIntent);
+                    playerService.onDestroy();
+
+                    //int a=0/0;
+                    //serviceBound=false;
+                }
+                try {
+                    ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.HomePage");
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Intent ourIntent = new Intent(myAudio.this, ourClass);
+                finish();
+                //ourIntent.putExtra("goLast", true);
+
+                startActivity(ourIntent);
+
             }
         });
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -540,11 +1275,26 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     @Override
                     public void onClick(View v)
                     {
+                        String extra="";
                         int index = 0, index_end = 0;
                         String bookmarkText = BookmarkName.getText().toString();
                         bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
-                        /*		      bookmark name			book					chapter						scroll							fontSize*/
-                        strBookmark = bookmarkText + "," + book + "," + chapter + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
+                        /*		      bookmark name			book					chapter						scroll
+                        						fontSize*/
+                        if (MyLanguage == ENGLISH)
+                            extra=ToAudio[1];
+
+                        else if (MyLanguage == RUSSIAN)
+                            extra=ToAudio[2];
+
+                        else if (MyLanguage == SPANISH)
+                            extra = ToAudio[3];
+                        else if (MyLanguage == FRENCH)
+                            extra = ToAudio[4];
+                        else
+                            extra = ToAudio[0];
+
+                        strBookmark =extra+ bookmarkText + "," + book + "," + chapter + "," + webview.getScrollY() + "," + (int) (fontSize)/*(webview.getScale()*100)*/;
 
                         Bookmarks = mPrefs.getString("Bookmarks", "");
                         if ((index = Bookmarks.indexOf(bookmarkText)) != -1)/*if there is already bookmark with the same name override it*/ {
@@ -556,30 +1306,44 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                                     index_end = Bookmarks.length();
                             }
                             Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
-                            if (MyLanguage == ENGLISH)
+                            if (MyLanguage == ENGLISH) {
                                 Toast.makeText(getApplicationContext(), "Existing bookmark updated", Toast.LENGTH_SHORT).show();
-                            else if (MyLanguage == RUSSIAN)
+                            }
+                            else if (MyLanguage == RUSSIAN) {
                                 Toast.makeText(getApplicationContext(), "Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
-                            else if (MyLanguage == SPANISH)
+                            }
+                            else if (MyLanguage == SPANISH) {
                                 Toast.makeText(getApplicationContext(), "Marcador existente actualizado", Toast.LENGTH_SHORT).show();
-                            else if (MyLanguage == FRENCH)
+                            }
+                            else if (MyLanguage == FRENCH) {
                                 Toast.makeText(getApplicationContext(), "Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
-                            else
+                            }
+                            else {
                                 Toast.makeText(getApplicationContext(), "הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         else
                             {
                             Bookmarks += "," + strBookmark;
-                            if (MyLanguage == ENGLISH)
+                            if (MyLanguage == ENGLISH) {
                                 Toast.makeText(getApplicationContext(), "New bookmark created", Toast.LENGTH_SHORT).show();
-                            else if (MyLanguage == RUSSIAN)
+                                extra = ToAudio[1];
+                            }
+                            else if (MyLanguage == RUSSIAN) {
                                 Toast.makeText(getApplicationContext(), "Создана новая закладка", Toast.LENGTH_SHORT).show();
-                            else if (MyLanguage == SPANISH)
+                                extra = ToAudio[2];
+                            }
+                            else if (MyLanguage == SPANISH) {
                                 Toast.makeText(getApplicationContext(), "Nuevo marcador creado", Toast.LENGTH_SHORT).show();
-                            else if (MyLanguage == FRENCH)
+                                extra = ToAudio[3];
+                            }
+                            else if (MyLanguage == FRENCH) {
                                 Toast.makeText(getApplicationContext(), "Nouveau signet créé", Toast.LENGTH_SHORT).show();
-                            else
+                                extra = ToAudio[4];
+                            }
+                            else {
                                 Toast.makeText(getApplicationContext(), "סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
+                            }
                             }
                         shPrefEditor.putString("Bookmarks", Bookmarks);
                         shPrefEditor.commit();
@@ -612,19 +1376,17 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         });
     }
 
-    int scrollSpeed = 1;
+    public int scrollSpeed = -1;
     private Handler mHandler = new Handler();
     public Runnable mScrollDown = new Runnable()
     {
         public void run() {
-            if (scrollSpeed == 0) // in case of note opened
-            {
-                mHandler.postDelayed(this, 200);
-            } else if (scrollSpeed == -1) // in case that "stop" pressed
+            if (scrollSpeed == -1) // in case that "stop" pressed
             {
                 webview.scrollBy(0, 0);
             } else {
                 webview.scrollBy(0, 1);
+                mHandler.removeCallbacks(this);
                 mHandler.postDelayed(this, 200 / scrollSpeed);
             }
         }
@@ -632,54 +1394,70 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     private void showPopupAutoScroolSettings(View v)
     {
-        PopupMenu popupMenu = new PopupMenu(myAudio.this, v);
+        android.support.v7.view.ContextThemeWrapper ctw = new ContextThemeWrapper(myAudio.this, R.style.CustomPopupTheme3);
+        PopupMenu popupMenu = new PopupMenu(ctw, v);
 
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                scroll.setImageResource(R.drawable.auto_scrool);
+
+            }
+        });
         String configHeaders[] = new String[7];
-        if (MyLanguage == ENGLISH) {
-            configHeaders[0] = "Play";
-            configHeaders[1] = "Stop";
-            configHeaders[2] = "Set speed";
-        } else if (MyLanguage == RUSSIAN) {
-            configHeaders[0] = "Играть";
-            configHeaders[1] = "Cтоп";
-            configHeaders[2] = "Yстановить скорость";
 
-        } else if (MyLanguage == SPANISH) {
-            configHeaders[0] = "Desplazamiento automatico";
-            configHeaders[1] = "Parar";
-            configHeaders[2] = "Seleccionar velocidad";
+        configHeaders[0] = "0";
+        configHeaders[1] = "1";
+        configHeaders[2] = "2";
+        configHeaders[3] = "3";
+        configHeaders[4] = "4";
+        configHeaders[5] = "5";
+        configHeaders[6] = "6";
 
-        } else if (MyLanguage == FRENCH) {
-            configHeaders[0] = "Demarrer";
-            configHeaders[1] = "Stop";
-            configHeaders[2] = "Selectionner la vitesse";
-
-        } else {/*this is the default*/
-            configHeaders[0] = "הפעל";
-            configHeaders[1] = "עצור";
-            configHeaders[2] = "קבע מהירות";
-        }
 
         popupMenu.getMenu().add(0, 0, 0, configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
         popupMenu.getMenu().add(0, 1, 1, configHeaders[1]);
         popupMenu.getMenu().add(0, 2, 2, configHeaders[2]);
+        popupMenu.getMenu().add(0, 3, 3, configHeaders[3]);
+        popupMenu.getMenu().add(0, 4, 4, configHeaders[4]);
+        popupMenu.getMenu().add(0, 5, 5, configHeaders[5]);
+        popupMenu.getMenu().add(0, 6, 6, configHeaders[6]);
+
+
 
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 WebSettings webSettings = webview.getSettings();
-                fontSize = webSettings.getDefaultFontSize();
+                webSettings.setMinimumFontSize(mPrefs.getInt("fontSize",20));
                 switch (item.getItemId()) {
                     case 0:
-                        scrollSpeed = mPrefs.getInt("scrollSpeed", 2);
-                        runOnUiThread(mScrollDown);
+                        scrollSpeed = -1;
+
                         break;
                     case 1:
-                        scrollSpeed = -1;
+                        scrollSpeed = 2;
+                        runOnUiThread(mScrollDown);
                         break;
                     case 2:
-                        autoScrollSpeedDialog();
+                        scrollSpeed = 4;
+                        runOnUiThread(mScrollDown);
+                        break;
+                    case 3:
+                        scrollSpeed = 6;
+                        runOnUiThread(mScrollDown);
+                        break;
+                    case 4:
+                        scrollSpeed = 8;
+                        runOnUiThread(mScrollDown);
+                        break;
+                    case 5:
+                        scrollSpeed = 10;
+                        runOnUiThread(mScrollDown);
+                    case 6:
+                        scrollSpeed = 12;
+                        runOnUiThread(mScrollDown);
                         break;
                     default:
                         break;
@@ -689,6 +1467,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         });
 
         popupMenu.show();
+    }
+
+    @Override
+    protected void onStop() {
+        scrollSpeed=-1;
+        super.onStop();
     }
 
     void autoScrollSpeedDialog() {
@@ -791,21 +1575,78 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             public boolean onMenuItemClick(MenuItem item)
             {
                 WebSettings webSettings = webview.getSettings();
-                fontSize = webSettings.getDefaultFontSize();
+                fontSize = mPrefs.getInt("fontSize",20);;
+                Class ourClass = null;
+                Intent ourIntent;
+                Intent intent;
                 switch (item.getItemId()) {
                     case 0:/*settings*/
+
                         try {
-                            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Settings");
-                            Intent ourIntent = new Intent(myAudio.this, ourClass);
-                            startActivity(ourIntent);
+                            ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         }
+                        ourIntent = new Intent(myAudio.this, ourClass);
+                        ourIntent.putExtra("homePage", true);
+                        shPrefEditor.putString("where", "myAudio");
+                        shPrefEditor.putString("h&rWebLink", webLink);
+                        shPrefEditor.putBoolean("hearAndRead", hearAndRead);
+                        if(hearAndRead)
+                            shPrefEditor.putInt("h&rScrool", webview.getScrollY());
+                        shPrefEditor.putInt("h&rAI", section);
+
+                        ourIntent.putExtra("sections_" + 1,extras.getStringArrayList("sections_" + 1));
+                        ourIntent.putExtra("sections_" + 2,extras.getStringArrayList("sections_" + 2));
+                        ourIntent.putExtra("sections_" + 3,extras.getStringArrayList("sections_" + 3));
+                        ourIntent.putExtra("sections_" + 4,extras.getStringArrayList("sections_" + 4));
+                        ourIntent.putExtra("sections_" + 5,extras.getStringArrayList("sections_" + 5));
+                        ourIntent.putExtra("sections_" + 6,extras.getStringArrayList("sections_" + 6));
+                        ourIntent.putExtra("sections_" + 7,extras.getStringArrayList("sections_" + 7));
+                        ourIntent.putExtra("sections_" + 8,extras.getStringArrayList("sections_" + 8));
+                        ourIntent.putExtra("sections_" + 9,extras.getStringArrayList("sections_" + 9));
+                        ourIntent.putExtra("sections_" + 10,extras.getStringArrayList("sections_" + 10));
+                        ourIntent.putExtra("sections_" + 11,extras.getStringArrayList("sections_" + 11));
+                        ourIntent.putExtra("sections_" + 12,extras.getStringArrayList("sections_" + 12));
+                        ourIntent.putExtra("sections_" + 13,extras.getStringArrayList("sections_" + 13));
+                        ourIntent.putExtra("sections_" + 14,extras.getStringArrayList("sections_" + 14));
+                        ourIntent.putExtra("sections_" + 15,extras.getStringArrayList("sections_" + 15));
+                        ourIntent.putExtra("sections_" + 16,extras.getStringArrayList("sections_" + 16));
+                        ourIntent.putExtra("sections_" + 17,extras.getStringArrayList("sections_" + 17));
+                        ourIntent.putExtra("sections_" + 18,extras.getStringArrayList("sections_" + 18));
+                        ourIntent.putExtra("sections_" + 19,extras.getStringArrayList("sections_" + 19));
+                        ourIntent.putExtra("sections_" + 20,extras.getStringArrayList("sections_" + 20));
+                        ourIntent.putExtra("sections_" + 21,extras.getStringArrayList("sections_" + 21));
+                        ourIntent.putExtra("sections_" + 22,extras.getStringArrayList("sections_" + 22));
+                        ourIntent.putExtra("sections_" + 23,extras.getStringArrayList("sections_" + 23));
+                        ourIntent.putExtra("sections_" + 24,extras.getStringArrayList("sections_" + 24));
+                        ourIntent.putExtra("sections_" + 25,extras.getStringArrayList("sections_" + 25));
+                        ourIntent.putExtra("sections_" + 26,extras.getStringArrayList("sections_" + 26));
+                        ourIntent.putExtra("sections_" + 27,extras.getStringArrayList("sections_" + 27));
+                        ourIntent.putExtra("sections_" + 28,extras.getStringArrayList("sections_" + 28));
+                        ourIntent.putExtra("sections_" + 29,extras.getStringArrayList("sections_" + 29));
+                        ourIntent.putExtra("sections_" + 30,extras.getStringArrayList("sections_" + 30));
+                        ourIntent.putExtra("sections_" + 31,extras.getStringArrayList("sections_" + 31));
+                        ourIntent.putExtra("sections_" + 32,extras.getStringArrayList("sections_" + 32));
+                        ourIntent.putExtra("sections_" + 33,extras.getStringArrayList("sections_" + 33));
+                        ourIntent.putExtra("sections_" + 34,extras.getStringArrayList("sections_" + 34));
+                        ourIntent.putExtra("sections_" + 35,extras.getStringArrayList("sections_" + 35));
+                        ourIntent.putExtra("sections_" + 36,extras.getStringArrayList("sections_" + 36));
+                        ourIntent.putExtra("sections_" + 37,extras.getStringArrayList("sections_" + 37));
+                        ourIntent.putExtra("sections_" + 38,extras.getStringArrayList("sections_" + 38));
+                        ourIntent.putExtra("sections_" + 39,extras.getStringArrayList("sections_" + 39));
+                        ourIntent.putExtra("sections_" + 40,extras.getStringArrayList("sections_" + 40));
+                        shPrefEditor.putInt("h&rChapId", chapter);
+                        shPrefEditor.putInt("h&rBookId", book);
+                        shPrefEditor.commit();
+                        finish();
+                        startActivity(ourIntent);
                         break;
                     case 1:/*about*/
                         try {
-                            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
-                            Intent ourIntent = new Intent(myAudio.this, ourClass);
+                             ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.About");
+                             ourIntent = new Intent(myAudio.this, ourClass);
+                            finish();
                             startActivity(ourIntent);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
@@ -814,8 +1655,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         break;
                     case 2:/*Feedback*/
                         try {
-                            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
-                            Intent ourIntent = new Intent(myAudio.this, ourClass);
+                             ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.Feedback");
+                             ourIntent = new Intent(myAudio.this, ourClass);
+                            finish();
                             startActivity(ourIntent);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
@@ -823,8 +1665,9 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         break;
                     case 3:/*Explanation for Search*/
                         try {
-                            Class ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
-                            Intent ourIntent = new Intent(myAudio.this, ourClass);
+                             ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+                             ourIntent = new Intent(myAudio.this, ourClass);
+                            finish();
                             startActivity(ourIntent);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
@@ -1020,11 +1863,49 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         // custom dialog
         innerSearchDialog = new Dialog(context);
         innerSearchDialog.setContentView(R.layout.inner_search);
-        innerSearchDialog.setTitle("חיפוש בפרק הנוכחי");
+        Window window = innerSearchDialog.getWindow();
+        window.setGravity(Gravity.TOP);
+        ImageView dialogButton = innerSearchDialog.findViewById(R.id.goSearch);
+        ImageView clearBtn = innerSearchDialog.findViewById(R.id.clear);
+        TextToSearch = (EditText) innerSearchDialog.findViewById(R.id.title);
+        TextToSearch.setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                                actionId == EditorInfo.IME_ACTION_DONE ||
+                                event != null &&
+                                        event.getAction() == KeyEvent.ACTION_DOWN &&
+                                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                            if (event == null || !event.isShiftPressed()) {
+                                // the user is done typing.
 
-        Button dialogButton = (Button) innerSearchDialog.findViewById(R.id.dialogButtonOK);
-        TextToSearch = (EditText) innerSearchDialog.findViewById(R.id.editTextTextToSearch);
+                                innerSearchText = TextToSearch.getText().toString();
 
+                                innerSearchDialog.dismiss();
+                                if(API < 16)
+                                {
+                                    int a=webview.findAll(/*"כל"*/innerSearchText);
+                                    /*to highlight the searched text*/
+                                    try
+                                    {
+                                        Method m = WebView.class.getMethod("setFindIsUp", Boolean.TYPE);
+                                        m.invoke(webview, true);
+                                    }
+                                    catch (Throwable ignored){}
+                                }
+                                else
+                                {
+                                    webview.findAllAsync(/*"כל"*/innerSearchText);
+                                }
+
+                                return true; // consume.
+                            }
+                        }
+                        return false; // pass on to other listeners.
+                    }
+                }
+        );
         // if button is clicked
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NewApi")
@@ -1034,6 +1915,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
                 innerSearchDialog.dismiss();
                 //lnrFindOptions.setVisibility(View.VISIBLE);
+
                 if (API < 16) {
                     int a = webview.findAll(/*"כל"*/innerSearchText);
                     /*to highlight the searched text*/
@@ -1045,6 +1927,13 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 } else {
                     webview.findAllAsync(/*"כל"*/innerSearchText);
                 }
+            }
+        });
+        clearBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onClick(View v) {
+                TextToSearch.setText("");
             }
         });
         innerSearchDialog.show();
@@ -1444,6 +2333,34 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         chaptersNames[HAR_YAMIM][8] = "הר' ימים נוראים: ח - דיני התענית";
         chaptersNames[HAR_YAMIM][9] = "הר' ימים נוראים: ט - שאר עינויים";
         chaptersNames[HAR_YAMIM][10] = "הר' ימים נוראים: י - עבודת יום הכיפורים";
+
+        chaptersNames[R_TFILA][1]="Глава 1 Основы законов молитвы ";
+        chaptersNames[R_TFILA][2]="Глава 2 Миньян";
+        chaptersNames[R_TFILA][3]="Глава 3 Место молитвы";
+        chaptersNames[R_TFILA][4]="Глава 4 Кантор и кадиш скорбящих";
+        chaptersNames[R_TFILA][5]="Глава 5 Подготовка к молитве";
+        chaptersNames[R_TFILA][6]="Глава 6 Молитвенные каноны и обычаи разных общин ";
+        chaptersNames[R_TFILA][7]="Глава 7 Утреннее пробуждение";
+        chaptersNames[R_TFILA][8]="Глава 8 Утреннее омовение рук";
+        chaptersNames[R_TFILA][9]="Глава 9 Утренние благословения (Биркот ѓа-шахар)";
+        chaptersNames[R_TFILA][10]="Глава 10 Благословения Торы (Биркот ѓа-Тора)";
+        chaptersNames[R_TFILA][11]="Глава 11 Время чтения Шма Исраэль и утренней молитвы ( шахарит)";
+        chaptersNames[R_TFILA][12]="Глава 12 Подготовка к утренней молитве";
+        chaptersNames[R_TFILA][13]="Глава 13 Порядок жертвоприношений (Корбанот)";
+        chaptersNames[R_TFILA][14]="Глава 14 Хвалебные гимны (Псукей де-зимра)";
+        chaptersNames[R_TFILA][15]="Глава 15 Шма Исраэль ";
+        chaptersNames[R_TFILA][16]="Глава 16 Благословения, сопровождающие чтение Шма Исраэль";
+        chaptersNames[R_TFILA][17]="Глава 17 Молитва амида";
+        chaptersNames[R_TFILA][18]="Глава 18 Ошибки при чтении молитвы амида";
+        chaptersNames[R_TFILA][19]="Глава 19 Повторение кантором молитвы амида";
+        chaptersNames[R_TFILA][20]="Глава 20 Благословение народа коѓенами (Биркат коѓаним)";
+        chaptersNames[R_TFILA][21]="Глава 21 Таханун и Нефилат апаим";
+        chaptersNames[R_TFILA][22]="Глава 22 Некоторые законы чтения Торы";
+        chaptersNames[R_TFILA][23]="Глава 23 Окончание утренней молитвы и законы кадиша";
+        chaptersNames[R_TFILA][24]="Глава 24 Минха - послеполуденная молитва ";
+        chaptersNames[R_TFILA][25]="Глава 25 Арвит - вечерняя молитва ";
+        chaptersNames[R_TFILA][26]="Глава 26 Чтение Шма Исраэль перед отходом ко сну";
+
     }
 
     public void setAudioId(String id) {
@@ -1455,6 +2372,12 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_TO_SPECIFIC_SECTION);
         broadcastIntent.putExtra("audio_id", selectedSection);
+        int choice = spinner.getSelectedItemPosition();
+        speed = sppedArray[choice];
+
+        shPrefEditor.putFloat("audioSpeed", speed);
+        shPrefEditor.commit();
+        //shilo
         playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(selectedSection));
         section = selectedSection;
         sendBroadcast(broadcastIntent);
@@ -1493,6 +2416,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     private void registerAllBroadcast()
     {
         //register after getting audio focus
+        int choice = spinner.getSelectedItemPosition();
+        speed = sppedArray[choice];
         playerService.speed = speed;//prapre to set speed
         IntentFilter intentFilter = new IntentFilter(MediaPlayerService.Broadcast_SERVICE_SKIP_NEXT);
         registerReceiver(BRskipNext, intentFilter);
@@ -1514,6 +2439,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     private BroadcastReceiver timeElapsedUpdates = new BroadcastReceiver()
     {
+        @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
         @Override
         public void onReceive(Context context, Intent intent)
         {
@@ -1536,27 +2462,62 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         @Override
         public void onReceive(Context context, Intent intent)
         {
+
             int oldChapter;
+
             oldChapter = chapter;
             chapter = intent.getIntExtra("chapter", 0);
-            if (chapter != oldChapter) {
-                restartPage();
+
+            restartPage();
+            for (int i = 0; i < 50; i++) {
+                if (v1[i] != null) {
+                    if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                        v1[i].setBackgroundColor(Color.BLACK);
+                        v1[i].setTextColor(Color.WHITE);
+                    } else {
+                        v1[i].setBackgroundColor(Color.WHITE);
+                        v1[i].setTextColor(Color.BLACK);
+                    }
+                }
             }
-            section = intent.getIntExtra("section", 0);
+//            if (chapter != oldChapter) {
+//               v1[0].setBackgroundColor(Color.rgb(151, 6, 6));
+//               v1[0].setTextColor(Color.WHITE);
+//            }
+            int a=0;
+            if(team)
+                a=1;
+            if (v1[playerService.getSection()] != null) {
+                v1[playerService.getSection() - 1].setBackgroundColor(Color.rgb(151, 6, 6));
+                v1[playerService.getSection() - 1].setTextColor(Color.WHITE);
+                playerInfo.setText(book_name + " " + convert_character_to_id(playerService.getChapter()) + ", " + convert_character_to_id(playerService.getSection()));
+            }
+
+
+
+                    //section = intent.getIntExtra("section", 0);
+
+
+
+
+
+
+
+
+
+
             clickOnItemFromList = false;
-            listview.performItemClick(listview.getAdapter().getView(section - 1, null, null), section - 1, section - 1);
+            //listview.performItemClick(listview.getAdapter().getView(section - 1, null, null), section - 1, section - 1);
         }
     };
 
     protected void onStart()
     {
         super.onStart();
-        if (firstCall == true)
-        {
+
             clickOnItemFromList = false;
             listview.performItemClick(listview.getAdapter().getView(section - 1, null, null), section - 1, section - 1);
-        }
-        firstCall = false;
+
         playAudioService();
     }
 
@@ -1597,6 +2558,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 return "שמחת הבית וברכתו";
             case TEFILA:
                 return "תפילה";
+            case R_TFILA:
+                return "tfila(r)";
 //            case TEFILAT_NASHIM:
 //                return "תפילת נשים";
         }
@@ -1607,16 +2570,22 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public void onDestroy()
     {
         super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(BRskipNext);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(timeElapsedUpdates);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(chapterUpdate);
+        //for not crash on rotate change if to true and change the plappusae icon
+        if(true) {
 
-        if (serviceBound)
-        {
-            unbindService(serviceConnection);
-            //service is active
-            stopService(playerIntent);
+            //LocalBroadcastManager.getInstance(this).unregisterReceiver(BRskipNext);
+            //LocalBroadcastManager.getInstance(this).unregisterReceiver(timeElapsedUpdates);
+            //LocalBroadcastManager.getInstance(this).unregisterReceiver(chapterUpdate);
+            if (serviceBound) {
+                unbindService(serviceConnection);
+                //service is active
+                stopService(playerIntent);
+                //int a=0/0;
+                //serviceBound=false;
+            }
+            //serviceBound=false;
         }
+
     }
 
     public void initializeViews()
@@ -1655,38 +2624,164 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     public void skip_to_next(View view)
     {
+        //int a=0/0;
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
         sendBroadcast(broadcastIntent);
         broadcastIntent = new Intent(Broadcast_Speed);
         int choice = spinner.getSelectedItemPosition();
         speed = sppedArray[choice];
-        broadcastIntent.putExtra("speed", speed);
+        shPrefEditor.putFloat("audioSpeed", speed);
+        shPrefEditor.commit();
+
         if (playing == 0)
             broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
-        playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section + 1));
+        section=playerService.getSection();
+        if(section>3){
+            listview.setSelected(true);
+            listview.setSelection(section);}
+
 
     }
 
     public void restartPage()
     {
-        header = book_name + " " + convert_character_to_id(chapter) + ", א";
+
+        //playerService.setSection(2);
+
+        List<TextView> txtvList = new ArrayList<TextView>();
+        TextView textView = new TextView(getBaseContext());
+        header = book_name + convert_character_to_id(chapter) + ", א";
         playerInfo.setText(header);
         // TODO: fill the list of sections of the new chapter
-        sections = extras.getStringArrayList("sections_" + chapter);
+        System.out.println("hi"+chapter);
+        System.out.println("hiAgain"+playerService.getChapter());
+        //int a=0/0;
+        sections = extras.getStringArrayList("sections_" + playerService.getChapter());
+        System.out.println(sections.get(0));
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
+        boolean first=true;
+        ArrayAdapter adapter;
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, aList);
+
+        for (int m = 0; m < v1.length; m++) {
+             listview.removeHeaderView(v1[m]);
+        }
+
+
+        for (int m = listview.getFooterViewsCount()-1; m >= 0; m--)
+            listview.removeFooterView(listview.getChildAt(0));
+        v1=new TextView[50];
+        //while (listview.getHeaderViewsCount()>0)
+           // listview.removeHeaderView(listview.getChildAt(0));
         for (int i = 0; i < sections.size(); i++) {
             HashMap<String, String> hm = new HashMap<String, String>();
             hm.put("listview_title", sections.get(i));
-            aList.add(hm);
+            //aList.add(hm);
+            textView = new TextView(getBaseContext());
+            //String sourceString = "<b>" + "[" + chapterCounter + "] " + chaptersNames[i][j] + "</b> " + sections;
+            //String sourceString = "<b >"+ chaptersNames[i][j].split("-")[1] + "</b>("+ chaptersNames[i][j].split("-")[0]+","+ sections+")";
+            textView.setText("  " + sections.get(i) + "\n");
+            //textView.setText("shilo");
+            //textView.setText(" (" + sections+ ")");/*only one item in the list per chapter*/
+            if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                textView.setTextColor(Color.WHITE);
+                ImageView toMain= (ImageView) findViewById(R.id.to_main);
+                if(MyLanguage==ENGLISH)
+                    toMain.setImageResource(R.drawable.to_main_b_e);
+                if(MyLanguage==RUSSIAN)
+                    toMain.setImageResource(R.drawable.to_main_b_r);
+                if(MyLanguage==SPANISH)
+                    toMain.setImageResource(R.drawable.to_main_b_s);
+                if(MyLanguage==FRENCH)
+                    toMain.setImageResource(R.drawable.to_main_b_f);
+                if(MyLanguage==HEBREW)
+                    toMain.setImageResource(R.drawable.to_main_b);
+                LinearLayout main=(LinearLayout) findViewById(R.id.lnrOption3);
+                ImageView menu= (ImageView) findViewById(R.id.menu);
+                menu.setImageResource(R.drawable.ic_action_congif_b);
+                main.setBackgroundColor(Color.rgb(120,1,1));
+                // listview.setBackgroundColor(Color.BLACK);
+            } else
+                textView.setTextColor(Color.BLACK);
+            textView.setTextSize(24);
+            if ((textView.getText().charAt(2) != 'א')&&first)
+                continue;
+            if ((textView.getText().charAt(2) == 'א')&&!first)
+                break;
+            if ((textView.getText().charAt(2) == 'א')&&first)
+                first=false;
+
+
+            txtvList.add(textView);
+
         }
+
+        lastSec=txtvList.size();
 
         String[] from = {"listview_title"};
         int[] to = {R.id.listview_item_title};
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.audio_list, from, to);
-        listview.setAdapter(simpleAdapter);
+        listview.setAdapter(adapter);
+
+        if (mPrefs.getInt("BlackBackground", 0) == 1)
+            listview.setBackgroundColor(Color.BLACK);
+        else
+            listview.setBackgroundColor(Color.WHITE);
+        txtvList.get(0).setBackgroundColor(Color.rgb(120,1,1));
+        for (int i = 0; i <txtvList.size(); i++) {
+
+            listview.addHeaderView(txtvList.get(i));
+            v1[i]=txtvList.get(i);
+
+        }
+  ;
+        //int a=0/0;
+
+        listview.setCacheColorHint(Color.WHITE);
+        //txtvList.get(0).setBackgroundColor(Color.BLUE);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listview.setSelected(true);
+
+                //listview.setSelection(position);
+
+                if (clickOnItemFromList == true) {
+                    sendSectionIdAndPlay(position + 1);
+                    for (int i = 0; i < txtvList.size(); i++)
+                        if (i == position) {
+                            txtvList.get(position).setBackgroundColor(Color.rgb(151, 6, 6));
+                            txtvList.get(position).setTextColor(Color.WHITE);
+                        }
+                        else if (mPrefs.getInt("BlackBackground", 0) == 1) {
+                            txtvList.get(i).setBackgroundColor(Color.BLACK);
+                            txtvList.get(i).setTextColor(Color.WHITE);
+                        }
+                        else {
+                            txtvList.get(i).setBackgroundColor(Color.WHITE);
+                            txtvList.get(i).setTextColor(Color.BLACK);
+                        }
+                    ArrayAdapter adapter;
+                    adapter = new ArrayAdapter(getBaseContext(), android.R.layout.simple_list_item_1, aList);
+                    listview = (ListView) findViewById(R.id.list_view);
+
+                    listview.setAdapter(adapter);
+                    listview.setBackgroundColor(Color.WHITE);
+                    listview.setSelection(position);
+                    playing = 1;
+                    buttonPlayPause.setImageResource(R.drawable.baseline_pause_circle_outline_white_48);
+                    //for (int i=0;i<txtvList.size();i++)
+                    //  listview.addHeaderView(txtvList.get(i));
+                }
+
+                //playPause(view);
+                clickOnItemFromList = true;//change it back to true. In cases that it is not came directly from click om list item, it will be changed to false in this cases
+            }
+        });
+
+
     }
 
     public void skip_to_previous(View view)
@@ -1698,10 +2793,18 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         broadcastIntent = new Intent(Broadcast_Speed);
         int choice = spinner.getSelectedItemPosition();
         speed = sppedArray[choice];
-        broadcastIntent.putExtra("speed", speed);
+        shPrefEditor.putFloat("audioSpeed", speed);
+        shPrefEditor.commit();
         broadcastIntent.putExtra("play", 0);
         sendBroadcast(broadcastIntent);
-        playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section - 1));
+        section=playerService.getSection();
+
+            listview.setSelected(true);
+            listview.setSelection(section - 2);
+
+
+
+        //playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", " + convert_character_to_id(section ));
         //check if the user return from brachot it give him back to brachot א,א
         if (section + 1486 < 'א')
             playerInfo.setText(book_name + " " + convert_character_to_id(chapter) + ", א");
@@ -1730,6 +2833,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 
     public String convert_character_to_id(int Id)
     {
+        if(book==R_TFILA)
+            return String.valueOf(Id);
         switch (Id) {
             case 1:
                 return "א";
@@ -1883,21 +2988,15 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
     {
-        String choice = adapterView.getItemAtPosition(i).toString();
-        float sp = 1f;
-        if (choice.equals("x2"))
-            sp = 2f;
-        if (choice.equals("x1.5"))
-            sp = 1.5f;
-        if (choice.equals("x0.75"))
-            sp = 0.75f;
-        if (choice.equals("x1"))
-            sp = 1f;
-        Intent broadcastIntent = new Intent(Broadcast_Speed);
-        speed = sp;
-        broadcastIntent.putExtra("speed", sp);
-        if (playing == 0)
-            broadcastIntent.putExtra("play", 0);
+        int choice = spinner.getSelectedItemPosition();
+
+        broadcastIntent = new Intent(Broadcast_Speed);
+        shPrefEditor.putFloat("audioSpeed", sppedArray[choice]);
+        shPrefEditor.commit();
+        if (playing == 0) {
+            shPrefEditor.putFloat("audioSpeed", speed);
+            shPrefEditor.commit();
+        }
         sendBroadcast(broadcastIntent);
 
     }
