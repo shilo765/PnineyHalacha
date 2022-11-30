@@ -404,8 +404,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         };
         // Register the listener with the telephony manager
         // Listen for changes to the device call state.
-        telephonyManager.listen(phoneStateListener,
-                PhoneStateListener.LISTEN_CALL_STATE);
+//        telephonyManager.listen(phoneStateListener,
+//                PhoneStateListener.LISTEN_CALL_STATE);
     }
 
     //Becoming noisy
