@@ -32,6 +32,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
@@ -193,6 +195,8 @@ public class pninaYomit extends Activity {
         {
             case ENGLISH:
                 webview.loadUrl("https://ph.yhb.org.il/pninayomit-en/#page-data");
+
+
                 set="Set";
                 noteSet="The reminder was set up successfully";
                 setRemind="Set a reminder";

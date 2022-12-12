@@ -1,12 +1,17 @@
 package com.rafraph.pnineyHalachaHashalem;
 
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +39,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 
+import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -199,7 +205,42 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	public int API;
 	static public boolean jumpToSectionFlag = false;
 	public File localFile;
+	public static void downLocal(Context context,String fileName)
+	{
+		File f1=new File(context.getFilesDir() +"/"+fileName);
+		String a ="https://ph.yhb.org.il/wp-content/themes/s/"+fileName;
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
+		URL url = null;
+		String data="";
+		try {
+			url = new URL(a);
 
+			URLConnection conn = url.openConnection();
+			// open the stream and put it into BufferedReader
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(conn.getInputStream()));
+			String inputLine;
+			inputLine = br.readLine();
+			while(inputLine!=null)
+			{
+				data+=inputLine;
+				inputLine = br.readLine();
+			}
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+
+			FileWriter writer = new FileWriter(f1);
+			writer.append(data);
+			writer.flush();
+			writer.close();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 
 	@TargetApi(Build.VERSION_CODES.KITKAT)
 	@SuppressLint("JavascriptInterface")
@@ -237,44 +278,85 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 	}
 	@Override
 	public void onBackPressed() {
-		if(lnrFindOptions.getTag().equals("vis"))
-		{
-			lnrFindOptions.setVisibility(View.GONE);
-			lnrOptions.setVisibility(View.VISIBLE);
-			lnrFindOptions.setTag("from search");
-			webview.findAllAsync("sdafsdhgfsdagfhgdszgf");
-		}
-		if(lnrFindOptions.getTag().equals("from search"))
-		{
-			Class ourClass = null;
-			Intent ourIntent = null;
-			try {
-				ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
-				//book_chapter[0]
-
-				shPrefEditor.putInt("expList", book_chapter[0]);
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+		try {
+			if (lnrFindOptions.getTag().equals("vis")) {
+				lnrFindOptions.setVisibility(View.GONE);
+				lnrOptions.setVisibility(View.VISIBLE);
+				lnrFindOptions.setTag("from search");
+				webview.findAllAsync("sdafsdhgfsdagfhgdszgf");
 			}
-			ourIntent = new Intent(textMain.this, ourClass);
-			startActivity(ourIntent);
-		}
+			if (lnrFindOptions.getTag().equals("from search")) {
+				Class ourClass = null;
+				Intent ourIntent = null;
+				try {
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.SearchHelp");
+					//book_chapter[0]
 
-		else {
-			Class ourClass = null;
-			Intent ourIntent = null;
-			try {
-				ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
-				//book_chapter[0]
+					shPrefEditor.putInt("expList", book_chapter[0]);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				ourIntent = new Intent(textMain.this, ourClass);
+				startActivity(ourIntent);
+			} else {
+				Class ourClass = null;
+				Intent ourIntent = null;
+				try {
+					ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.MainActivity");
+					//book_chapter[0]
 
-				shPrefEditor.putInt("expList", book_chapter[0]);
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+					shPrefEditor.putInt("expList", book_chapter[0]);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				ourIntent = new Intent(textMain.this, ourClass);
+				ourIntent.putExtra("homePage", false);
+				int reduce=0;
+				if(book_chapter[0]<=24)
+					reduce=0;
+				if(book_chapter[0]>24&&book_chapter[0]<=31)
+				{
+					if(!mPrefs.getBoolean("h_exists",true))
+						reduce-=24;
+				}
+				if(book_chapter[0]>31&&book_chapter[0]<=40)
+				{
+					if(!mPrefs.getBoolean("h_exists",true))
+						reduce-=24;
+					if(!mPrefs.getBoolean("en_exists",true))
+						reduce-=8;
+				}
+				if(book_chapter[0]>40&&book_chapter[0]<=51)
+				{
+					if(!mPrefs.getBoolean("h_exists",true))
+						reduce-=24;
+					if(!mPrefs.getBoolean("en_exists",true))
+						reduce-=8;
+					if(!mPrefs.getBoolean("es_exists",true))
+						reduce-=9;
+				}
+				if(book_chapter[0]>51)
+				{
+					if(!mPrefs.getBoolean("h_exists",true))
+						reduce-=24;
+					if(!mPrefs.getBoolean("en_exists",true))
+						reduce-=8;
+					if(!mPrefs.getBoolean("es_exists",true))
+						reduce-=9;
+					if(!mPrefs.getBoolean("r_exists",true))
+						reduce-=11;
+				}
+
+				System.out.println(book_chapter[0]+reduce);
+
+				ourIntent.putExtra("exp", book_chapter[0]+reduce);
+				startActivity(ourIntent);
 			}
-			ourIntent = new Intent(textMain.this, ourClass);
-			ourIntent.putExtra("homePage", false);
-			ourIntent.putExtra("exp", book_chapter[0]);
-			startActivity(ourIntent);
+		}
+		catch (Exception exp)
+		{
+			Toast.makeText(getApplicationContext(),	"t:"+exp.toString(), Toast.LENGTH_SHORT).show();
+
 		}
 	}
 	public void loadWebview(String path, WebView webview)
@@ -293,25 +375,12 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 								webview.loadUrl(path);
 							else
 							{
-								switch (path.split("/")[path.split("/").length-2]) {
-									case "EnglishBooks":
-										unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/en.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks",path.split("/")[path.split("/").length-1]);
-										break;
-									case "RussianBooks":
-										unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/ru.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks",path.split("/")[path.split("/").length-1]);
-										break;
-									case "FrenchBooks":
-										unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/fr.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks",path.split("/")[path.split("/").length-1]);
-										break;
-									case "SpanishBooks":
-										unzip(Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/es.zip", Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks",path.split("/")[path.split("/").length-1]);
-										break;
-									default:
-										break;
-								}
+								downLocal(getBaseContext(),path.split("/")[path.split("/").length-1]);
+
 								webview.loadUrl(path);webview.loadUrl(path);
 
 								webview.setWebViewClient(new WebViewClient() {
+									@SuppressLint("SuspiciousIndentation")
 									public void onPageFinished(WebView view, String url) {
 										if (BlackBackground==1)
 										webview.loadUrl(
@@ -492,10 +561,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		lnrOptions = (LinearLayout) findViewById(R.id.lnrOptions);
 		lnrFindOptions = (LinearLayout) findViewById(R.id.lnrFindOptions);
 		ImageView menu= (ImageView) findViewById(R.id.menu);
-		menu.setOnClickListener(new View.OnClickListener() {
+		menu.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				android.support.v7.view.ContextThemeWrapper ctw = new ContextThemeWrapper(textMain.this, R.style.CustomPopupTheme);
+				ContextThemeWrapper ctw = new ContextThemeWrapper(textMain.this, R.style.CustomPopupTheme);
 				PopupMenu popupMenu = new PopupMenu(ctw, v);
 				//popupMenu.
 
@@ -838,7 +907,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		webSettings.setDefaultTextEncodingName("utf-8");
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setSupportZoom(true);
-		API = android.os.Build.VERSION.SDK_INT;
+		API = Build.VERSION.SDK_INT;
 		if(API < 19)
 			webSettings.setBuiltInZoomControls(true);
 
@@ -985,7 +1054,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						ourIntent.putExtra("chapter_id", book_chapter[1]);
 						ourIntent.putExtra("chapter_id", book_chapter[1]);
 						ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
-						//ourIntent.putExtra("webLink", localFile.getPath());
+						//ourIntent.putExtra("webLink", localFile.getFilesDir());
 						ourIntent.putExtra("scroolY", webview.getScrollY());
 						ourIntent.putExtra("hearAndRead", false);
 
@@ -1223,8 +1292,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		//webview.scrollTo(0,680);
 		//webSettings.setDomStorageEnabled(true);
 		int a;
-		if(!IntStream.of(haveAudio).anyMatch(x -> x ==book_chapter[0]))
-			bSwitchModes.setVisibility(View.GONE);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			if(!IntStream.of(haveAudio).anyMatch(x -> x ==book_chapter[0]))
+				bSwitchModes.setVisibility(View.GONE);
+		}
 
 	}
 
@@ -1311,46 +1382,32 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		String input;
 
 		fileName = getClearUrl();
-		String[] splitString = fileName.split("/");
+		String[] splitString = fileName.split("_");
 
 		if ((fileName.equals(lastFileName) == false))
 		{
 			lastFileName = fileName;
 
+
 			try
 			{
-				File file=null;
-				switch (splitString[splitString.length-2])
+				splitString[0]=splitString[0].split("file://")[1];
+				System.out.println(splitString[0]);
+				if((splitString[0].equals(getBaseContext().getFilesDir()+"/s"))||(splitString[0].equals(getBaseContext().getFilesDir()+"/r"))||(splitString[0].equals(getBaseContext().getFilesDir()+"/e"))||(splitString[0].equals(getBaseContext().getFilesDir()+"/f")))
 				{
-					case "EnglishBooks":
-						prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/";
-						fileNameOnly = fileName.substring(prefix.length());
-						file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks/"+fileNameOnly);
-						is = new FileInputStream(file);
-						break;
-					case "RussianBooks":
-						prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/";
-						fileNameOnly = fileName.substring(prefix.length());
-						file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks/"+fileNameOnly);
-						is = new FileInputStream(file);
-						break;
-					case "FrenchBooks":
-						prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/";
-						fileNameOnly = fileName.substring(prefix.length());
-						file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks/"+fileNameOnly);
-						is = new FileInputStream(file);
-						break;
-					case "SpanishBooks":
-						prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/";
-						fileNameOnly = fileName.substring(prefix.length());
-						file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks/"+fileNameOnly);
-						is = new FileInputStream(file);
-						break;
-					default:
-						prefix = "file:///android_asset/";
-						fileNameOnly = fileName.substring(prefix.length());
-						is = getAssets().open(fileNameOnly);
-						break;
+					prefix="file:///data/user/0/com.rafraph.pnineyHalachaHashalem/files/";
+					//fileNameOnly = fileName.substring(prefix.length());
+					File file = new File(getBaseContext().getFilesDir() +"/"+fileName.substring(prefix.length()));
+					System.out.println(getBaseContext().getFilesDir());
+
+					System.out.println(fileName);
+					is = new FileInputStream(file);
+
+				}
+				else{
+					prefix = "file:///android_asset/";
+					fileNameOnly = fileName.substring(prefix.length());
+					is = getAssets().open(fileNameOnly);
 				}
 				size = is.available();
 				buffer = new byte[size];
@@ -1750,43 +1807,33 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		String prefix;
 
 		fileName = getClearUrl();
-		String[] splitString = fileName.split("/");
+		String[] splitString = fileName.split("_");
+
 		try
 		{
 			File file=null;
 			InputStream is=null;
-		switch (splitString[splitString.length-2])
-		{
-			case "EnglishBooks":
-				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/";
-				fileNameOnly = fileName.substring(prefix.length());
-				file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/EnglishBooks/"+fileNameOnly);
+
+			System.out.println(splitString[0]);
+			System.out.println(getBaseContext().getFilesDir()+"/f");
+			splitString[0]=splitString[0].split("file://")[1];
+			System.out.println(splitString[0]);
+			if((splitString[0].equals(getBaseContext().getFilesDir()+"/s"))||(splitString[0].equals(getBaseContext().getFilesDir()+"/r"))||(splitString[0].equals(getBaseContext().getFilesDir()+"/e"))||(splitString[0].equals(getBaseContext().getFilesDir()+"/f")))
+			{
+				prefix="file:///data/user/0/com.rafraph.pnineyHalachaHashalem/files/";
+				//fileNameOnly = fileName.substring(prefix.length());
+				file = new File(getBaseContext().getFilesDir() +"/"+fileName.substring(prefix.length()));
+				System.out.println(getBaseContext().getFilesDir());
+
+				System.out.println(fileName);
 				is = new FileInputStream(file);
-				break;
-			case "RussianBooks":
-				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/";
-				fileNameOnly = fileName.substring(prefix.length());
-				file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/RussianBooks/"+fileNameOnly);
-				is = new FileInputStream(file);
-				break;
-			case "FrenchBooks":
-				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/";
-				fileNameOnly = fileName.substring(prefix.length());
-				file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/FrenchBooks/"+fileNameOnly);
-				is = new FileInputStream(file);
-				break;
-			case "SpanishBooks":
-				prefix="file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/";
-				fileNameOnly = fileName.substring(prefix.length());
-				file = new File(Environment.getExternalStorageDirectory().toString() + "/DCIM/pnineyHalacha/SpanishBooks/"+fileNameOnly);
-				is = new FileInputStream(file);
-				break;
-			default:
+
+			}
+			else{
 				prefix = "file:///android_asset/";
 				fileNameOnly = fileName.substring(prefix.length());
 				is = getAssets().open(fileNameOnly);
-				break;
-		}
+			}
 
 
 			//InputStream is = getAssets().open(fileNameOnly);
@@ -1804,7 +1851,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				Elements NewHead = new Elements();
 				for(int j = 0; j < headers.size(); j++) {
 					if(headers.get(j).text().length()>1)
-					if(headers.get(j).text().charAt(1)=='.'||headers.get(j).text().charAt(2)=='.'||(MyLanguage==SPANISH&&(headers.get(j).text().charAt(1)==')'||headers.get(j).text().charAt(2)==')')))
+					if(headers.get(j).text().charAt(1)=='.'||headers.get(j).text().charAt(2)=='.'||((headers.get(j).text().charAt(1)==')'||headers.get(j).text().charAt(2)==')')))
 						NewHead.add(headers.get(j));
 				}
 			headers=NewHead;
@@ -1820,6 +1867,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//int b=0/0;
 	}
 
 	private void getTheArrayLocation(String Chapter)
@@ -2321,738 +2369,739 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[HAR_SIMCHAT][10] = "file:///android_asset/har_simchat_10.html";
 
 		/*E_TEFILA*/
-		chaptersFiles[E_TEFILA][0] = "file://"+ Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_tochen.html";
-		chaptersFiles[E_TEFILA][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_1.html";
-		chaptersFiles[E_TEFILA][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_2.html";
-		chaptersFiles[E_TEFILA][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_3.html";
-		chaptersFiles[E_TEFILA][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_4.html";
-		chaptersFiles[E_TEFILA][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_5.html";
-		chaptersFiles[E_TEFILA][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_6.html";
-		chaptersFiles[E_TEFILA][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_7.html";
-		chaptersFiles[E_TEFILA][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_8.html";
-		chaptersFiles[E_TEFILA][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_9.html";
-		chaptersFiles[E_TEFILA][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_10.html";
-		chaptersFiles[E_TEFILA][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_11.html";
-		chaptersFiles[E_TEFILA][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_12.html";
-		chaptersFiles[E_TEFILA][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_13.html";
-		chaptersFiles[E_TEFILA][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_14.html";
-		chaptersFiles[E_TEFILA][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_15.html";
-		chaptersFiles[E_TEFILA][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_16.html";
-		chaptersFiles[E_TEFILA][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_17.html";
-		chaptersFiles[E_TEFILA][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_18.html";
-		chaptersFiles[E_TEFILA][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_19.html";
-		chaptersFiles[E_TEFILA][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_20.html";
-		chaptersFiles[E_TEFILA][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_21.html";
-		chaptersFiles[E_TEFILA][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_22.html";
-		chaptersFiles[E_TEFILA][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_23.html";
-		chaptersFiles[E_TEFILA][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_24.html";
-		chaptersFiles[E_TEFILA][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_25.html";
-		chaptersFiles[E_TEFILA][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_tefila_26.html";
+		chaptersFiles[E_TEFILA][0] = getBaseContext().getFilesDir() +"/e_tefila_tochen.html";
+		chaptersFiles[E_TEFILA][1] = ""+getBaseContext().getFilesDir() + "/e_tefila_1.html";
+		chaptersFiles[E_TEFILA][2] = ""+getBaseContext().getFilesDir() + "/e_tefila_2.html";
+		chaptersFiles[E_TEFILA][3] = ""+getBaseContext().getFilesDir() + "/e_tefila_3.html";
+		chaptersFiles[E_TEFILA][4] = ""+getBaseContext().getFilesDir() + "/e_tefila_4.html";
+		chaptersFiles[E_TEFILA][5] = ""+getBaseContext().getFilesDir() + "/e_tefila_5.html";
+		chaptersFiles[E_TEFILA][6] = ""+getBaseContext().getFilesDir() + "/e_tefila_6.html";
+		chaptersFiles[E_TEFILA][7] = ""+getBaseContext().getFilesDir() + "/e_tefila_7.html";
+		chaptersFiles[E_TEFILA][8] = ""+getBaseContext().getFilesDir() + "/e_tefila_8.html";
+		chaptersFiles[E_TEFILA][9] = ""+getBaseContext().getFilesDir() + "/e_tefila_9.html";
+		chaptersFiles[E_TEFILA][10] = ""+getBaseContext().getFilesDir() + "/e_tefila_10.html";
+		chaptersFiles[E_TEFILA][11] = ""+getBaseContext().getFilesDir() + "/e_tefila_11.html";
+		chaptersFiles[E_TEFILA][12] = ""+getBaseContext().getFilesDir() + "/e_tefila_12.html";
+		chaptersFiles[E_TEFILA][13] = ""+getBaseContext().getFilesDir() + "/e_tefila_13.html";
+		chaptersFiles[E_TEFILA][14] = ""+getBaseContext().getFilesDir() + "/e_tefila_14.html";
+		chaptersFiles[E_TEFILA][15] = ""+getBaseContext().getFilesDir() + "/e_tefila_15.html";
+		chaptersFiles[E_TEFILA][16] = ""+getBaseContext().getFilesDir() + "/e_tefila_16.html";
+		chaptersFiles[E_TEFILA][17] = ""+getBaseContext().getFilesDir() + "/e_tefila_17.html";
+		chaptersFiles[E_TEFILA][18] = ""+getBaseContext().getFilesDir() + "/e_tefila_18.html";
+		chaptersFiles[E_TEFILA][19] = ""+getBaseContext().getFilesDir() + "/e_tefila_19.html";
+		chaptersFiles[E_TEFILA][20] = ""+getBaseContext().getFilesDir() + "/e_tefila_20.html";
+		chaptersFiles[E_TEFILA][21] = ""+getBaseContext().getFilesDir() + "/e_tefila_21.html";
+		chaptersFiles[E_TEFILA][22] = ""+getBaseContext().getFilesDir() + "/e_tefila_22.html";
+		chaptersFiles[E_TEFILA][23] = ""+getBaseContext().getFilesDir() + "/e_tefila_23.html";
+		chaptersFiles[E_TEFILA][24] = ""+getBaseContext().getFilesDir() + "/e_tefila_24.html";
+		chaptersFiles[E_TEFILA][25] = ""+getBaseContext().getFilesDir() + "/e_tefila_25.html";
+		chaptersFiles[E_TEFILA][26] = ""+getBaseContext().getFilesDir() + "/e_tefila_26.html";
 		/*E_PESACH*/
-		chaptersFiles[E_PESACH][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_tochen.html";
-		chaptersFiles[E_PESACH][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_1.html";
-		chaptersFiles[E_PESACH][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_2.html";
-		chaptersFiles[E_PESACH][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_3.html";
-		chaptersFiles[E_PESACH][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_4.html";
-		chaptersFiles[E_PESACH][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_5.html";
-		chaptersFiles[E_PESACH][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_6.html";
-		chaptersFiles[E_PESACH][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_7.html";
-		chaptersFiles[E_PESACH][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_8.html";
-		chaptersFiles[E_PESACH][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_9.html";
-		chaptersFiles[E_PESACH][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_10.html";
-		chaptersFiles[E_PESACH][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_11.html";
-		chaptersFiles[E_PESACH][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_12.html";
-		chaptersFiles[E_PESACH][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_13.html";
-		chaptersFiles[E_PESACH][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_14.html";
-		chaptersFiles[E_PESACH][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_15.html";
-		chaptersFiles[E_PESACH][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_pesach_16.html";
+		chaptersFiles[E_PESACH][0] = ""+getBaseContext().getFilesDir() + "/e_pesach_tochen.html";
+		chaptersFiles[E_PESACH][1] = ""+getBaseContext().getFilesDir() + "/e_pesach_1.html";
+		chaptersFiles[E_PESACH][2] = ""+getBaseContext().getFilesDir() + "/e_pesach_2.html";
+		chaptersFiles[E_PESACH][3] = ""+getBaseContext().getFilesDir() + "/e_pesach_3.html";
+		chaptersFiles[E_PESACH][4] = ""+getBaseContext().getFilesDir() + "/e_pesach_4.html";
+		chaptersFiles[E_PESACH][5] = ""+getBaseContext().getFilesDir() + "/e_pesach_5.html";
+		chaptersFiles[E_PESACH][6] = ""+getBaseContext().getFilesDir() + "/e_pesach_6.html";
+		chaptersFiles[E_PESACH][7] = ""+getBaseContext().getFilesDir() + "/e_pesach_7.html";
+		chaptersFiles[E_PESACH][8] = ""+getBaseContext().getFilesDir() + "/e_pesach_8.html";
+		chaptersFiles[E_PESACH][9] = ""+getBaseContext().getFilesDir() + "/e_pesach_9.html";
+		chaptersFiles[E_PESACH][10] = ""+getBaseContext().getFilesDir() + "/e_pesach_10.html";
+		chaptersFiles[E_PESACH][11] = ""+getBaseContext().getFilesDir() + "/e_pesach_11.html";
+		chaptersFiles[E_PESACH][12] = ""+getBaseContext().getFilesDir() + "/e_pesach_12.html";
+		chaptersFiles[E_PESACH][13] = ""+getBaseContext().getFilesDir() + "/e_pesach_13.html";
+		chaptersFiles[E_PESACH][14] = ""+getBaseContext().getFilesDir() + "/e_pesach_14.html";
+		chaptersFiles[E_PESACH][15] = ""+getBaseContext().getFilesDir() + "/e_pesach_15.html";
+		chaptersFiles[E_PESACH][16] = ""+getBaseContext().getFilesDir() + "/e_pesach_16.html";
 		/*E_ZMANIM*/
-		chaptersFiles[E_ZMANIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_tochen.html";
-		chaptersFiles[E_ZMANIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_1.html";
-		chaptersFiles[E_ZMANIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_2.html";
-		chaptersFiles[E_ZMANIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_3.html";
-		chaptersFiles[E_ZMANIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_4.html";
-		chaptersFiles[E_ZMANIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_5.html";
-		chaptersFiles[E_ZMANIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_6.html";
-		chaptersFiles[E_ZMANIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_7.html";
-		chaptersFiles[E_ZMANIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_8.html";
-		chaptersFiles[E_ZMANIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_9.html";
-		chaptersFiles[E_ZMANIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_10.html";
-		chaptersFiles[E_ZMANIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_11.html";
-		chaptersFiles[E_ZMANIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_12.html";
-		chaptersFiles[E_ZMANIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_13.html";
-		chaptersFiles[E_ZMANIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_14.html";
-		chaptersFiles[E_ZMANIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_zmanim_15.html";
+		chaptersFiles[E_ZMANIM][0] = ""+getBaseContext().getFilesDir() + "/e_zmanim_tochen.html";
+		chaptersFiles[E_ZMANIM][1] = ""+getBaseContext().getFilesDir() + "/e_zmanim_1.html";
+		chaptersFiles[E_ZMANIM][2] = ""+getBaseContext().getFilesDir() + "/e_zmanim_2.html";
+		chaptersFiles[E_ZMANIM][3] = ""+getBaseContext().getFilesDir() + "/e_zmanim_3.html";
+		chaptersFiles[E_ZMANIM][4] = ""+getBaseContext().getFilesDir() + "/e_zmanim_4.html";
+		chaptersFiles[E_ZMANIM][5] = ""+getBaseContext().getFilesDir() + "/e_zmanim_5.html";
+		chaptersFiles[E_ZMANIM][6] = ""+getBaseContext().getFilesDir() + "/e_zmanim_6.html";
+		chaptersFiles[E_ZMANIM][7] = ""+getBaseContext().getFilesDir() + "/e_zmanim_7.html";
+		chaptersFiles[E_ZMANIM][8] = ""+getBaseContext().getFilesDir() + "/e_zmanim_8.html";
+		chaptersFiles[E_ZMANIM][9] = ""+getBaseContext().getFilesDir() + "/e_zmanim_9.html";
+		chaptersFiles[E_ZMANIM][10] = ""+getBaseContext().getFilesDir() + "/e_zmanim_10.html";
+		chaptersFiles[E_ZMANIM][11] = ""+getBaseContext().getFilesDir() + "/e_zmanim_11.html";
+		chaptersFiles[E_ZMANIM][12] = ""+getBaseContext().getFilesDir() + "/e_zmanim_12.html";
+		chaptersFiles[E_ZMANIM][13] = ""+getBaseContext().getFilesDir() + "/e_zmanim_13.html";
+		chaptersFiles[E_ZMANIM][14] = ""+getBaseContext().getFilesDir() + "/e_zmanim_14.html";
+		chaptersFiles[E_ZMANIM][15] = ""+getBaseContext().getFilesDir() + "/e_zmanim_15.html";
 		/*E_WOMEN_PRAYER*/
-		chaptersFiles[E_WOMEN_PRAYER][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_tochen.html";
-		chaptersFiles[E_WOMEN_PRAYER][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_1.html";
-		chaptersFiles[E_WOMEN_PRAYER][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_2.html";
-		chaptersFiles[E_WOMEN_PRAYER][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_3.html";
-		chaptersFiles[E_WOMEN_PRAYER][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_4.html";
-		chaptersFiles[E_WOMEN_PRAYER][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_5.html";
-		chaptersFiles[E_WOMEN_PRAYER][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_6.html";
-		chaptersFiles[E_WOMEN_PRAYER][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_7.html";
-		chaptersFiles[E_WOMEN_PRAYER][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_8.html";
-		chaptersFiles[E_WOMEN_PRAYER][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_9.html";
-		chaptersFiles[E_WOMEN_PRAYER][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_10.html";
-		chaptersFiles[E_WOMEN_PRAYER][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_11.html";
-		chaptersFiles[E_WOMEN_PRAYER][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_12.html";
-		chaptersFiles[E_WOMEN_PRAYER][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_13.html";
-		chaptersFiles[E_WOMEN_PRAYER][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_14.html";
-		chaptersFiles[E_WOMEN_PRAYER][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_15.html";
-		chaptersFiles[E_WOMEN_PRAYER][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_16.html";
-		chaptersFiles[E_WOMEN_PRAYER][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_17.html";
-		chaptersFiles[E_WOMEN_PRAYER][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_18.html";
-		chaptersFiles[E_WOMEN_PRAYER][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_19.html";
-		chaptersFiles[E_WOMEN_PRAYER][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_20.html";
-		chaptersFiles[E_WOMEN_PRAYER][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_21.html";
-		chaptersFiles[E_WOMEN_PRAYER][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_22.html";
-		chaptersFiles[E_WOMEN_PRAYER][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_23.html";
-		chaptersFiles[E_WOMEN_PRAYER][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_w_prayer_24.html";
+		chaptersFiles[E_WOMEN_PRAYER][0] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_tochen.html";
+		chaptersFiles[E_WOMEN_PRAYER][1] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_1.html";
+		chaptersFiles[E_WOMEN_PRAYER][2] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_2.html";
+		chaptersFiles[E_WOMEN_PRAYER][3] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_3.html";
+		chaptersFiles[E_WOMEN_PRAYER][4] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_4.html";
+		chaptersFiles[E_WOMEN_PRAYER][5] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_5.html";
+		chaptersFiles[E_WOMEN_PRAYER][6] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_6.html";
+		chaptersFiles[E_WOMEN_PRAYER][7] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_7.html";
+		chaptersFiles[E_WOMEN_PRAYER][8] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_8.html";
+		chaptersFiles[E_WOMEN_PRAYER][9] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_9.html";
+		chaptersFiles[E_WOMEN_PRAYER][10] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_10.html";
+		chaptersFiles[E_WOMEN_PRAYER][11] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_11.html";
+		chaptersFiles[E_WOMEN_PRAYER][12] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_12.html";
+		chaptersFiles[E_WOMEN_PRAYER][13] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_13.html";
+		chaptersFiles[E_WOMEN_PRAYER][14] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_14.html";
+		chaptersFiles[E_WOMEN_PRAYER][15] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_15.html";
+		chaptersFiles[E_WOMEN_PRAYER][16] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_16.html";
+		chaptersFiles[E_WOMEN_PRAYER][17] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_17.html";
+		chaptersFiles[E_WOMEN_PRAYER][18] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_18.html";
+		chaptersFiles[E_WOMEN_PRAYER][19] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_19.html";
+		chaptersFiles[E_WOMEN_PRAYER][20] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_20.html";
+		chaptersFiles[E_WOMEN_PRAYER][21] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_21.html";
+		chaptersFiles[E_WOMEN_PRAYER][22] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_22.html";
+		chaptersFiles[E_WOMEN_PRAYER][23] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_23.html";
+		chaptersFiles[E_WOMEN_PRAYER][24] = ""+getBaseContext().getFilesDir() + "/e_w_prayer_24.html";
 		/*E_SHABAT*/
-		chaptersFiles[E_SHABAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_tochen.html";
-		chaptersFiles[E_SHABAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_1.html";
-		chaptersFiles[E_SHABAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_2.html";
-		chaptersFiles[E_SHABAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_3.html";
-		chaptersFiles[E_SHABAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_4.html";
-		chaptersFiles[E_SHABAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_5.html";
-		chaptersFiles[E_SHABAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_6.html";
-		chaptersFiles[E_SHABAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_7.html";
-		chaptersFiles[E_SHABAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_8.html";
-		chaptersFiles[E_SHABAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_9.html";
-		chaptersFiles[E_SHABAT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_10.html";
-		chaptersFiles[E_SHABAT][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_11.html";
-		chaptersFiles[E_SHABAT][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_12.html";
-		chaptersFiles[E_SHABAT][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_13.html";
-		chaptersFiles[E_SHABAT][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_14.html";
-		chaptersFiles[E_SHABAT][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_15.html";
-		chaptersFiles[E_SHABAT][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_16.html";
-		chaptersFiles[E_SHABAT][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_17.html";
-		chaptersFiles[E_SHABAT][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_18.html";
-		chaptersFiles[E_SHABAT][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_19.html";
-		chaptersFiles[E_SHABAT][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_20.html";
-		chaptersFiles[E_SHABAT][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_21.html";
-		chaptersFiles[E_SHABAT][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_22.html";
-		chaptersFiles[E_SHABAT][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_23.html";
-		chaptersFiles[E_SHABAT][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_24.html";
-		chaptersFiles[E_SHABAT][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_25.html";
-		chaptersFiles[E_SHABAT][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_26.html";
-		chaptersFiles[E_SHABAT][27] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_27.html";
-		chaptersFiles[E_SHABAT][28] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_28.html";
-		chaptersFiles[E_SHABAT][29] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_29.html";
-		chaptersFiles[E_SHABAT][30] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_shabbat_30.html";
+		chaptersFiles[E_SHABAT][0] = ""+getBaseContext().getFilesDir() + "/e_shabbat_tochen.html";
+		chaptersFiles[E_SHABAT][1] = ""+getBaseContext().getFilesDir() + "/e_shabbat_1.html";
+		chaptersFiles[E_SHABAT][2] = ""+getBaseContext().getFilesDir() + "/e_shabbat_2.html";
+		chaptersFiles[E_SHABAT][3] = ""+getBaseContext().getFilesDir() + "/e_shabbat_3.html";
+		chaptersFiles[E_SHABAT][4] = ""+getBaseContext().getFilesDir() + "/e_shabbat_4.html";
+		chaptersFiles[E_SHABAT][5] = ""+getBaseContext().getFilesDir() + "/e_shabbat_5.html";
+		chaptersFiles[E_SHABAT][6] = ""+getBaseContext().getFilesDir() + "/e_shabbat_6.html";
+		chaptersFiles[E_SHABAT][7] = ""+getBaseContext().getFilesDir() + "/e_shabbat_7.html";
+		chaptersFiles[E_SHABAT][8] = ""+getBaseContext().getFilesDir() + "/e_shabbat_8.html";
+		chaptersFiles[E_SHABAT][9] = ""+getBaseContext().getFilesDir() + "/e_shabbat_9.html";
+		chaptersFiles[E_SHABAT][10] = ""+getBaseContext().getFilesDir() + "/e_shabbat_10.html";
+		chaptersFiles[E_SHABAT][11] = ""+getBaseContext().getFilesDir() + "/e_shabbat_11.html";
+		chaptersFiles[E_SHABAT][12] = ""+getBaseContext().getFilesDir() + "/e_shabbat_12.html";
+		chaptersFiles[E_SHABAT][13] = ""+getBaseContext().getFilesDir() + "/e_shabbat_13.html";
+		chaptersFiles[E_SHABAT][14] = ""+getBaseContext().getFilesDir() + "/e_shabbat_14.html";
+		chaptersFiles[E_SHABAT][15] = ""+getBaseContext().getFilesDir() + "/e_shabbat_15.html";
+		chaptersFiles[E_SHABAT][16] = ""+getBaseContext().getFilesDir() + "/e_shabbat_16.html";
+		chaptersFiles[E_SHABAT][17] = ""+getBaseContext().getFilesDir() + "/e_shabbat_17.html";
+		chaptersFiles[E_SHABAT][18] = ""+getBaseContext().getFilesDir() + "/e_shabbat_18.html";
+		chaptersFiles[E_SHABAT][19] = ""+getBaseContext().getFilesDir() + "/e_shabbat_19.html";
+		chaptersFiles[E_SHABAT][20] = ""+getBaseContext().getFilesDir() + "/e_shabbat_20.html";
+		chaptersFiles[E_SHABAT][21] = ""+getBaseContext().getFilesDir() + "/e_shabbat_21.html";
+		chaptersFiles[E_SHABAT][22] = ""+getBaseContext().getFilesDir() + "/e_shabbat_22.html";
+		chaptersFiles[E_SHABAT][23] = ""+getBaseContext().getFilesDir() + "/e_shabbat_23.html";
+		chaptersFiles[E_SHABAT][24] = ""+getBaseContext().getFilesDir() + "/e_shabbat_24.html";
+		chaptersFiles[E_SHABAT][25] = ""+getBaseContext().getFilesDir() + "/e_shabbat_25.html";
+		chaptersFiles[E_SHABAT][26] = ""+getBaseContext().getFilesDir() + "/e_shabbat_26.html";
+		chaptersFiles[E_SHABAT][27] = ""+getBaseContext().getFilesDir() + "/e_shabbat_27.html";
+		chaptersFiles[E_SHABAT][28] = ""+getBaseContext().getFilesDir() + "/e_shabbat_28.html";
+		chaptersFiles[E_SHABAT][29] = ""+getBaseContext().getFilesDir() + "/e_shabbat_29.html";
+		chaptersFiles[E_SHABAT][30] = ""+getBaseContext().getFilesDir() + "/e_shabbat_30.html";
 		/*E_yammim*/
-		chaptersFiles[E_YAMMIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_tochen.html";
-		chaptersFiles[E_YAMMIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_1.html";
-		chaptersFiles[E_YAMMIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_2.html";
-		chaptersFiles[E_YAMMIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_3.html";
-		chaptersFiles[E_YAMMIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_4.html";
-		chaptersFiles[E_YAMMIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_5.html";
-		chaptersFiles[E_YAMMIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_6.html";
-		chaptersFiles[E_YAMMIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_7.html";
-		chaptersFiles[E_YAMMIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_8.html";
-		chaptersFiles[E_YAMMIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_9.html";
-		chaptersFiles[E_YAMMIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_yammim_10.html";
+		chaptersFiles[E_YAMMIM][0] = ""+getBaseContext().getFilesDir() + "/e_yammim_tochen.html";
+		chaptersFiles[E_YAMMIM][1] = ""+getBaseContext().getFilesDir() + "/e_yammim_1.html";
+		chaptersFiles[E_YAMMIM][2] = ""+getBaseContext().getFilesDir() + "/e_yammim_2.html";
+		chaptersFiles[E_YAMMIM][3] = ""+getBaseContext().getFilesDir() + "/e_yammim_3.html";
+		chaptersFiles[E_YAMMIM][4] = ""+getBaseContext().getFilesDir() + "/e_yammim_4.html";
+		chaptersFiles[E_YAMMIM][5] = ""+getBaseContext().getFilesDir() + "/e_yammim_5.html";
+		chaptersFiles[E_YAMMIM][6] = ""+getBaseContext().getFilesDir() + "/e_yammim_6.html";
+		chaptersFiles[E_YAMMIM][7] = ""+getBaseContext().getFilesDir() + "/e_yammim_7.html";
+		chaptersFiles[E_YAMMIM][8] = ""+getBaseContext().getFilesDir() + "/e_yammim_8.html";
+		chaptersFiles[E_YAMMIM][9] = ""+getBaseContext().getFilesDir() + "/e_yammim_9.html";
+		chaptersFiles[E_YAMMIM][10] = ""+getBaseContext().getFilesDir() + "/e_yammim_10.html";
 		/*E_moadim*/
-		chaptersFiles[E_MOADIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_tochen.html";
-		chaptersFiles[E_MOADIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_1.html";
-		chaptersFiles[E_MOADIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_2.html";
-		chaptersFiles[E_MOADIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_3.html";
-		chaptersFiles[E_MOADIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_4.html";
-		chaptersFiles[E_MOADIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_5.html";
-		chaptersFiles[E_MOADIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_6.html";
-		chaptersFiles[E_MOADIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_7.html";
-		chaptersFiles[E_MOADIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_8.html";
-		chaptersFiles[E_MOADIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_9.html";
-		chaptersFiles[E_MOADIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_10.html";
-		chaptersFiles[E_MOADIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_11.html";
-		chaptersFiles[E_MOADIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_12.html";
-		chaptersFiles[E_MOADIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_moadim_13.html";
+		chaptersFiles[E_MOADIM][0] = ""+getBaseContext().getFilesDir() + "/e_moadim_tochen.html";
+		chaptersFiles[E_MOADIM][1] = ""+getBaseContext().getFilesDir() + "/e_moadim_1.html";
+		chaptersFiles[E_MOADIM][2] = ""+getBaseContext().getFilesDir() + "/e_moadim_2.html";
+		chaptersFiles[E_MOADIM][3] = ""+getBaseContext().getFilesDir() + "/e_moadim_3.html";
+		chaptersFiles[E_MOADIM][4] = ""+getBaseContext().getFilesDir() + "/e_moadim_4.html";
+		chaptersFiles[E_MOADIM][5] = ""+getBaseContext().getFilesDir() + "/e_moadim_5.html";
+		chaptersFiles[E_MOADIM][6] = ""+getBaseContext().getFilesDir() + "/e_moadim_6.html";
+		chaptersFiles[E_MOADIM][7] = ""+getBaseContext().getFilesDir() + "/e_moadim_7.html";
+		chaptersFiles[E_MOADIM][8] = ""+getBaseContext().getFilesDir() + "/e_moadim_8.html";
+		chaptersFiles[E_MOADIM][9] = ""+getBaseContext().getFilesDir() + "/e_moadim_9.html";
+		chaptersFiles[E_MOADIM][10] = ""+getBaseContext().getFilesDir() + "/e_moadim_10.html";
+		chaptersFiles[E_MOADIM][11] = ""+getBaseContext().getFilesDir() + "/e_moadim_11.html";
+		chaptersFiles[E_MOADIM][12] = ""+getBaseContext().getFilesDir() + "/e_moadim_12.html";
+		chaptersFiles[E_MOADIM][13] = ""+getBaseContext().getFilesDir() + "/e_moadim_13.html";
 		/*E_simchat*/
-		chaptersFiles[E_SIMCHAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_tochen.html";
-		chaptersFiles[E_SIMCHAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_1.html";
-		chaptersFiles[E_SIMCHAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_2.html";
-		chaptersFiles[E_SIMCHAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_3.html";
-		chaptersFiles[E_SIMCHAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_4.html";
-		chaptersFiles[E_SIMCHAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_5.html";
-		chaptersFiles[E_SIMCHAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_6.html";
-		chaptersFiles[E_SIMCHAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_7.html";
-		chaptersFiles[E_SIMCHAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_8.html";
-		chaptersFiles[E_SIMCHAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/EnglishBooks/e_simchat_9.html";
+		chaptersFiles[E_SIMCHAT][0] = ""+getBaseContext().getFilesDir() + "/e_simchat_tochen.html";
+		chaptersFiles[E_SIMCHAT][1] = ""+getBaseContext().getFilesDir() + "/e_simchat_1.html";
+		chaptersFiles[E_SIMCHAT][2] = ""+getBaseContext().getFilesDir() + "/e_simchat_2.html";
+		chaptersFiles[E_SIMCHAT][3] = ""+getBaseContext().getFilesDir() + "/e_simchat_3.html";
+		chaptersFiles[E_SIMCHAT][4] = ""+getBaseContext().getFilesDir() + "/e_simchat_4.html";
+		chaptersFiles[E_SIMCHAT][5] = ""+getBaseContext().getFilesDir() + "/e_simchat_5.html";
+		chaptersFiles[E_SIMCHAT][6] = ""+getBaseContext().getFilesDir() + "/e_simchat_6.html";
+		chaptersFiles[E_SIMCHAT][7] = ""+getBaseContext().getFilesDir() + "/e_simchat_7.html";
+		chaptersFiles[E_SIMCHAT][8] = ""+getBaseContext().getFilesDir() + "/e_simchat_8.html";
+		chaptersFiles[E_SIMCHAT][9] = ""+getBaseContext().getFilesDir() + "/e_simchat_9.html";
 		/*F_TEFILA*/
-		chaptersFiles[F_TEFILA][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_tochen.html";
-		chaptersFiles[F_TEFILA][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_1.html";
-		chaptersFiles[F_TEFILA][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_2.html";
-		chaptersFiles[F_TEFILA][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_3.html";
-		chaptersFiles[F_TEFILA][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_4.html";
-		chaptersFiles[F_TEFILA][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_5.html";
-		chaptersFiles[F_TEFILA][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_6.html";
-		chaptersFiles[F_TEFILA][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_7.html";
-		chaptersFiles[F_TEFILA][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_8.html";
-		chaptersFiles[F_TEFILA][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_9.html";
-		chaptersFiles[F_TEFILA][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_10.html";
-		chaptersFiles[F_TEFILA][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_11.html";
-		chaptersFiles[F_TEFILA][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_12.html";
-		chaptersFiles[F_TEFILA][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_13.html";
-		chaptersFiles[F_TEFILA][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_14.html";
-		chaptersFiles[F_TEFILA][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_15.html";
-		chaptersFiles[F_TEFILA][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_16.html";
-		chaptersFiles[F_TEFILA][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_17.html";
-		chaptersFiles[F_TEFILA][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_18.html";
-		chaptersFiles[F_TEFILA][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_19.html";
-		chaptersFiles[F_TEFILA][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_20.html";
-		chaptersFiles[F_TEFILA][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_21.html";
-		chaptersFiles[F_TEFILA][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_22.html";
-		chaptersFiles[F_TEFILA][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_23.html";
-		chaptersFiles[F_TEFILA][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_24.html";
-		chaptersFiles[F_TEFILA][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_25.html";
-		chaptersFiles[F_TEFILA][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tefila_26.html";
+		chaptersFiles[F_TEFILA][0] = ""+getBaseContext().getFilesDir() + "/f_tefila_tochen.html";
+		chaptersFiles[F_TEFILA][1] = ""+getBaseContext().getFilesDir() + "/f_tefila_1.html";
+		chaptersFiles[F_TEFILA][2] = ""+getBaseContext().getFilesDir() + "/f_tefila_2.html";
+		chaptersFiles[F_TEFILA][3] = ""+getBaseContext().getFilesDir() + "/f_tefila_3.html";
+		chaptersFiles[F_TEFILA][4] = ""+getBaseContext().getFilesDir() + "/f_tefila_4.html";
+		chaptersFiles[F_TEFILA][5] = ""+getBaseContext().getFilesDir() + "/f_tefila_5.html";
+		chaptersFiles[F_TEFILA][6] = ""+getBaseContext().getFilesDir() + "/f_tefila_6.html";
+		chaptersFiles[F_TEFILA][7] = ""+getBaseContext().getFilesDir() + "/f_tefila_7.html";
+		chaptersFiles[F_TEFILA][8] = ""+getBaseContext().getFilesDir() + "/f_tefila_8.html";
+		chaptersFiles[F_TEFILA][9] = ""+getBaseContext().getFilesDir() + "/f_tefila_9.html";
+		chaptersFiles[F_TEFILA][10] = ""+getBaseContext().getFilesDir() + "/f_tefila_10.html";
+		chaptersFiles[F_TEFILA][11] = ""+getBaseContext().getFilesDir() + "/f_tefila_11.html";
+		chaptersFiles[F_TEFILA][12] = ""+getBaseContext().getFilesDir() + "/f_tefila_12.html";
+		chaptersFiles[F_TEFILA][13] = ""+getBaseContext().getFilesDir() + "/f_tefila_13.html";
+		chaptersFiles[F_TEFILA][14] = ""+getBaseContext().getFilesDir() + "/f_tefila_14.html";
+		chaptersFiles[F_TEFILA][15] = ""+getBaseContext().getFilesDir() + "/f_tefila_15.html";
+		chaptersFiles[F_TEFILA][16] = ""+getBaseContext().getFilesDir() + "/f_tefila_16.html";
+		chaptersFiles[F_TEFILA][17] = ""+getBaseContext().getFilesDir() + "/f_tefila_17.html";
+		chaptersFiles[F_TEFILA][18] = ""+getBaseContext().getFilesDir() + "/f_tefila_18.html";
+		chaptersFiles[F_TEFILA][19] = ""+getBaseContext().getFilesDir() + "/f_tefila_19.html";
+		chaptersFiles[F_TEFILA][20] = ""+getBaseContext().getFilesDir() + "/f_tefila_20.html";
+		chaptersFiles[F_TEFILA][21] = ""+getBaseContext().getFilesDir() + "/f_tefila_21.html";
+		chaptersFiles[F_TEFILA][22] = ""+getBaseContext().getFilesDir() + "/f_tefila_22.html";
+		chaptersFiles[F_TEFILA][23] = ""+getBaseContext().getFilesDir() + "/f_tefila_23.html";
+		chaptersFiles[F_TEFILA][24] = ""+getBaseContext().getFilesDir() + "/f_tefila_24.html";
+		chaptersFiles[F_TEFILA][25] = ""+getBaseContext().getFilesDir() + "/f_tefila_25.html";
+		chaptersFiles[F_TEFILA][26] = ""+getBaseContext().getFilesDir() + "/f_tefila_26.html";
 		/*F_Moadim*/
-		chaptersFiles[F_MOADIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_tochen.html";
-		chaptersFiles[F_MOADIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_1.html";
-		chaptersFiles[F_MOADIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_2.html";
-		chaptersFiles[F_MOADIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_3.html";
-		chaptersFiles[F_MOADIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_4.html";
-		chaptersFiles[F_MOADIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_5.html";
-		chaptersFiles[F_MOADIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_6.html";
-		chaptersFiles[F_MOADIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_7.html";
-		chaptersFiles[F_MOADIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_8.html";
-		chaptersFiles[F_MOADIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_9.html";
-		chaptersFiles[F_MOADIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_10.html";
-		chaptersFiles[F_MOADIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_11.html";
-		chaptersFiles[F_MOADIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_12.html";
-		chaptersFiles[F_MOADIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_moadim_13.html";
+		chaptersFiles[F_MOADIM][0] = ""+getBaseContext().getFilesDir() + "/f_moadim_tochen.html";
+		chaptersFiles[F_MOADIM][1] = ""+getBaseContext().getFilesDir() + "/f_moadim_1.html";
+		chaptersFiles[F_MOADIM][2] = ""+getBaseContext().getFilesDir() + "/f_moadim_2.html";
+		chaptersFiles[F_MOADIM][3] = ""+getBaseContext().getFilesDir() + "/f_moadim_3.html";
+		chaptersFiles[F_MOADIM][4] = ""+getBaseContext().getFilesDir() + "/f_moadim_4.html";
+		chaptersFiles[F_MOADIM][5] = ""+getBaseContext().getFilesDir() + "/f_moadim_5.html";
+		chaptersFiles[F_MOADIM][6] = ""+getBaseContext().getFilesDir() + "/f_moadim_6.html";
+		chaptersFiles[F_MOADIM][7] = ""+getBaseContext().getFilesDir() + "/f_moadim_7.html";
+		chaptersFiles[F_MOADIM][8] = ""+getBaseContext().getFilesDir() + "/f_moadim_8.html";
+		chaptersFiles[F_MOADIM][9] = ""+getBaseContext().getFilesDir() + "/f_moadim_9.html";
+		chaptersFiles[F_MOADIM][10] = ""+getBaseContext().getFilesDir() + "/f_moadim_10.html";
+		chaptersFiles[F_MOADIM][11] = ""+getBaseContext().getFilesDir() + "/f_moadim_11.html";
+		chaptersFiles[F_MOADIM][12] = ""+getBaseContext().getFilesDir() + "/f_moadim_12.html";
+		chaptersFiles[F_MOADIM][13] = ""+getBaseContext().getFilesDir() + "/f_moadim_13.html";
 		/*F_SUCOT*/
-		chaptersFiles[F_SUCOT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_tochen.html";
-		chaptersFiles[F_SUCOT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_1.html";
-		chaptersFiles[F_SUCOT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_2.html";
-		chaptersFiles[F_SUCOT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_3.html";
-		chaptersFiles[F_SUCOT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_4.html";
-		chaptersFiles[F_SUCOT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_5.html";
-		chaptersFiles[F_SUCOT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_6.html";
-		chaptersFiles[F_SUCOT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_7.html";
-		chaptersFiles[F_SUCOT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_8.html";
-		chaptersFiles[F_SUCOT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_9.html";
-		chaptersFiles[F_SUCOT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_10.html";
-		chaptersFiles[F_SUCOT][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_11.html";
-		chaptersFiles[F_SUCOT][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_12.html";
-		chaptersFiles[F_SUCOT][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_sucot_13.html";
+		chaptersFiles[F_SUCOT][0] = ""+getBaseContext().getFilesDir() + "/f_sucot_tochen.html";
+		chaptersFiles[F_SUCOT][1] = ""+getBaseContext().getFilesDir() + "/f_sucot_1.html";
+		chaptersFiles[F_SUCOT][2] = ""+getBaseContext().getFilesDir() + "/f_sucot_2.html";
+		chaptersFiles[F_SUCOT][3] = ""+getBaseContext().getFilesDir() + "/f_sucot_3.html";
+		chaptersFiles[F_SUCOT][4] = ""+getBaseContext().getFilesDir() + "/f_sucot_4.html";
+		chaptersFiles[F_SUCOT][5] = ""+getBaseContext().getFilesDir() + "/f_sucot_5.html";
+		chaptersFiles[F_SUCOT][6] = ""+getBaseContext().getFilesDir() + "/f_sucot_6.html";
+		chaptersFiles[F_SUCOT][7] = ""+getBaseContext().getFilesDir() + "/f_sucot_7.html";
+		chaptersFiles[F_SUCOT][8] = ""+getBaseContext().getFilesDir() + "/f_sucot_8.html";
+		chaptersFiles[F_SUCOT][9] = ""+getBaseContext().getFilesDir() + "/f_sucot_9.html";
+		chaptersFiles[F_SUCOT][10] = ""+getBaseContext().getFilesDir() + "/f_sucot_10.html";
+		chaptersFiles[F_SUCOT][11] = ""+getBaseContext().getFilesDir() + "/f_sucot_11.html";
+		chaptersFiles[F_SUCOT][12] = ""+getBaseContext().getFilesDir() + "/f_sucot_12.html";
+		chaptersFiles[F_SUCOT][13] = ""+getBaseContext().getFilesDir() + "/f_sucot_13.html";
 		/*F_ZMANIM*/
-		chaptersFiles[F_ZMANIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_tochen.html";
-		chaptersFiles[F_ZMANIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_1.html";
-		chaptersFiles[F_ZMANIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_2.html";
-		chaptersFiles[F_ZMANIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_3.html";
-		chaptersFiles[F_ZMANIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_4.html";
-		chaptersFiles[F_ZMANIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_5.html";
-		chaptersFiles[F_ZMANIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_6.html";
-		chaptersFiles[F_ZMANIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_7.html";
-		chaptersFiles[F_ZMANIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_8.html";
-		chaptersFiles[F_ZMANIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_9.html";
-		chaptersFiles[F_ZMANIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_10.html";
-		chaptersFiles[F_ZMANIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_11.html";
-		chaptersFiles[F_ZMANIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_12.html";
-		chaptersFiles[F_ZMANIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_13.html";
-		chaptersFiles[F_ZMANIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_14.html";
-		chaptersFiles[F_ZMANIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_15.html";
-		chaptersFiles[F_ZMANIM][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_16.html";
-		chaptersFiles[F_ZMANIM][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_zmanim_17.html";
+		chaptersFiles[F_ZMANIM][0] = ""+getBaseContext().getFilesDir() + "/f_zmanim_tochen.html";
+		chaptersFiles[F_ZMANIM][1] = ""+getBaseContext().getFilesDir() + "/f_zmanim_1.html";
+		chaptersFiles[F_ZMANIM][2] = ""+getBaseContext().getFilesDir() + "/f_zmanim_2.html";
+		chaptersFiles[F_ZMANIM][3] = ""+getBaseContext().getFilesDir() + "/f_zmanim_3.html";
+		chaptersFiles[F_ZMANIM][4] = ""+getBaseContext().getFilesDir() + "/f_zmanim_4.html";
+		chaptersFiles[F_ZMANIM][5] = ""+getBaseContext().getFilesDir() + "/f_zmanim_5.html";
+		chaptersFiles[F_ZMANIM][6] = ""+getBaseContext().getFilesDir() + "/f_zmanim_6.html";
+		chaptersFiles[F_ZMANIM][7] = ""+getBaseContext().getFilesDir() + "/f_zmanim_7.html";
+		chaptersFiles[F_ZMANIM][8] = ""+getBaseContext().getFilesDir() + "/f_zmanim_8.html";
+		chaptersFiles[F_ZMANIM][9] = ""+getBaseContext().getFilesDir() + "/f_zmanim_9.html";
+		chaptersFiles[F_ZMANIM][10] = ""+getBaseContext().getFilesDir() + "/f_zmanim_10.html";
+		chaptersFiles[F_ZMANIM][11] = ""+getBaseContext().getFilesDir() + "/f_zmanim_11.html";
+		chaptersFiles[F_ZMANIM][12] = ""+getBaseContext().getFilesDir() + "/f_zmanim_12.html";
+		chaptersFiles[F_ZMANIM][13] = ""+getBaseContext().getFilesDir() + "/f_zmanim_13.html";
+		chaptersFiles[F_ZMANIM][14] = ""+getBaseContext().getFilesDir() + "/f_zmanim_14.html";
+		chaptersFiles[F_ZMANIM][15] = ""+getBaseContext().getFilesDir() + "/f_zmanim_15.html";
+		chaptersFiles[F_ZMANIM][16] = ""+getBaseContext().getFilesDir() + "/f_zmanim_16.html";
+		chaptersFiles[F_ZMANIM][17] = ""+getBaseContext().getFilesDir() + "/f_zmanim_17.html";
 		/*F_SIMCHAT*/
-		chaptersFiles[F_SIMCHAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_tochen.html";
-		chaptersFiles[F_SIMCHAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_1.html";
-		chaptersFiles[F_SIMCHAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_2.html";
-		chaptersFiles[F_SIMCHAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_3.html";
-		chaptersFiles[F_SIMCHAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_4.html";
-		chaptersFiles[F_SIMCHAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_5.html";
-		chaptersFiles[F_SIMCHAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_6.html";
-		chaptersFiles[F_SIMCHAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_7.html";
-		chaptersFiles[F_SIMCHAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_8.html";
-		chaptersFiles[F_SIMCHAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_9.html";
-		chaptersFiles[F_SIMCHAT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_simchat_10.html";
+		chaptersFiles[F_SIMCHAT][0] = ""+getBaseContext().getFilesDir() + "/f_simchat_tochen.html";
+		chaptersFiles[F_SIMCHAT][1] = ""+getBaseContext().getFilesDir() + "/f_simchat_1.html";
+		chaptersFiles[F_SIMCHAT][2] = ""+getBaseContext().getFilesDir() + "/f_simchat_2.html";
+		chaptersFiles[F_SIMCHAT][3] = ""+getBaseContext().getFilesDir() + "/f_simchat_3.html";
+		chaptersFiles[F_SIMCHAT][4] = ""+getBaseContext().getFilesDir() + "/f_simchat_4.html";
+		chaptersFiles[F_SIMCHAT][5] = ""+getBaseContext().getFilesDir() + "/f_simchat_5.html";
+		chaptersFiles[F_SIMCHAT][6] = ""+getBaseContext().getFilesDir() + "/f_simchat_6.html";
+		chaptersFiles[F_SIMCHAT][7] = ""+getBaseContext().getFilesDir() + "/f_simchat_7.html";
+		chaptersFiles[F_SIMCHAT][8] = ""+getBaseContext().getFilesDir() + "/f_simchat_8.html";
+		chaptersFiles[F_SIMCHAT][9] = ""+getBaseContext().getFilesDir() + "/f_simchat_9.html";
+		chaptersFiles[F_SIMCHAT][10] = ""+getBaseContext().getFilesDir() + "/f_simchat_10.html";
 		/*F_ZMANIM*/
-		chaptersFiles[F_PESACH][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_tochen.html";
-		chaptersFiles[F_PESACH][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_1.html";
-		chaptersFiles[F_PESACH][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_2.html";
-		chaptersFiles[F_PESACH][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_3.html";
-		chaptersFiles[F_PESACH][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_4.html";
-		chaptersFiles[F_PESACH][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_5.html";
-		chaptersFiles[F_PESACH][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_6.html";
-		chaptersFiles[F_PESACH][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_7.html";
-		chaptersFiles[F_PESACH][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_8.html";
-		chaptersFiles[F_PESACH][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_9.html";
-		chaptersFiles[F_PESACH][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_10.html";
-		chaptersFiles[F_PESACH][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_11.html";
-		chaptersFiles[F_PESACH][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_12.html";
-		chaptersFiles[F_PESACH][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_13.html";
-		chaptersFiles[F_PESACH][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_14.html";
-		chaptersFiles[F_PESACH][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_15.html";
-		chaptersFiles[F_PESACH][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_pesach_16.html";
+		chaptersFiles[F_PESACH][0] = ""+getBaseContext().getFilesDir() + "/f_pesach_tochen.html";
+		chaptersFiles[F_PESACH][1] = ""+getBaseContext().getFilesDir() + "/f_pesach_1.html";
+		chaptersFiles[F_PESACH][2] = ""+getBaseContext().getFilesDir() + "/f_pesach_2.html";
+		chaptersFiles[F_PESACH][3] = ""+getBaseContext().getFilesDir() + "/f_pesach_3.html";
+		chaptersFiles[F_PESACH][4] = ""+getBaseContext().getFilesDir() + "/f_pesach_4.html";
+		chaptersFiles[F_PESACH][5] = ""+getBaseContext().getFilesDir() + "/f_pesach_5.html";
+		chaptersFiles[F_PESACH][6] = ""+getBaseContext().getFilesDir() + "/f_pesach_6.html";
+		chaptersFiles[F_PESACH][7] = ""+getBaseContext().getFilesDir() + "/f_pesach_7.html";
+		chaptersFiles[F_PESACH][8] = ""+getBaseContext().getFilesDir() + "/f_pesach_8.html";
+		chaptersFiles[F_PESACH][9] = ""+getBaseContext().getFilesDir() + "/f_pesach_9.html";
+		chaptersFiles[F_PESACH][10] = ""+getBaseContext().getFilesDir() + "/f_pesach_10.html";
+		chaptersFiles[F_PESACH][11] = ""+getBaseContext().getFilesDir() + "/f_pesach_11.html";
+		chaptersFiles[F_PESACH][12] = ""+getBaseContext().getFilesDir() + "/f_pesach_12.html";
+		chaptersFiles[F_PESACH][13] = ""+getBaseContext().getFilesDir() + "/f_pesach_13.html";
+		chaptersFiles[F_PESACH][14] = ""+getBaseContext().getFilesDir() + "/f_pesach_14.html";
+		chaptersFiles[F_PESACH][15] = ""+getBaseContext().getFilesDir() + "/f_pesach_15.html";
+		chaptersFiles[F_PESACH][16] = ""+getBaseContext().getFilesDir() + "/f_pesach_16.html";
 		/*F_TFILAT_NASHIM*/
-		chaptersFiles[F_TFILAT_NASHIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_tochen.html";
-		chaptersFiles[F_TFILAT_NASHIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_1.html";
-		chaptersFiles[F_TFILAT_NASHIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_2.html";
-		chaptersFiles[F_TFILAT_NASHIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_3.html";
-		chaptersFiles[F_TFILAT_NASHIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_4.html";
-		chaptersFiles[F_TFILAT_NASHIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_5.html";
-		chaptersFiles[F_TFILAT_NASHIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_6.html";
-		chaptersFiles[F_TFILAT_NASHIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_7.html";
-		chaptersFiles[F_TFILAT_NASHIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_8.html";
-		chaptersFiles[F_TFILAT_NASHIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_9.html";
-		chaptersFiles[F_TFILAT_NASHIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_10.html";
-		chaptersFiles[F_TFILAT_NASHIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_11.html";
-		chaptersFiles[F_TFILAT_NASHIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_12.html";
-		chaptersFiles[F_TFILAT_NASHIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_13.html";
-		chaptersFiles[F_TFILAT_NASHIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_14.html";
-		chaptersFiles[F_TFILAT_NASHIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_15.html";
-		chaptersFiles[F_TFILAT_NASHIM][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_16.html";
-		chaptersFiles[F_TFILAT_NASHIM][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_17.html";
-		chaptersFiles[F_TFILAT_NASHIM][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_18.html";
-		chaptersFiles[F_TFILAT_NASHIM][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_19.html";
-		chaptersFiles[F_TFILAT_NASHIM][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_20.html";
-		chaptersFiles[F_TFILAT_NASHIM][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_21.html";
-		chaptersFiles[F_TFILAT_NASHIM][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_22.html";
-		chaptersFiles[F_TFILAT_NASHIM][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_23.html";
-		chaptersFiles[F_TFILAT_NASHIM][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_24.html";
-		chaptersFiles[F_TFILAT_NASHIM][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_25.html";
-		chaptersFiles[F_TFILAT_NASHIM][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_tfilat_nashim_26.html";
+		chaptersFiles[F_TFILAT_NASHIM][0] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_tochen.html";
+		chaptersFiles[F_TFILAT_NASHIM][1] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_1.html";
+		chaptersFiles[F_TFILAT_NASHIM][2] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_2.html";
+		chaptersFiles[F_TFILAT_NASHIM][3] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_3.html";
+		chaptersFiles[F_TFILAT_NASHIM][4] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_4.html";
+		chaptersFiles[F_TFILAT_NASHIM][5] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_5.html";
+		chaptersFiles[F_TFILAT_NASHIM][6] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_6.html";
+		chaptersFiles[F_TFILAT_NASHIM][7] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_7.html";
+		chaptersFiles[F_TFILAT_NASHIM][8] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_8.html";
+		chaptersFiles[F_TFILAT_NASHIM][9] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_9.html";
+		chaptersFiles[F_TFILAT_NASHIM][10] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_10.html";
+		chaptersFiles[F_TFILAT_NASHIM][11] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_11.html";
+		chaptersFiles[F_TFILAT_NASHIM][12] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_12.html";
+		chaptersFiles[F_TFILAT_NASHIM][13] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_13.html";
+		chaptersFiles[F_TFILAT_NASHIM][14] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_14.html";
+		chaptersFiles[F_TFILAT_NASHIM][15] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_15.html";
+		chaptersFiles[F_TFILAT_NASHIM][16] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_16.html";
+		chaptersFiles[F_TFILAT_NASHIM][17] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_17.html";
+		chaptersFiles[F_TFILAT_NASHIM][18] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_18.html";
+		chaptersFiles[F_TFILAT_NASHIM][19] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_19.html";
+		chaptersFiles[F_TFILAT_NASHIM][20] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_20.html";
+		chaptersFiles[F_TFILAT_NASHIM][21] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_21.html";
+		chaptersFiles[F_TFILAT_NASHIM][22] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_22.html";
+		chaptersFiles[F_TFILAT_NASHIM][23] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_23.html";
+		chaptersFiles[F_TFILAT_NASHIM][24] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_24.html";
+		chaptersFiles[F_TFILAT_NASHIM][25] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_25.html";
+		chaptersFiles[F_TFILAT_NASHIM][26] = ""+getBaseContext().getFilesDir() + "/f_tfilat_nashim_26.html";
 		/*F_SHABAT*/
-		chaptersFiles[F_SHABBAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_tochen.html";
-		chaptersFiles[F_SHABBAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_1.html";
-		chaptersFiles[F_SHABBAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_2.html";
-		chaptersFiles[F_SHABBAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_3.html";
-		chaptersFiles[F_SHABBAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_4.html";
-		chaptersFiles[F_SHABBAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_5.html";
-		chaptersFiles[F_SHABBAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_6.html";
-		chaptersFiles[F_SHABBAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_7.html";
-		chaptersFiles[F_SHABBAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_8.html";
-		chaptersFiles[F_SHABBAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_9.html";
-		chaptersFiles[F_SHABBAT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_10.html";
-		chaptersFiles[F_SHABBAT][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_11.html";
-		chaptersFiles[F_SHABBAT][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_12.html";
-		chaptersFiles[R_SHABBAT][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_13.html";
-		chaptersFiles[F_SHABBAT][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_14.html";
-		chaptersFiles[F_SHABBAT][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_15.html";
-		chaptersFiles[F_SHABBAT][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_16.html";
-		chaptersFiles[F_SHABBAT][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_17.html";
-		chaptersFiles[F_SHABBAT][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_18.html";
-		chaptersFiles[F_SHABBAT][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_19.html";
-		chaptersFiles[F_SHABBAT][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_20.html";
-		chaptersFiles[F_SHABBAT][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_21.html";
-		chaptersFiles[F_SHABBAT][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_22.html";
-		chaptersFiles[F_SHABBAT][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_23.html";
-		chaptersFiles[F_SHABBAT][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_24.html";
-		chaptersFiles[F_SHABBAT][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_25.html";
-		chaptersFiles[F_SHABBAT][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_26.html";
-		chaptersFiles[F_SHABBAT][27] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_27.html";
-		chaptersFiles[F_SHABBAT][28] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_28.html";
-		chaptersFiles[F_SHABBAT][29] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_29.html";
-		chaptersFiles[F_SHABBAT][30] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_shabbat_30.html";
+		chaptersFiles[F_SHABBAT][0] = ""+getBaseContext().getFilesDir() + "/f_shabbat_tochen.html";
+		chaptersFiles[F_SHABBAT][1] = ""+getBaseContext().getFilesDir() + "/f_shabbat_1.html";
+		chaptersFiles[F_SHABBAT][2] = ""+getBaseContext().getFilesDir() + "/f_shabbat_2.html";
+		chaptersFiles[F_SHABBAT][3] = ""+getBaseContext().getFilesDir() + "/f_shabbat_3.html";
+		chaptersFiles[F_SHABBAT][4] = ""+getBaseContext().getFilesDir() + "/f_shabbat_4.html";
+		chaptersFiles[F_SHABBAT][5] = ""+getBaseContext().getFilesDir() + "/f_shabbat_5.html";
+		chaptersFiles[F_SHABBAT][6] = ""+getBaseContext().getFilesDir() + "/f_shabbat_6.html";
+		chaptersFiles[F_SHABBAT][7] = ""+getBaseContext().getFilesDir() + "/f_shabbat_7.html";
+		chaptersFiles[F_SHABBAT][8] = ""+getBaseContext().getFilesDir() + "/f_shabbat_8.html";
+		chaptersFiles[F_SHABBAT][9] = ""+getBaseContext().getFilesDir() + "/f_shabbat_9.html";
+		chaptersFiles[F_SHABBAT][10] = ""+getBaseContext().getFilesDir() + "/f_shabbat_10.html";
+		chaptersFiles[F_SHABBAT][11] = ""+getBaseContext().getFilesDir() + "/f_shabbat_11.html";
+		chaptersFiles[F_SHABBAT][12] = ""+getBaseContext().getFilesDir() + "/f_shabbat_12.html";
+		chaptersFiles[R_SHABBAT][13] = ""+getBaseContext().getFilesDir() + "/f_shabbat_13.html";
+		chaptersFiles[F_SHABBAT][14] = ""+getBaseContext().getFilesDir() + "/f_shabbat_14.html";
+		chaptersFiles[F_SHABBAT][15] = ""+getBaseContext().getFilesDir() + "/f_shabbat_15.html";
+		chaptersFiles[F_SHABBAT][16] = ""+getBaseContext().getFilesDir() + "/f_shabbat_16.html";
+		chaptersFiles[F_SHABBAT][17] = ""+getBaseContext().getFilesDir() + "/f_shabbat_17.html";
+		chaptersFiles[F_SHABBAT][18] = ""+getBaseContext().getFilesDir() + "/f_shabbat_18.html";
+		chaptersFiles[F_SHABBAT][19] = ""+getBaseContext().getFilesDir() + "/f_shabbat_19.html";
+		chaptersFiles[F_SHABBAT][20] = ""+getBaseContext().getFilesDir() + "/f_shabbat_20.html";
+		chaptersFiles[F_SHABBAT][21] = ""+getBaseContext().getFilesDir() + "/f_shabbat_21.html";
+		chaptersFiles[F_SHABBAT][22] = ""+getBaseContext().getFilesDir() + "/f_shabbat_22.html";
+		chaptersFiles[F_SHABBAT][23] = ""+getBaseContext().getFilesDir() + "/f_shabbat_23.html";
+		chaptersFiles[F_SHABBAT][24] = ""+getBaseContext().getFilesDir() + "/f_shabbat_24.html";
+		chaptersFiles[F_SHABBAT][25] = ""+getBaseContext().getFilesDir() + "/f_shabbat_25.html";
+		chaptersFiles[F_SHABBAT][26] = ""+getBaseContext().getFilesDir() + "/f_shabbat_26.html";
+		chaptersFiles[F_SHABBAT][27] = ""+getBaseContext().getFilesDir() + "/f_shabbat_27.html";
+		chaptersFiles[F_SHABBAT][28] = ""+getBaseContext().getFilesDir() + "/f_shabbat_28.html";
+		chaptersFiles[F_SHABBAT][29] = ""+getBaseContext().getFilesDir() + "/f_shabbat_29.html";
+		chaptersFiles[F_SHABBAT][30] = ""+getBaseContext().getFilesDir() + "/f_shabbat_30.html";
 
 		/*F_YAMIM*/
-		chaptersFiles[F_YAMMIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_tochen.html";
-		chaptersFiles[F_YAMMIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_1.html";
-		chaptersFiles[F_YAMMIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_2.html";
-		chaptersFiles[F_YAMMIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_3.html";
-		chaptersFiles[F_YAMMIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_4.html";
-		chaptersFiles[F_YAMMIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_5.html";
-		chaptersFiles[F_YAMMIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_6.html";
-		chaptersFiles[F_YAMMIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_7.html";
-		chaptersFiles[F_YAMMIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_8.html";
-		chaptersFiles[F_YAMMIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_9.html";
-		chaptersFiles[F_YAMMIM][10]= "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/FrenchBooks/f_yammim_10.html";
+		chaptersFiles[F_YAMMIM][0] = ""+getBaseContext().getFilesDir() + "/f_yammim_tochen.html";
+		chaptersFiles[F_YAMMIM][1] = ""+getBaseContext().getFilesDir() + "/f_yammim_1.html";
+		chaptersFiles[F_YAMMIM][2] = ""+getBaseContext().getFilesDir() + "/f_yammim_2.html";
+		chaptersFiles[F_YAMMIM][3] = ""+getBaseContext().getFilesDir() + "/f_yammim_3.html";
+		chaptersFiles[F_YAMMIM][4] = ""+getBaseContext().getFilesDir() + "/f_yammim_4.html";
+		chaptersFiles[F_YAMMIM][5] = ""+getBaseContext().getFilesDir() + "/f_yammim_5.html";
+		chaptersFiles[F_YAMMIM][6] = ""+getBaseContext().getFilesDir() + "/f_yammim_6.html";
+		chaptersFiles[F_YAMMIM][7] = ""+getBaseContext().getFilesDir() + "/f_yammim_7.html";
+		chaptersFiles[F_YAMMIM][8] = ""+getBaseContext().getFilesDir() + "/f_yammim_8.html";
+		chaptersFiles[F_YAMMIM][9] = ""+getBaseContext().getFilesDir() + "/f_yammim_9.html";
+		chaptersFiles[F_YAMMIM][10]= ""+getBaseContext().getFilesDir() + "/f_yammim_10.html";
 		
 		/*S_SHABAT*/
-		chaptersFiles[S_SHABAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_tochen.html";
-		chaptersFiles[S_SHABAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_1.html";
-		chaptersFiles[S_SHABAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_2.html";
-		chaptersFiles[S_SHABAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_3.html";
-		chaptersFiles[S_SHABAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_4.html";
-		chaptersFiles[S_SHABAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_5.html";
-		chaptersFiles[S_SHABAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_6.html";
-		chaptersFiles[S_SHABAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_7.html";
-		chaptersFiles[S_SHABAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_8.html";
-		chaptersFiles[S_SHABAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_9.html";
-		chaptersFiles[S_SHABAT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_10.html";
-		chaptersFiles[S_SHABAT][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_11.html";
-		chaptersFiles[S_SHABAT][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_12.html";
-		chaptersFiles[S_SHABAT][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_13.html";
-		chaptersFiles[S_SHABAT][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_14.html";
-		chaptersFiles[S_SHABAT][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_15.html";
-		chaptersFiles[S_SHABAT][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_16.html";
-		chaptersFiles[S_SHABAT][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_17.html";
-		chaptersFiles[S_SHABAT][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_18.html";
-		chaptersFiles[S_SHABAT][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_19.html";
-		chaptersFiles[S_SHABAT][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_20.html";
-		chaptersFiles[S_SHABAT][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_21.html";
-		chaptersFiles[S_SHABAT][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_22.html";
-		chaptersFiles[S_SHABAT][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_23.html";
-		chaptersFiles[S_SHABAT][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_24.html";
-		chaptersFiles[S_SHABAT][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_25.html";
-		chaptersFiles[S_SHABAT][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_26.html";
-		chaptersFiles[S_SHABAT][27] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_27.html";
-		chaptersFiles[S_SHABAT][28] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_28.html";
-		chaptersFiles[S_SHABAT][29] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_29.html";
-		chaptersFiles[S_SHABAT][30] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_shabat_30.html";
+		chaptersFiles[S_SHABAT][0] = ""+getBaseContext().getFilesDir() + "/s_shabat_tochen.html";
+		chaptersFiles[S_SHABAT][1] = ""+getBaseContext().getFilesDir() + "/s_shabat_1.html";
+		chaptersFiles[S_SHABAT][2] = ""+getBaseContext().getFilesDir() + "/s_shabat_2.html";
+		chaptersFiles[S_SHABAT][3] = ""+getBaseContext().getFilesDir() + "/s_shabat_3.html";
+		chaptersFiles[S_SHABAT][4] = ""+getBaseContext().getFilesDir() + "/s_shabat_4.html";
+		chaptersFiles[S_SHABAT][5] = ""+getBaseContext().getFilesDir() + "/s_shabat_5.html";
+		chaptersFiles[S_SHABAT][6] = ""+getBaseContext().getFilesDir() + "/s_shabat_6.html";
+		chaptersFiles[S_SHABAT][7] = ""+getBaseContext().getFilesDir() + "/s_shabat_7.html";
+		chaptersFiles[S_SHABAT][8] = ""+getBaseContext().getFilesDir() + "/s_shabat_8.html";
+		chaptersFiles[S_SHABAT][9] = ""+getBaseContext().getFilesDir() + "/s_shabat_9.html";
+		chaptersFiles[S_SHABAT][10] = ""+getBaseContext().getFilesDir() + "/s_shabat_10.html";
+		chaptersFiles[S_SHABAT][11] = ""+getBaseContext().getFilesDir() + "/s_shabat_11.html";
+		chaptersFiles[S_SHABAT][12] = ""+getBaseContext().getFilesDir() + "/s_shabat_12.html";
+		chaptersFiles[S_SHABAT][13] = ""+getBaseContext().getFilesDir() + "/s_shabat_13.html";
+		chaptersFiles[S_SHABAT][14] = ""+getBaseContext().getFilesDir() + "/s_shabat_14.html";
+		chaptersFiles[S_SHABAT][15] = ""+getBaseContext().getFilesDir() + "/s_shabat_15.html";
+		chaptersFiles[S_SHABAT][16] = ""+getBaseContext().getFilesDir() + "/s_shabat_16.html";
+		chaptersFiles[S_SHABAT][17] = ""+getBaseContext().getFilesDir() + "/s_shabat_17.html";
+		chaptersFiles[S_SHABAT][18] = ""+getBaseContext().getFilesDir() + "/s_shabat_18.html";
+		chaptersFiles[S_SHABAT][19] = ""+getBaseContext().getFilesDir() + "/s_shabat_19.html";
+		chaptersFiles[S_SHABAT][20] = ""+getBaseContext().getFilesDir() + "/s_shabat_20.html";
+		chaptersFiles[S_SHABAT][21] = ""+getBaseContext().getFilesDir() + "/s_shabat_21.html";
+		chaptersFiles[S_SHABAT][22] = ""+getBaseContext().getFilesDir() + "/s_shabat_22.html";
+		chaptersFiles[S_SHABAT][23] = ""+getBaseContext().getFilesDir() + "/s_shabat_23.html";
+		chaptersFiles[S_SHABAT][24] = ""+getBaseContext().getFilesDir() + "/s_shabat_24.html";
+		chaptersFiles[S_SHABAT][25] = ""+getBaseContext().getFilesDir() + "/s_shabat_25.html";
+		chaptersFiles[S_SHABAT][26] = ""+getBaseContext().getFilesDir() + "/s_shabat_26.html";
+		chaptersFiles[S_SHABAT][27] = ""+getBaseContext().getFilesDir() + "/s_shabat_27.html";
+		chaptersFiles[S_SHABAT][28] = ""+getBaseContext().getFilesDir() + "/s_shabat_28.html";
+		chaptersFiles[S_SHABAT][29] = ""+getBaseContext().getFilesDir() + "/s_shabat_29.html";
+		chaptersFiles[S_SHABAT][30] = ""+getBaseContext().getFilesDir() + "/s_shabat_30.html";
 
 		/*S_BRACHOT*/
-		chaptersFiles[S_BRACHOT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_tochen.html";
-		chaptersFiles[S_BRACHOT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_1.html";
-		chaptersFiles[S_BRACHOT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_2.html";
-		chaptersFiles[S_BRACHOT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_3.html";
-		chaptersFiles[S_BRACHOT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_4.html";
-		chaptersFiles[S_BRACHOT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_5.html";
-		chaptersFiles[S_BRACHOT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_6.html";
-		chaptersFiles[S_BRACHOT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_7.html";
-		chaptersFiles[S_BRACHOT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_8.html";
-		chaptersFiles[S_BRACHOT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_9.html";
-		chaptersFiles[S_BRACHOT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_10.html";
-		chaptersFiles[S_BRACHOT][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_11.html";
-		chaptersFiles[S_BRACHOT][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_12.html";
-		chaptersFiles[S_BRACHOT][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_13.html";
-		chaptersFiles[S_BRACHOT][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_14.html";
-		chaptersFiles[S_BRACHOT][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_15.html";
-		chaptersFiles[S_BRACHOT][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_16.html";
-		chaptersFiles[S_BRACHOT][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_17.html";
-		chaptersFiles[S_BRACHOT][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_brachot_18.html";
+		chaptersFiles[S_BRACHOT][0] = ""+getBaseContext().getFilesDir() + "/s_brachot_tochen.html";
+		chaptersFiles[S_BRACHOT][1] = ""+getBaseContext().getFilesDir() + "/s_brachot_1.html";
+		chaptersFiles[S_BRACHOT][2] = ""+getBaseContext().getFilesDir() + "/s_brachot_2.html";
+		chaptersFiles[S_BRACHOT][3] = ""+getBaseContext().getFilesDir() + "/s_brachot_3.html";
+		chaptersFiles[S_BRACHOT][4] = ""+getBaseContext().getFilesDir() + "/s_brachot_4.html";
+		chaptersFiles[S_BRACHOT][5] = ""+getBaseContext().getFilesDir() + "/s_brachot_5.html";
+		chaptersFiles[S_BRACHOT][6] = ""+getBaseContext().getFilesDir() + "/s_brachot_6.html";
+		chaptersFiles[S_BRACHOT][7] = ""+getBaseContext().getFilesDir() + "/s_brachot_7.html";
+		chaptersFiles[S_BRACHOT][8] = ""+getBaseContext().getFilesDir() + "/s_brachot_8.html";
+		chaptersFiles[S_BRACHOT][9] = ""+getBaseContext().getFilesDir() + "/s_brachot_9.html";
+		chaptersFiles[S_BRACHOT][10] = ""+getBaseContext().getFilesDir() + "/s_brachot_10.html";
+		chaptersFiles[S_BRACHOT][11] = ""+getBaseContext().getFilesDir() + "/s_brachot_11.html";
+		chaptersFiles[S_BRACHOT][12] = ""+getBaseContext().getFilesDir() + "/s_brachot_12.html";
+		chaptersFiles[S_BRACHOT][13] = ""+getBaseContext().getFilesDir() + "/s_brachot_13.html";
+		chaptersFiles[S_BRACHOT][14] = ""+getBaseContext().getFilesDir() + "/s_brachot_14.html";
+		chaptersFiles[S_BRACHOT][15] = ""+getBaseContext().getFilesDir() + "/s_brachot_15.html";
+		chaptersFiles[S_BRACHOT][16] = ""+getBaseContext().getFilesDir() + "/s_brachot_16.html";
+		chaptersFiles[S_BRACHOT][17] = ""+getBaseContext().getFilesDir() + "/s_brachot_17.html";
+		chaptersFiles[S_BRACHOT][18] = ""+getBaseContext().getFilesDir() + "/s_brachot_18.html";
 
 		/*S_MOADIM*/
-		chaptersFiles[S_MOADIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_tochen.html";
-		chaptersFiles[S_MOADIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_1.html";
-		chaptersFiles[S_MOADIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_2.html";
-		chaptersFiles[S_MOADIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_3.html";
-		chaptersFiles[S_MOADIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_4.html";
-		chaptersFiles[S_MOADIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_5.html";
-		chaptersFiles[S_MOADIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_6.html";
-		chaptersFiles[S_MOADIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_7.html";
-		chaptersFiles[S_MOADIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_8.html";
-		chaptersFiles[S_MOADIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_9.html";
-		chaptersFiles[S_MOADIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_10.html";
-		chaptersFiles[S_MOADIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_11.html";
-		chaptersFiles[S_MOADIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_12.html";
-		chaptersFiles[S_MOADIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_moadim_13.html";
+		chaptersFiles[S_MOADIM][0] = ""+getBaseContext().getFilesDir() + "/s_moadim_tochen.html";
+		chaptersFiles[S_MOADIM][1] = ""+getBaseContext().getFilesDir() + "/s_moadim_1.html";
+		chaptersFiles[S_MOADIM][2] = ""+getBaseContext().getFilesDir() + "/s_moadim_2.html";
+		chaptersFiles[S_MOADIM][3] = ""+getBaseContext().getFilesDir() + "/s_moadim_3.html";
+		chaptersFiles[S_MOADIM][4] = ""+getBaseContext().getFilesDir() + "/s_moadim_4.html";
+		chaptersFiles[S_MOADIM][5] = ""+getBaseContext().getFilesDir() + "/s_moadim_5.html";
+		chaptersFiles[S_MOADIM][6] = ""+getBaseContext().getFilesDir() + "/s_moadim_6.html";
+		chaptersFiles[S_MOADIM][7] = ""+getBaseContext().getFilesDir() + "/s_moadim_7.html";
+		chaptersFiles[S_MOADIM][8] = ""+getBaseContext().getFilesDir() + "/s_moadim_8.html";
+		chaptersFiles[S_MOADIM][9] = ""+getBaseContext().getFilesDir() + "/s_moadim_9.html";
+		chaptersFiles[S_MOADIM][10] = ""+getBaseContext().getFilesDir() + "/s_moadim_10.html";
+		chaptersFiles[S_MOADIM][11] = ""+getBaseContext().getFilesDir() + "/s_moadim_11.html";
+		chaptersFiles[S_MOADIM][12] = ""+getBaseContext().getFilesDir() + "/s_moadim_12.html";
+		chaptersFiles[S_MOADIM][13] = ""+getBaseContext().getFilesDir() + "/s_moadim_13.html";
 		/*S_YAMIM*/
-		chaptersFiles[S_YAMIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_tochen.html";
-		chaptersFiles[S_YAMIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_1.html";
-		chaptersFiles[S_YAMIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_2.html";
-		chaptersFiles[S_YAMIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_3.html";
-		chaptersFiles[S_YAMIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_4.html";
-		chaptersFiles[S_YAMIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_5.html";
-		chaptersFiles[S_YAMIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_6.html";
-		chaptersFiles[S_YAMIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_7.html";
-		chaptersFiles[S_YAMIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_8.html";
-		chaptersFiles[S_YAMIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_9.html";
-		chaptersFiles[S_YAMIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_yamim_10.html";
+		chaptersFiles[S_YAMIM][0] = ""+getBaseContext().getFilesDir() + "/s_yamim_tochen.html";
+		chaptersFiles[S_YAMIM][1] = ""+getBaseContext().getFilesDir() + "/s_yamim_1.html";
+		chaptersFiles[S_YAMIM][2] = ""+getBaseContext().getFilesDir() + "/s_yamim_2.html";
+		chaptersFiles[S_YAMIM][3] = ""+getBaseContext().getFilesDir() + "/s_yamim_3.html";
+		chaptersFiles[S_YAMIM][4] = ""+getBaseContext().getFilesDir() + "/s_yamim_4.html";
+		chaptersFiles[S_YAMIM][5] = ""+getBaseContext().getFilesDir() + "/s_yamim_5.html";
+		chaptersFiles[S_YAMIM][6] = ""+getBaseContext().getFilesDir() + "/s_yamim_6.html";
+		chaptersFiles[S_YAMIM][7] = ""+getBaseContext().getFilesDir() + "/s_yamim_7.html";
+		chaptersFiles[S_YAMIM][8] = ""+getBaseContext().getFilesDir() + "/s_yamim_8.html";
+		chaptersFiles[S_YAMIM][9] = ""+getBaseContext().getFilesDir() + "/s_yamim_9.html";
+		chaptersFiles[S_YAMIM][10] = ""+getBaseContext().getFilesDir() + "/s_yamim_10.html";
 		/*S_PESACH*/
-		chaptersFiles[S_PESACH][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_tochen.html";
-		chaptersFiles[S_PESACH][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_1.html";
-		chaptersFiles[S_PESACH][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_2.html";
-		chaptersFiles[S_PESACH][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_3.html";
-		chaptersFiles[S_PESACH][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_4.html";
-		chaptersFiles[S_PESACH][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_5.html";
-		chaptersFiles[S_PESACH][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_6.html";
-		chaptersFiles[S_PESACH][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_7.html";
-		chaptersFiles[S_PESACH][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_8.html";
-		chaptersFiles[S_PESACH][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_9.html";
-		chaptersFiles[S_PESACH][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_10.html";
-		chaptersFiles[S_PESACH][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_11.html";
-		chaptersFiles[S_PESACH][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_12.html";
-		chaptersFiles[S_PESACH][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_13.html";
-		chaptersFiles[S_PESACH][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_14.html";
-		chaptersFiles[S_PESACH][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_15.html";
-		chaptersFiles[S_PESACH][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_pesach_16.html";
+		chaptersFiles[S_PESACH][0] = ""+getBaseContext().getFilesDir() + "/s_pesach_tochen.html";
+		chaptersFiles[S_PESACH][1] = ""+getBaseContext().getFilesDir() + "/s_pesach_1.html";
+		chaptersFiles[S_PESACH][2] = ""+getBaseContext().getFilesDir() + "/s_pesach_2.html";
+		chaptersFiles[S_PESACH][3] = ""+getBaseContext().getFilesDir() + "/s_pesach_3.html";
+		chaptersFiles[S_PESACH][4] = ""+getBaseContext().getFilesDir() + "/s_pesach_4.html";
+		chaptersFiles[S_PESACH][5] = ""+getBaseContext().getFilesDir() + "/s_pesach_5.html";
+		chaptersFiles[S_PESACH][6] = ""+getBaseContext().getFilesDir() + "/s_pesach_6.html";
+		chaptersFiles[S_PESACH][7] = ""+getBaseContext().getFilesDir() + "/s_pesach_7.html";
+		chaptersFiles[S_PESACH][8] = ""+getBaseContext().getFilesDir() + "/s_pesach_8.html";
+		chaptersFiles[S_PESACH][9] = ""+getBaseContext().getFilesDir() + "/s_pesach_9.html";
+		chaptersFiles[S_PESACH][10] = ""+getBaseContext().getFilesDir() + "/s_pesach_10.html";
+		chaptersFiles[S_PESACH][11] = ""+getBaseContext().getFilesDir() + "/s_pesach_11.html";
+		chaptersFiles[S_PESACH][11] = "file:///android_asset/s_pesach_11.html";
+		chaptersFiles[S_PESACH][12] = ""+getBaseContext().getFilesDir() + "/s_pesach_12.html";
+		chaptersFiles[S_PESACH][13] = ""+getBaseContext().getFilesDir() + "/s_pesach_13.html";
+		chaptersFiles[S_PESACH][14] = ""+getBaseContext().getFilesDir() + "/s_pesach_14.html";
+		chaptersFiles[S_PESACH][15] = ""+getBaseContext().getFilesDir() + "/s_pesach_15.html";
+		chaptersFiles[S_PESACH][16] = ""+getBaseContext().getFilesDir() + "/s_pesach_16.html";
 		/*S_simchat*/
-		chaptersFiles[S_SIMCHAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_tochen.html";
-		chaptersFiles[S_SIMCHAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_1.html";
-		chaptersFiles[S_SIMCHAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_2.html";
-		chaptersFiles[S_SIMCHAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_3.html";
-		chaptersFiles[S_SIMCHAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_4.html";
-		chaptersFiles[S_SIMCHAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_5.html";
-		chaptersFiles[S_SIMCHAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_6.html";
-		chaptersFiles[S_SIMCHAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_7.html";
-		chaptersFiles[S_SIMCHAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_8.html";
-		chaptersFiles[S_SIMCHAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_9.html";
-		chaptersFiles[S_SIMCHAT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_simchat_10.html";
+		chaptersFiles[S_SIMCHAT][0] = ""+getBaseContext().getFilesDir() + "/s_simchat_tochen.html";
+		chaptersFiles[S_SIMCHAT][1] = ""+getBaseContext().getFilesDir() + "/s_simchat_1.html";
+		chaptersFiles[S_SIMCHAT][2] = ""+getBaseContext().getFilesDir() + "/s_simchat_2.html";
+		chaptersFiles[S_SIMCHAT][3] = ""+getBaseContext().getFilesDir() + "/s_simchat_3.html";
+		chaptersFiles[S_SIMCHAT][4] = ""+getBaseContext().getFilesDir() + "/s_simchat_4.html";
+		chaptersFiles[S_SIMCHAT][5] = ""+getBaseContext().getFilesDir() + "/s_simchat_5.html";
+		chaptersFiles[S_SIMCHAT][6] = ""+getBaseContext().getFilesDir() + "/s_simchat_6.html";
+		chaptersFiles[S_SIMCHAT][7] = ""+getBaseContext().getFilesDir() + "/s_simchat_7.html";
+		chaptersFiles[S_SIMCHAT][8] = ""+getBaseContext().getFilesDir() + "/s_simchat_8.html";
+		chaptersFiles[S_SIMCHAT][9] = ""+getBaseContext().getFilesDir() + "/s_simchat_9.html";
+		chaptersFiles[S_SIMCHAT][10] = ""+getBaseContext().getFilesDir() + "/s_simchat_10.html";
 		/*S_TFILA*/
-		chaptersFiles[S_TFILA][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_tochen.html";
-		chaptersFiles[S_TFILA][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_1.html";
-		chaptersFiles[S_TFILA][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_2.html";
-		chaptersFiles[S_TFILA][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_3.html";
-		chaptersFiles[S_TFILA][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_4.html";
-		chaptersFiles[S_TFILA][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_5.html";
-		chaptersFiles[S_TFILA][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_6.html";
-		chaptersFiles[S_TFILA][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_7.html";
-		chaptersFiles[S_TFILA][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_8.html";
-		chaptersFiles[S_TFILA][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_9.html";
-		chaptersFiles[S_TFILA][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_10.html";
-		chaptersFiles[S_TFILA][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_11.html";
-		chaptersFiles[S_TFILA][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_12.html";
-		chaptersFiles[S_TFILA][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_13.html";
-		chaptersFiles[S_TFILA][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_14.html";
-		chaptersFiles[S_TFILA][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_15.html";
-		chaptersFiles[S_TFILA][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_16.html";
-		chaptersFiles[S_TFILA][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_17.html";
-		chaptersFiles[S_TFILA][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_18.html";
-		chaptersFiles[S_TFILA][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_19.html";
-		chaptersFiles[S_TFILA][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_20.html";
-		chaptersFiles[S_TFILA][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_21.html";
-		chaptersFiles[S_TFILA][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_22.html";
-		chaptersFiles[S_TFILA][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_23.html";
-		chaptersFiles[S_TFILA][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_24.html";
-		chaptersFiles[S_TFILA][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_25.html";
-		chaptersFiles[S_TFILA][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_26.html";
+		chaptersFiles[S_TFILA][0] = ""+getBaseContext().getFilesDir() + "/s_tfila_tochen.html";
+		chaptersFiles[S_TFILA][1] = ""+getBaseContext().getFilesDir() + "/s_tfila_1.html";
+		chaptersFiles[S_TFILA][2] = ""+getBaseContext().getFilesDir() + "/s_tfila_2.html";
+		chaptersFiles[S_TFILA][3] = ""+getBaseContext().getFilesDir() + "/s_tfila_3.html";
+		chaptersFiles[S_TFILA][4] = ""+getBaseContext().getFilesDir() + "/s_tfila_4.html";
+		chaptersFiles[S_TFILA][5] = ""+getBaseContext().getFilesDir() + "/s_tfila_5.html";
+		chaptersFiles[S_TFILA][6] = ""+getBaseContext().getFilesDir() + "/s_tfila_6.html";
+		chaptersFiles[S_TFILA][7] = ""+getBaseContext().getFilesDir() + "/s_tfila_7.html";
+		chaptersFiles[S_TFILA][8] = ""+getBaseContext().getFilesDir() + "/s_tfila_8.html";
+		chaptersFiles[S_TFILA][9] = ""+getBaseContext().getFilesDir() + "/s_tfila_9.html";
+		chaptersFiles[S_TFILA][10] = ""+getBaseContext().getFilesDir() + "/s_tfila_10.html";
+		chaptersFiles[S_TFILA][11] = ""+getBaseContext().getFilesDir() + "/s_tfila_11.html";
+		chaptersFiles[S_TFILA][12] = ""+getBaseContext().getFilesDir() + "/s_tfila_12.html";
+		chaptersFiles[S_TFILA][13] = ""+getBaseContext().getFilesDir() + "/s_tfila_13.html";
+		chaptersFiles[S_TFILA][14] = ""+getBaseContext().getFilesDir() + "/s_tfila_14.html";
+		chaptersFiles[S_TFILA][15] = ""+getBaseContext().getFilesDir() + "/s_tfila_15.html";
+		chaptersFiles[S_TFILA][16] = ""+getBaseContext().getFilesDir() + "/s_tfila_16.html";
+		chaptersFiles[S_TFILA][17] = ""+getBaseContext().getFilesDir() + "/s_tfila_17.html";
+		chaptersFiles[S_TFILA][18] = ""+getBaseContext().getFilesDir() + "/s_tfila_18.html";
+		chaptersFiles[S_TFILA][19] = ""+getBaseContext().getFilesDir() + "/s_tfila_19.html";
+		chaptersFiles[S_TFILA][20] = ""+getBaseContext().getFilesDir() + "/s_tfila_20.html";
+		chaptersFiles[S_TFILA][21] = ""+getBaseContext().getFilesDir() + "/s_tfila_21.html";
+		chaptersFiles[S_TFILA][22] = ""+getBaseContext().getFilesDir() + "/s_tfila_22.html";
+		chaptersFiles[S_TFILA][23] = ""+getBaseContext().getFilesDir() + "/s_tfila_23.html";
+		chaptersFiles[S_TFILA][24] = ""+getBaseContext().getFilesDir() + "/s_tfila_24.html";
+		chaptersFiles[S_TFILA][25] = ""+getBaseContext().getFilesDir() + "/s_tfila_25.html";
+		chaptersFiles[S_TFILA][26] = ""+getBaseContext().getFilesDir() + "/s_tfila_26.html";
 		/*S_TFILAT_NASHIM*/
-		chaptersFiles[S_TFILAT_NASHIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_tochen.html";
-		chaptersFiles[S_TFILAT_NASHIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_1.html";
-		chaptersFiles[S_TFILAT_NASHIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_2.html";
-		chaptersFiles[S_TFILAT_NASHIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_3.html";
-		chaptersFiles[S_TFILAT_NASHIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_4.html";
-		chaptersFiles[S_TFILAT_NASHIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_5.html";
-		chaptersFiles[S_TFILAT_NASHIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_6.html";
-		chaptersFiles[S_TFILAT_NASHIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_7.html";
-		chaptersFiles[S_TFILAT_NASHIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_8.html";
-		chaptersFiles[S_TFILAT_NASHIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_9.html";
-		chaptersFiles[S_TFILAT_NASHIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_10.html";
-		chaptersFiles[S_TFILAT_NASHIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_11.html";
-		chaptersFiles[S_TFILAT_NASHIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_12.html";
-		chaptersFiles[S_TFILAT_NASHIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_13.html";
-		chaptersFiles[S_TFILAT_NASHIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_14.html";
-		chaptersFiles[S_TFILAT_NASHIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_15.html";
-		chaptersFiles[S_TFILAT_NASHIM][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_16.html";
-		chaptersFiles[S_TFILAT_NASHIM][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_17.html";
-		chaptersFiles[S_TFILAT_NASHIM][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_18.html";
-		chaptersFiles[S_TFILAT_NASHIM][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_19.html";
-		chaptersFiles[S_TFILAT_NASHIM][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_20.html";
-		chaptersFiles[S_TFILAT_NASHIM][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_21.html";
-		chaptersFiles[S_TFILAT_NASHIM][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfilat_nashim_22.html";
-		chaptersFiles[S_TFILAT_NASHIM][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_t_nashim23.html";
-		chaptersFiles[S_TFILAT_NASHIM][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_tfila_t_nashim24.html";
+		chaptersFiles[S_TFILAT_NASHIM][0] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_tochen.html";
+		chaptersFiles[S_TFILAT_NASHIM][1] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_1.html";
+		chaptersFiles[S_TFILAT_NASHIM][2] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_2.html";
+		chaptersFiles[S_TFILAT_NASHIM][3] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_3.html";
+		chaptersFiles[S_TFILAT_NASHIM][4] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_4.html";
+		chaptersFiles[S_TFILAT_NASHIM][5] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_5.html";
+		chaptersFiles[S_TFILAT_NASHIM][6] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_6.html";
+		chaptersFiles[S_TFILAT_NASHIM][7] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_7.html";
+		chaptersFiles[S_TFILAT_NASHIM][8] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_8.html";
+		chaptersFiles[S_TFILAT_NASHIM][9] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_9.html";
+		chaptersFiles[S_TFILAT_NASHIM][10] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_10.html";
+		chaptersFiles[S_TFILAT_NASHIM][11] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_11.html";
+		chaptersFiles[S_TFILAT_NASHIM][12] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_12.html";
+		chaptersFiles[S_TFILAT_NASHIM][13] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_13.html";
+		chaptersFiles[S_TFILAT_NASHIM][14] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_14.html";
+		chaptersFiles[S_TFILAT_NASHIM][15] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_15.html";
+		chaptersFiles[S_TFILAT_NASHIM][16] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_16.html";
+		chaptersFiles[S_TFILAT_NASHIM][17] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_17.html";
+		chaptersFiles[S_TFILAT_NASHIM][18] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_18.html";
+		chaptersFiles[S_TFILAT_NASHIM][19] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_19.html";
+		chaptersFiles[S_TFILAT_NASHIM][20] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_20.html";
+		chaptersFiles[S_TFILAT_NASHIM][21] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_21.html";
+		chaptersFiles[S_TFILAT_NASHIM][22] = ""+getBaseContext().getFilesDir() + "/s_tfilat_nashim_22.html";
+		chaptersFiles[S_TFILAT_NASHIM][23] = ""+getBaseContext().getFilesDir() + "/s_tfila_t_nashim23.html";
+		chaptersFiles[S_TFILAT_NASHIM][24] = ""+getBaseContext().getFilesDir() + "/s_tfila_t_nashim24.html";
 		/*S_ZMANIM*/
-		chaptersFiles[S_ZMANIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_tochen.html";
-		chaptersFiles[S_ZMANIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_1.html";
-		chaptersFiles[S_ZMANIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_2.html";
-		chaptersFiles[S_ZMANIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_3.html";
-		chaptersFiles[S_ZMANIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_4.html";
-		chaptersFiles[S_ZMANIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_5.html";
-		chaptersFiles[S_ZMANIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_6.html";
-		chaptersFiles[S_ZMANIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_7.html";
-		chaptersFiles[S_ZMANIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_8.html";
-		chaptersFiles[S_ZMANIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_9.html";
-		chaptersFiles[S_ZMANIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_10.html";
-		chaptersFiles[S_ZMANIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_11.html";
-		chaptersFiles[S_ZMANIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_12.html";
-		chaptersFiles[S_ZMANIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_13.html";
-		chaptersFiles[S_ZMANIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_14.html";
-		chaptersFiles[S_ZMANIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_15.html";
-		chaptersFiles[S_ZMANIM][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_16.html";
-		chaptersFiles[S_ZMANIM][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/SpanishBooks/s_zmanim_17.html";
+		chaptersFiles[S_ZMANIM][0] = ""+getBaseContext().getFilesDir() + "/s_zmanim_tochen.html";
+		chaptersFiles[S_ZMANIM][1] = ""+getBaseContext().getFilesDir() + "/s_zmanim_1.html";
+		chaptersFiles[S_ZMANIM][2] = ""+getBaseContext().getFilesDir() + "/s_zmanim_2.html";
+		chaptersFiles[S_ZMANIM][3] = ""+getBaseContext().getFilesDir() + "/s_zmanim_3.html";
+		chaptersFiles[S_ZMANIM][4] = ""+getBaseContext().getFilesDir() + "/s_zmanim_4.html";
+		chaptersFiles[S_ZMANIM][5] = ""+getBaseContext().getFilesDir() + "/s_zmanim_5.html";
+		chaptersFiles[S_ZMANIM][6] = ""+getBaseContext().getFilesDir() + "/s_zmanim_6.html";
+		chaptersFiles[S_ZMANIM][7] = ""+getBaseContext().getFilesDir() + "/s_zmanim_7.html";
+		chaptersFiles[S_ZMANIM][8] = ""+getBaseContext().getFilesDir() + "/s_zmanim_8.html";
+		chaptersFiles[S_ZMANIM][9] = ""+getBaseContext().getFilesDir() + "/s_zmanim_9.html";
+		chaptersFiles[S_ZMANIM][10] = ""+getBaseContext().getFilesDir() + "/s_zmanim_10.html";
+		chaptersFiles[S_ZMANIM][11] = ""+getBaseContext().getFilesDir() + "/s_zmanim_11.html";
+		chaptersFiles[S_ZMANIM][12] = ""+getBaseContext().getFilesDir() + "/s_zmanim_12.html";
+		chaptersFiles[S_ZMANIM][13] = ""+getBaseContext().getFilesDir() + "/s_zmanim_13.html";
+		chaptersFiles[S_ZMANIM][14] = ""+getBaseContext().getFilesDir() + "/s_zmanim_14.html";
+		chaptersFiles[S_ZMANIM][15] = ""+getBaseContext().getFilesDir() + "/s_zmanim_15.html";
+		chaptersFiles[S_ZMANIM][16] = ""+getBaseContext().getFilesDir() + "/s_zmanim_16.html";
+		chaptersFiles[S_ZMANIM][17] = ""+getBaseContext().getFilesDir() + "/s_zmanim_17.html";
 			
 		/*r_HAAM*/
-		chaptersFiles[R_HAAM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_tochen.html";
-		chaptersFiles[R_HAAM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_1.html";
-		chaptersFiles[R_HAAM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_2.html";
-		chaptersFiles[R_HAAM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_3.html";
-		chaptersFiles[R_HAAM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_4.html";
-		chaptersFiles[R_HAAM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_5.html";
-		chaptersFiles[R_HAAM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_6.html";
-		chaptersFiles[R_HAAM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_7.html";
-		chaptersFiles[R_HAAM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_8.html";
-		chaptersFiles[R_HAAM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_9.html";
-		chaptersFiles[R_HAAM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_haamvehaarez_10.html";
+		chaptersFiles[R_HAAM][0] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_tochen.html";
+		chaptersFiles[R_HAAM][1] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_1.html";
+		chaptersFiles[R_HAAM][2] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_2.html";
+		chaptersFiles[R_HAAM][3] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_3.html";
+		chaptersFiles[R_HAAM][4] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_4.html";
+		chaptersFiles[R_HAAM][5] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_5.html";
+		chaptersFiles[R_HAAM][6] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_6.html";
+		chaptersFiles[R_HAAM][7] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_7.html";
+		chaptersFiles[R_HAAM][8] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_8.html";
+		chaptersFiles[R_HAAM][9] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_9.html";
+		chaptersFiles[R_HAAM][10] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_10.html";
 
 		/*R_SHABAT*/
-		chaptersFiles[R_SHABBAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_tochen.html";
-		chaptersFiles[R_SHABBAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_1.html";
-		chaptersFiles[R_SHABBAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_2.html";
-		chaptersFiles[R_SHABBAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_3.html";
-		chaptersFiles[R_SHABBAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_4.html";
-		chaptersFiles[R_SHABBAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_5.html";
-		chaptersFiles[R_SHABBAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_6.html";
-		chaptersFiles[R_SHABBAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_7.html";
-		chaptersFiles[R_SHABBAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_8.html";
-		chaptersFiles[R_SHABBAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_9.html";
-		chaptersFiles[R_SHABBAT][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_10.html";
-		chaptersFiles[R_SHABBAT][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_11.html";
-		chaptersFiles[R_SHABBAT][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_12.html";
-		chaptersFiles[R_SHABBAT][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_13.html";
-		chaptersFiles[R_SHABBAT][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_14.html";
-		chaptersFiles[R_SHABBAT][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_15.html";
-		chaptersFiles[R_SHABBAT][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_16.html";
-		chaptersFiles[R_SHABBAT][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_17.html";
-		chaptersFiles[R_SHABBAT][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_18.html";
-		chaptersFiles[R_SHABBAT][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_19.html";
-		chaptersFiles[R_SHABBAT][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_20.html";
-		chaptersFiles[R_SHABBAT][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_21.html";
-		chaptersFiles[R_SHABBAT][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_22.html";
-		chaptersFiles[R_SHABBAT][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_23.html";
-		chaptersFiles[R_SHABBAT][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_24.html";
-		chaptersFiles[R_SHABBAT][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_25.html";
-		chaptersFiles[R_SHABBAT][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_26.html";
-		chaptersFiles[R_SHABBAT][27] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_27.html";
-		chaptersFiles[R_SHABBAT][28] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_28.html";
-		chaptersFiles[R_SHABBAT][29] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_29.html";
-		chaptersFiles[R_SHABBAT][30] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_shabbat_30.html";
+		chaptersFiles[R_SHABBAT][0] = ""+getBaseContext().getFilesDir() + "/r_shabbat_tochen.html";
+		chaptersFiles[R_SHABBAT][1] = ""+getBaseContext().getFilesDir() + "/r_shabbat_1.html";
+		chaptersFiles[R_SHABBAT][2] = ""+getBaseContext().getFilesDir() + "/r_shabbat_2.html";
+		chaptersFiles[R_SHABBAT][3] = ""+getBaseContext().getFilesDir() + "/r_shabbat_3.html";
+		chaptersFiles[R_SHABBAT][4] = ""+getBaseContext().getFilesDir() + "/r_shabbat_4.html";
+		chaptersFiles[R_SHABBAT][5] = ""+getBaseContext().getFilesDir() + "/r_shabbat_5.html";
+		chaptersFiles[R_SHABBAT][6] = ""+getBaseContext().getFilesDir() + "/r_shabbat_6.html";
+		chaptersFiles[R_SHABBAT][7] = ""+getBaseContext().getFilesDir() + "/r_shabbat_7.html";
+		chaptersFiles[R_SHABBAT][8] = ""+getBaseContext().getFilesDir() + "/r_shabbat_8.html";
+		chaptersFiles[R_SHABBAT][9] = ""+getBaseContext().getFilesDir() + "/r_shabbat_9.html";
+		chaptersFiles[R_SHABBAT][10] = ""+getBaseContext().getFilesDir() + "/r_shabbat_10.html";
+		chaptersFiles[R_SHABBAT][11] = ""+getBaseContext().getFilesDir() + "/r_shabbat_11.html";
+		chaptersFiles[R_SHABBAT][12] = ""+getBaseContext().getFilesDir() + "/r_shabbat_12.html";
+		chaptersFiles[R_SHABBAT][13] = ""+getBaseContext().getFilesDir() + "/r_shabbat_13.html";
+		chaptersFiles[R_SHABBAT][14] = ""+getBaseContext().getFilesDir() + "/r_shabbat_14.html";
+		chaptersFiles[R_SHABBAT][15] = ""+getBaseContext().getFilesDir() + "/r_shabbat_15.html";
+		chaptersFiles[R_SHABBAT][16] = ""+getBaseContext().getFilesDir() + "/r_shabbat_16.html";
+		chaptersFiles[R_SHABBAT][17] = ""+getBaseContext().getFilesDir() + "/r_shabbat_17.html";
+		chaptersFiles[R_SHABBAT][18] = ""+getBaseContext().getFilesDir() + "/r_shabbat_18.html";
+		chaptersFiles[R_SHABBAT][19] = ""+getBaseContext().getFilesDir() + "/r_shabbat_19.html";
+		chaptersFiles[R_SHABBAT][20] = ""+getBaseContext().getFilesDir() + "/r_shabbat_20.html";
+		chaptersFiles[R_SHABBAT][21] = ""+getBaseContext().getFilesDir() + "/r_shabbat_21.html";
+		chaptersFiles[R_SHABBAT][22] = ""+getBaseContext().getFilesDir() + "/r_shabbat_22.html";
+		chaptersFiles[R_SHABBAT][23] = ""+getBaseContext().getFilesDir() + "/r_shabbat_23.html";
+		chaptersFiles[R_SHABBAT][24] = ""+getBaseContext().getFilesDir() + "/r_shabbat_24.html";
+		chaptersFiles[R_SHABBAT][25] = ""+getBaseContext().getFilesDir() + "/r_shabbat_25.html";
+		chaptersFiles[R_SHABBAT][26] = ""+getBaseContext().getFilesDir() + "/r_shabbat_26.html";
+		chaptersFiles[R_SHABBAT][27] = ""+getBaseContext().getFilesDir() + "/r_shabbat_27.html";
+		chaptersFiles[R_SHABBAT][28] = ""+getBaseContext().getFilesDir() + "/r_shabbat_28.html";
+		chaptersFiles[R_SHABBAT][29] = ""+getBaseContext().getFilesDir() + "/r_shabbat_29.html";
+		chaptersFiles[R_SHABBAT][30] = ""+getBaseContext().getFilesDir() + "/r_shabbat_30.html";
 
 		/*r_YAMIM*/
-		chaptersFiles[R_YAMMIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_tochen.html";
-		chaptersFiles[R_YAMMIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_1.html";
-		chaptersFiles[R_YAMMIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_2.html";
-		chaptersFiles[R_YAMMIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_3.html";
-		chaptersFiles[R_YAMMIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_4.html";
-		chaptersFiles[R_YAMMIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_5.html";
-		chaptersFiles[R_YAMMIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_6.html";
-		chaptersFiles[R_YAMMIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_7.html";
-		chaptersFiles[R_YAMMIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_8.html";
-		chaptersFiles[R_YAMMIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_9.html";
-		chaptersFiles[R_YAMMIM][10]= "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_yammim_10.html";
+		chaptersFiles[R_YAMMIM][0] = ""+getBaseContext().getFilesDir() + "/r_yammim_tochen.html";
+		chaptersFiles[R_YAMMIM][1] = ""+getBaseContext().getFilesDir() + "/r_yammim_1.html";
+		chaptersFiles[R_YAMMIM][2] = ""+getBaseContext().getFilesDir() + "/r_yammim_2.html";
+		chaptersFiles[R_YAMMIM][3] = ""+getBaseContext().getFilesDir() + "/r_yammim_3.html";
+		chaptersFiles[R_YAMMIM][4] = ""+getBaseContext().getFilesDir() + "/r_yammim_4.html";
+		chaptersFiles[R_YAMMIM][5] = ""+getBaseContext().getFilesDir() + "/r_yammim_5.html";
+		chaptersFiles[R_YAMMIM][6] = ""+getBaseContext().getFilesDir() + "/r_yammim_6.html";
+		chaptersFiles[R_YAMMIM][7] = ""+getBaseContext().getFilesDir() + "/r_yammim_7.html";
+		chaptersFiles[R_YAMMIM][8] = ""+getBaseContext().getFilesDir() + "/r_yammim_8.html";
+		chaptersFiles[R_YAMMIM][9] = ""+getBaseContext().getFilesDir() + "/r_yammim_9.html";
+		chaptersFiles[R_YAMMIM][10]= ""+getBaseContext().getFilesDir() + "/r_yammim_10.html";
 
 		/*r_SUCOT*/
-		chaptersFiles[R_SUCOT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_tochen.html";
-		chaptersFiles[R_SUCOT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_1.html";
-		chaptersFiles[R_SUCOT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_2.html";
-		chaptersFiles[R_SUCOT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_3.html";
-		chaptersFiles[R_SUCOT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_4.html";
-		chaptersFiles[R_SUCOT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_5.html";
-		chaptersFiles[R_SUCOT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_6.html";
-		chaptersFiles[R_SUCOT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_7.html";
-		chaptersFiles[R_SUCOT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_sucot_8.html";
+		chaptersFiles[R_SUCOT][0] = ""+getBaseContext().getFilesDir() + "/r_sucot_tochen.html";
+		chaptersFiles[R_SUCOT][1] = ""+getBaseContext().getFilesDir() + "/r_sucot_1.html";
+		chaptersFiles[R_SUCOT][2] = ""+getBaseContext().getFilesDir() + "/r_sucot_2.html";
+		chaptersFiles[R_SUCOT][3] = ""+getBaseContext().getFilesDir() + "/r_sucot_3.html";
+		chaptersFiles[R_SUCOT][4] = ""+getBaseContext().getFilesDir() + "/r_sucot_4.html";
+		chaptersFiles[R_SUCOT][5] = ""+getBaseContext().getFilesDir() + "/r_sucot_5.html";
+		chaptersFiles[R_SUCOT][6] = ""+getBaseContext().getFilesDir() + "/r_sucot_6.html";
+		chaptersFiles[R_SUCOT][7] = ""+getBaseContext().getFilesDir() + "/r_sucot_7.html";
+		chaptersFiles[R_SUCOT][8] = ""+getBaseContext().getFilesDir() + "/r_sucot_8.html";
 
 		/*r_SIMCHAT*/
-		chaptersFiles[R_SIMCHAT][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_tochen.html";
-		chaptersFiles[R_SIMCHAT][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_1.html";
-		chaptersFiles[R_SIMCHAT][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_2.html";
-		chaptersFiles[R_SIMCHAT][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_3.html";
-		chaptersFiles[R_SIMCHAT][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_4.html";
-		chaptersFiles[R_SIMCHAT][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_5.html";
-		chaptersFiles[R_SIMCHAT][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_6.html";
-		chaptersFiles[R_SIMCHAT][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_7.html";
-		chaptersFiles[R_SIMCHAT][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_8.html";
-		chaptersFiles[R_SIMCHAT][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_9.html";
-		chaptersFiles[R_SIMCHAT][10] ="file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_simchat_10.html";
+		chaptersFiles[R_SIMCHAT][0] = ""+getBaseContext().getFilesDir() + "/r_simchat_tochen.html";
+		chaptersFiles[R_SIMCHAT][1] = ""+getBaseContext().getFilesDir() + "/r_simchat_1.html";
+		chaptersFiles[R_SIMCHAT][2] = ""+getBaseContext().getFilesDir() + "/r_simchat_2.html";
+		chaptersFiles[R_SIMCHAT][3] = ""+getBaseContext().getFilesDir() + "/r_simchat_3.html";
+		chaptersFiles[R_SIMCHAT][4] = ""+getBaseContext().getFilesDir() + "/r_simchat_4.html";
+		chaptersFiles[R_SIMCHAT][5] = ""+getBaseContext().getFilesDir() + "/r_simchat_5.html";
+		chaptersFiles[R_SIMCHAT][6] = ""+getBaseContext().getFilesDir() + "/r_simchat_6.html";
+		chaptersFiles[R_SIMCHAT][7] = ""+getBaseContext().getFilesDir() + "/r_simchat_7.html";
+		chaptersFiles[R_SIMCHAT][8] = ""+getBaseContext().getFilesDir() + "/r_simchat_8.html";
+		chaptersFiles[R_SIMCHAT][9] = ""+getBaseContext().getFilesDir() + "/r_simchat_9.html";
+		chaptersFiles[R_SIMCHAT][10] =""+getBaseContext().getFilesDir() + "/r_simchat_10.html";
 
 		/*r_MISHPACHA*/
-		chaptersFiles[R_MISHPHACHA][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_tochen.html";
-		chaptersFiles[R_MISHPHACHA][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_1.html";
-		chaptersFiles[R_MISHPHACHA][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_2.html";
-		chaptersFiles[R_MISHPHACHA][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_3.html";
-		chaptersFiles[R_MISHPHACHA][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_4.html";
-		chaptersFiles[R_MISHPHACHA][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_5.html";
-		chaptersFiles[R_MISHPHACHA][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_6.html";
-		chaptersFiles[R_MISHPHACHA][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_7.html";
-		chaptersFiles[R_MISHPHACHA][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_8.html";
-		chaptersFiles[R_MISHPHACHA][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_9.html";
-		chaptersFiles[R_MISHPHACHA][10] ="file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_misphacha_10.html";
+		chaptersFiles[R_MISHPHACHA][0] = ""+getBaseContext().getFilesDir() + "/r_misphacha_tochen.html";
+		chaptersFiles[R_MISHPHACHA][1] = ""+getBaseContext().getFilesDir() + "/r_misphacha_1.html";
+		chaptersFiles[R_MISHPHACHA][2] = ""+getBaseContext().getFilesDir() + "/r_misphacha_2.html";
+		chaptersFiles[R_MISHPHACHA][3] = ""+getBaseContext().getFilesDir() + "/r_misphacha_3.html";
+		chaptersFiles[R_MISHPHACHA][4] = ""+getBaseContext().getFilesDir() + "/r_misphacha_4.html";
+		chaptersFiles[R_MISHPHACHA][5] = ""+getBaseContext().getFilesDir() + "/r_misphacha_5.html";
+		chaptersFiles[R_MISHPHACHA][6] = ""+getBaseContext().getFilesDir() + "/r_misphacha_6.html";
+		chaptersFiles[R_MISHPHACHA][7] = ""+getBaseContext().getFilesDir() + "/r_misphacha_7.html";
+		chaptersFiles[R_MISHPHACHA][8] = ""+getBaseContext().getFilesDir() + "/r_misphacha_8.html";
+		chaptersFiles[R_MISHPHACHA][9] = ""+getBaseContext().getFilesDir() + "/r_misphacha_9.html";
+		chaptersFiles[R_MISHPHACHA][10] =""+getBaseContext().getFilesDir() + "/r_misphacha_10.html";
 
 		/*R_pesach*/
-		chaptersFiles[R_PESACH][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_tochen.html";
-		chaptersFiles[R_PESACH][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_1.html";
-		chaptersFiles[R_PESACH][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_2.html";
-		chaptersFiles[R_PESACH][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_3.html";
-		chaptersFiles[R_PESACH][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach.html";
-		chaptersFiles[R_PESACH][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_5.html";
-		chaptersFiles[R_PESACH][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_6.html";
-		chaptersFiles[R_PESACH][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_7.html";
-		chaptersFiles[R_PESACH][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_8.html";
-		chaptersFiles[R_PESACH][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_9.html";
-		chaptersFiles[R_PESACH][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_10.html";
-		chaptersFiles[R_PESACH][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_11.html";
-		chaptersFiles[R_PESACH][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_12.html";
-		chaptersFiles[R_PESACH][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_13.html";
-		chaptersFiles[R_PESACH][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_14.html";
-		chaptersFiles[R_PESACH][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_15.html";
-		chaptersFiles[R_PESACH][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_16.html";
-		chaptersFiles[R_PESACH][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_pesach_17.html";
+		chaptersFiles[R_PESACH][0] = ""+getBaseContext().getFilesDir() + "/r_pesach_tochen.html";
+		chaptersFiles[R_PESACH][1] = ""+getBaseContext().getFilesDir() + "/r_pesach_1.html";
+		chaptersFiles[R_PESACH][2] = ""+getBaseContext().getFilesDir() + "/r_pesach_2.html";
+		chaptersFiles[R_PESACH][3] = ""+getBaseContext().getFilesDir() + "/r_pesach_3.html";
+		chaptersFiles[R_PESACH][4] = ""+getBaseContext().getFilesDir() + "/r_pesach.html";
+		chaptersFiles[R_PESACH][5] = ""+getBaseContext().getFilesDir() + "/r_pesach_5.html";
+		chaptersFiles[R_PESACH][6] = ""+getBaseContext().getFilesDir() + "/r_pesach_6.html";
+		chaptersFiles[R_PESACH][7] = ""+getBaseContext().getFilesDir() + "/r_pesach_7.html";
+		chaptersFiles[R_PESACH][8] = ""+getBaseContext().getFilesDir() + "/r_pesach_8.html";
+		chaptersFiles[R_PESACH][9] = ""+getBaseContext().getFilesDir() + "/r_pesach_9.html";
+		chaptersFiles[R_PESACH][10] = ""+getBaseContext().getFilesDir() + "/r_pesach_10.html";
+		chaptersFiles[R_PESACH][11] = ""+getBaseContext().getFilesDir() + "/r_pesach_11.html";
+		chaptersFiles[R_PESACH][12] = ""+getBaseContext().getFilesDir() + "/r_pesach_12.html";
+		chaptersFiles[R_PESACH][13] = ""+getBaseContext().getFilesDir() + "/r_pesach_13.html";
+		chaptersFiles[R_PESACH][14] = ""+getBaseContext().getFilesDir() + "/r_pesach_14.html";
+		chaptersFiles[R_PESACH][15] = ""+getBaseContext().getFilesDir() + "/r_pesach_15.html";
+		chaptersFiles[R_PESACH][16] = ""+getBaseContext().getFilesDir() + "/r_pesach_16.html";
+		chaptersFiles[R_PESACH][17] = ""+getBaseContext().getFilesDir() + "/r_pesach_17.html";
 
 		/*R_moadim*/
-		chaptersFiles[R_MOADIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_tochen.html";
-		chaptersFiles[R_MOADIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_1.html";
-		chaptersFiles[R_MOADIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_2.html";
-		chaptersFiles[R_MOADIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_3.html";
-		chaptersFiles[R_MOADIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_4.html";
-		chaptersFiles[R_MOADIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_5.html";
-		chaptersFiles[R_MOADIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_6.html";
-		chaptersFiles[R_MOADIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_7.html";
-		chaptersFiles[R_MOADIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_8.html";
-		chaptersFiles[R_MOADIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_9.html";
-		chaptersFiles[R_MOADIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_9.html";
-		chaptersFiles[R_MOADIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_10.html";
-		chaptersFiles[R_MOADIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_11.html";
-		chaptersFiles[R_MOADIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_12.html";
-		chaptersFiles[R_MOADIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_moadim_13.html";
+		chaptersFiles[R_MOADIM][0] = ""+getBaseContext().getFilesDir() + "/r_moadim_tochen.html";
+		chaptersFiles[R_MOADIM][1] = ""+getBaseContext().getFilesDir() + "/r_moadim_1.html";
+		chaptersFiles[R_MOADIM][2] = ""+getBaseContext().getFilesDir() + "/r_moadim_2.html";
+		chaptersFiles[R_MOADIM][3] = ""+getBaseContext().getFilesDir() + "/r_moadim_3.html";
+		chaptersFiles[R_MOADIM][4] = ""+getBaseContext().getFilesDir() + "/r_moadim_4.html";
+		chaptersFiles[R_MOADIM][5] = ""+getBaseContext().getFilesDir() + "/r_moadim_5.html";
+		chaptersFiles[R_MOADIM][6] = ""+getBaseContext().getFilesDir() + "/r_moadim_6.html";
+		chaptersFiles[R_MOADIM][7] = ""+getBaseContext().getFilesDir() + "/r_moadim_7.html";
+		chaptersFiles[R_MOADIM][8] = ""+getBaseContext().getFilesDir() + "/r_moadim_8.html";
+		chaptersFiles[R_MOADIM][9] = ""+getBaseContext().getFilesDir() + "/r_moadim_9.html";
+		chaptersFiles[R_MOADIM][9] = ""+getBaseContext().getFilesDir() + "/r_moadim_9.html";
+		chaptersFiles[R_MOADIM][10] = ""+getBaseContext().getFilesDir() + "/r_moadim_10.html";
+		chaptersFiles[R_MOADIM][11] = ""+getBaseContext().getFilesDir() + "/r_moadim_11.html";
+		chaptersFiles[R_MOADIM][12] = ""+getBaseContext().getFilesDir() + "/r_moadim_12.html";
+		chaptersFiles[R_MOADIM][13] = ""+getBaseContext().getFilesDir() + "/r_moadim_13.html";
 
 		/*R_tfilat_nashim*/
-		chaptersFiles[R_TEFILAT_NASHIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_tochen.html";
-		chaptersFiles[R_TEFILAT_NASHIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_1.html";
-		chaptersFiles[R_TEFILAT_NASHIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_2.html";
-		chaptersFiles[R_TEFILAT_NASHIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_3.html";
-		chaptersFiles[R_TEFILAT_NASHIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_4.html";
-		chaptersFiles[R_TEFILAT_NASHIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_5.html";
-		chaptersFiles[R_TEFILAT_NASHIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_6.html";
-		chaptersFiles[R_TEFILAT_NASHIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_7.html";
-		chaptersFiles[R_TEFILAT_NASHIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_8.html";
-		chaptersFiles[R_TEFILAT_NASHIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_9.html";
-		chaptersFiles[R_TEFILAT_NASHIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_10.html";
-		chaptersFiles[R_TEFILAT_NASHIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_11.html";
-		chaptersFiles[R_TEFILAT_NASHIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_12.html";
-		chaptersFiles[R_TEFILAT_NASHIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_13.html";
-		chaptersFiles[R_TEFILAT_NASHIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_14.html";
-		chaptersFiles[R_TEFILAT_NASHIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_15.html";
-		chaptersFiles[R_TEFILAT_NASHIM][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_16.html";
-		chaptersFiles[R_TEFILAT_NASHIM][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_17.html";
-		chaptersFiles[R_TEFILAT_NASHIM][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_18.html";
-		chaptersFiles[R_TEFILAT_NASHIM][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_19.html";
-		chaptersFiles[R_TEFILAT_NASHIM][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_20.html";
-		chaptersFiles[R_TEFILAT_NASHIM][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_21.html";
-		chaptersFiles[R_TEFILAT_NASHIM][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_22.html";
-		chaptersFiles[R_TEFILAT_NASHIM][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_23.html";
-		chaptersFiles[R_TEFILAT_NASHIM][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfilat_nashim_24.html";
+		chaptersFiles[R_TEFILAT_NASHIM][0] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_tochen.html";
+		chaptersFiles[R_TEFILAT_NASHIM][1] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_1.html";
+		chaptersFiles[R_TEFILAT_NASHIM][2] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_2.html";
+		chaptersFiles[R_TEFILAT_NASHIM][3] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_3.html";
+		chaptersFiles[R_TEFILAT_NASHIM][4] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_4.html";
+		chaptersFiles[R_TEFILAT_NASHIM][5] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_5.html";
+		chaptersFiles[R_TEFILAT_NASHIM][6] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_6.html";
+		chaptersFiles[R_TEFILAT_NASHIM][7] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_7.html";
+		chaptersFiles[R_TEFILAT_NASHIM][8] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_8.html";
+		chaptersFiles[R_TEFILAT_NASHIM][9] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_9.html";
+		chaptersFiles[R_TEFILAT_NASHIM][10] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_10.html";
+		chaptersFiles[R_TEFILAT_NASHIM][11] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_11.html";
+		chaptersFiles[R_TEFILAT_NASHIM][12] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_12.html";
+		chaptersFiles[R_TEFILAT_NASHIM][13] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_13.html";
+		chaptersFiles[R_TEFILAT_NASHIM][14] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_14.html";
+		chaptersFiles[R_TEFILAT_NASHIM][15] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_15.html";
+		chaptersFiles[R_TEFILAT_NASHIM][16] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_16.html";
+		chaptersFiles[R_TEFILAT_NASHIM][17] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_17.html";
+		chaptersFiles[R_TEFILAT_NASHIM][18] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_18.html";
+		chaptersFiles[R_TEFILAT_NASHIM][19] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_19.html";
+		chaptersFiles[R_TEFILAT_NASHIM][20] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_20.html";
+		chaptersFiles[R_TEFILAT_NASHIM][21] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_21.html";
+		chaptersFiles[R_TEFILAT_NASHIM][22] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_22.html";
+		chaptersFiles[R_TEFILAT_NASHIM][23] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_23.html";
+		chaptersFiles[R_TEFILAT_NASHIM][24] = ""+getBaseContext().getFilesDir() + "/r_tfilat_nashim_24.html";
 
 		/*R_tfila*/
-		chaptersFiles[R_TFILA][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_tochen.html";
-		chaptersFiles[R_TFILA][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_1.html";
-		chaptersFiles[R_TFILA][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_2.html";
-		chaptersFiles[R_TFILA][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_3.html";
-		chaptersFiles[R_TFILA][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_4.html";
-		chaptersFiles[R_TFILA][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_5.html";
-		chaptersFiles[R_TFILA][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_6.html";
-		chaptersFiles[R_TFILA][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_7.html";
-		chaptersFiles[R_TFILA][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_8.html";
-		chaptersFiles[R_TFILA][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_9.html";
-		chaptersFiles[R_TFILA][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_10.html";
-		chaptersFiles[R_TFILA][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_11.html";
-		chaptersFiles[R_TFILA][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_12.html";
-		chaptersFiles[R_TFILA][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_13.html";
-		chaptersFiles[R_TFILA][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_14.html";
-		chaptersFiles[R_TFILA][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_15.html";
-		chaptersFiles[R_TFILA][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_16.html";
-		chaptersFiles[R_TFILA][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_17.html";
-		chaptersFiles[R_TFILA][18] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_18.html";
-		chaptersFiles[R_TFILA][19] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_19.html";
-		chaptersFiles[R_TFILA][20] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_20.html";
-		chaptersFiles[R_TFILA][21] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_21.html";
-		chaptersFiles[R_TFILA][22] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_22.html";
-		chaptersFiles[R_TFILA][23] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_23.html";
-		chaptersFiles[R_TFILA][24] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_24.html";
-		chaptersFiles[R_TFILA][25] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_25.html";
-		chaptersFiles[R_TFILA][26] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_tfila_26.html";
+		chaptersFiles[R_TFILA][0] = ""+getBaseContext().getFilesDir() + "/r_tfila_tochen.html";
+		chaptersFiles[R_TFILA][1] = ""+getBaseContext().getFilesDir() + "/r_tfila_1.html";
+		chaptersFiles[R_TFILA][2] = ""+getBaseContext().getFilesDir() + "/r_tfila_2.html";
+		chaptersFiles[R_TFILA][3] = ""+getBaseContext().getFilesDir() + "/r_tfila_3.html";
+		chaptersFiles[R_TFILA][4] = ""+getBaseContext().getFilesDir() + "/r_tfila_4.html";
+		chaptersFiles[R_TFILA][5] = ""+getBaseContext().getFilesDir() + "/r_tfila_5.html";
+		chaptersFiles[R_TFILA][6] = ""+getBaseContext().getFilesDir() + "/r_tfila_6.html";
+		chaptersFiles[R_TFILA][7] = ""+getBaseContext().getFilesDir() + "/r_tfila_7.html";
+		chaptersFiles[R_TFILA][8] = ""+getBaseContext().getFilesDir() + "/r_tfila_8.html";
+		chaptersFiles[R_TFILA][9] = ""+getBaseContext().getFilesDir() + "/r_tfila_9.html";
+		chaptersFiles[R_TFILA][10] = ""+getBaseContext().getFilesDir() + "/r_tfila_10.html";
+		chaptersFiles[R_TFILA][11] = ""+getBaseContext().getFilesDir() + "/r_tfila_11.html";
+		chaptersFiles[R_TFILA][12] = ""+getBaseContext().getFilesDir() + "/r_tfila_12.html";
+		chaptersFiles[R_TFILA][13] = ""+getBaseContext().getFilesDir() + "/r_tfila_13.html";
+		chaptersFiles[R_TFILA][14] = ""+getBaseContext().getFilesDir() + "/r_tfila_14.html";
+		chaptersFiles[R_TFILA][15] = ""+getBaseContext().getFilesDir() + "/r_tfila_15.html";
+		chaptersFiles[R_TFILA][16] = ""+getBaseContext().getFilesDir() + "/r_tfila_16.html";
+		chaptersFiles[R_TFILA][17] = ""+getBaseContext().getFilesDir() + "/r_tfila_17.html";
+		chaptersFiles[R_TFILA][18] = ""+getBaseContext().getFilesDir() + "/r_tfila_18.html";
+		chaptersFiles[R_TFILA][19] = ""+getBaseContext().getFilesDir() + "/r_tfila_19.html";
+		chaptersFiles[R_TFILA][20] = ""+getBaseContext().getFilesDir() + "/r_tfila_20.html";
+		chaptersFiles[R_TFILA][21] = ""+getBaseContext().getFilesDir() + "/r_tfila_21.html";
+		chaptersFiles[R_TFILA][22] = ""+getBaseContext().getFilesDir() + "/r_tfila_22.html";
+		chaptersFiles[R_TFILA][23] = ""+getBaseContext().getFilesDir() + "/r_tfila_23.html";
+		chaptersFiles[R_TFILA][24] = ""+getBaseContext().getFilesDir() + "/r_tfila_24.html";
+		chaptersFiles[R_TFILA][25] = ""+getBaseContext().getFilesDir() + "/r_tfila_25.html";
+		chaptersFiles[R_TFILA][26] = ""+getBaseContext().getFilesDir() + "/r_tfila_26.html";
 
 		/*R_zmanim*/
-		chaptersFiles[R_ZMANIM][0] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_tochen.html";
-		chaptersFiles[R_ZMANIM][1] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_1.html";
-		chaptersFiles[R_ZMANIM][2] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_2.html";
-		chaptersFiles[R_ZMANIM][3] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_3.html";
-		chaptersFiles[R_ZMANIM][4] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_4.html";
-		chaptersFiles[R_ZMANIM][5] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_5.html";
-		chaptersFiles[R_ZMANIM][6] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_6.html";
-		chaptersFiles[R_ZMANIM][7] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_7.html";
-		chaptersFiles[R_ZMANIM][8] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_8.html";
-		chaptersFiles[R_ZMANIM][9] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_9.html";
-		chaptersFiles[R_ZMANIM][10] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_10.html";
-		chaptersFiles[R_ZMANIM][11] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_11.html";
-		chaptersFiles[R_ZMANIM][12] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_12.html";
-		chaptersFiles[R_ZMANIM][13] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_13.html";
-		chaptersFiles[R_ZMANIM][14] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_14.html";
-		chaptersFiles[R_ZMANIM][15] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_15.html";
-		chaptersFiles[R_ZMANIM][16] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_16.html";
-		chaptersFiles[R_ZMANIM][17] = "file://"+Environment.getExternalStorageDirectory().getPath() + "/DCIM/pnineyHalacha/RussianBooks/r_zmanim_17.html";
+		chaptersFiles[R_ZMANIM][0] = ""+getBaseContext().getFilesDir() + "/r_zmanim_tochen.html";
+		chaptersFiles[R_ZMANIM][1] = ""+getBaseContext().getFilesDir() + "/r_zmanim_1.html";
+		chaptersFiles[R_ZMANIM][2] = ""+getBaseContext().getFilesDir() + "/r_zmanim_2.html";
+		chaptersFiles[R_ZMANIM][3] = ""+getBaseContext().getFilesDir() + "/r_zmanim_3.html";
+		chaptersFiles[R_ZMANIM][4] = ""+getBaseContext().getFilesDir() + "/r_zmanim_4.html";
+		chaptersFiles[R_ZMANIM][5] = ""+getBaseContext().getFilesDir() + "/r_zmanim_5.html";
+		chaptersFiles[R_ZMANIM][6] = ""+getBaseContext().getFilesDir() + "/r_zmanim_6.html";
+		chaptersFiles[R_ZMANIM][7] = ""+getBaseContext().getFilesDir() + "/r_zmanim_7.html";
+		chaptersFiles[R_ZMANIM][8] = ""+getBaseContext().getFilesDir() + "/r_zmanim_8.html";
+		chaptersFiles[R_ZMANIM][9] = ""+getBaseContext().getFilesDir() + "/r_zmanim_9.html";
+		chaptersFiles[R_ZMANIM][10] = ""+getBaseContext().getFilesDir() + "/r_zmanim_10.html";
+		chaptersFiles[R_ZMANIM][11] = ""+getBaseContext().getFilesDir() + "/r_zmanim_11.html";
+		chaptersFiles[R_ZMANIM][12] = ""+getBaseContext().getFilesDir() + "/r_zmanim_12.html";
+		chaptersFiles[R_ZMANIM][13] = ""+getBaseContext().getFilesDir() + "/r_zmanim_13.html";
+		chaptersFiles[R_ZMANIM][14] = ""+getBaseContext().getFilesDir() + "/r_zmanim_14.html";
+		chaptersFiles[R_ZMANIM][15] = ""+getBaseContext().getFilesDir() + "/r_zmanim_15.html";
+		chaptersFiles[R_ZMANIM][16] = ""+getBaseContext().getFilesDir() + "/r_zmanim_16.html";
+		chaptersFiles[R_ZMANIM][17] = ""+getBaseContext().getFilesDir() + "/r_zmanim_17.html";
 	}
 
 
