@@ -3,19 +3,13 @@ package com.rafraph.pnineyHalachaHashalem;
 
 
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.app.DownloadManager;
-import android.app.ProgressDialog;
+
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.Settings;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
@@ -192,7 +186,6 @@ public class MainActivity extends AppCompatActivity
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		try {
 //		if (mPrefs.getInt("BlackBackground", 0)==0)
 //			Toast.makeText(getApplicationContext(), "אין חיבור אינטרנט", Toast.LENGTH_LONG).show();
 			context = this;
@@ -534,8 +527,8 @@ public class MainActivity extends AppCompatActivity
 					pop = 0;
 
 
-					Toast.makeText(getApplicationContext(), listDataHeader.indexOf(listDisplay.get(groupPosition)) + " : "
-							+ listDataChild.get(listDataHeader.get(listDataHeader.indexOf(listDisplay.get(groupPosition)))).get(childPosition), Toast.LENGTH_SHORT).show();
+					//Toast.makeText(getApplicationContext(), listDataHeader.indexOf(listDisplay.get(groupPosition)) + " : "
+							//+ listDataChild.get(listDataHeader.get(listDataHeader.indexOf(listDisplay.get(groupPosition)))).get(childPosition), Toast.LENGTH_SHORT).show();
 					try {
 						//this if is for the pnina hayomit.(not ready)
 
@@ -572,7 +565,7 @@ public class MainActivity extends AppCompatActivity
 			try {
 				version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-				if (mPrefs.getString("Version", "").equals("4.1.17") == false) {
+				if (mPrefs.getString("Version", "").equals("5.1.11") == false) {
 					newVersion = true;
 					shPrefEditor.putString("Version", version);
 					shPrefEditor.commit();
@@ -598,11 +591,8 @@ public class MainActivity extends AppCompatActivity
 				changeL = false;
 				goToLastLocation();
 			}
-		}//onCreate
-		catch (Exception exp) {
-			Toast.makeText(getApplicationContext(),	"m:"+exp.toString(), Toast.LENGTH_SHORT).show();
+		//onCreate
 
-		}
 	}
 
 
@@ -2246,7 +2236,7 @@ private void initializeSeekBar()
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-			if(mPrefs.getString("Version", "").equals("4.1.17") == false)
+			if(mPrefs.getString("Version", "").equals("5.1.12") == false)
 			{
 				firstLang=0;
 			}
@@ -2264,7 +2254,7 @@ private void initializeSeekBar()
 			switch (Locale.getDefault().getLanguage()) {
 				case "en":
 					MyLanguage = ENGLISH;
-					welcome.setText("Welcome to the \"Peninei Halakha\" App");
+					//welcome.setText("Welcome to the \"Peninei Halakha\" App");
 					pickBooks.setText("Select the desired book language to download to your device:");
 					HneedPr="Need permission";
 					Hmassage="This permission is required to download the books";
@@ -2274,7 +2264,7 @@ private void initializeSeekBar()
 					break;
 				case "es":
 					MyLanguage = SPANISH;
-					welcome.setText("Bienvenido a la aplicación Pninei Halaja");
+					//welcome.setText("Bienvenido a la aplicación Pninei Halaja");
 					pickBooks.setText("Seleccione el idioma del libro deseado para descargarlo en su dispositivo:");
 					HneedPr="Necesito permiso";
 					Hmassage="Este permiso es necesario para descargar los libros.";
@@ -2284,7 +2274,7 @@ private void initializeSeekBar()
 					break;
 				case "ru":
 					MyLanguage = RUSSIAN;
-					welcome.setText("Добро пожаловать в приложение \"Жемчужины Галахи\"");
+					//welcome.setText("Добро пожаловать в приложение \"Жемчужины Галахи\"");
 					pickBooks.setText("Выберите язык книг для загрузки на Ваше устройство:");
 					HneedPr="Требуется разрешение";
 					Hmassage="Разрешить загрузку книг";
@@ -2293,7 +2283,7 @@ private void initializeSeekBar()
 					break;
 				case "fr":
 					MyLanguage = FRENCH;
-					welcome.setText("Welcome to the \"Peninei Halakha\" App");
+					//welcome.setText("Welcome to the \"Peninei Halakha\" App");
 					pickBooks.setText("Select the desired book language to download to your device:");
 					HneedPr="Nécessite une autorisation";
 					Hmassage="Cette autorisation est nécessaire pour le téléchargement des livres";

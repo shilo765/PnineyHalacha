@@ -4,19 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
+
 import android.os.StrictMode;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+
 
 public class downBack extends Activity {
     public  static Context context;
@@ -76,14 +74,17 @@ public class downBack extends Activity {
     public static void loopDownload(Context context,String [][] arrayBook,String check)
     {
         File fileCheck=new File(context.getFilesDir() +"/"+check);
+        System.out.println("well");
         if(!fileCheck.exists()) {
-
+            System.out.println("yalla");
             for (int j = 0; j < arrayBook[0].length; j++) {
                 downLocal(context, arrayBook[0][j] + "_tochen.html");
                 for (int i = 1; i <= Integer.parseInt(arrayBook[1][j]); i++) {
                     downLocal(context, arrayBook[0][j] + "_" + i + ".html");
+                    System.out.println(j+":"+i);
                 }
             }
+
             File f1 = new File(context.getFilesDir() + "/" + check);
             try {
 
@@ -91,6 +92,7 @@ public class downBack extends Activity {
                 writer.append("yes");
                 writer.flush();
                 writer.close();
+                System.out.println("wow");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -106,6 +108,7 @@ public class downBack extends Activity {
                 for (int i = 1; i <= Integer.parseInt(arrayBook[1][j]); i++) {
                     file=new File(context.getFilesDir() +"/"+arrayBook[0][j] + "_" + i + ".html");
                     file.delete();
+
                 }
             }
 
@@ -149,22 +152,22 @@ public class downBack extends Activity {
                 loopDelete(context,enBook,"en.txt");
             }
             if(downOrDelEs)
-                loopDownload(context,enBook,"es.txt");
+                loopDownload(context,esBook,"es.txt");
             else
             {
-                loopDelete(context,enBook,"es.txt");
+                loopDelete(context,esBook,"es.txt");
             }
             if(downOrDelR)
-                loopDownload(context,enBook,"r.txt");
+                loopDownload(context,rBook,"r.txt");
             else
             {
-                loopDelete(context,enBook,"r.txt");
+                loopDelete(context,rBook,"r.txt");
             }
             if(downOrDelF)
-                loopDownload(context,enBook,"f.txt");
+                loopDownload(context,fBook,"f.txt");
             else
             {
-                loopDelete(context,enBook,"f.txt");
+                loopDelete(context,fBook,"f.txt");
             }
 
             // Do something that takes a long time, for example:

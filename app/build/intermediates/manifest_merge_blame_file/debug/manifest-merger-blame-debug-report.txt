@@ -3,219 +3,211 @@
 3    package="com.rafraph.pnineyHalachaHashalem"
 4    android:hardwareAccelerated="true"
 5    android:installLocation="auto"
-6    android:versionCode="40117"
-7    android:versionName="4.1.17" >
-8
-9    <uses-sdk
-10        android:minSdkVersion="16"
-10-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml
-11        android:targetSdkVersion="32" />
+6    android:usesCleartextTraffic="true"
+7    android:versionCode="50111"
+8    android:versionName="5.1.11" >
+9
+10    <uses-sdk
+11        android:minSdkVersion="16"
 11-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml
-12
-13    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-13-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:8:5-79
-13-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:8:22-76
-14    <uses-permission android:name="android.permission.INTERNET" />
-14-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:9:5-67
-14-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:9:22-64
-15    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-15-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:10:5-81
-15-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:10:22-78
-16    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-16-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:11:5-75
-16-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:11:22-72
-17    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-17-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:12:5-80
-17-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:12:22-77
-18    <uses-permission android:name="android.permission.WAKE_LOCK" />
-18-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:13:5-68
+12        android:targetSdkVersion="32" />
+12-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml
+13
+14    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+14-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:9:5-79
+14-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:9:22-76
+15    <uses-permission android:name="android.permission.INTERNET" />
+15-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:10:5-67
+15-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:10:22-64
+16    <uses-permission android:name="android.permission.WAKE_LOCK" />
+16-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:11:5-68
+16-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:11:22-65
+17    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+17-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:12:5-77
+17-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:12:22-74
+18    <uses-permission android:name="android.permission.SET_ALARM" />
+18-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:13:5-67
 18-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:13:22-65
-19    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-19-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:14:5-77
-19-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:14:22-74
-20    <uses-permission android:name="android.permission.SET_ALARM" />
-20-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:15:5-67
-20-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:15:22-65
-21    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-21-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:8:5-79
-21-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:8:22-76
-22    <uses-permission android:name="android.permission.INTERNET" />
-22-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:9:5-67
-22-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:9:22-64
-23    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-23-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:11:5-75
-23-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:11:22-72
-24    <uses-permission android:name="android.permission.WAKE_LOCK" />
-24-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:13:5-68
-24-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:13:22-65
-25    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-25-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:14:5-77
-25-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:14:22-74
-26    <uses-permission android:name="android.permission.INTERNET" />
-26-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:9:5-67
-26-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:9:22-64
-27
-28    <application
-28-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:26:5-110:19
-29        android:allowBackup="true"
-29-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:27:9-35
-30        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
-30-->[com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ecbd23666767c8ec76a81939f74c71e4\transformed\support-compat-28.0.0\AndroidManifest.xml:22:18-91
-31        android:debuggable="true"
-32        android:hardwareAccelerated="true"
-32-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:28:9-43
-33        android:icon="@drawable/pniney_icon"
-33-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:29:9-45
-34        android:label="@string/app_name"
-34-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:30:9-41
-35        android:theme="@style/AppTheme" >
-35-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:31:9-40
-36        <activity
-36-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:32:9-34:79
-37            android:name="com.rafraph.pnineyHalachaHashalem.HomePage"
-37-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:33:13-37
-38            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-38-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:34:13-77
-39        <activity
-39-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:35:9-37:79
-40            android:name="com.rafraph.pnineyHalachaHashalem.pninaYomit"
-40-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:36:13-39
-41            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-41-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:37:13-77
-42        <activity
-42-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:38:9-49:20
-43            android:name="com.rafraph.pnineyHalachaHashalem.Splash"
-43-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:39:13-35
-44            android:exported="true"
-44-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:43:13-36
-45            android:hardwareAccelerated="true"
-45-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:40:13-47
-46            android:label="@string/app_name"
-46-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:41:13-45
-47            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
-47-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:42:13-77
-48            <intent-filter>
-48-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:44:13-48:29
-49                <action android:name="android.intent.action.MAIN" />
-49-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:45:17-69
-49-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:45:25-66
-50
-51                <category android:name="android.intent.category.LAUNCHER" />
-51-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:47:17-77
-51-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:47:27-74
-52            </intent-filter>
-53        </activity>
-54        <activity
-54-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:50:9-64:20
-55            android:name="com.rafraph.pnineyHalachaHashalem.MainActivity"
-55-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:51:13-41
-56            android:exported="true"
-56-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:54:13-36
-57            android:hardwareAccelerated="true"
-57-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:52:13-47
-58            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
-58-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:53:13-69
-59            <intent-filter>
-59-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:55:13-59:29
-60                <action android:name="com.rafraph.ph_beta.MAINACTIVITY" />
-60-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:56:17-75
-60-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:56:25-72
-61
-62                <category android:name="android.intent.category.DEFAULT" />
-62-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:58:17-76
-62-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:58:27-73
-63            </intent-filter>
-64            <!-- enable the search dialog to send searches to SearchableActivity -->
-65            <meta-data
-65-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:61:13-63:55
-66                android:name="android.app.default_searchable"
-66-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:62:17-62
-67                android:value=".SearchableActivity" />
-67-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:63:17-52
-68        </activity>
-69        <activity
-69-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:65:9-76:20
-70            android:name="com.rafraph.pnineyHalachaHashalem.textMain"
-70-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:66:13-37
-71            android:configChanges="keyboardHidden|orientation|screenSize"
-71-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:67:13-74
-72            android:hardwareAccelerated="true"
-72-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:68:13-47
-73            android:label="@string/app_name"
-73-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:69:13-45
-74            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
-74-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:70:13-69
-75
-76            <!-- enable the search dialog to send searches to SearchableActivity -->
-77            <meta-data
-77-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:61:13-63:55
-78                android:name="android.app.default_searchable"
-78-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:62:17-62
-79                android:value=".SearchableActivity" />
-79-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:63:17-52
-80        </activity>
-81        <activity
-81-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:77:9-80:63
-82            android:name="com.rafraph.pnineyHalachaHashalem.About"
-82-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:78:13-34
-83            android:label="@string/title_activity_about"
-83-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:79:13-57
-84            android:theme="@android:style/Theme.NoTitleBar" />
-84-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:80:13-60
-85        <activity
-85-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:81:9-87:15
-86            android:name="com.rafraph.pnineyHalachaHashalem.About_p"
-86-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:82:13-36
-87            android:configChanges="keyboardHidden|orientation|screenSize"
-87-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:85:13-74
-88            android:hardwareAccelerated="true"
-88-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:86:13-47
-89            android:label="@string/title_activity_about"
-89-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:83:13-57
-90            android:theme="@android:style/Theme.NoTitleBar" />
-90-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:84:13-60
-91        <activity
-91-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:88:9-91:63
-92            android:name="com.rafraph.pnineyHalachaHashalem.Feedback"
-92-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:89:13-37
-93            android:label="@string/title_activity_feedback"
-93-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:90:13-60
-94            android:theme="@android:style/Theme.NoTitleBar" />
-94-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:91:13-60
-95        <activity
-95-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:93:9-96:63
-96            android:name="com.rafraph.pnineyHalachaHashalem.SearchHelp"
-96-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:94:13-39
-97            android:label="@string/title_activity_search_help"
-97-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:95:13-63
-98            android:theme="@android:style/Theme.NoTitleBar" />
-98-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:96:13-60
-99        <activity
-99-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:97:9-100:63
-100            android:name="com.rafraph.pnineyHalachaHashalem.BookmarkActivity"
-100-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:98:13-45
-101            android:label="@string/title_activity_bookmark"
-101-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:99:13-60
-102            android:theme="@android:style/Theme.NoTitleBar" />
-102-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:100:13-60
-103        <activity
-103-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:101:9-105:51
-104            android:name="com.rafraph.pnineyHalachaHashalem.myAudio"
-104-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:102:13-36
-105            android:label="myAudio"
-105-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:103:13-36
-106            android:screenOrientation="portrait"
-106-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:105:13-49
-107            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-107-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:104:13-69
+19    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+19-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:9:5-79
+19-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:9:22-76
+20    <uses-permission android:name="android.permission.INTERNET" />
+20-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:10:5-67
+20-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:10:22-64
+21    <uses-permission android:name="android.permission.WAKE_LOCK" />
+21-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:11:5-68
+21-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:11:22-65
+22    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+22-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:12:5-77
+22-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:12:22-74
+23    <uses-permission android:name="android.permission.INTERNET" />
+23-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:10:5-67
+23-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:10:22-64
+24    <uses-permission android:name="android.permission.INTERNET" />
+24-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:10:5-67
+24-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:10:22-64
+25
+26    <application
+26-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:22:5-106:19
+27        android:allowBackup="true"
+27-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:23:9-35
+28        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+28-->[com.android.support:support-compat:28.0.0] C:\Users\naamag\.gradle\caches\transforms-3\ecbd23666767c8ec76a81939f74c71e4\transformed\support-compat-28.0.0\AndroidManifest.xml:22:18-91
+29        android:debuggable="true"
+30        android:hardwareAccelerated="true"
+30-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:24:9-43
+31        android:icon="@drawable/pniney_icon"
+31-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:25:9-45
+32        android:label="@string/app_name"
+32-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:26:9-41
+33        android:theme="@style/AppTheme" >
+33-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:27:9-40
+34        <activity
+34-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:28:9-30:79
+35            android:name="com.rafraph.pnineyHalachaHashalem.HomePage"
+35-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:29:13-37
+36            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+36-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:30:13-77
+37        <activity
+37-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:31:9-33:79
+38            android:name="com.rafraph.pnineyHalachaHashalem.pninaYomit"
+38-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:32:13-39
+39            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+39-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:33:13-77
+40        <activity
+40-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:34:9-45:20
+41            android:name="com.rafraph.pnineyHalachaHashalem.Splash"
+41-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:35:13-35
+42            android:exported="true"
+42-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:39:13-36
+43            android:hardwareAccelerated="true"
+43-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:36:13-47
+44            android:label="@string/app_name"
+44-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:37:13-45
+45            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+45-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:38:13-77
+46            <intent-filter>
+46-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:40:13-44:29
+47                <action android:name="android.intent.action.MAIN" />
+47-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:41:17-69
+47-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:41:25-66
+48
+49                <category android:name="android.intent.category.LAUNCHER" />
+49-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:43:17-77
+49-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:43:27-74
+50            </intent-filter>
+51        </activity>
+52        <activity
+52-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:46:9-60:20
+53            android:name="com.rafraph.pnineyHalachaHashalem.MainActivity"
+53-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:47:13-41
+54            android:exported="true"
+54-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:50:13-36
+55            android:hardwareAccelerated="true"
+55-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:48:13-47
+56            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+56-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:49:13-69
+57            <intent-filter>
+57-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:51:13-55:29
+58                <action android:name="com.rafraph.ph_beta.MAINACTIVITY" />
+58-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:52:17-75
+58-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:52:25-72
+59
+60                <category android:name="android.intent.category.DEFAULT" />
+60-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:54:17-76
+60-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:54:27-73
+61            </intent-filter>
+62            <!-- enable the search dialog to send searches to SearchableActivity -->
+63            <meta-data
+63-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:57:13-59:55
+64                android:name="android.app.default_searchable"
+64-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:58:17-62
+65                android:value=".SearchableActivity" />
+65-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:59:17-52
+66        </activity>
+67        <activity
+67-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:61:9-72:20
+68            android:name="com.rafraph.pnineyHalachaHashalem.textMain"
+68-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:62:13-37
+69            android:configChanges="keyboardHidden|orientation|screenSize"
+69-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:63:13-74
+70            android:hardwareAccelerated="true"
+70-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:64:13-47
+71            android:label="@string/app_name"
+71-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:65:13-45
+72            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+72-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:66:13-69
+73
+74            <!-- enable the search dialog to send searches to SearchableActivity -->
+75            <meta-data
+75-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:57:13-59:55
+76                android:name="android.app.default_searchable"
+76-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:58:17-62
+77                android:value=".SearchableActivity" />
+77-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:59:17-52
+78        </activity>
+79        <activity
+79-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:73:9-76:63
+80            android:name="com.rafraph.pnineyHalachaHashalem.About"
+80-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:74:13-34
+81            android:label="@string/title_activity_about"
+81-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:75:13-57
+82            android:theme="@android:style/Theme.NoTitleBar" />
+82-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:76:13-60
+83        <activity
+83-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:77:9-83:15
+84            android:name="com.rafraph.pnineyHalachaHashalem.About_p"
+84-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:78:13-36
+85            android:configChanges="keyboardHidden|orientation|screenSize"
+85-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:81:13-74
+86            android:hardwareAccelerated="true"
+86-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:82:13-47
+87            android:label="@string/title_activity_about"
+87-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:79:13-57
+88            android:theme="@android:style/Theme.NoTitleBar" />
+88-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:80:13-60
+89        <activity
+89-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:84:9-87:63
+90            android:name="com.rafraph.pnineyHalachaHashalem.Feedback"
+90-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:85:13-37
+91            android:label="@string/title_activity_feedback"
+91-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:86:13-60
+92            android:theme="@android:style/Theme.NoTitleBar" />
+92-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:87:13-60
+93        <activity
+93-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:89:9-92:63
+94            android:name="com.rafraph.pnineyHalachaHashalem.SearchHelp"
+94-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:90:13-39
+95            android:label="@string/title_activity_search_help"
+95-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:91:13-63
+96            android:theme="@android:style/Theme.NoTitleBar" />
+96-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:92:13-60
+97        <activity
+97-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:93:9-96:63
+98            android:name="com.rafraph.pnineyHalachaHashalem.BookmarkActivity"
+98-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:94:13-45
+99            android:label="@string/title_activity_bookmark"
+99-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:95:13-60
+100            android:theme="@android:style/Theme.NoTitleBar" />
+100-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:96:13-60
+101        <activity
+101-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:97:9-101:51
+102            android:name="com.rafraph.pnineyHalachaHashalem.myAudio"
+102-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:98:13-36
+103            android:label="myAudio"
+103-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:99:13-36
+104            android:screenOrientation="portrait"
+104-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:101:13-49
+105            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+105-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:100:13-69
+106
+107        <service android:name="com.rafraph.pnineyHalachaHashalem.MediaPlayerService" />
+107-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:103:9-55
+107-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:103:18-52
 108
-109        <service android:name="com.rafraph.pnineyHalachaHashalem.MediaPlayerService" />
-109-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:107:9-55
-109-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:107:18-52
-110
-111        <receiver android:name="com.rafraph.pnineyHalachaHashalem.Notification_reciver" />
-111-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:109:9-57
-111-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:109:19-55
-112    </application>
-113
-114</manifest>
+109        <receiver android:name="com.rafraph.pnineyHalachaHashalem.Notification_reciver" />
+109-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:105:9-57
+109-->C:\Users\naamag\AndroidStudioProjects\PnineyHalacha4116\app\src\main\AndroidManifest.xml:105:19-55
+110    </application>
+111
+112</manifest>

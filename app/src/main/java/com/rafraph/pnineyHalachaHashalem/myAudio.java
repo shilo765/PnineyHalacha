@@ -1,10 +1,9 @@
 package com.rafraph.pnineyHalachaHashalem;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
+
 import android.app.Dialog;
 import android.app.DownloadManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -31,7 +30,6 @@ import android.text.format.Time;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,19 +49,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import android.os.Handler;
@@ -939,8 +933,11 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                         //for (int i=0;i<txtvList.size();i++)
                         //  listview.addHeaderView(txtvList.get(i));
                         broadcastIntent = new Intent(Broadcast_Speed);
+                        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
+
                         sendBroadcast(broadcastIntent);
                         broadcastIntent = new Intent(Broadcast_Speed);
+                        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
                         int choice = spinner.getSelectedItemPosition();
                         speed = sppedArray[choice];
                         shPrefEditor.putFloat("audioSpeed", speed);
@@ -959,6 +956,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                 try {
                     wait(1000);
                     broadcastIntent = new Intent(Broadcast_FORWARD_10);
+                    broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
                     //broadcastIntent.putExtra("section", section);
                     sendBroadcast(broadcastIntent);
 
@@ -968,8 +966,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
             }
 
             Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
+            broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
             sendBroadcast(broadcastIntent);
             broadcastIntent = new Intent(Broadcast_Speed);
+            broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
             int choice = spinner.getSelectedItemPosition();
             speed = sppedArray[choice];
             shPrefEditor.putFloat("audioSpeed", speed);
@@ -2371,6 +2371,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     {
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_TO_SPECIFIC_SECTION);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         broadcastIntent.putExtra("audio_id", selectedSection);
         int choice = spinner.getSelectedItemPosition();
         speed = sppedArray[choice];
@@ -2406,6 +2407,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
                     public void onStopTrackingTouch(SeekBar seekBar) {
                         mUserIsSeeking = false;
                         Intent broadcastIntent = new Intent(Broadcast_OnTouch);
+                        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
                         broadcastIntent.putExtra("seekbarProgress", userSelectedPosition);
                         sendBroadcast(broadcastIntent);
                     }
@@ -2607,13 +2609,16 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         {
             playing = 1;
             buttonPlayPause.setImageResource(R.drawable.baseline_pause_circle_outline_white_48);
+
             broadcastIntent = new Intent(Broadcast_PLAY_PAUSE);
+            broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
             sendBroadcast(broadcastIntent);
         } else if (playing == 1)//if play change button icon to pause
         {
             playing = 0;
             buttonPlayPause.setImageResource(R.drawable.baseline_play_circle_outline_white_48);
             broadcastIntent = new Intent(Broadcast_PLAY_PAUSE);
+            broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
             sendBroadcast(broadcastIntent);
         } else if (playing == 2)//if skip next change button icon to pause
         {
@@ -2627,8 +2632,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         //int a=0/0;
         playing = 2;
         Intent broadcastIntent = new Intent(Broadcast_SKIP_NEXT);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         sendBroadcast(broadcastIntent);
         broadcastIntent = new Intent(Broadcast_Speed);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         int choice = spinner.getSelectedItemPosition();
         speed = sppedArray[choice];
         shPrefEditor.putFloat("audioSpeed", speed);
@@ -2789,8 +2796,10 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         playing = 2;
         buttonPlayPause.setImageResource(R.drawable.baseline_pause_circle_outline_white_48);
         Intent broadcastIntent = new Intent(Broadcast_SKIP_PREVIOUS);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         sendBroadcast(broadcastIntent);
         broadcastIntent = new Intent(Broadcast_Speed);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         int choice = spinner.getSelectedItemPosition();
         speed = sppedArray[choice];
         shPrefEditor.putFloat("audioSpeed", speed);
@@ -2815,6 +2824,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public void forward_10_sec(View view)
     {
         Intent broadcastIntent = new Intent(Broadcast_FORWARD_10);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         sendBroadcast(broadcastIntent);
     }
 
@@ -2822,6 +2832,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
     public void rewind_10_sec(View view)
     {
         Intent broadcastIntent = new Intent(Broadcast_BACKWARD_10);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         sendBroadcast(broadcastIntent);
     }
 
@@ -2991,6 +3002,7 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
         int choice = spinner.getSelectedItemPosition();
 
         broadcastIntent = new Intent(Broadcast_Speed);
+        broadcastIntent.setPackage("com.rafraph.pnineyHalachaHashalem");
         shPrefEditor.putFloat("audioSpeed", sppedArray[choice]);
         shPrefEditor.commit();
         if (playing == 0) {

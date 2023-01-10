@@ -266,7 +266,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			webview.setBackgroundColor(Color.BLACK);//black
 			//infView.setBackgroundColor(Color.BLACK);
 		}
-;
+		;
 
 
 	}//onCreate
@@ -383,9 +383,9 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 									@SuppressLint("SuspiciousIndentation")
 									public void onPageFinished(WebView view, String url) {
 										if (BlackBackground==1)
-										webview.loadUrl(
-												"javascript:document.body.style.setProperty(\"color\", \"white\");"
-										);
+											webview.loadUrl(
+													"javascript:document.body.style.setProperty(\"color\", \"white\");"
+											);
 									}
 								});
 
@@ -454,18 +454,18 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		});
 		String configHeaders[] = new String[12];
 
-			configHeaders[0] = "                                     ";
-			configHeaders[1] = "                                    0";
-			configHeaders[2] = "                                    1";
-			configHeaders[3] = "                                    2";
-			configHeaders[4] = "                                    3";
-			configHeaders[5] = "                                    4";
-			configHeaders[6] = "                                    5";
-			configHeaders[7] = "                                    6";
-			configHeaders[8] = "                                    7";
-			configHeaders[9] = "                                    8";
-			configHeaders[10] = "                                    9";
-			configHeaders[11] = "                                    10";
+		configHeaders[0] = "                                     ";
+		configHeaders[1] = "                                    0";
+		configHeaders[2] = "                                    1";
+		configHeaders[3] = "                                    2";
+		configHeaders[4] = "                                    3";
+		configHeaders[5] = "                                    4";
+		configHeaders[6] = "                                    5";
+		configHeaders[7] = "                                    6";
+		configHeaders[8] = "                                    7";
+		configHeaders[9] = "                                    8";
+		configHeaders[10] = "                                    9";
+		configHeaders[11] = "                                    10";
 
 
 		popupMenu.getMenu().add(0, 0, 0, configHeaders[0]);//(int groupId, int itemId, int order, int titleRes)
@@ -829,52 +829,52 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 						else
 						{
 							int index = 0, index_end = 0;
-						String bookmarkText = BookmarkName.getText().toString();
-						bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
-						/*		      bookmark name			book					chapter						scroll							fontSize*/
-						strBookmark = bookmarkText + "," + book_chapter[0] + "," + book_chapter[1] + "," + webview.getScrollY() + "," + mPrefs.getInt("fontSize",20)/*(webview.getScale()*100)*/;
+							String bookmarkText = BookmarkName.getText().toString();
+							bookmarkText.replaceAll(",", "-");/*if the user insert comma, replace it with "-"*/
+							/*		      bookmark name			book					chapter						scroll							fontSize*/
+							strBookmark = bookmarkText + "," + book_chapter[0] + "," + book_chapter[1] + "," + webview.getScrollY() + "," + mPrefs.getInt("fontSize",20)/*(webview.getScale()*100)*/;
 
-						Bookmarks = mPrefs.getString("Bookmarks", "");
-						if((index = Bookmarks.indexOf(bookmarkText))!=-1)/*if there is already bookmark with the same name override it*/
-						{
-							index_end = index;
-							for(int i=0; i<5; i++)
+							Bookmarks = mPrefs.getString("Bookmarks", "");
+							if((index = Bookmarks.indexOf(bookmarkText))!=-1)/*if there is already bookmark with the same name override it*/
 							{
-								if(Bookmarks.indexOf(",", index_end+1) != -1)
-									index_end = Bookmarks.indexOf(",", index_end + 1);
-								else/*in case that this is the last bookmark*/
-									index_end = Bookmarks.length();
+								index_end = index;
+								for(int i=0; i<5; i++)
+								{
+									if(Bookmarks.indexOf(",", index_end+1) != -1)
+										index_end = Bookmarks.indexOf(",", index_end + 1);
+									else/*in case that this is the last bookmark*/
+										index_end = Bookmarks.length();
+								}
+								Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
+								if(MyLanguage == ENGLISH)
+									Toast.makeText(getApplicationContext(),	"Existing bookmark updated", Toast.LENGTH_SHORT).show();
+								else if(MyLanguage == RUSSIAN)
+									Toast.makeText(getApplicationContext(),	"Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
+								else if(MyLanguage == SPANISH)
+									Toast.makeText(getApplicationContext(),	"Marcador existente actualizado", Toast.LENGTH_SHORT).show();
+								else if(MyLanguage == FRENCH)
+									Toast.makeText(getApplicationContext(),	"Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
+								else
+									Toast.makeText(getApplicationContext(),	"הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
 							}
-							Bookmarks = Bookmarks.substring(0, index) + strBookmark + Bookmarks.substring(index_end, Bookmarks.length());
-							if(MyLanguage == ENGLISH)
-								Toast.makeText(getApplicationContext(),	"Existing bookmark updated", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == RUSSIAN)
-								Toast.makeText(getApplicationContext(),	"Текущая закладка обновлена", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == SPANISH)
-								Toast.makeText(getApplicationContext(),	"Marcador existente actualizado", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == FRENCH)
-								Toast.makeText(getApplicationContext(),	"Le signet existant est mis à jour", Toast.LENGTH_SHORT).show();
 							else
-								Toast.makeText(getApplicationContext(),	"הסימניה הקיימת עודכנה", Toast.LENGTH_SHORT).show();
-						}
-						else
-						{
-							Bookmarks += "," + strBookmark;
-							if(MyLanguage == ENGLISH)
-								Toast.makeText(getApplicationContext(),	"New bookmark created", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == RUSSIAN)
-								Toast.makeText(getApplicationContext(),	"Создана новая закладка", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == SPANISH)
-								Toast.makeText(getApplicationContext(),	"Nuevo marcador creado", Toast.LENGTH_SHORT).show();
-							else if(MyLanguage == FRENCH)
-								Toast.makeText(getApplicationContext(),	"Nouveau signet créé", Toast.LENGTH_SHORT).show();
-							else
-								Toast.makeText(getApplicationContext(),	"סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
-						}
-						shPrefEditor.putString("Bookmarks", Bookmarks);
-						shPrefEditor.commit();
-						bookmarkDialog.dismiss();
-					}}
+							{
+								Bookmarks += "," + strBookmark;
+								if(MyLanguage == ENGLISH)
+									Toast.makeText(getApplicationContext(),	"New bookmark created", Toast.LENGTH_SHORT).show();
+								else if(MyLanguage == RUSSIAN)
+									Toast.makeText(getApplicationContext(),	"Создана новая закладка", Toast.LENGTH_SHORT).show();
+								else if(MyLanguage == SPANISH)
+									Toast.makeText(getApplicationContext(),	"Nuevo marcador creado", Toast.LENGTH_SHORT).show();
+								else if(MyLanguage == FRENCH)
+									Toast.makeText(getApplicationContext(),	"Nouveau signet créé", Toast.LENGTH_SHORT).show();
+								else
+									Toast.makeText(getApplicationContext(),	"סימניה חדשה נוצרה", Toast.LENGTH_SHORT).show();
+							}
+							shPrefEditor.putString("Bookmarks", Bookmarks);
+							shPrefEditor.commit();
+							bookmarkDialog.dismiss();
+						}}
 				});
 
 				fillChaptersNames();
@@ -1154,59 +1154,59 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				webview.findAllAsync(" "+query+" ");
 				webview.setFindListener(new WebView.FindListener() {
 
-				@Override
-				public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
-					if(numberOfMatches==0) {
-						webview.findAllAsync(" " + query + ",");
-						webview.setFindListener(new WebView.FindListener() {
+					@Override
+					public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+						if(numberOfMatches==0) {
+							webview.findAllAsync(" " + query + ",");
+							webview.setFindListener(new WebView.FindListener() {
 
-							@Override
-							public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
-								if (numberOfMatches == 0) {
-									webview.findAllAsync("," + query + " ");
-									webview.setFindListener(new WebView.FindListener() {
+								@Override
+								public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+									if (numberOfMatches == 0) {
+										webview.findAllAsync("," + query + " ");
+										webview.setFindListener(new WebView.FindListener() {
 
-										@Override
-										public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
-											if (numberOfMatches == 0) {
-												webview.findAllAsync(query);
-												webview.setFindListener(new WebView.FindListener() {
+											@Override
+											public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+												if (numberOfMatches == 0) {
+													webview.findAllAsync(query);
+													webview.setFindListener(new WebView.FindListener() {
 
-													@Override
-													public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
-														if (numberOfMatches == 0) {
-															webview.findAllAsync(" " + query + "ם");
-															webview.setFindListener(new WebView.FindListener() {
+														@Override
+														public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+															if (numberOfMatches == 0) {
+																webview.findAllAsync(" " + query + "ם");
+																webview.setFindListener(new WebView.FindListener() {
 
-																@Override
-																public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
-																	if (numberOfMatches == 0) {
-																		webview.findAllAsync(" " + query + "הם");
-																		webview.setFindListener(new WebView.FindListener() {
+																	@Override
+																	public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+																		if (numberOfMatches == 0) {
+																			webview.findAllAsync(" " + query + "הם");
+																			webview.setFindListener(new WebView.FindListener() {
 
-																			@Override
-																			public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
-																				if (numberOfMatches == 0) {
-																					webview.findAllAsync(" " + query + "יהם");
+																				@Override
+																				public void onFindResultReceived(int activeMatchOrdinal, int numberOfMatches, boolean isDoneCounting) {
+																					if (numberOfMatches == 0) {
+																						webview.findAllAsync(" " + query + "יהם");
+																					}
 																				}
-																			}
-																		});
+																			});
+																		}
 																	}
-																}
-															});
+																});
+															}
 														}
-													}
-												});
+													});
+												}
 											}
-										}
-									});
+										});
+									}
 								}
-							}
-						});
-					}
+							});
+						}
 
-				}
-			});
+					}
+				});
 
 			}
 			else
@@ -1237,11 +1237,36 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 					if(book_chapter[0] == 0xFFFF || book_chapter[1] == 0xFFFF)/*go to the last location*/
 					{
 						bookmark = true;
+						if(!extras.getBoolean("forgenLS",false) ){
 						book_chapter[0] = mPrefs.getInt("book", 0);
 						book_chapter[1] = mPrefs.getInt("chapter", 0);
 						//webview.loadUrl(chaptersFiles[book_chapter[0]][book_chapter[1]]);
-						loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]],webview);
+						loadWebview(chaptersFiles[book_chapter[0]][book_chapter[1]], webview);
 						scrollY = mPrefs.getInt("scrollY", 0);
+					}
+					else
+						{
+							book_chapter[0] = mPrefs.getInt("book", 0);
+							book_chapter[1] = mPrefs.getInt("chapter", 0);
+							webview.getSettings().setDomStorageEnabled(true);
+
+							String dag=extras.getString("searchPosition", "false");
+							dag=dag.split(":")[0];
+							//dag=context.getFilesDir() +"/r_sucot_1.html";
+							System.out.println(dag);
+
+							//loadWebview(dag, webview);
+							webview.loadUrl(dag);
+							webview.setWebViewClient(new WebViewClient() {
+
+								public void onPageFinished(WebView view, String url) {
+									// do your stuff here
+									webview.findAllAsync("and");
+								}
+							});
+
+
+						}
 					}
 					else/*the regular choice of chapter*/
 					{
@@ -1618,31 +1643,31 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			case R.id.set_note:
 				boolean enterForIf=false;
 				for (int i: haveAudio)
-				if(i==book_chapter[0]){
-					enterForIf=true;
-					final Context context = this;
-					Class ourClass = null;
-					try {
-						ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
-					}
-					catch (ClassNotFoundException e)
-					{
-						e.printStackTrace();
-					}
-					Intent ourIntent = new Intent(textMain.this,ourClass);
-					ourIntent.putExtra("cameFromText", true);
-					ourIntent.putExtra("audio_id", Integer.parseInt("1"));
-					ourIntent.putExtra("book_id", book_chapter[0]);
-					ourIntent.putExtra("chapter_id", book_chapter[1]);
-					ourIntent.putExtra("chapter_id", book_chapter[1]);
-					ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
-					ourIntent.putExtra("hearAndRead", true);
-					ourIntent.putExtra("MyLanguage", MyLanguage);
-					ourIntent.putExtra("scroolY", webview.getScrollY());
+					if(i==book_chapter[0]){
+						enterForIf=true;
+						final Context context = this;
+						Class ourClass = null;
+						try {
+							ourClass = Class.forName("com.rafraph.pnineyHalachaHashalem.myAudio");
+						}
+						catch (ClassNotFoundException e)
+						{
+							e.printStackTrace();
+						}
+						Intent ourIntent = new Intent(textMain.this,ourClass);
+						ourIntent.putExtra("cameFromText", true);
+						ourIntent.putExtra("audio_id", Integer.parseInt("1"));
+						ourIntent.putExtra("book_id", book_chapter[0]);
+						ourIntent.putExtra("chapter_id", book_chapter[1]);
+						ourIntent.putExtra("chapter_id", book_chapter[1]);
+						ourIntent.putExtra("webLink", chaptersFiles[book_chapter[0]][book_chapter[1]]);
+						ourIntent.putExtra("hearAndRead", true);
+						ourIntent.putExtra("MyLanguage", MyLanguage);
+						ourIntent.putExtra("scroolY", webview.getScrollY());
 
-					findAllHeaders(ourIntent);
-					startActivity(ourIntent);
-				}
+						findAllHeaders(ourIntent);
+						startActivity(ourIntent);
+					}
 				if(!enterForIf)
 					Toast.makeText(getApplicationContext(),	"לספר זה אין שמע", Toast.LENGTH_SHORT).show();
 
@@ -1851,10 +1876,10 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 				Elements NewHead = new Elements();
 				for(int j = 0; j < headers.size(); j++) {
 					if(headers.get(j).text().length()>1)
-					if(headers.get(j).text().charAt(1)=='.'||headers.get(j).text().charAt(2)=='.'||((headers.get(j).text().charAt(1)==')'||headers.get(j).text().charAt(2)==')')))
-						NewHead.add(headers.get(j));
+						if(headers.get(j).text().charAt(1)=='.'||headers.get(j).text().charAt(2)=='.'||((headers.get(j).text().charAt(1)==')'||headers.get(j).text().charAt(2)==')')))
+							NewHead.add(headers.get(j));
 				}
-			headers=NewHead;
+				headers=NewHead;
 			}
 
 
@@ -2707,39 +2732,39 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[F_YAMMIM][8] = ""+getBaseContext().getFilesDir() + "/f_yammim_8.html";
 		chaptersFiles[F_YAMMIM][9] = ""+getBaseContext().getFilesDir() + "/f_yammim_9.html";
 		chaptersFiles[F_YAMMIM][10]= ""+getBaseContext().getFilesDir() + "/f_yammim_10.html";
-		
+
 		/*S_SHABAT*/
-		chaptersFiles[S_SHABAT][0] = ""+getBaseContext().getFilesDir() + "/s_shabat_tochen.html";
-		chaptersFiles[S_SHABAT][1] = ""+getBaseContext().getFilesDir() + "/s_shabat_1.html";
-		chaptersFiles[S_SHABAT][2] = ""+getBaseContext().getFilesDir() + "/s_shabat_2.html";
-		chaptersFiles[S_SHABAT][3] = ""+getBaseContext().getFilesDir() + "/s_shabat_3.html";
-		chaptersFiles[S_SHABAT][4] = ""+getBaseContext().getFilesDir() + "/s_shabat_4.html";
-		chaptersFiles[S_SHABAT][5] = ""+getBaseContext().getFilesDir() + "/s_shabat_5.html";
-		chaptersFiles[S_SHABAT][6] = ""+getBaseContext().getFilesDir() + "/s_shabat_6.html";
-		chaptersFiles[S_SHABAT][7] = ""+getBaseContext().getFilesDir() + "/s_shabat_7.html";
-		chaptersFiles[S_SHABAT][8] = ""+getBaseContext().getFilesDir() + "/s_shabat_8.html";
-		chaptersFiles[S_SHABAT][9] = ""+getBaseContext().getFilesDir() + "/s_shabat_9.html";
-		chaptersFiles[S_SHABAT][10] = ""+getBaseContext().getFilesDir() + "/s_shabat_10.html";
-		chaptersFiles[S_SHABAT][11] = ""+getBaseContext().getFilesDir() + "/s_shabat_11.html";
-		chaptersFiles[S_SHABAT][12] = ""+getBaseContext().getFilesDir() + "/s_shabat_12.html";
-		chaptersFiles[S_SHABAT][13] = ""+getBaseContext().getFilesDir() + "/s_shabat_13.html";
-		chaptersFiles[S_SHABAT][14] = ""+getBaseContext().getFilesDir() + "/s_shabat_14.html";
-		chaptersFiles[S_SHABAT][15] = ""+getBaseContext().getFilesDir() + "/s_shabat_15.html";
-		chaptersFiles[S_SHABAT][16] = ""+getBaseContext().getFilesDir() + "/s_shabat_16.html";
-		chaptersFiles[S_SHABAT][17] = ""+getBaseContext().getFilesDir() + "/s_shabat_17.html";
-		chaptersFiles[S_SHABAT][18] = ""+getBaseContext().getFilesDir() + "/s_shabat_18.html";
-		chaptersFiles[S_SHABAT][19] = ""+getBaseContext().getFilesDir() + "/s_shabat_19.html";
-		chaptersFiles[S_SHABAT][20] = ""+getBaseContext().getFilesDir() + "/s_shabat_20.html";
-		chaptersFiles[S_SHABAT][21] = ""+getBaseContext().getFilesDir() + "/s_shabat_21.html";
-		chaptersFiles[S_SHABAT][22] = ""+getBaseContext().getFilesDir() + "/s_shabat_22.html";
-		chaptersFiles[S_SHABAT][23] = ""+getBaseContext().getFilesDir() + "/s_shabat_23.html";
-		chaptersFiles[S_SHABAT][24] = ""+getBaseContext().getFilesDir() + "/s_shabat_24.html";
-		chaptersFiles[S_SHABAT][25] = ""+getBaseContext().getFilesDir() + "/s_shabat_25.html";
-		chaptersFiles[S_SHABAT][26] = ""+getBaseContext().getFilesDir() + "/s_shabat_26.html";
-		chaptersFiles[S_SHABAT][27] = ""+getBaseContext().getFilesDir() + "/s_shabat_27.html";
-		chaptersFiles[S_SHABAT][28] = ""+getBaseContext().getFilesDir() + "/s_shabat_28.html";
-		chaptersFiles[S_SHABAT][29] = ""+getBaseContext().getFilesDir() + "/s_shabat_29.html";
-		chaptersFiles[S_SHABAT][30] = ""+getBaseContext().getFilesDir() + "/s_shabat_30.html";
+		chaptersFiles[S_SHABAT][0] = ""+getBaseContext().getFilesDir() + "/s_shabbat_tochen.html";
+		chaptersFiles[S_SHABAT][1] = ""+getBaseContext().getFilesDir() + "/s_shabbat_1.html";
+		chaptersFiles[S_SHABAT][2] = ""+getBaseContext().getFilesDir() + "/s_shabbat_2.html";
+		chaptersFiles[S_SHABAT][3] = ""+getBaseContext().getFilesDir() + "/s_shabbat_3.html";
+		chaptersFiles[S_SHABAT][4] = ""+getBaseContext().getFilesDir() + "/s_shabbat_4.html";
+		chaptersFiles[S_SHABAT][5] = ""+getBaseContext().getFilesDir() + "/s_shabbat_5.html";
+		chaptersFiles[S_SHABAT][6] = ""+getBaseContext().getFilesDir() + "/s_shabbat_6.html";
+		chaptersFiles[S_SHABAT][7] = ""+getBaseContext().getFilesDir() + "/s_shabbat_7.html";
+		chaptersFiles[S_SHABAT][8] = ""+getBaseContext().getFilesDir() + "/s_shabbat_8.html";
+		chaptersFiles[S_SHABAT][9] = ""+getBaseContext().getFilesDir() + "/s_shabbat_9.html";
+		chaptersFiles[S_SHABAT][10] = ""+getBaseContext().getFilesDir() + "/s_shabbat_10.html";
+		chaptersFiles[S_SHABAT][11] = ""+getBaseContext().getFilesDir() + "/s_shabbat_11.html";
+		chaptersFiles[S_SHABAT][12] = ""+getBaseContext().getFilesDir() + "/s_shabbat_12.html";
+		chaptersFiles[S_SHABAT][13] = ""+getBaseContext().getFilesDir() + "/s_shabbat_13.html";
+		chaptersFiles[S_SHABAT][14] = ""+getBaseContext().getFilesDir() + "/s_shabbat_14.html";
+		chaptersFiles[S_SHABAT][15] = ""+getBaseContext().getFilesDir() + "/s_shabbat_15.html";
+		chaptersFiles[S_SHABAT][16] = ""+getBaseContext().getFilesDir() + "/s_shabbat_16.html";
+		chaptersFiles[S_SHABAT][17] = ""+getBaseContext().getFilesDir() + "/s_shabbat_17.html";
+		chaptersFiles[S_SHABAT][18] = ""+getBaseContext().getFilesDir() + "/s_shabbat_18.html";
+		chaptersFiles[S_SHABAT][19] = ""+getBaseContext().getFilesDir() + "/s_shabbat_19.html";
+		chaptersFiles[S_SHABAT][20] = ""+getBaseContext().getFilesDir() + "/s_shabbat_20.html";
+		chaptersFiles[S_SHABAT][21] = ""+getBaseContext().getFilesDir() + "/s_shabbat_21.html";
+		chaptersFiles[S_SHABAT][22] = ""+getBaseContext().getFilesDir() + "/s_shabbat_22.html";
+		chaptersFiles[S_SHABAT][23] = ""+getBaseContext().getFilesDir() + "/s_shabbat_23.html";
+		chaptersFiles[S_SHABAT][24] = ""+getBaseContext().getFilesDir() + "/s_shabbat_24.html";
+		chaptersFiles[S_SHABAT][25] = ""+getBaseContext().getFilesDir() + "/s_shabbat_25.html";
+		chaptersFiles[S_SHABAT][26] = ""+getBaseContext().getFilesDir() + "/s_shabbat_26.html";
+		chaptersFiles[S_SHABAT][27] = ""+getBaseContext().getFilesDir() + "/s_shabbat_27.html";
+		chaptersFiles[S_SHABAT][28] = ""+getBaseContext().getFilesDir() + "/s_shabbat_28.html";
+		chaptersFiles[S_SHABAT][29] = ""+getBaseContext().getFilesDir() + "/s_shabbat_29.html";
+		chaptersFiles[S_SHABAT][30] = ""+getBaseContext().getFilesDir() + "/s_shabbat_30.html";
 
 		/*S_BRACHOT*/
 		chaptersFiles[S_BRACHOT][0] = ""+getBaseContext().getFilesDir() + "/s_brachot_tochen.html";
@@ -2893,7 +2918,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 		chaptersFiles[S_ZMANIM][15] = ""+getBaseContext().getFilesDir() + "/s_zmanim_15.html";
 		chaptersFiles[S_ZMANIM][16] = ""+getBaseContext().getFilesDir() + "/s_zmanim_16.html";
 		chaptersFiles[S_ZMANIM][17] = ""+getBaseContext().getFilesDir() + "/s_zmanim_17.html";
-			
+
 		/*r_HAAM*/
 		chaptersFiles[R_HAAM][0] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_tochen.html";
 		chaptersFiles[R_HAAM][1] = ""+getBaseContext().getFilesDir() + "/r_haamvehaarez_1.html";
@@ -3334,27 +3359,27 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			loadWebview((searchPosition.split(":")[0]),webview);
 			isNotHeb=false;
 		}
-			int length = searchPosition.lastIndexOf("#");
-			if (length == -1)/*it means that all the results are in notes*/ {
+		int length = searchPosition.lastIndexOf("#");
+		if (length == -1)/*it means that all the results are in notes*/ {
 
-				length = searchPosition.lastIndexOf(":");
-				noteStr = searchPosition.substring(length + 1, searchPosition.length());
-				searchPosition = searchPosition.substring(0, length);
+			length = searchPosition.lastIndexOf(":");
+			noteStr = searchPosition.substring(length + 1, searchPosition.length());
+			searchPosition = searchPosition.substring(0, length);
 
-				bookAndChapter = searchPosition;
-			} else {
-				length = searchPosition.lastIndexOf("#");
-				bookAndChapter = searchPosition.substring(0, length);
-			}
+			bookAndChapter = searchPosition;
+		} else {
+			length = searchPosition.lastIndexOf("#");
+			bookAndChapter = searchPosition.substring(0, length);
+		}
 
-			book_chapter = new int[2];
-			for (int i = 0; i <= BOOKS_HEB_NUMBER; i++)
-				for (int j = 1; j <= lastChapter[i]; j++)
-					if (bookAndChapter.equals(chaptersFiles[i][j])) {
-						book_chapter[0] = i;
-						book_chapter[1] = j;
-						return;
-					}
+		book_chapter = new int[2];
+		for (int i = 0; i <= BOOKS_HEB_NUMBER; i++)
+			for (int j = 1; j <= lastChapter[i]; j++)
+				if (bookAndChapter.equals(chaptersFiles[i][j])) {
+					book_chapter[0] = i;
+					book_chapter[1] = j;
+					return;
+				}
 
 	}
 
@@ -4364,7 +4389,7 @@ public class textMain extends AppCompatActivity implements View.OnClickListener/
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// do nothing   
+				// do nothing
 			}
 		});
 		autoScrollDialog.show();

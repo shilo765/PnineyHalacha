@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v7.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,15 +26,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
+
 
 public class HomePage extends Activity {
     public boolean newVersion = false;
@@ -439,7 +432,7 @@ public class HomePage extends Activity {
                     }
                 }
             });
-            if (mPrefs.getString("Version", "").equals("4.1.17") == false) {
+            if (mPrefs.getString("Version", "").equals("5.1.12") == false) {
 
                 String version = null;
                 try {

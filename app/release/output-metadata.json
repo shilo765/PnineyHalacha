@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.rafraph.pnineyHalachaHashalem",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 50112,
+      "versionName": "5.1.12",
+      "outputFile": "app-release.apk"
+    }
+  ],
+  "elementType": "File"
+}
