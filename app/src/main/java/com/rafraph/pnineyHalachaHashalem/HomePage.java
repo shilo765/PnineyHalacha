@@ -432,7 +432,7 @@ public class HomePage extends Activity {
                     }
                 }
             });
-            if (mPrefs.getString("Version", "").equals("5.1.12") == false) {
+            if (mPrefs.getString("Version", "").equals("5.1.14") == false) {
 
                 String version = null;
                 try {
@@ -460,10 +460,10 @@ public class HomePage extends Activity {
                 TextView txt8 = newVersionDialog.findViewById(R.id.txt8);
                 if (MyLanguage == ENGLISH) {
                     title.setText("We have renewed!");
-                    txt1.setText("We are pleased to present you with the “Peninei  Halakha” app in an improved design, which includes:");
-                    txt3.setText("2. Completion of all “Peninei Halakha” books in languages");
+                    txt1.setText("1. We are pleased to present you with the “Peninei  Halakha” app in an improved design, which includes:");
+                    txt3.setText("2. Completion of all “Peninei Halakha” books in all languages");
                     txt4.setText("3. Improving search engine results including auto-completion");
-                    txt5.setText("4. Daily halakha and the possibility of scheduling a reminder");
+                    txt5.setText("4. option of Daily halakha and the possibility of scheduling a reminder");
                     txt6.setText("5. Troubleshooting");
                     txt7.setText("Enjoy your study!");
                     txt8.setText("App team \"Peninei Halakha\"");

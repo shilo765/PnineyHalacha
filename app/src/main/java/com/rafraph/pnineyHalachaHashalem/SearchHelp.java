@@ -881,7 +881,8 @@ public class SearchHelp extends Activity {
 				txt3.setVisibility(View.GONE);
 				txt4.setVisibility(View.GONE);
 				txt5.setVisibility(View.GONE);
-				goSearch();
+				if(title.length()>0)
+					goSearch();
 			}
 
 

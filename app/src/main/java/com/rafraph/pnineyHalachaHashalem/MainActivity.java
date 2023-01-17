@@ -565,7 +565,7 @@ public class MainActivity extends AppCompatActivity
 			try {
 				version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-				if (mPrefs.getString("Version", "").equals("5.1.11") == false) {
+				if (mPrefs.getString("Version", "").equals("5.1.14") == false) {
 					newVersion = true;
 					shPrefEditor.putString("Version", version);
 					shPrefEditor.commit();
@@ -2236,7 +2236,7 @@ private void initializeSeekBar()
 		{
 			version = packageManager.getPackageInfo(packageName, 0).versionName;
 
-			if(mPrefs.getString("Version", "").equals("5.1.12") == false)
+			if(mPrefs.getString("Version", "").equals("5.1.14") == false)
 			{
 				firstLang=0;
 			}
@@ -2475,9 +2475,9 @@ private void initializeSeekBar()
 				chooseTochenLang.setText("Selecting the content of the languages in the books");
 				chooseSize.setText("Set text size");
 				exm.setText("Pninei Halakha");
-				screenOn.setText("Cancel monitor sleep");
-				blackScreen.setText("Dark");
-				brightScreen.setText("bright   :Display mode selection");
+				blackScreen.setText("On");
+				screenOn.setText("Cancel screen timeout");
+				brightScreen.setText("Off        :Dark mode");
 				lastLoc.setText("When opening the app, skip to the last location");
 			}
 			shPrefEditor.putInt("MyLanguage", MyLanguage);
@@ -2685,9 +2685,9 @@ private void initializeSeekBar()
 				chooseTochenLang.setText("Selecting the content of the languages in the books");
 				chooseSize.setText("Set text size");
 				exm.setText("Pninei Halakha");
-				blackScreen.setText("Dark");
-				screenOn.setText("Cancel monitor sleep");
-				brightScreen.setText("bright   :Display mode selection");
+				blackScreen.setText("On");
+				screenOn.setText("Cancel screen timeout");
+					brightScreen.setText("Off        :Dark mode");
 				lastLoc.setText("When opening the app, skip to the last location");
 				shPrefEditor.putInt("MyLanguage", MyLanguage);
 				shPrefEditor.commit();
