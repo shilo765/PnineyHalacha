@@ -4,8 +4,8 @@
     android:hardwareAccelerated="true"
     android:installLocation="auto"
     android:usesCleartextTraffic="true"
-    android:versionCode="50113"
-    android:versionName="5.1.13" >
+    android:versionCode="50114"
+    android:versionName="5.1.14" >
 
     <uses-sdk
         android:minSdkVersion="16"

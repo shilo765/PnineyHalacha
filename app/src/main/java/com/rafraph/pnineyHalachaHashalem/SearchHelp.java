@@ -37,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.io.BufferedReader;
@@ -97,7 +98,7 @@ public class SearchHelp extends Activity {
 	public static  String[][] esBook={{"s_moadim","s_pesach","s_shabbat","s_simchat","s_tfila","s_tfilat_nashim","s_yammim","s_zmanim","s_brachot"},{"13","16","30","10","26","24","10","17","18"}};
 
 	public static boolean onceLast=false;
-	public String[] querys=new String[50];
+	public String[] querys=new String[2000000];
 	public static Stack<File> stcakFiles=new Stack<>();
 	public static String pleaseWait="please wait";
 
@@ -1168,6 +1169,7 @@ public class SearchHelp extends Activity {
 				searchListView.removeHeaderView(searchListView.getChildAt(i));
 			for (int i=searchListView.getFooterViewsCount() ;i>=0;i--)
 				searchListView.removeFooterView(searchListView.getChildAt(i));
+			searchListView=null;
 		}
 
 		query=" "+searchText.getText().toString()+" ";
@@ -1197,8 +1199,10 @@ public class SearchHelp extends Activity {
 								public void run() {
 									// TODO Auto-generated method stub
 									try {
+
 										int num=querys.length;
 										int temp;
+										query=queryToSearch;
 										doMySearch(num);
 
 										temp=totalCount;
@@ -1254,7 +1258,10 @@ public class SearchHelp extends Activity {
 										{
 											query=queryToSearch;
 											doMySearch(num);
+
 										}
+										Toast.makeText(getApplicationContext(), ":"+searchListView.getHeaderViewsCount(), Toast.LENGTH_LONG).show();
+
 
 
 									} catch (InterruptedException e) {

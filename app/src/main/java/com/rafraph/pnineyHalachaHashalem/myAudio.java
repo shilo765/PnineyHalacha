@@ -2546,8 +2546,8 @@ public class myAudio extends Activity implements AdapterView.OnItemSelectedListe
 //                return "ליקוטים ב";
             case MOADIM:
                 return "מועדים";
-//            case MISHPACHA:
-//                return "משפחה";
+            case MISHPACHA:
+               return "משפחה";
             case SUCOT:
                 return "סוכות";
             case PESACH:

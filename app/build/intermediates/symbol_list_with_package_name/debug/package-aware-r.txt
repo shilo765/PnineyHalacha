@@ -1908,7 +1908,6 @@ layout select_dialog_singlechoice_material
 layout spinner_des
 layout splash
 layout support_simple_spinner_dropdown_item
-layout text_main
 layout text_main_audio
 layout text_main_down
 layout tochen_actionbar_lay
